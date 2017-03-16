@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="ShaderProgram.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="IApplication.h" />
+    <ClInclude Include="BaseShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="FragmentShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderProgram.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ShadersFiles">
+      <UniqueIdentifier>{1cc03516-f6d5-44f0-89ff-3659c61b4475}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{b27cbef4-acf3-41cc-af63-c9086837751a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ShaderFiles\terrain.fs.glsl">
+      <Filter>ShadersFiles</Filter>
+    </None>
+    <None Include="ShaderFiles\terrain.vs.glsl">
+      <Filter>ShadersFiles</Filter>
+    </None>
+    <None Include="ShaderFiles\skybox.fs.glsl">
+      <Filter>ShadersFiles</Filter>
+    </None>
+    <None Include="ShaderFiles\skybox.vs.glsl">
+      <Filter>ShadersFiles</Filter>
+    </None>
+    <None Include="ShaderFiles\atmosphere.vs - Copy.glsl">
+      <Filter>ShadersFiles</Filter>
+    </None>
+    <None Include="ShaderFiles\skybox.fs - Copy.glsl">
+      <Filter>ShadersFiles</Filter>
+    </None>
+  </ItemGroup>
+</Project>
