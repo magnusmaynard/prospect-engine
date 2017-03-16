@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glm\build\CMakeFiles\02f4f7363ab086b369866b1f86301719\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{AF128E06-BF16-365A-9D40-A5A0F7E414F8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

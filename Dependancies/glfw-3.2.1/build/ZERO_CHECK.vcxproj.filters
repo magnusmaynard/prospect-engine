@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glfw-3.2.1\build\CMakeFiles\b0fe033e112dfb145e469834ad2f203c\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{B9CE6FF1-3628-3BB5-A303-856CF2FD0B39}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
