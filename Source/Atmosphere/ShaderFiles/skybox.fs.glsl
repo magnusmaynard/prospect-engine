@@ -6,28 +6,33 @@
 //Input
 uniform float time;
 uniform vec2 resolution;
+uniform vec3 sunDirection;
 
 //Output
 out vec4 color;
 
 //Configuration
-const vec3 EYE_POSITION = vec3(0, 1.01, -1.0 + sin(time) * 1.2);//vec3(0, 0, -2);//
+const vec3 EYE_POSITION = vec3(0, 0, -2);//vec3(0, 1.001, -1.2);//vec3(0, 1.01, -1.0 + sin(time * 0.1) * 1.2); ////vec3(0, 0, -2);
 //const vec3 SUN_DIRECTION = vec3(0, 0, -1);
-const vec3 SUN_DIRECTION = vec3(cos(time), 0, sin(time));
+//const vec3 SUN_DIRECTION = vec3(cos(time), 0, sin(time));
 const vec3 EARTH_POSITION = vec3(0, 0, 0);
 const float EARTH_OUTTER_RADIUS = 1.25;
 const float EARTH_INNER_RADIUS = 1.0;
 const float MAX_HEIGHT = EARTH_OUTTER_RADIUS - EARTH_INNER_RADIUS; //Thickness of atmosphere.
 const float SCALE_HEIGHT = 0.25; //Height of average density of atmosphere.
+const float SCALE = 1.0 / (EARTH_OUTTER_RADIUS - EARTH_INNER_RADIUS);
 
 const int IN_SCATTER_SAMPLES = 10;
+const float IN_SCATTER_SAMPLES_F = 10.0f;
 const int OUT_SCATTER_SAMPLES = 10;
 const float OUT_SCATTER_SAMPLES_F =10.0f;
 
 //Scattering Constants.
-const float K_MIE = 0.0025f; //Rayleigh scatter constant
-const float K_RAYLEIGH = 0.0015f; //Mie scatter constant
-const float E_SUN = 10.0f; //Sun intensity
+const float G_MIE = -0.85;
+const float G_MIE2 = G_MIE * G_MIE;
+const float I_SUN = 14.3; //Sun intensity
+float K_MIE = 0.0025; //Scatter constants
+float K_RAYLEIGH = 0.015f;
 const vec3 INVERSE_WAVELENGTH = vec3( //TODO: Do I want to Inverse?
   1.0f / pow(0.650f, 4),
   1.0f / pow(0.570f, 4),
@@ -35,7 +40,6 @@ const vec3 INVERSE_WAVELENGTH = vec3( //TODO: Do I want to Inverse?
 
 //Maths Constants
 const float PI = 3.14159265359;
-
 
 //TODO: How does this handle perspectives?
 vec3 RayFromCamera(const vec2 res, const vec2 coord)
@@ -48,22 +52,17 @@ vec3 RayFromCamera(const vec2 res, const vec2 coord)
 
 //Edited: Now always return minimum of 0.
 //https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
-vec2 RayIntersections(const vec3 ray, const float radius)
+vec2 RayIntersections(const vec3 position, const vec3 ray, const float radius)
 {
    vec2 intersections = vec2(0, 0);//Mag along ray
 
    vec3 D = ray; //Normalized ray direction. x = close, y = far.
    float R = radius;
    vec3 C = EARTH_POSITION;
-   vec3 O = EYE_POSITION;
+   vec3 O = position;
    vec3 L = C - O;
 
    float Tca = dot(L, D);
-
-   //if(Tca < 0) //Discard if behind O.
-   //{
-   //   return false;
-   //}
 
    float d = sqrt(dot(L, L) - dot(Tca, Tca)); //TODO: remove sqrt
 
@@ -80,41 +79,10 @@ vec2 RayIntersections(const vec3 ray, const float radius)
    return intersections;
 }
 
-bool CalculateRayIntersections(const vec3 ray, out vec2 nearFar) // out vec3 far
+bool CalculateRayIntersections(const vec3 position, const vec3 ray, out vec2 nearFar) // out vec3 far
 {
-   vec2 outterNearFar = RayIntersections(ray, EARTH_OUTTER_RADIUS);
-   vec2 innerNearFar = RayIntersections(ray, EARTH_INNER_RADIUS);
-
-   //if(outterNearFar.y == 0)//No intersections.
-   //{
-   //   return false;
-   //}
-   //else if(outterNearFar.x == 0) //Inside atmosphere.
-   //{
-   //   near = 0.0;
-      
-   //   if(innerNearFar.x == 0)//Just outter intersect.
-   //   {
-   //      far = outterNearFar.y;
-   //   }
-   //   else  //Inner intersect.
-   //   {
-   //      far = innerNearFar.x;
-   //   } 
-   //}
-   //else //Outside atmosphere
-   //{
-   //   near = outterNearFar.x;
-
-   //   if(innerNearFar.x == 0) //Just outter intersect.
-   //   {
-   //      far = outterNearFar.y;
-   //   }
-   //   else //Inner intersect.
-   //   {
-   //      far = innerNearFar.x;
-   //   }
-   //}
+   vec2 outterNearFar = RayIntersections(position, ray, EARTH_OUTTER_RADIUS);
+   vec2 innerNearFar = RayIntersections(position, ray, EARTH_INNER_RADIUS);
 
    if(outterNearFar.y == 0)//No intersections.
    {
@@ -134,66 +102,85 @@ bool CalculateRayIntersections(const vec3 ray, out vec2 nearFar) // out vec3 far
    return true;
 }
 
-//Phase function for Rayleigh Scattering.
-//g = 0
+//Phase function for Rayleigh Scattering. g = 0
 float RayleighPhase(float cos2)
 {
    return 0.75 * (1.0 + cos2);
 }
 
 //Phase function for Mie Scattering.
-//g = -0.75 to -0.999
 float MiePhase(float g1, float g2, float cos1, float cos2)
 {
    float top = 1.5 * (1.0 - g2) * (1.0 + cos2);
-   float bot = (1.0 + g2 - 2.0 * g1 * cos2); //Intermediate step to cancel out 2 of the square roots.
+   float bot = (1.0 + g2 - 2.0 * g1 * cos1); //Intermediate step to cancel out 2 of the square roots.
    bot = (2.0 + g2) * bot * sqrt(bot);
 
    return top / bot;
 }
 
-//Average atmospheric density between two intersection points.
-float OpticDepth(vec3 a, vec3 b) //Start and end intersections.
+//Get density of a given sample point.
+float Density(vec3 samplePoint)
 {
-   float totalOptic = 0.0;
-   vec3 increment = (b - a) / OUT_SCATTER_SAMPLES_F;
-   vec3 samplePoint = a + (increment * 0.5); //TODO: Do I need to sample in the middle, i.e offset by 0.5?
-   float sampleHeight = 0.0;
+   float sampleHeight = (length(EARTH_POSITION - samplePoint) - EARTH_INNER_RADIUS) / MAX_HEIGHT;
+   return exp(-sampleHeight / SCALE_HEIGHT);
+}
+
+//Average atmospheric density between two intersection points.
+float OpticDepth(vec3 near, vec3 far) //Start and end intersections.
+{
+   float totalDensity = 0.0;
+   vec3 increment = (far - near) / OUT_SCATTER_SAMPLES_F;
+   vec3 samplePoint = near + (increment * 0.5);
 
    for(int i = 0; i < OUT_SCATTER_SAMPLES; i++)
    {
+      totalDensity += Density(samplePoint);
       samplePoint += increment;
-      sampleHeight = (length(EARTH_POSITION - samplePoint) - EARTH_INNER_RADIUS) / MAX_HEIGHT;
-      totalOptic += exp(-sampleHeight / SCALE_HEIGHT);
    }
-   return (totalOptic / OUT_SCATTER_SAMPLES_F) * length(b - a); //TODO: Is this correct?
-
-  // float total = 0.0;
-  // for(int i = 0; i < OUT_SCATTER_SAMPLES; i++)
-  // {
-
-  //    total = length(samplePoint - EARTH_POSITION);// - EARTH_INNER_RADIUS;
-  //    //totalOptic += exp(-sampleHeight / SCALE_HEIGHT);
-
-  //    samplePoint += increment;
-  // }
-  // color.y = total *0.5;
-  // //TODO: remove length()
-  //return totalOptic;//temp
+   return totalDensity * length(increment) * SCALE;
 }
 
-vec3 InScattering(vec3 ray, vec2 nearFar)
+float OutScattering(vec3 near, vec3 far)
 {
-   //TODO: Implement scattering.
+   return 4 * PI * OpticDepth(near, far);
+}
 
+vec3 InScattering(vec3 ray, vec3 near, vec3 far)
+{
+   vec3 totalScattering;
+   vec3 increment = (far - near) / IN_SCATTER_SAMPLES_F;
+   vec3 samplePoint = near + (increment * 0.5);
 
-   vec3 near = EYE_POSITION + (ray * nearFar.x);
-   vec3 far = EYE_POSITION + (ray * nearFar.y);
+   for(int i = 0; i < IN_SCATTER_SAMPLES; i++)
+   {
+      //Out scattering to sun;
+      vec3 sunRay = -sunDirection;
+      vec2 sunNearFar = RayIntersections(samplePoint, sunRay, EARTH_OUTTER_RADIUS);
 
-   float temp = OpticDepth(near, far);
-   return vec3(temp, 0.0, 0.0);
-   //return vec3(nearFar.y - nearFar.x, 0.0, 0.0);
+      vec3 farPoint = samplePoint + (sunRay * sunNearFar.y);
+      float sunOutScattering = 0;
+      if(sunNearFar.y > 0)
+      {
+        sunOutScattering = OutScattering(samplePoint, farPoint);
+      }
 
+      //Out scattering to camera
+      float cameraOutScattering = OutScattering(near, samplePoint);
+
+      vec3 outScattering = exp((-(sunOutScattering + cameraOutScattering)) * (INVERSE_WAVELENGTH * K_RAYLEIGH + K_MIE));
+
+      totalScattering += Density(samplePoint) * outScattering;
+
+      samplePoint += increment;
+   }
+   totalScattering = totalScattering * length(increment) * SCALE;
+
+   float c1 = dot(ray, -sunDirection);
+   float c2 = c1 * c1;
+
+   vec3 rayleigh = I_SUN * K_RAYLEIGH * INVERSE_WAVELENGTH * RayleighPhase(c2) * totalScattering;
+   vec3 mie = I_SUN * K_MIE * MiePhase(G_MIE, G_MIE2, c1, c2) * totalScattering;
+   return rayleigh + mie;
 }
 
 void main()
@@ -201,22 +188,15 @@ void main()
    vec3 ray = RayFromCamera(resolution, gl_FragCoord.xy);
 
    vec2 nearFar;
-   //vec3 far;
-   bool hasIntersected = CalculateRayIntersections(ray, nearFar);
+   bool hasIntersected = CalculateRayIntersections(EYE_POSITION, ray, nearFar);
 
    if(hasIntersected)
    {
-      vec3 I = InScattering(ray, nearFar);
+      vec3 near = EYE_POSITION + (ray * nearFar.x);
+      vec3 far = EYE_POSITION + (ray * nearFar.y);
+
+      vec3 I = InScattering(ray, near, far);
 
       color = vec4(I, 1.0);
-      //color.z = 1.0;
-      //if(nearFar.x > 0 && nearFar.y > 0) //2 intersections
-      //{
-      //   color = vec4(0.0, 1.0, 0.0, 1.0);
-      //}
-      //else if(nearFar.x > 0) //1 intersection
-      //{
-      //   color = vec4(1.0, 0.0, 0.0, 1.0);
-      //}
    }
 }

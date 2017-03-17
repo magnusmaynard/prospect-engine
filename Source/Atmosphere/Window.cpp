@@ -18,6 +18,10 @@ Window::Window(IApplication* app)
    :
    m_app(app)
 {
+}
+
+void Window::Open()
+{
    if (!glfwInit())
    {
       exit(EXIT_FAILURE);

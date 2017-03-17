@@ -4,17 +4,20 @@
 #include <vector>
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp> 
 
 //TODO: This constructor never gets passed window init because of render loop. Remove it somehow?
 Application::Application()
    :
    m_window(this)
 {
+   m_window.Open();
 }
 
 void Application::Startup()
 {
    m_skyboxShader = std::make_unique<ShaderProgram>("skybox.vs.glsl", "skybox.fs.glsl");
+   m_skyboxSunDirectionLocation = m_skyboxShader->GetUniformLocation("sunDirection");
    m_skyboxTimeLocation = m_skyboxShader->GetUniformLocation("time");
    m_skyboxViewLocation = m_skyboxShader->GetUniformLocation("view");
    m_skyboxProjectionLocation = m_skyboxShader->GetUniformLocation("projection");
@@ -33,6 +36,9 @@ void Application::Startup()
    //Projection.
    float aspect = m_window.GetSize().x / m_window.GetSize().y;
    m_projection = glm::perspective(45.0f, aspect, 0.1f, 1000.0f);
+
+
+   m_sunDirection = glm::vec3(0, 0, -1);
 }
 
 void Application::Shutdown()
@@ -41,12 +47,15 @@ void Application::Shutdown()
 
 void Application::Render(const double time)
 {
+   m_sunDirection = glm::rotateX(m_sunDirection, 0.01f);
+
    //Clear
    glClearBufferfv(GL_COLOR, 0, &m_backgroundColor[0]);
 
    //Skybox
    m_skyboxShader->Use();
 
+   glUniform3fv(m_skyboxSunDirectionLocation, 1, &m_sunDirection[0]);
    glUniform1f(m_skyboxTimeLocation, time);
    glUniformMatrix4fv(m_skyboxViewLocation, 1, GL_FALSE, &m_view[0][0]);
    glUniformMatrix4fv(m_skyboxProjectionLocation, 1, GL_FALSE, &m_projection[0][0]);

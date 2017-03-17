@@ -6,7 +6,7 @@ const float DEG_TO_RAD = PI / 180.0;
 const float MAX = 10000.0;
 
 // scatter const
-const float K_R = 0.166;
+const float K_R = 0.160;
 const float K_M = 0.0025;
 const float E = 14.3; 						// light intensity
 const vec3  C_R = vec3( 0.3, 0.7, 1.0 ); 	// 1 / wavelength ^ 4

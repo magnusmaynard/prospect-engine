@@ -19,6 +19,7 @@ private:
    std::unique_ptr<ShaderProgram> m_skyboxShader;
    std::unique_ptr<ShaderProgram> m_terrainShader;
 
+   GLint m_skyboxSunDirectionLocation = 0;
    GLint m_skyboxTimeLocation = 0;
    GLint m_skyboxViewLocation = 0;
    GLint m_skyboxProjectionLocation = 0;
@@ -28,6 +29,8 @@ private:
 
    glm::mat4 m_view;
    glm::mat4 m_projection;
+
+   glm::vec3 m_sunDirection = glm::vec3(0, 0, -1);
 
    glm::vec4 m_backgroundColor = { 0.0, 0.0, 0.0, 1.0 };
 };

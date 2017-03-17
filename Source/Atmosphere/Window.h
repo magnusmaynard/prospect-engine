@@ -11,6 +11,7 @@ class Window
 {
 public:
    Window(IApplication* app);
+   void Open();
 
    glm::vec2 GetSize() const { return m_size; }
 
@@ -21,5 +22,5 @@ private:
 public:
    IApplication* m_app;
 
-   glm::vec2 m_size = glm::vec2(640, 480);
+   glm::vec2 m_size = glm::vec2(1000, 600); //glm::vec2(640, 480);
 };
