@@ -4,10 +4,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="ShaderProgram.cpp">
+    <ClCompile Include="BaseShader.cpp">
       <Filter>Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="BaseShader.cpp">
+    <ClCompile Include="ShaderProgram.cpp">
       <Filter>Shaders</Filter>
     </ClCompile>
   </ItemGroup>
@@ -15,6 +15,9 @@
     <ClInclude Include="Window.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="IApplication.h" />
+    <ClInclude Include="VertexShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
     <ClInclude Include="BaseShader.h">
       <Filter>Shaders</Filter>
     </ClInclude>
@@ -24,9 +27,7 @@
     <ClInclude Include="ShaderProgram.h">
       <Filter>Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="VertexShader.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
+    <ClInclude Include="Object3D.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ShadersFiles">
@@ -35,25 +36,40 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{b27cbef4-acf3-41cc-af63-c9086837751a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ShadersFiles\Atmosphere">
+      <UniqueIdentifier>{ddb92876-00b9-4f04-9f05-0c2a4ce5effb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShadersFiles\Terrain">
+      <UniqueIdentifier>{e2d98ff1-2253-42b2-a311-c191670eff7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShadersFiles\Object3D">
+      <UniqueIdentifier>{3e3e8705-4aa8-48db-b67d-3775028aedb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ShaderFiles\terrain.fs.glsl">
-      <Filter>ShadersFiles</Filter>
-    </None>
-    <None Include="ShaderFiles\terrain.vs.glsl">
-      <Filter>ShadersFiles</Filter>
-    </None>
-    <None Include="ShaderFiles\skybox.fs.glsl">
-      <Filter>ShadersFiles</Filter>
-    </None>
-    <None Include="ShaderFiles\skybox.vs.glsl">
-      <Filter>ShadersFiles</Filter>
-    </None>
     <None Include="ShaderFiles\atmosphere.vs - Copy.glsl">
-      <Filter>ShadersFiles</Filter>
+      <Filter>ShadersFiles\Atmosphere</Filter>
     </None>
     <None Include="ShaderFiles\skybox.fs - Copy.glsl">
-      <Filter>ShadersFiles</Filter>
+      <Filter>ShadersFiles\Atmosphere</Filter>
+    </None>
+    <None Include="ShaderFiles\skybox.fs.glsl">
+      <Filter>ShadersFiles\Atmosphere</Filter>
+    </None>
+    <None Include="ShaderFiles\skybox.vs.glsl">
+      <Filter>ShadersFiles\Atmosphere</Filter>
+    </None>
+    <None Include="ShaderFiles\terrain.fs.glsl">
+      <Filter>ShadersFiles\Terrain</Filter>
+    </None>
+    <None Include="ShaderFiles\terrain.vs.glsl">
+      <Filter>ShadersFiles\Terrain</Filter>
+    </None>
+    <None Include="ShaderFiles\object3D.fs.glsl">
+      <Filter>ShadersFiles\Object3D</Filter>
+    </None>
+    <None Include="ShaderFiles\object3D.vs.glsl">
+      <Filter>ShadersFiles\Object3D</Filter>
     </None>
   </ItemGroup>
 </Project>

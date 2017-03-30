@@ -12,11 +12,11 @@ uniform vec3 sunDirection;
 out vec4 color;
 
 //Configuration
-const vec3 EYE_POSITION = vec3(0, 0, -2);//vec3(0, 1.001, -1.2);//vec3(0, 1.01, -1.0 + sin(time * 0.1) * 1.2); ////vec3(0, 0, -2);
-//const vec3 SUN_DIRECTION = vec3(0, 0, -1);
-//const vec3 SUN_DIRECTION = vec3(cos(time), 0, sin(time));
+//const vec3 EYE_POSITION = vec3(0, 1.01, -1.0 + sin(time) * 1.2); ////vec3(0, 0, -2);
+const vec3 EYE_POSITION =vec3(0, 0, -1.8);//vec3(0, 1.001, -1.2);//vec3(0, 1.01, -1.0 + sin(time * 0.1) * 1.2); ////vec3(0, 0, -2);
+//const vec3 EYE_POSITION = vec3(0, 1.001, 0);
 const vec3 EARTH_POSITION = vec3(0, 0, 0);
-const float EARTH_OUTTER_RADIUS = 1.25;
+const float EARTH_OUTTER_RADIUS = 1.05;
 const float EARTH_INNER_RADIUS = 1.0;
 const float MAX_HEIGHT = EARTH_OUTTER_RADIUS - EARTH_INNER_RADIUS; //Thickness of atmosphere.
 const float SCALE_HEIGHT = 0.25; //Height of average density of atmosphere.
@@ -30,10 +30,10 @@ const float OUT_SCATTER_SAMPLES_F =10.0f;
 //Scattering Constants.
 const float G_MIE = -0.85;
 const float G_MIE2 = G_MIE * G_MIE;
-const float I_SUN = 14.3; //Sun intensity
-float K_MIE = 0.0025; //Scatter constants
-float K_RAYLEIGH = 0.015f;
-const vec3 INVERSE_WAVELENGTH = vec3( //TODO: Do I want to Inverse?
+const float I_SUN = 14.0; //Sun intensity.
+float K_MIE = 0.0025; //Scatter constants.
+float K_RAYLEIGH = 0.010f;//Higher == redder.
+const vec3 INVERSE_WAVELENGTH = vec3(
   1.0f / pow(0.650f, 4),
   1.0f / pow(0.570f, 4),
   1.0f / pow(0.475f, 4));
@@ -50,35 +50,41 @@ vec3 RayFromCamera(const vec2 res, const vec2 coord)
    return normalize(vec3(uvScaled, 1.0));
 }
 
-//Edited: Now always return minimum of 0.
-//https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
-vec2 RayIntersections(const vec3 position, const vec3 ray, const float radius)
+//TODO: Sort out input parameters.
+//Calculates near and far distances along a ray that intersects with a sphere.
+//Returns minimum of 0. When inside the sphere, near returns 0.
+//From: https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
+// d = -(l . (o - c)) +- sqrt(((l . (o - c))^2 - ||o - c||^2 + r^2)
+vec2 RayIntersections(
+   const vec3 rayOrigin,
+   const vec3 rayDirection,
+   const float sphereRadius)
 {
-   vec2 intersections = vec2(0, 0);//Mag along ray
+   vec2 nearFar = vec2(0,0);
 
-   vec3 D = ray; //Normalized ray direction. x = close, y = far.
-   float R = radius;
-   vec3 C = EARTH_POSITION;
-   vec3 O = position;
-   vec3 L = C - O;
+   vec3 o = rayOrigin;
+   vec3 l = rayDirection;
+   vec3 c = EARTH_POSITION;
+   float r = sphereRadius;
 
-   float Tca = dot(L, D);
+   float x = (dot(l, (o - c)) * dot(l, (o - c))) - dot(o - c, o - c) + (r * r);
 
-   float d = sqrt(dot(L, L) - dot(Tca, Tca)); //TODO: remove sqrt
-
-   if(d > R) //Greater than radius means they cannot intersect.
+   if(x < 0)//No intersection.
    {
-      return intersections;
+      return nearFar;
    }
+   else //Intersections.
+   {
+      float a = -dot(l, o - c);
+      float b = sqrt(x);
 
-   float Thc = sqrt((R * R) - (d * d));
-   
-   intersections.x = max(0, Tca - Thc); //Closest intersection;
-   intersections.y = max(0, Tca + Thc); //Furthest intersection;
-
-   return intersections;
+      nearFar.x = max(0, a - b);
+      nearFar.y = max(0, a + b);
+      return nearFar;
+   }
 }
 
+//TODO: Light does not seem to go around earth, maybe intersection are clipping the inner sphere.
 bool CalculateRayIntersections(const vec3 position, const vec3 ray, out vec2 nearFar) // out vec3 far
 {
    vec2 outterNearFar = RayIntersections(position, ray, EARTH_OUTTER_RADIUS);
@@ -86,6 +92,7 @@ bool CalculateRayIntersections(const vec3 position, const vec3 ray, out vec2 nea
 
    if(outterNearFar.y == 0)//No intersections.
    {
+     // color.x = 1.0;
       return false;
    }
 
@@ -149,6 +156,7 @@ vec3 InScattering(vec3 ray, vec3 near, vec3 far)
 {
    vec3 totalScattering;
    vec3 increment = (far - near) / IN_SCATTER_SAMPLES_F;
+
    vec3 samplePoint = near + (increment * 0.5);
 
    for(int i = 0; i < IN_SCATTER_SAMPLES; i++)
@@ -158,11 +166,7 @@ vec3 InScattering(vec3 ray, vec3 near, vec3 far)
       vec2 sunNearFar = RayIntersections(samplePoint, sunRay, EARTH_OUTTER_RADIUS);
 
       vec3 farPoint = samplePoint + (sunRay * sunNearFar.y);
-      float sunOutScattering = 0;
-      if(sunNearFar.y > 0)
-      {
-        sunOutScattering = OutScattering(samplePoint, farPoint);
-      }
+      float sunOutScattering = OutScattering(samplePoint, farPoint);
 
       //Out scattering to camera
       float cameraOutScattering = OutScattering(near, samplePoint);
@@ -175,7 +179,7 @@ vec3 InScattering(vec3 ray, vec3 near, vec3 far)
    }
    totalScattering = totalScattering * length(increment) * SCALE;
 
-   float c1 = dot(ray, -sunDirection);
+   float c1 = dot(ray, sunDirection);
    float c2 = c1 * c1;
 
    vec3 rayleigh = I_SUN * K_RAYLEIGH * INVERSE_WAVELENGTH * RayleighPhase(c2) * totalScattering;
@@ -187,7 +191,8 @@ void main()
 {
    vec3 ray = RayFromCamera(resolution, gl_FragCoord.xy);
 
-   vec2 nearFar;
+   color = vec4(0,0,0,1);
+   vec2 nearFar = vec2(0,0);
    bool hasIntersected = CalculateRayIntersections(EYE_POSITION, ray, nearFar);
 
    if(hasIntersected)
@@ -198,5 +203,7 @@ void main()
       vec3 I = InScattering(ray, near, far);
 
       color = vec4(I, 1.0);
+      //float exposure = 2.0;
+      //color =   vec4(1.0 - exp(-exposure * I.x), 1.0 - exp(-exposure * I.y), 1.0 - exp(-exposure * I.z), 1.0);
    }
 }

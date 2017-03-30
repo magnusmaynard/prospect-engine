@@ -170,11 +170,14 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="IApplication.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="Object3D.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ShaderFiles\atmosphere.vs - Copy.glsl" />
+    <None Include="ShaderFiles\object3D.fs.glsl" />
+    <None Include="ShaderFiles\object3D.vs.glsl" />
     <None Include="ShaderFiles\skybox.fs - Copy.glsl" />
     <None Include="ShaderFiles\skybox.fs.glsl" />
     <None Include="ShaderFiles\skybox.vs.glsl" />

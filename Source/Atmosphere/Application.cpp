@@ -5,6 +5,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp> 
+#include <iostream>
+#include <glm/gtx/string_cast.hpp>
 
 //TODO: This constructor never gets passed window init because of render loop. Remove it somehow?
 Application::Application()
@@ -37,8 +39,7 @@ void Application::Startup()
    float aspect = m_window.GetSize().x / m_window.GetSize().y;
    m_projection = glm::perspective(45.0f, aspect, 0.1f, 1000.0f);
 
-
-   m_sunDirection = glm::vec3(0, 0, -1);
+   m_earth = std::make_unique<Object3D>();
 }
 
 void Application::Shutdown()
@@ -47,10 +48,11 @@ void Application::Shutdown()
 
 void Application::Render(const double time)
 {
-   m_sunDirection = glm::rotateX(m_sunDirection, 0.01f);
-
    //Clear
    glClearBufferfv(GL_COLOR, 0, &m_backgroundColor[0]);
+
+   //Earth
+   m_earth->Draw(m_view, m_projection);
 
    //Skybox
    m_skyboxShader->Use();
@@ -71,4 +73,21 @@ void Application::Render(const double time)
 
    //glDrawArrays(GL_TRIANGLES, 0, 6);
 
+}
+
+
+void Application::OnKeyPressed(int key, int action, int mods)
+{
+   const float rotationIncrement = 0.02f;
+   if(key == 49) //1
+   {
+      m_sunDirection = glm::rotateX(m_sunDirection, -rotationIncrement);
+   }
+
+   if (key == 50) //2
+   {
+      m_sunDirection = glm::rotateX(m_sunDirection, rotationIncrement);
+   }
+
+   std::cout << glm::to_string(m_sunDirection) << std::endl;
 }
