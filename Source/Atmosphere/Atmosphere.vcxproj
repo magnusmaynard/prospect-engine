@@ -159,31 +159,29 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Atmosphere.cpp" />
     <ClCompile Include="BaseShader.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Atmosphere.h" />
     <ClInclude Include="BaseShader.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="IApplication.h" />
     <ClInclude Include="ShaderProgram.h" />
-    <ClInclude Include="Object3D.h" />
+    <ClInclude Include="Terrain.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ShaderFiles\atmosphere.vs - Copy.glsl" />
-    <None Include="ShaderFiles\object3D.fs.glsl" />
-    <None Include="ShaderFiles\object3D.vs.glsl" />
-    <None Include="ShaderFiles\skybox.fs - Copy.glsl" />
-    <None Include="ShaderFiles\skybox.fs.glsl" />
-    <None Include="ShaderFiles\skybox.vs.glsl" />
     <None Include="ShaderFiles\terrain.fs.glsl" />
     <None Include="ShaderFiles\terrain.vs.glsl" />
+    <None Include="ShaderFiles\atmosphere.fs.glsl" />
+    <None Include="ShaderFiles\atmosphere.vs.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
