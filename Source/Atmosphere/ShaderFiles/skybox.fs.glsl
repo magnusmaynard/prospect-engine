@@ -4,20 +4,34 @@
 //http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter16.html
 
 //Input
+uniform mat4 view;
+uniform mat4 projection;
 uniform float time;
 uniform vec2 resolution;
 uniform vec3 sunDirection;
+uniform vec3 eyePosition;
+uniform vec3 earthPosition;
 
 //Output
 out vec4 color;
 
+//TODO: broken, where is the sun. Scttering looks worse??
+
+//const vec3 SUN_DIRECTION = sunDirection;//(view * vec4(sunDirection, 1.0)).xyz;
+
 //Configuration
 //const vec3 EYE_POSITION = vec3(0, 1.01, -1.0 + sin(time) * 1.2); ////vec3(0, 0, -2);
-const vec3 EYE_POSITION =vec3(0, 0, -1.8);//vec3(0, 1.001, -1.2);//vec3(0, 1.01, -1.0 + sin(time * 0.1) * 1.2); ////vec3(0, 0, -2);
-//const vec3 EYE_POSITION = vec3(0, 1.001, 0);
-const vec3 EARTH_POSITION = vec3(0, 0, 0);
-const float EARTH_OUTTER_RADIUS = 1.05;
-const float EARTH_INNER_RADIUS = 1.0;
+//const vec3 EYE_POSITION = vec3(0, 0, -1.8);
+//const vec3 EYE_POSITION = vec3(0, 1.00Z00001, 0);
+//vec3 EYE_POSITION = vec3(0,0,0);//(vec4(0, 0, 0, 1) * inverse(view)).xyz;
+
+//vec3 EYE_POSITION = eyePosition;//vec3(0,0,-1.8);//(view * vec4(0,0,0,1)).xyz;
+//vec3 EARTH_POSITION = (view * vec4(0,0,0,1)).xyz;
+
+//const vec3 EARTH_POSITION = vec3(0,0,sin(time) * 2.0);
+//const vec3 EARTH_POSITION = vec3(0, 0, 0);
+const float EARTH_OUTTER_RADIUS = 1010.0;
+const float EARTH_INNER_RADIUS = 1000.0;
 const float MAX_HEIGHT = EARTH_OUTTER_RADIUS - EARTH_INNER_RADIUS; //Thickness of atmosphere.
 const float SCALE_HEIGHT = 0.25; //Height of average density of atmosphere.
 const float SCALE = 1.0 / (EARTH_OUTTER_RADIUS - EARTH_INNER_RADIUS);
@@ -42,30 +56,41 @@ const vec3 INVERSE_WAVELENGTH = vec3(
 const float PI = 3.14159265359;
 
 //TODO: How does this handle perspectives?
-vec3 RayFromCamera(const vec2 res, const vec2 coord)
+vec3 RayFromCamera(const vec2 resolution, const vec2 point)
 {
-   vec2 uv = -1.0 + (2.0 * (coord / res));
-   vec2 uvScaled = uv * vec2(res.x / res.y, 1.0);
+   //vec2 uv = -1.0 + (2.0 * (point / resolution));
+   //vec2 uvScaled = uv * vec2(resolution.x / resolution.y, 1.0);
 
-   return normalize(vec3(uvScaled, 1.0));
+   //return normalize(vec3(uvScaled, 1.0));
+
+   float x = (2.0f * point.x) / resolution.x - 1.0f;
+   float y = (2.0f * point.y) / resolution.y - 1.0f; //Why was this negated in the example?
+   float z = 1.0f;
+   vec3 ray_nds = vec3(x, y, z); //why is thie negative?
+
+   vec4 ray_clip = vec4(ray_nds.xy, -1.0, 1.0);
+
+   vec4 ray_eye = inverse(projection) * ray_clip;
+   ray_eye = vec4(ray_eye.xy, -1.0, 0.0);
+
+   vec3 ray_wor = (inverse(view) * ray_eye).xyz;
+   // don't forget to normalise the vector at some point
+   ray_wor = normalize(ray_wor);
+
+   return ray_wor;
 }
 
-//TODO: Sort out input parameters.
 //Calculates near and far distances along a ray that intersects with a sphere.
 //Returns minimum of 0. When inside the sphere, near returns 0.
 //From: https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
 // d = -(l . (o - c)) +- sqrt(((l . (o - c))^2 - ||o - c||^2 + r^2)
-vec2 RayIntersections(
-   const vec3 rayOrigin,
-   const vec3 rayDirection,
-   const float sphereRadius)
+vec2 RaySphereIntersection(
+   const vec3 o, //Ray origin.
+   const vec3 l, //Ray direction.
+   const vec3 c, //Sphere position.
+   const float r) //Sphere radius.
 {
-   vec2 nearFar = vec2(0,0);
-
-   vec3 o = rayOrigin;
-   vec3 l = rayDirection;
-   vec3 c = EARTH_POSITION;
-   float r = sphereRadius;
+   vec2 nearFar = vec2(0,0); //x = near, y = far.
 
    float x = (dot(l, (o - c)) * dot(l, (o - c))) - dot(o - c, o - c) + (r * r);
 
@@ -85,14 +110,13 @@ vec2 RayIntersections(
 }
 
 //TODO: Light does not seem to go around earth, maybe intersection are clipping the inner sphere.
-bool CalculateRayIntersections(const vec3 position, const vec3 ray, out vec2 nearFar) // out vec3 far
+bool RayEarthIntersections(const vec3 position, const vec3 ray, out vec2 nearFar) // out vec3 far
 {
-   vec2 outterNearFar = RayIntersections(position, ray, EARTH_OUTTER_RADIUS);
-   vec2 innerNearFar = RayIntersections(position, ray, EARTH_INNER_RADIUS);
+   vec2 outterNearFar = RaySphereIntersection(position, ray, earthPosition, EARTH_OUTTER_RADIUS);
+   vec2 innerNearFar = RaySphereIntersection(position, ray, earthPosition, EARTH_INNER_RADIUS);
 
    if(outterNearFar.y == 0)//No intersections.
    {
-     // color.x = 1.0;
       return false;
    }
 
@@ -128,7 +152,7 @@ float MiePhase(float g1, float g2, float cos1, float cos2)
 //Get density of a given sample point.
 float Density(vec3 samplePoint)
 {
-   float sampleHeight = (length(EARTH_POSITION - samplePoint) - EARTH_INNER_RADIUS) / MAX_HEIGHT;
+   float sampleHeight = (length(earthPosition - samplePoint) - EARTH_INNER_RADIUS) / MAX_HEIGHT;
    return exp(-sampleHeight / SCALE_HEIGHT);
 }
 
@@ -161,22 +185,22 @@ vec3 InScattering(vec3 ray, vec3 near, vec3 far)
 
    for(int i = 0; i < IN_SCATTER_SAMPLES; i++)
    {
-      //Out scattering to sun;
+      //Out scattering to sun.
       vec3 sunRay = -sunDirection;
-      vec2 sunNearFar = RayIntersections(samplePoint, sunRay, EARTH_OUTTER_RADIUS);
+      vec2 sunNearFar = RaySphereIntersection(samplePoint, sunRay, earthPosition, EARTH_OUTTER_RADIUS);
 
       vec3 farPoint = samplePoint + (sunRay * sunNearFar.y);
       float sunOutScattering = OutScattering(samplePoint, farPoint);
 
-      //Out scattering to camera
+      //Out scattering to camera.
       float cameraOutScattering = OutScattering(near, samplePoint);
-
       vec3 outScattering = exp((-(sunOutScattering + cameraOutScattering)) * (INVERSE_WAVELENGTH * K_RAYLEIGH + K_MIE));
 
       totalScattering += Density(samplePoint) * outScattering;
 
       samplePoint += increment;
    }
+
    totalScattering = totalScattering * length(increment) * SCALE;
 
    float c1 = dot(ray, sunDirection);
@@ -191,19 +215,17 @@ void main()
 {
    vec3 ray = RayFromCamera(resolution, gl_FragCoord.xy);
 
-   color = vec4(0,0,0,1);
    vec2 nearFar = vec2(0,0);
-   bool hasIntersected = CalculateRayIntersections(EYE_POSITION, ray, nearFar);
+   bool hasIntersected = RayEarthIntersections(eyePosition, ray, nearFar);
 
    if(hasIntersected)
    {
-      vec3 near = EYE_POSITION + (ray * nearFar.x);
-      vec3 far = EYE_POSITION + (ray * nearFar.y);
+      vec3 near = eyePosition + (ray * nearFar.x);
+      vec3 far = eyePosition + (ray * nearFar.y);
 
       vec3 I = InScattering(ray, near, far);
 
       color = vec4(I, 1.0);
-      //float exposure = 2.0;
-      //color =   vec4(1.0 - exp(-exposure * I.x), 1.0 - exp(-exposure * I.y), 1.0 - exp(-exposure * I.z), 1.0);
+      //color = vec4(0, 1.0, 0, 1.0);
    }
 }

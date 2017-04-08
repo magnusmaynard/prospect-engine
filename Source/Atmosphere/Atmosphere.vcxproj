@@ -161,6 +161,7 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="BaseShader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>

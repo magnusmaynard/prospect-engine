@@ -21,7 +21,7 @@ ShaderProgram::~ShaderProgram()
 GLuint ShaderProgram::Compile() const
 {
    GLuint program = glCreateProgram();
-   GLuint vertexShader, geometryShader, fragmentShader;
+   GLuint vertexShader, fragmentShader;
 
    if (m_vertexShader)
    {

@@ -2,3 +2,5 @@ Source/Debug
 Source/Release
 Source/Atmosphere/Debug
 Source/Atmosphere/Release
+*.VC.opendb
+*.VC.db

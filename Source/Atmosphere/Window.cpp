@@ -38,7 +38,8 @@ void Window::Open() const
    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-   GLFWwindow* window = glfwCreateWindow(m_size.x, m_size.y, "Atmosphere", nullptr, nullptr);
+   GLFWwindow* window = glfwCreateWindow(
+      static_cast<int>(m_size.x), static_cast<int>(m_size.y), "Atmosphere", nullptr, nullptr);
    if (!window)
    {
       glfwTerminate();

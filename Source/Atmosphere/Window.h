@@ -22,5 +22,5 @@ private:
 public:
    IApplication* m_app;
 
-   glm::vec2 m_size = glm::vec2(1000, 600);
+   glm::vec2 m_size = glm::vec2(1200, 600);
 };
