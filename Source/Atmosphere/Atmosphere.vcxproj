@@ -74,10 +74,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glew-2.0.0\include;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glm;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glfw-3.2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\libnoise-1.0.0\include;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glew-2.0.0\include;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glm;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glfw-3.2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glew32sd.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32sd.lib;glfw3.lib;opengl32.lib;libnoise.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -86,7 +86,8 @@
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>xcopy $(SolutionDir)..\Dependancies\glfw-3.2.1\build\src\Debug $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Debug\Win32 $(OutputPath) /y</Command>
+xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Debug\Win32 $(OutputPath) /y
+xcopy $(SolutionDir)..\Dependancies\libnoise-1.0.0\bin $(OutputPath) /y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -106,7 +107,8 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Debug\Win32 $(OutputPath) /y<
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>xcopy $(SolutionDir)..\Dependancies\glfw-3.2.1\build\src\Debug $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Debug\Win32 $(OutputPath) /y</Command>
+xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Debug\Win32 $(OutputPath) /y
+xcopy $(SolutionDir)..\Dependancies\libnoise-1.0.0\bin $(OutputPath) /y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -32,7 +32,16 @@ private:
    GLuint m_buffers[BUFFER_COUNT];
 
    glm::mat4 m_transform;
-   std::vector<glm::vec3> m_points;
-   std::vector<unsigned int> m_indices;
-   std::vector<glm::vec3> m_normals;
+
+   const glm::vec3 m_origin; //TODO: earthPosition
+   const float m_radius;
+   const int m_sectionCount;//benchmark=400.
+
+   glm::vec3* m_points;
+   unsigned int* m_indices;
+   glm::vec3* m_normals;
+
+   int m_pointsSize;
+   int m_indicesSize;
+   int m_normalsSize;
 };

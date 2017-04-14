@@ -61,7 +61,7 @@ vec2 RaySphereIntersection(
    const vec3 c, //Sphere position.
    const float r) //Sphere radius.
 {
-   vec2 nearFar = vec2(0,0); //x = near, y = far.
+   vec2 nearFar = vec2(0, 0); //x = near, y = far.
 
    float x = (dot(l, (o - c)) * dot(l, (o - c))) - dot(o - c, o - c) + (r * r);
 
@@ -149,7 +149,7 @@ float OutScattering(vec3 near, vec3 far)
 
 vec3 InScattering(vec3 ray, vec3 near, vec3 far)
 {
-   vec3 totalScattering;
+   vec3 totalScattering = vec3(0, 0, 0);
    vec3 increment = (far - near) / IN_SCATTER_SAMPLES_F;
 
    vec3 samplePoint = near + (increment * 0.5);
@@ -186,8 +186,10 @@ void main()
 {
    vec3 ray = RayFromCamera(resolution, gl_FragCoord.xy);
 
-   vec2 nearFar = vec2(0,0);
+   vec2 nearFar = vec2(0, 0);
    bool hasIntersected = RayEarthIntersections(eyePosition, ray, nearFar);
+
+   color = vec4(0, 0, 0, 0);
 
    if(hasIntersected)
    {
@@ -197,6 +199,5 @@ void main()
       vec3 I = InScattering(ray, near, far);
 
       color = vec4(I, 1.0);
-      //color = vec4(0, 1.0, 0, 1.0);
    }
 }
