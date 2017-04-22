@@ -26,14 +26,13 @@ void Application::Startup()
    glBlendFunc(GL_SRC_ALPHA, GL_ONE); //GL_ONE_MINUS_SRC_ALPHA
    //glEnable(GL_BLEND); //TODO: blend effects the same object drawn over itself. Enable depth test?
 
-   glCullFace(GL_BACK);
-   glEnable(GL_CULL_FACE);
+   //glCullFace(GL_BACK);
+   //glEnable(GL_CULL_FACE);
 
    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
    //View.
-   auto up = glm::vec3(0, 1, 0);
-   m_view = glm::lookAt(m_eyePosition, m_eyePosition + glm::vec3(0, 0, 1), up);
+   UpdateViewMatrix();
 
    //Projection.
    float aspect = m_window.GetSize().x / m_window.GetSize().y;
@@ -52,6 +51,9 @@ void Application::Render(const double time)
    //Clear
    //glClearBufferfv(GL_COLOR, 0, &m_backgroundColor[0]);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+   m_eyePosition.z += sin(time) * 5.0;
+   UpdateViewMatrix();
 
    ////Earth
    m_terrain->Draw(m_view, m_projection, m_sunDirection);
@@ -95,4 +97,12 @@ void Application::OnKeyPressed(int key, int action, int mods)
    }
 
    std::cout << glm::to_string(m_sunDirection) << std::endl;
+}
+
+
+
+void Application::UpdateViewMatrix()
+{
+   auto up = glm::vec3(0, 1, 0);
+   m_view = glm::lookAt(m_eyePosition, glm::vec3(0, 0, 0) - m_eyePosition, up);
 }

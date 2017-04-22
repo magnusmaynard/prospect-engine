@@ -68,5 +68,11 @@
     <None Include="ShaderFiles\atmosphere.fs.glsl">
       <Filter>ShadersFiles\Atmosphere</Filter>
     </None>
+    <None Include="ShaderFiles\terrain.tes.glsl">
+      <Filter>ShadersFiles\Terrain</Filter>
+    </None>
+    <None Include="ShaderFiles\terrain.tcs.glsl">
+      <Filter>ShadersFiles\Terrain</Filter>
+    </None>
   </ItemGroup>
 </Project>

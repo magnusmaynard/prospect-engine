@@ -12,7 +12,7 @@ public:
    ~Terrain();
    void Draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& sunDirection);
    void Transform(const glm::mat4& transform);
-   void GenerateSphere();
+   void GeneratePlane();
 private:
    ShaderProgram m_shader;
    GLint m_modelLocation = 0;

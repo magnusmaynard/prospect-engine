@@ -184,6 +184,8 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /
   </ItemGroup>
   <ItemGroup>
     <None Include="ShaderFiles\terrain.fs.glsl" />
+    <None Include="ShaderFiles\terrain.tcs.glsl" />
+    <None Include="ShaderFiles\terrain.tes.glsl" />
     <None Include="ShaderFiles\terrain.vs.glsl" />
     <None Include="ShaderFiles\atmosphere.fs.glsl" />
     <None Include="ShaderFiles\atmosphere.vs.glsl" />
