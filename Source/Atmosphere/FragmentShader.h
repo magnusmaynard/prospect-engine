@@ -6,7 +6,7 @@ class FragmentShader : public BaseShader
 public:
    FragmentShader(const std::string& fileName)
       :
-      BaseShader(fileName, GL_FRAGMENT_SHADER)
+      BaseShader(fileName + ".fs", GL_FRAGMENT_SHADER)
    {
    }
 };

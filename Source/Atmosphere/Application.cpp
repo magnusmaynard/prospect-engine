@@ -40,7 +40,7 @@ void Application::Startup()
    m_projection = glm::perspective(65.0f, aspect, 0.0001f, 10000.0f); //55
 
    m_terrain = std::make_unique<Terrain>();
-   m_atmosphere = std::make_unique<Atmosphere>();
+   //m_atmosphere = std::make_unique<Atmosphere>();
 }
 
 void Application::Shutdown()

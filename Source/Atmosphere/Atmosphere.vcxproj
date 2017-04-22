@@ -173,9 +173,12 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /
     <ClInclude Include="Atmosphere.h" />
     <ClInclude Include="BaseShader.h" />
     <ClInclude Include="FragmentShader.h" />
+    <ClInclude Include="GeometryShader.h" />
     <ClInclude Include="IApplication.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Terrain.h" />
+    <ClInclude Include="TessEvaluationShader.h" />
+    <ClInclude Include="TessControlShader.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

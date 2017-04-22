@@ -1,16 +1,23 @@
 #pragma once
 #include "Terrain.h"
 #include <noise/noise.h>
+#include "TessControlShader.h"
+#include "TessEvaluationShader.h"
 
 using namespace noise;
 
 Terrain::Terrain()
    :
-   m_shader("terrain.vs.glsl", "terrain.fs.glsl"),
    m_origin(0, 0, 0),
    m_radius(1000.0),
    m_sectionCount(400)//benchmark=400.
 {
+   m_shader.Add(VertexShader("terrain"));
+   //m_shader.Add(TessControlShader("terrain"));
+   //m_shader.Add(TessEvaluationShader("terrain"));
+   m_shader.Add(FragmentShader("terrain"));
+   m_shader.Compile();
+
    GenerateSphere();
 
    m_modelLocation = m_shader.GetUniformLocation("model");

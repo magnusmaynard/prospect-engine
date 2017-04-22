@@ -31,6 +31,15 @@
     </ClInclude>
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Atmosphere.h" />
+    <ClInclude Include="TessEvaluationShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="TessControlShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ShadersFiles">

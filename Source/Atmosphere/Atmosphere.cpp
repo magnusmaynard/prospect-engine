@@ -2,9 +2,11 @@
 #include "Atmosphere.h"
 
 Atmosphere::Atmosphere()
-   :
-   m_shader("atmosphere.vs.glsl", "atmosphere.fs.glsl")
 {
+   m_shader.Add(VertexShader("atmosphere"));
+   m_shader.Add(FragmentShader("atmosphere"));
+   m_shader.Compile();
+
    m_viewLocation = m_shader.GetUniformLocation("view");
    m_projectionLocation = m_shader.GetUniformLocation("projection");
    m_timeLocation = m_shader.GetUniformLocation("time");
