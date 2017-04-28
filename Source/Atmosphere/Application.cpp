@@ -23,7 +23,7 @@ void Application::Startup()
    glDepthFunc(GL_LEQUAL);
 
    ////Enable shaders to overlay and blend colors.
-   glBlendFunc(GL_SRC_ALPHA, GL_ONE); //GL_ONE_MINUS_SRC_ALPHA
+   //glBlendFunc(GL_SRC_ALPHA, GL_ONE); //GL_ONE_MINUS_SRC_ALPHA
    //glEnable(GL_BLEND); //TODO: blend effects the same object drawn over itself. Enable depth test?
 
    //glCullFace(GL_BACK);
@@ -52,7 +52,7 @@ void Application::Render(const double time)
    //glClearBufferfv(GL_COLOR, 0, &m_backgroundColor[0]);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   m_eyePosition.z += sin(time) * 5.0;
+   m_eyePosition.z -= sin(time) * 8.0;
    UpdateViewMatrix();
 
    ////Earth

@@ -42,6 +42,10 @@ Terrain::Terrain()
    //Enable attribute.
    glEnableVertexArrayAttrib(m_VAO, 0);
 
+
+
+   GenerateHeightTexture();
+
    ////Initialize index buffer.
    //glNamedBufferStorage(
    //   m_buffers[BUFFER_INDEX], m_indicesSize * sizeof(unsigned int), &m_indices[0], 0);
@@ -79,9 +83,16 @@ void Terrain::Draw(const glm::mat4& view, const glm::mat4& projection, const glm
    glUniformMatrix4fv(m_viewLocation, 1, GL_FALSE, &view[0][0]);
    glUniformMatrix4fv(m_projectionLocation, 1, GL_FALSE, &projection[0][0]);
 
+   //Textures.
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);//Can this be moved out of the render?
+
+   glBindTextureUnit(0, m_textures[TEXTURE_HEIGHT]);
+
    //Draw.
    glPatchParameteri(GL_PATCH_VERTICES, 4);
    glDrawArrays(GL_PATCHES, 0, m_pointsSize);
+   //glDrawArrays(GL_TRIANGLES, 0, m_pointsSize);
 
    //Unbind.
    glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -94,7 +105,6 @@ void Terrain::Transform(const glm::mat4& transform)
 
 void Terrain::GeneratePlane()
 {
-   static const int FACE_COUNT = 1;
    static const float SECTION_SIZE = 1000.0;
    static const float SECTION_HALF_SIZE = SECTION_SIZE * 0.5;
 
@@ -167,4 +177,42 @@ void Terrain::GeneratePlane()
    //   //Translate point along the new m_normals.
    //   m_points[i] = m_normals[i] * m_radius + elevation;
    //}
+}
+
+void Terrain::GenerateHeightTexture()
+{
+   module::Perlin myModule;
+   myModule.SetOctaveCount(6);
+   myModule.SetFrequency(4.0);
+
+   int size = 1000;
+   int currentIndex = 0;
+   std::vector<glm::vec4> data;
+   data.resize(size * size);
+
+   for (int y = 0; y < size; y++)
+   {
+      for (int x = 0; x < size; x++)
+      {
+         float value = static_cast<float>(myModule.GetValue(x / (float)size, y / (float)size, 0)) * 100.0;
+
+         data[currentIndex] = glm::vec4(value, value, value, value);
+         currentIndex++;
+      }
+   }
+
+   glCreateTextures(GL_TEXTURE_2D, 1, &m_textures[TEXTURE_HEIGHT]);
+
+   glTextureStorage2D(m_textures[TEXTURE_HEIGHT], 1, GL_RGB32F, size, size);
+
+   glTextureSubImage2D(
+      m_textures[TEXTURE_HEIGHT],
+      0,
+      0, 0,
+      size, size,
+      GL_RGBA,
+      GL_FLOAT,
+      &data[0]);
+
+   glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_HEIGHT]);
 }

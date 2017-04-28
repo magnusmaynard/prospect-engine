@@ -12,8 +12,11 @@ public:
    ~Terrain();
    void Draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& sunDirection);
    void Transform(const glm::mat4& transform);
-   void GeneratePlane();
+
 private:
+   void GeneratePlane();
+   void GenerateHeightTexture();
+
    ShaderProgram m_shader;
    GLint m_modelLocation = 0;
    GLint m_viewLocation = 0;
@@ -25,11 +28,16 @@ private:
    enum BUFFERS
    {
       BUFFER_POINT,
-      BUFFER_INDEX,
-      BUFFER_NORMAL,
       BUFFER_COUNT
    };
    GLuint m_buffers[BUFFER_COUNT];
+
+   enum TEXTURES
+   {
+      TEXTURE_HEIGHT,
+      TEXTURE_COUNT
+   };
+   GLuint m_textures[TEXTURE_COUNT];
 
    glm::mat4 m_transform;
 
@@ -38,10 +46,6 @@ private:
    const int m_sectionCount;//benchmark=400.
 
    glm::vec3* m_points;
-   unsigned int* m_indices;
-   glm::vec3* m_normals;
 
    int m_pointsSize;
-   int m_indicesSize;
-   int m_normalsSize;
 };
