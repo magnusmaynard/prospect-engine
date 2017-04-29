@@ -172,6 +172,7 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /
     <ClInclude Include="Application.h" />
     <ClInclude Include="Atmosphere.h" />
     <ClInclude Include="BaseShader.h" />
+    <ClInclude Include="CubeMap.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="GeometryShader.h" />
     <ClInclude Include="IApplication.h" />
@@ -183,6 +184,8 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ShaderFiles\cubemap.fs.glsl" />
+    <None Include="ShaderFiles\cubemap.vs.glsl" />
     <None Include="ShaderFiles\terrain.fs.glsl" />
     <None Include="ShaderFiles\terrain.tcs.glsl" />
     <None Include="ShaderFiles\terrain.tes.glsl" />

@@ -42,8 +42,6 @@ Terrain::Terrain()
    //Enable attribute.
    glEnableVertexArrayAttrib(m_VAO, 0);
 
-
-
    GenerateHeightTexture();
 
    ////Initialize index buffer.
@@ -194,7 +192,10 @@ void Terrain::GenerateHeightTexture()
    {
       for (int x = 0; x < size; x++)
       {
-         float value = static_cast<float>(myModule.GetValue(x / (float)size, y / (float)size, 0)) * 100.0;
+         float value = static_cast<float>(myModule.GetValue(
+            x / static_cast<float>(size),
+            y / static_cast<float>(size),
+            0)) * 10.0;
 
          data[currentIndex] = glm::vec4(value, value, value, value);
          currentIndex++;
@@ -203,7 +204,7 @@ void Terrain::GenerateHeightTexture()
 
    glCreateTextures(GL_TEXTURE_2D, 1, &m_textures[TEXTURE_HEIGHT]);
 
-   glTextureStorage2D(m_textures[TEXTURE_HEIGHT], 1, GL_RGB32F, size, size);
+   glTextureStorage2D(m_textures[TEXTURE_HEIGHT], 1, GL_RGB32F, size, size); //TODO: Should this be GL_RGBA32F????
 
    glTextureSubImage2D(
       m_textures[TEXTURE_HEIGHT],

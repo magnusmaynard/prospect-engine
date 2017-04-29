@@ -35,18 +35,18 @@ void main()
       p3 /= p3.w;
 
       //Culling.
-      //if(p0.z <= 0.0 ||
-      //   p1.z <= 0.0 ||
-      //   p2.z <= 0.0 ||
-      //   p3.z <= 0.0)
-      //{
-      //   gl_TessLevelOuter[0] = 0.0;
-      //   gl_TessLevelOuter[1] = 0.0;
-      //   gl_TessLevelOuter[2] = 0.0;
-      //   gl_TessLevelOuter[3] = 0.0;
-      //}
-      //else
-      //{
+      if(p0.z <= 0.0 ||
+         p1.z <= 0.0 ||
+         p2.z <= 0.0 ||
+         p3.z <= 0.0)
+      {
+         gl_TessLevelOuter[0] = 0.0;
+         gl_TessLevelOuter[1] = 0.0;
+         gl_TessLevelOuter[2] = 0.0;
+         gl_TessLevelOuter[3] = 0.0;
+      }
+      else
+      {
          float l0 = length(p2.xy - p0.xy) * 16.0 + 1.0;
          float l1 = length(p3.xy - p2.xy) * 16.0 + 1.0;
          float l2 = length(p3.xy - p1.xy) * 16.0 + 1.0;
@@ -59,11 +59,9 @@ void main()
 
          gl_TessLevelInner[0] = min(l1, l3);
          gl_TessLevelInner[1] = min(l0, l2);
-      //}
+      }
    }
 
    gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
    tcs_out[gl_InvocationID].textureCoord = tcs_in[gl_InvocationID].textureCoord;
-
-   //gl_Position = projection * view * model * vec4(point, 1.0);
 }

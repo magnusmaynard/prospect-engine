@@ -40,6 +40,7 @@
     <ClInclude Include="GeometryShader.h">
       <Filter>Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="CubeMap.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ShadersFiles">
@@ -73,6 +74,12 @@
     </None>
     <None Include="ShaderFiles\terrain.tcs.glsl">
       <Filter>ShadersFiles\Terrain</Filter>
+    </None>
+    <None Include="ShaderFiles\cubemap.fs.glsl">
+      <Filter>ShadersFiles</Filter>
+    </None>
+    <None Include="ShaderFiles\cubemap.vs.glsl">
+      <Filter>ShadersFiles</Filter>
     </None>
   </ItemGroup>
 </Project>

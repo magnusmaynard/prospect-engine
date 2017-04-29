@@ -29,7 +29,7 @@ void Application::Startup()
    //glCullFace(GL_BACK);
    //glEnable(GL_CULL_FACE);
 
-   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
    //View.
    UpdateViewMatrix();
@@ -38,8 +38,9 @@ void Application::Startup()
    float aspect = m_window.GetSize().x / m_window.GetSize().y;
    m_projection = glm::perspective(65.0f, aspect, 0.0001f, 10000.0f); //55
 
-   m_terrain = std::make_unique<Terrain>();
+   //m_terrain = std::make_unique<Terrain>();
    //m_atmosphere = std::make_unique<Atmosphere>();
+   m_cubeMap = std::make_unique<CubeMap>();
 }
 
 void Application::Shutdown()
@@ -52,11 +53,13 @@ void Application::Render(const double time)
    //glClearBufferfv(GL_COLOR, 0, &m_backgroundColor[0]);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   m_eyePosition.z -= sin(time) * 8.0;
+   m_eyePosition.x -= sin(time) * 8.0;
    UpdateViewMatrix();
 
    ////Earth
-   m_terrain->Draw(m_view, m_projection, m_sunDirection);
+   //m_terrain->Draw(m_view, m_projection, m_sunDirection);
+
+   m_cubeMap->Draw(m_view, m_projection);
 
    //glEnable(GL_BLEND);
 
