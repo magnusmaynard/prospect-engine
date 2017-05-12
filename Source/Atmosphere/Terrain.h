@@ -22,6 +22,8 @@ private:
    GLint m_viewLocation = 0;
    GLint m_projectionLocation = 0;
    GLint m_sunDirectionLocation = 0;
+   GLint m_originLocation = 0;
+   GLint m_radiusLocation = 0;
 
    GLuint m_VAO;
 
@@ -41,11 +43,8 @@ private:
 
    glm::mat4 m_transform;
 
-   const glm::vec3 m_origin; //TODO: earthPosition
+   const glm::vec3 m_origin;
    const float m_radius;
-   const int m_sectionCount;//benchmark=400.
 
-   glm::vec3* m_points;
-
-   int m_pointsSize;
+   std::vector<glm::vec3> m_points;
 };

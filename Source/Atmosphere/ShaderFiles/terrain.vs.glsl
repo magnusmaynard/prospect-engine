@@ -16,9 +16,9 @@ out VS_OUT
 void main()
 {
 
-   const float size = 1000.0;
+   const float size = 100.0;
    //vs_out.textureCoord = point.xy / size + vec2(0.5);
-   vs_out.textureCoord = point.xy / 1000.0 + vec2(0.5);
+   vs_out.textureCoord = point.xy / 100.0 + vec2(0.5);
 
    //float height =  texture(textureHeight, vs_out.textureCoord).r * 1000.0; //TEMP
 

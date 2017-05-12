@@ -12,5 +12,6 @@ in VS_OUT
 
 void main()
 {
+   //color = vec4(1.0, 0, 0, 1.0);
    color = texture(cubeMap, fs_in.textureCoord);
 }

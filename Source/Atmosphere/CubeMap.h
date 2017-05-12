@@ -43,7 +43,7 @@ public:
       glBindTextureUnit(0, m_texture);
 
       //Draw.
-      glDrawArrays(GL_QUAD_STRIP, 0, 4);
+      glDrawArrays(GL_TRIANGLES, 0, 6);
 
       //Unbind.
       glBindBuffer(GL_ARRAY_BUFFER, 0);

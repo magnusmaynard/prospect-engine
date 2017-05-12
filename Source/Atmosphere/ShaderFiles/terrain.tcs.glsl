@@ -5,6 +5,8 @@ layout (vertices = 4) out;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform float radius;
+uniform vec3 origin;
 
 in VS_OUT
 {
@@ -20,14 +22,12 @@ void main()
 {
    if(gl_InvocationID == 0)
    {
-      vec4 p0 = projection * view * model * gl_in[0].gl_Position;
-      vec4 p1 = projection * view * model * gl_in[1].gl_Position;
-      vec4 p2 = projection * view * model * gl_in[2].gl_Position;
-      vec4 p3 = projection * view * model * gl_in[3].gl_Position;
-      //vec4 p0 = gl_in[0].gl_Position;
-      //vec4 p1 = gl_in[1].gl_Position;
-      //vec4 p2 = gl_in[2].gl_Position;
-      //vec4 p3 = gl_in[3].gl_Position;
+      mat4 mvp = projection * view * model;
+
+      vec4 p0 = mvp * vec4(normalize(gl_in[0].gl_Position.xyz - origin) * radius, 1.0);
+      vec4 p1 = mvp * vec4(normalize(gl_in[1].gl_Position.xyz - origin) * radius, 1.0);
+      vec4 p2 = mvp * vec4(normalize(gl_in[2].gl_Position.xyz - origin) * radius, 1.0);
+      vec4 p3 = mvp * vec4(normalize(gl_in[3].gl_Position.xyz - origin) * radius, 1.0);
 
       p0 /= p0.w;
       p1 /= p1.w;
