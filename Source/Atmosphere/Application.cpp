@@ -36,7 +36,7 @@ void Application::Startup()
 
    //Projection.
    float aspect = m_window.GetSize().x / m_window.GetSize().y;
-   m_projection = glm::perspective(65.0f, aspect, 0.0001f, 10000.0f); //55
+   m_projection = glm::perspective(40.0f, aspect, 0.0001f, 10000.0f); //55
 
    m_terrain = std::make_unique<Terrain>();
    //m_atmosphere = std::make_unique<Atmosphere>();
@@ -54,11 +54,11 @@ void Application::Render(const double time)
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
    //m_eyePosition.x -= sin(time) * 0.06;
-   m_eyePosition.z -= sin(time) * 2.0;
+   //m_eyePosition.z += sin(time * 2.0) * 0.5;
    UpdateViewMatrix();
 
    ////Earth
-   m_terrain->Draw(m_view, m_projection, m_sunDirection);
+   m_terrain->Draw(m_view, m_projection, m_eyePosition);
 
    //m_cubeMap->Draw(m_view, m_projection);
 
@@ -79,32 +79,38 @@ void Application::Render(const double time)
 
 void Application::OnKeyPressed(int key, int action, int mods)
 {
-   const float rotationIncrement = 0.02f;
+   const float rotationIncrement = 0.06f;
+   const float zoomIncrement = 2.8f;
+
    if (key == 49) //1
    {
-      m_sunDirection = glm::rotateY(m_sunDirection, -rotationIncrement);
+      //m_sunDirection = glm::rotateY(m_sunDirection, -rotationIncrement);
+
+      m_eyePosition += m_eyeDirection * zoomIncrement;
    }
 
    if (key == 50) //2
    {
-      m_sunDirection = glm::rotateY(m_sunDirection, rotationIncrement);
+      //m_sunDirection = glm::rotateY(m_sunDirection, rotationIncrement);
+
+      m_eyePosition -= m_eyeDirection * zoomIncrement;
    }
 
    if (key == 51) //3
    {
-      m_terrain->Transform(glm::rotate(glm::mat4(), -rotationIncrement, glm::vec3(1, 0, 0)));
+      m_eyeDirection = glm::rotateX(m_eyeDirection, -rotationIncrement);
+      //m_terrain->Transform(glm::rotate(glm::mat4(), -rotationIncrement, glm::vec3(1, 0, 0)));
    }
 
    if (key == 52) //4
    {
-      m_terrain->Transform(glm::rotate(glm::mat4(), rotationIncrement, glm::vec3(1, 0, 0)));
+      m_eyeDirection = glm::rotateX(m_eyeDirection, rotationIncrement);
+      //m_terrain->Transform(glm::rotate(glm::mat4(), rotationIncrement, glm::vec3(1, 0, 0)));
    }
-
-   std::cout << glm::to_string(m_sunDirection) << std::endl;
 }
 
 void Application::UpdateViewMatrix()
 {
    auto up = glm::vec3(0, 1, 0);
-   m_view = glm::lookAt(m_eyePosition, glm::vec3(0, 0, 0) - m_eyePosition, up);
+   m_view = glm::lookAt(m_eyePosition, m_eyePosition + m_eyeDirection, up);
 }

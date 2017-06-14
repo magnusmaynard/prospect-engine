@@ -9,7 +9,8 @@ using namespace noise;
 Terrain::Terrain()
    :
    m_origin(0, 0, 0),
-   m_radius(100.0)
+   m_size(400.0),
+   m_quadTree(glm::vec3(0,0,0), m_size, 1)
 {
    m_shader.Add(VertexShader("terrain"));
    m_shader.Add(TessControlShader("terrain"));
@@ -17,31 +18,18 @@ Terrain::Terrain()
    m_shader.Add(FragmentShader("terrain"));
    m_shader.Compile();
 
-   GeneratePlane();
-
    m_modelLocation = m_shader.GetUniformLocation("model");
    m_viewLocation = m_shader.GetUniformLocation("view");
    m_projectionLocation = m_shader.GetUniformLocation("projection");
-   //m_sunDirectionLocation = m_shader.GetUniformLocation("sunDirection");
-   m_originLocation = m_shader.GetUniformLocation("origin");
-   m_radiusLocation = m_shader.GetUniformLocation("radius");
+
+   m_originLocation = m_shader.GetUniformLocation("origin"); //TODO: This needs a better solution.
+   m_sizeLocation = m_shader.GetUniformLocation("size");
+
+   m_nodeLodLocation = m_shader.GetUniformLocation("nodeLod");
+   m_nodeSizeLocation = m_shader.GetUniformLocation("nodeSize");
 
    glCreateVertexArrays(1, &m_VAO);
    glBindVertexArray(m_VAO);
-
-   glCreateBuffers(BUFFER_COUNT, m_buffers);
-
-   //Initialize point buffer.
-   glNamedBufferStorage(
-      m_buffers[BUFFER_POINT], m_points.size() * 3 * sizeof(float), &m_points[0], 0);
-   //Bind vertex buffer to vertex array.
-   glVertexArrayVertexBuffer(m_VAO, 0, m_buffers[BUFFER_POINT], 0, sizeof(glm::vec3));
-   //Specify the format of the atrribute.
-   glVertexArrayAttribFormat(m_VAO, 0, 3, GL_FLOAT, GL_FALSE, 0);
-   //Specify which vertex buffer binding to use for the attribute.
-   glVertexArrayAttribBinding(m_VAO, 0, 0);
-   //Enable attribute.
-   glEnableVertexArrayAttrib(m_VAO, 0);
 
    GenerateHeightTexture();
 }
@@ -49,86 +37,33 @@ Terrain::Terrain()
 Terrain::~Terrain()
 {
    //Dispose.
-   glDeleteBuffers(BUFFER_COUNT, m_buffers);
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-void Terrain::Draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& sunDirection)
+void Terrain::Draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& cameraPosition)
 {
    //Bind.
    m_shader.Use();
-   glBindVertexArray(m_VAO);
-   glBindBuffer(GL_ARRAY_BUFFER, m_buffers[BUFFER_POINT]);
 
    //Uniforms.
    glUniformMatrix4fv(m_modelLocation, 1, GL_FALSE, &m_transform[0][0]);
    glUniformMatrix4fv(m_viewLocation, 1, GL_FALSE, &view[0][0]);
    glUniformMatrix4fv(m_projectionLocation, 1, GL_FALSE, &projection[0][0]);
-   glUniform1f(m_radiusLocation, m_radius);
-   glUniform3fv(m_originLocation, 1, &m_origin[0]);
+   glUniform1f(m_sizeLocation, m_size);
 
    //Textures.
    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); //Can this be moved out of the render?
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); //TODO: Can this be moved out of the render?
 
    glBindTextureUnit(0, m_textures[TEXTURE_HEIGHT]);
 
    //Draw.
-   glPatchParameteri(GL_PATCH_VERTICES, 4);
-   glDrawArrays(GL_PATCHES, 0, m_points.size());
-   //glDrawArrays(GL_TRIANGLES, 0, m_pointsSize);
-
-   //Unbind.
-   glBindBuffer(GL_ARRAY_BUFFER, 0);
+   m_quadTree.Draw(cameraPosition, m_originLocation, m_nodeSizeLocation, m_nodeLodLocation);
 }
 
 void Terrain::Transform(const glm::mat4& transform)
 {
    m_transform *= transform;
-}
-
-void Terrain::GeneratePlane()
-{
-   static const float FACE_SIZE = m_radius;
-   static const float FACE_HALF_SIZE = FACE_SIZE * 0.5;
-
-   m_points = {
-      //Front
-      glm::vec3(-FACE_HALF_SIZE, -FACE_HALF_SIZE, FACE_HALF_SIZE),
-      glm::vec3( FACE_HALF_SIZE, -FACE_HALF_SIZE, FACE_HALF_SIZE),
-      glm::vec3(-FACE_HALF_SIZE,  FACE_HALF_SIZE, FACE_HALF_SIZE),
-      glm::vec3( FACE_HALF_SIZE,  FACE_HALF_SIZE, FACE_HALF_SIZE),
-
-      //Back
-      glm::vec3( FACE_HALF_SIZE, -FACE_HALF_SIZE, -FACE_HALF_SIZE),
-      glm::vec3(-FACE_HALF_SIZE, -FACE_HALF_SIZE, -FACE_HALF_SIZE),
-      glm::vec3( FACE_HALF_SIZE,  FACE_HALF_SIZE, -FACE_HALF_SIZE),
-      glm::vec3(-FACE_HALF_SIZE,  FACE_HALF_SIZE, -FACE_HALF_SIZE),
-
-      //Left
-      glm::vec3(-FACE_HALF_SIZE, -FACE_HALF_SIZE, -FACE_HALF_SIZE),
-      glm::vec3(-FACE_HALF_SIZE, -FACE_HALF_SIZE,  FACE_HALF_SIZE),
-      glm::vec3(-FACE_HALF_SIZE,  FACE_HALF_SIZE, -FACE_HALF_SIZE),
-      glm::vec3(-FACE_HALF_SIZE,  FACE_HALF_SIZE,  FACE_HALF_SIZE),
-
-      //Right
-      glm::vec3(FACE_HALF_SIZE, -FACE_HALF_SIZE,  FACE_HALF_SIZE),
-      glm::vec3(FACE_HALF_SIZE, -FACE_HALF_SIZE, -FACE_HALF_SIZE),
-      glm::vec3(FACE_HALF_SIZE,  FACE_HALF_SIZE,  FACE_HALF_SIZE),
-      glm::vec3(FACE_HALF_SIZE,  FACE_HALF_SIZE, -FACE_HALF_SIZE),
-
-      //Top
-      glm::vec3(-FACE_HALF_SIZE, FACE_HALF_SIZE,  FACE_HALF_SIZE),
-      glm::vec3( FACE_HALF_SIZE, FACE_HALF_SIZE,  FACE_HALF_SIZE),
-      glm::vec3(-FACE_HALF_SIZE, FACE_HALF_SIZE, -FACE_HALF_SIZE),
-      glm::vec3( FACE_HALF_SIZE, FACE_HALF_SIZE, -FACE_HALF_SIZE),
-
-      //Bottom
-      glm::vec3(-FACE_HALF_SIZE, -FACE_HALF_SIZE, -FACE_HALF_SIZE),
-      glm::vec3( FACE_HALF_SIZE, -FACE_HALF_SIZE, -FACE_HALF_SIZE),
-      glm::vec3(-FACE_HALF_SIZE, -FACE_HALF_SIZE,  FACE_HALF_SIZE),
-      glm::vec3( FACE_HALF_SIZE, -FACE_HALF_SIZE,  FACE_HALF_SIZE),
-   };
 }
 
 void Terrain::GenerateHeightTexture()
@@ -137,19 +72,18 @@ void Terrain::GenerateHeightTexture()
    myModule.SetOctaveCount(6);
    myModule.SetFrequency(4.0);
 
-   int size = 1000; //m_radius
    int currentIndex = 0;
    std::vector<glm::vec4> data;
-   data.resize(size * size);
+   data.resize(m_size * m_size);
 
-   for (int y = 0; y < size; y++)
+   for (int y = 0; y < m_size; y++)
    {
-      for (int x = 0; x < size; x++)
+      for (int x = 0; x < m_size; x++)
       {
          float value = static_cast<float>(myModule.GetValue(
-            x / static_cast<float>(size),
-            y / static_cast<float>(size),
-            0)) * 10.0;
+            x / static_cast<float>(m_size),
+            y / static_cast<float>(m_size),
+            0)) * 8.0;
 
          data[currentIndex] = glm::vec4(value, value, value, value);
          currentIndex++;
@@ -158,13 +92,13 @@ void Terrain::GenerateHeightTexture()
 
    glCreateTextures(GL_TEXTURE_2D, 1, &m_textures[TEXTURE_HEIGHT]);
 
-   glTextureStorage2D(m_textures[TEXTURE_HEIGHT], 1, GL_RGB32F, size, size); //TODO: Should this be GL_RGBA32F????
+   glTextureStorage2D(m_textures[TEXTURE_HEIGHT], 1, GL_RGB32F, m_size, m_size); //TODO: Should this be GL_RGBA32F????
 
    glTextureSubImage2D(
       m_textures[TEXTURE_HEIGHT],
       0,
       0, 0,
-      size, size,
+      m_size, m_size,
       GL_RGBA,
       GL_FLOAT,
       &data[0]);

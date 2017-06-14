@@ -1,15 +1,8 @@
 ﻿#version 450
 
-layout (quads, fractional_odd_spacing) in;
+layout (quads, equal_spacing) in;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
-uniform float radius;
-uniform vec3 origin;
-
-//uniform sampler2D textureHeight;
-layout (binding = 0) uniform sampler2D textureHeight;//TEMP
+layout (binding = 0) uniform sampler2D textureHeight;
 
 in TCS_OUT
 {
@@ -34,9 +27,7 @@ void main()
 
    vec4 p = mix(p2, p1, gl_TessCoord.y);
 
-   //p.z += texture(textureHeight, tc).r; //TODO: ununcomment this.
+   p.y += texture(textureHeight, tc).r;
 
-   //gl_Position = p;
-   gl_Position = projection * view * model * vec4(normalize(p.xyz - origin) * radius, 1.0);
-   tes_out.textureCoord = tc;
+   gl_Position = p;
 }

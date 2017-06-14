@@ -6,7 +6,9 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-layout (binding = 0) uniform sampler2D textureHeight;//TEMP
+uniform vec3 origin;
+uniform float size;
+uniform float nodeSize;
 
 out VS_OUT
 {
@@ -15,23 +17,17 @@ out VS_OUT
 
 void main()
 {
+   float halfSize = nodeSize * 0.5;
 
-   const float size = 100.0;
-   //vs_out.textureCoord = point.xy / size + vec2(0.5);
-   vs_out.textureCoord = point.xy / 100.0 + vec2(0.5);
+   const vec3 vertices[] = vec3[](
+      origin + vec3(-halfSize, 0, halfSize),
+      origin + vec3( halfSize, 0, halfSize),
+      origin + vec3(-halfSize, 0, -halfSize),
+      origin + vec3( halfSize, 0, -halfSize));
 
-   //float height =  texture(textureHeight, vs_out.textureCoord).r * 1000.0; //TEMP
+   const vec4 vert = vec4(vertices[gl_VertexID], 1.0);
 
-   //float cellSize = 1000.0;
-   // float textureOffset = 0.5 * cellSize; //offset by half a cell
-   // vec4 texel = texture(textureHeight, vec2(point.x + textureOffset, point.z + textureOffset) / (textureSize(textureHeight, 0) * cellSize));
+   vs_out.textureCoord = vert.xz / size + vec2(0.5);
 
-   //gl_Position = vec4(point.xy, point.z, 1.0);
-
-
-
-   //gl_Position = projection * view * model * vec4(point, 1.0);
-
-
-   gl_Position = vec4(point, 1.0);
+   gl_Position = projection * view * model * vert;
 }

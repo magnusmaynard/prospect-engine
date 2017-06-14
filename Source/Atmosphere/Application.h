@@ -29,7 +29,8 @@ private:
    glm::mat4 m_projection;
    glm::vec3 m_sunDirection = glm::normalize(glm::vec3(-1.0, 1.0, 0));
    glm::vec3 m_earthPosition = glm::vec3(0, 0, 0);
-   glm::vec3 m_eyePosition = glm::vec3(0, 0, 120.0); // glm::vec3(0, 1000.1, -100);//glm::vec3(0, 100.1, -1200.0); 
+   glm::vec3 m_eyePosition = glm::vec3(0, 15, 15.0); // glm::vec3(0, 1000.1, -100);//glm::vec3(0, 100.1, -1200.0);
+   glm::vec3 m_eyeDirection = glm::vec3(0, 0, -1);
 
    std::unique_ptr<Terrain> m_terrain;
    std::unique_ptr<Atmosphere> m_atmosphere;
