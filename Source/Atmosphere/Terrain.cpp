@@ -9,8 +9,7 @@ using namespace noise;
 Terrain::Terrain()
    :
    m_origin(0, 0, 0),
-   m_size(400.0),
-   m_quadTree(glm::vec3(0,0,0), m_size, 1)
+   m_size(400.0)
 {
    m_shader.Add(VertexShader("terrain"));
    m_shader.Add(TessControlShader("terrain"));
@@ -22,11 +21,16 @@ Terrain::Terrain()
    m_viewLocation = m_shader.GetUniformLocation("view");
    m_projectionLocation = m_shader.GetUniformLocation("projection");
 
-   m_originLocation = m_shader.GetUniformLocation("origin"); //TODO: This needs a better solution.
    m_sizeLocation = m_shader.GetUniformLocation("size");
 
-   m_nodeLodLocation = m_shader.GetUniformLocation("nodeLod");
-   m_nodeSizeLocation = m_shader.GetUniformLocation("nodeSize");
+   //TODO: This needs a better solution for this.
+   GLint nodeOriginLocation = m_shader.GetUniformLocation("nodeOrigin");
+   GLint nodeSizeLocation = m_shader.GetUniformLocation("nodeSize");
+   GLint nodeLodLocation = m_shader.GetUniformLocation("nodeLod");
+
+   m_quadTree = std::make_unique<QuadTree>(
+      glm::vec3(0, 0, 0), m_size, 1,
+      nodeOriginLocation, nodeSizeLocation, nodeLodLocation);
 
    glCreateVertexArrays(1, &m_VAO);
    glBindVertexArray(m_VAO);
@@ -58,7 +62,7 @@ void Terrain::Draw(const glm::mat4& view, const glm::mat4& projection, const glm
    glBindTextureUnit(0, m_textures[TEXTURE_HEIGHT]);
 
    //Draw.
-   m_quadTree.Draw(cameraPosition, m_originLocation, m_nodeSizeLocation, m_nodeLodLocation);
+   m_quadTree->Draw(cameraPosition);
 }
 
 void Terrain::Transform(const glm::mat4& transform)

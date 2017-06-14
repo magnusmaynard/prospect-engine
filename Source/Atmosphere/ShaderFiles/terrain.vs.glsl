@@ -6,8 +6,9 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-uniform vec3 origin;
 uniform float size;
+
+uniform vec3 nodeOrigin;
 uniform float nodeSize;
 
 out VS_OUT
@@ -20,10 +21,10 @@ void main()
    float halfSize = nodeSize * 0.5;
 
    const vec3 vertices[] = vec3[](
-      origin + vec3(-halfSize, 0, halfSize),
-      origin + vec3( halfSize, 0, halfSize),
-      origin + vec3(-halfSize, 0, -halfSize),
-      origin + vec3( halfSize, 0, -halfSize));
+      nodeOrigin + vec3(-halfSize, 0, halfSize),
+      nodeOrigin + vec3( halfSize, 0, halfSize),
+      nodeOrigin + vec3(-halfSize, 0, -halfSize),
+      nodeOrigin + vec3( halfSize, 0, -halfSize));
 
    const vec4 vert = vec4(vertices[gl_VertexID], 1.0);
 

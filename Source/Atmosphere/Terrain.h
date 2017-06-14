@@ -26,10 +26,7 @@ private:
    GLint m_viewLocation = 0;
    GLint m_projectionLocation = 0;
 
-   GLint m_originLocation = 0;
    GLint m_sizeLocation = 0;
-   GLint m_nodeSizeLocation = 0;
-   GLint m_nodeLodLocation = 0;
 
    GLuint m_VAO;
 
@@ -45,5 +42,5 @@ private:
    const glm::vec3 m_origin;
    const float m_size;
 
-   QuadTree m_quadTree;
+   std::unique_ptr<QuadTree> m_quadTree;
 };

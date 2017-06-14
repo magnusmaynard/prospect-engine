@@ -1,79 +1,70 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include "Node.h"
 
 class QuadTree
 {
 public:
-   QuadTree(const glm::vec3& origin, const float size, const int lod)
-      :
-      m_origin(origin),
-      m_size(size),
-      m_lod(lod)
-   {
-   }
-
-   void Draw(
-      const glm::vec3& camera,
+   QuadTree(
+      const glm::vec3& origin,
+      const float size,
+      const int lod,
       const GLint originLocation,
       const GLint sizeLocation,
       const GLint lodLocation)
-   {
-      float distance = glm::length(m_origin - camera);
-
-      m_nodes.clear(); //TODO: optimize.
-
-      if (m_lod < MAX_LOD &&
-         distance < m_size * 4.0)
+      :
+      m_rootNode(origin, size, lod),
+      m_originLocation(originLocation),
+      m_sizeLocation(sizeLocation),
+      m_lodLocation(lodLocation)
       {
-         //Divide into 4 child nodes.
-         float childSize = m_size * 0.5;
-         float childSizeHalf = childSize * 0.5;
-         float childLod = m_lod + 1;
-
-         m_nodes.push_back(QuadTree(
-            m_origin + glm::vec3(-childSizeHalf, 0, childSizeHalf),
-            childSize,
-            childLod));
-         m_nodes.push_back(QuadTree(
-            m_origin + glm::vec3(childSizeHalf, 0, childSizeHalf),
-            childSize,
-            childLod));
-         m_nodes.push_back(QuadTree(
-            m_origin + glm::vec3(childSizeHalf, 0, -childSizeHalf),
-            childSize,
-            childLod));
-         m_nodes.push_back(QuadTree(
-            m_origin + glm::vec3(-childSizeHalf, 0, -childSizeHalf),
-            childSize,
-            childLod));
       }
 
-      if (m_nodes.size() > 0)
+      void Draw(const glm::vec3& camera)
+   {
+      Draw(camera, m_rootNode);
+   }
+
+private:
+   void Draw(
+      const glm::vec3& camera,
+      Node& node)
+   {
+      float distance = glm::length(node.GetOrigin() - camera);
+
+      node.Clear(); //TODO: optimize.
+
+      if (node.GetLod() < MAX_LOD &&
+         distance < node.GetSize() * 4.0)
+      {
+         node.Split();
+      }
+
+      if (node.IsParent())
       {
          //Draw child nodes.
-         for (auto& node : m_nodes)
-         {
-            node.Draw(camera, originLocation, sizeLocation, lodLocation);
-         }
+         Draw(camera, node.GetChild(0));
+         Draw(camera, node.GetChild(1));
+         Draw(camera, node.GetChild(2));
+         Draw(camera, node.GetChild(3));
       }
       else
       {
          //Draw this node.
-         glUniform3fv(originLocation, 1, &m_origin[0]);
-         glUniform1f(sizeLocation, m_size);
-         glUniform1f(lodLocation, m_lod);
+         glUniform3fv(m_originLocation, 1, &node.GetOrigin()[0]);
+         glUniform1f(m_sizeLocation, node.GetSize());
+         glUniform1f(m_lodLocation, node.GetLod());
 
          glPatchParameteri(GL_PATCH_VERTICES, 4);
          glDrawArrays(GL_PATCHES, 0, 4);
       }
    }
 
-private:
    const int MAX_LOD = 6;
-   glm::vec3 m_origin;
-   float m_size;
-   int m_lod;
+   const GLint m_originLocation;
+   const GLint m_sizeLocation;
+   const GLint m_lodLocation;
 
-   std::vector<QuadTree> m_nodes;
+   Node m_rootNode;
 };

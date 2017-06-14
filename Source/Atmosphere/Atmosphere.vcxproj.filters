@@ -42,6 +42,7 @@
     </ClInclude>
     <ClInclude Include="CubeMap.h" />
     <ClInclude Include="QuadTree.h" />
+    <ClInclude Include="Node.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ShadersFiles">
