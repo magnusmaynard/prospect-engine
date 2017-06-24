@@ -8,6 +8,7 @@ uniform mat4 projection;
 
 uniform float size;
 
+//Node properties
 uniform vec3 nodeOrigin;
 uniform float nodeSize;
 

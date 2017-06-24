@@ -107,6 +107,16 @@ void Application::OnKeyPressed(int key, int action, int mods)
       m_eyeDirection = glm::rotateX(m_eyeDirection, rotationIncrement);
       //m_terrain->Transform(glm::rotate(glm::mat4(), rotationIncrement, glm::vec3(1, 0, 0)));
    }
+   if (key == 53) //5
+   {
+      m_eyePosition.x += zoomIncrement;
+   }
+
+   if (key == 54) //6
+   {
+      m_eyePosition.x -= zoomIncrement;
+   }
+
 }
 
 void Application::UpdateViewMatrix()

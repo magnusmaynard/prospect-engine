@@ -7,7 +7,6 @@
 #include <vector>
 #include "Terrain.h"
 #include "Atmosphere.h"
-#include "CubeMap.h"
 
 class Application : public IApplication
 {
@@ -34,7 +33,6 @@ private:
 
    std::unique_ptr<Terrain> m_terrain;
    std::unique_ptr<Atmosphere> m_atmosphere;
-   std::unique_ptr<CubeMap> m_cubeMap;
 
    void UpdateViewMatrix();
 };

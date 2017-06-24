@@ -6,8 +6,9 @@
 class Node
 {
 public:
-   Node(const glm::vec3& origin, const float size, const int lod)
+   Node(const Node* parent, const glm::vec3& origin, const float size, const int lod)
       :
+      m_parent(parent),
       m_origin(origin),
       m_size(size),
       m_lod(lod)
@@ -53,28 +54,43 @@ public:
       float childLod = m_lod + 1;
 
       m_nodes.push_back(Node(
+         this,
          m_origin + glm::vec3(-childSizeHalf, 0, childSizeHalf),
          childSize,
          childLod));
       m_nodes.push_back(Node(
+         this,
          m_origin + glm::vec3(childSizeHalf, 0, childSizeHalf),
          childSize,
          childLod));
       m_nodes.push_back(Node(
-         m_origin + glm::vec3(childSizeHalf, 0, -childSizeHalf),
+         this,
+         m_origin + glm::vec3(-childSizeHalf, 0, -childSizeHalf),
          childSize,
          childLod));
       m_nodes.push_back(Node(
-         m_origin + glm::vec3(-childSizeHalf, 0, -childSizeHalf),
+         this,
+         m_origin + glm::vec3(childSizeHalf, 0, -childSizeHalf),
          childSize,
          childLod));
    }
 
+   //void FindAdjacentScale(const Direction& direction)
+   //{
+   //   if()
+   //}
+
 private:
+
+   const Node* m_parent;
    glm::vec3 m_origin;
    float m_size;
    int m_lod;
-
    std::vector<Node> m_nodes;
+
+   float m_scaleTop;
+   float m_scaleBottom;
+   float m_scaleLeft;
+   float m_scaleRight;
 
 };

@@ -26,11 +26,16 @@ Terrain::Terrain()
    //TODO: This needs a better solution for this.
    GLint nodeOriginLocation = m_shader.GetUniformLocation("nodeOrigin");
    GLint nodeSizeLocation = m_shader.GetUniformLocation("nodeSize");
-   GLint nodeLodLocation = m_shader.GetUniformLocation("nodeLod");
+   GLint nodeLevelLocation = m_shader.GetUniformLocation("nodeLevel");
+   GLint nodeLevelDifferencesLocation = m_shader.GetUniformLocation("nodeLevelDifferences");
 
    m_quadTree = std::make_unique<QuadTree>(
-      glm::vec3(0, 0, 0), m_size, 1,
-      nodeOriginLocation, nodeSizeLocation, nodeLodLocation);
+      glm::vec3(0, 0, 0),
+      m_size,
+      nodeOriginLocation,
+      nodeSizeLocation,
+      nodeLevelLocation,
+      nodeLevelDifferencesLocation);
 
    glCreateVertexArrays(1, &m_VAO);
    glBindVertexArray(m_VAO);
@@ -62,6 +67,8 @@ void Terrain::Draw(const glm::mat4& view, const glm::mat4& projection, const glm
    glBindTextureUnit(0, m_textures[TEXTURE_HEIGHT]);
 
    //Draw.
+   m_quadTree->UpdateLevels(cameraPosition);
+   m_quadTree->UpdateAdjacentLevelDifferences();
    m_quadTree->Draw(cameraPosition);
 }
 

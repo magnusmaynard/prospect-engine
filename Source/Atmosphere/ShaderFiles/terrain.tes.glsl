@@ -27,7 +27,7 @@ void main()
 
    vec4 p = mix(p2, p1, gl_TessCoord.y);
 
-   p.y += texture(textureHeight, tc).r;
+   p.y += texture(textureHeight, tc).r; //TODO: uncomment this.
 
    gl_Position = p;
 }

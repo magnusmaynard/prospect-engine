@@ -40,7 +40,6 @@
     <ClInclude Include="GeometryShader.h">
       <Filter>Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="CubeMap.h" />
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="Node.h" />
   </ItemGroup>
