@@ -4,6 +4,9 @@
 #include "TessControlShader.h"
 #include "TessEvaluationShader.h"
 
+#include <chrono>
+#include <iostream>
+
 using namespace noise;
 
 Terrain::Terrain()
@@ -67,9 +70,17 @@ void Terrain::Draw(const glm::mat4& view, const glm::mat4& projection, const glm
    glBindTextureUnit(0, m_textures[TEXTURE_HEIGHT]);
 
    //Draw.
-   m_quadTree->UpdateLevels(cameraPosition);
-   m_quadTree->UpdateAdjacentLevelDifferences();
-   m_quadTree->Draw(cameraPosition);
+   m_quadTree->Update(cameraPosition);
+
+   //int iterations = 1000;
+  // auto start = std::chrono::system_clock::now();
+  // for (int i = 0; i < iterations; i++)
+   //{
+      m_quadTree->Draw(cameraPosition);
+   //}
+  // auto end = std::chrono::system_clock::now();
+  // std::chrono::duration<double> average = (end - start) / static_cast<double>(iterations);
+   //std::cout << average.count() << std::endl;
 }
 
 void Terrain::Transform(const glm::mat4& transform)

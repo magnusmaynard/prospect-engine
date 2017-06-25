@@ -1,96 +1,103 @@
-#pragma once
+#include <GL/glew.h>
 #include <vector>
-#include <memory>
+#include <stack>
 #include <glm/vec3.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <set>
+
+enum class Direction
+{
+   Left,
+   Right,
+   Up,
+   Down,
+};
 
 class Node
 {
 public:
-   Node(const Node* parent, const glm::vec3& origin, const float size, const int lod)
+   Node(
+      Node* parent,
+      const int index,
+      const int level,
+      const glm::vec3& origin,
+      const float size)
       :
       m_parent(parent),
+      m_index(index),
+      m_level(level),
       m_origin(origin),
-      m_size(size),
-      m_lod(lod)
+      m_size(size)
    {
    }
 
-   glm::vec3 GetOrigin() const
+   void Update(const glm::vec3& camera, std::vector<Node*>& endNodes)
    {
-      return m_origin;
+      float distance = glm::length(m_origin - camera);
+
+      //if (abs(distance - lastUpdateDistance) > UPDATE_DISTANCE_TOLERANCE)
+      //{
+      if (m_level < MAX_LEVELS &&
+         distance < m_size * 2.0)
+      {
+         Divide();
+
+         for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
+         {
+            m_children[i]->Update(camera, endNodes);
+         }
+      }
+      else
+      {
+         //Node is out of range.
+         endNodes.push_back(this);
+         m_isParent = false;
+      }
+      //}
    }
 
-   float GetSize() const
-   {
-      return m_size;
-   }
 
-   int GetLod() const
+   void Divide()
    {
-      return m_lod;
-   }
+      m_isParent = true;
 
-   bool IsParent() const
-   {
-      return m_nodes.size() > 0;
-   }
-
-   Node& GetChild(const int index)
-   {
-      return m_nodes[index];
-   }
-
-   //Clear all child nodes.
-   void Clear()
-   {
-      m_nodes.clear();
-   }
-
-   //Divide into 4 child nodes.
-   void Split()
-   {
       float childSize = m_size * 0.5;
       float childSizeHalf = childSize * 0.5;
-      float childLod = m_lod + 1;
+      float childLevel = m_level + 1;
 
-      m_nodes.push_back(Node(
-         this,
-         m_origin + glm::vec3(-childSizeHalf, 0, childSizeHalf),
-         childSize,
-         childLod));
-      m_nodes.push_back(Node(
-         this,
-         m_origin + glm::vec3(childSizeHalf, 0, childSizeHalf),
-         childSize,
-         childLod));
-      m_nodes.push_back(Node(
-         this,
-         m_origin + glm::vec3(-childSizeHalf, 0, -childSizeHalf),
-         childSize,
-         childLod));
-      m_nodes.push_back(Node(
-         this,
-         m_origin + glm::vec3(childSizeHalf, 0, -childSizeHalf),
-         childSize,
-         childLod));
+      std::vector<glm::vec3> originOffsets =
+      {
+         glm::vec3(-childSizeHalf, 0, childSizeHalf),
+         glm::vec3(childSizeHalf, 0, childSizeHalf),
+         glm::vec3(-childSizeHalf, 0, -childSizeHalf),
+         glm::vec3(childSizeHalf, 0, -childSizeHalf)
+      };
+
+      for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
+      {
+         m_children[i] = std::make_unique<Node>(
+            this,
+            i,
+            childLevel,
+            m_origin + originOffsets[i],
+            childSize);
+      }
    }
 
-   //void FindAdjacentScale(const Direction& direction)
-   //{
-   //   if()
-   //}
+   const float UPDATE_DISTANCE_TOLERANCE = 1.0;
+   static const int NUMBER_OF_EDGES = 4;
+   static const int NUMBER_OF_CHILDREN = 4;
 
-private:
+   Node* m_parent;
+   int m_index;
+   int m_level;
 
-   const Node* m_parent;
+   bool m_isParent = false;
+   std::unique_ptr<Node> m_children[NUMBER_OF_CHILDREN];
+   int m_edgeScaling[NUMBER_OF_EDGES];
+
    glm::vec3 m_origin;
    float m_size;
-   int m_lod;
-   std::vector<Node> m_nodes;
-
-   float m_scaleTop;
-   float m_scaleBottom;
-   float m_scaleLeft;
-   float m_scaleRight;
+   const int MAX_LEVELS = 6;
 
 };

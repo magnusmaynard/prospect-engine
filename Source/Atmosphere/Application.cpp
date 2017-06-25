@@ -41,6 +41,9 @@ void Application::Startup()
    m_terrain = std::make_unique<Terrain>();
    //m_atmosphere = std::make_unique<Atmosphere>();
    //m_cubeMap = std::make_unique<CubeMap>();
+
+   //test TODO
+   //m_terrain->Draw(m_view, m_projection, m_eyePosition);
 }
 
 void Application::Shutdown()
