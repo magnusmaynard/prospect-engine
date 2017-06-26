@@ -26,11 +26,11 @@ Terrain::Terrain()
 
    m_sizeLocation = m_shader.GetUniformLocation("size");
 
-   //TODO: This needs a better solution for this.
+   //TODO: This needs a better solution, uniform blocks?
    GLint nodeOriginLocation = m_shader.GetUniformLocation("nodeOrigin");
    GLint nodeSizeLocation = m_shader.GetUniformLocation("nodeSize");
    GLint nodeLevelLocation = m_shader.GetUniformLocation("nodeLevel");
-   GLint nodeLevelDifferencesLocation = m_shader.GetUniformLocation("nodeLevelDifferences");
+   GLint nodeLevelDifferencesLocation = m_shader.GetUniformLocation("nodeEdgeScaling");
 
    m_quadTree = std::make_unique<QuadTree>(
       glm::vec3(0, 0, 0),
@@ -71,16 +71,7 @@ void Terrain::Draw(const glm::mat4& view, const glm::mat4& projection, const glm
 
    //Draw.
    m_quadTree->Update(cameraPosition);
-
-   //int iterations = 1000;
-  // auto start = std::chrono::system_clock::now();
-  // for (int i = 0; i < iterations; i++)
-   //{
-      m_quadTree->Draw(cameraPosition);
-   //}
-  // auto end = std::chrono::system_clock::now();
-  // std::chrono::duration<double> average = (end - start) / static_cast<double>(iterations);
-   //std::cout << average.count() << std::endl;
+   m_quadTree->Draw();
 }
 
 void Terrain::Transform(const glm::mat4& transform)
@@ -90,22 +81,24 @@ void Terrain::Transform(const glm::mat4& transform)
 
 void Terrain::GenerateHeightTexture()
 {
-   module::Perlin myModule;
-   myModule.SetOctaveCount(6);
-   myModule.SetFrequency(4.0);
+   //TODO: Refactor this.
+   module::Perlin perlin;
+   perlin.SetOctaveCount(6);
+   perlin.SetFrequency(4.0);
 
+   int textureSize = static_cast<int>(m_size);
    int currentIndex = 0;
    std::vector<glm::vec4> data;
-   data.resize(m_size * m_size);
+   data.resize(static_cast<int>(textureSize * textureSize));
 
-   for (int y = 0; y < m_size; y++)
+   for (int y = 0; y < textureSize; y++)
    {
-      for (int x = 0; x < m_size; x++)
+      for (int x = 0; x < textureSize; x++)
       {
-         float value = static_cast<float>(myModule.GetValue(
-            x / static_cast<float>(m_size),
-            y / static_cast<float>(m_size),
-            0)) * 8.0;
+         float value = static_cast<float>(perlin.GetValue(
+            x / static_cast<float>(textureSize),
+            y / static_cast<float>(textureSize),
+            0.0)) * 8.0f;
 
          data[currentIndex] = glm::vec4(value, value, value, value);
          currentIndex++;
@@ -114,13 +107,13 @@ void Terrain::GenerateHeightTexture()
 
    glCreateTextures(GL_TEXTURE_2D, 1, &m_textures[TEXTURE_HEIGHT]);
 
-   glTextureStorage2D(m_textures[TEXTURE_HEIGHT], 1, GL_RGB32F, m_size, m_size); //TODO: Should this be GL_RGBA32F????
+   glTextureStorage2D(m_textures[TEXTURE_HEIGHT], 1, GL_RGB32F, textureSize, textureSize); //TODO: Should this be GL_RGBA32F????
 
    glTextureSubImage2D(
       m_textures[TEXTURE_HEIGHT],
       0,
       0, 0,
-      m_size, m_size,
+      textureSize, textureSize,
       GL_RGBA,
       GL_FLOAT,
       &data[0]);

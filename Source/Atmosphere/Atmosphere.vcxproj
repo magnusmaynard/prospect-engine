@@ -164,6 +164,8 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /
     <ClCompile Include="Atmosphere.cpp" />
     <ClCompile Include="BaseShader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Window.cpp" />

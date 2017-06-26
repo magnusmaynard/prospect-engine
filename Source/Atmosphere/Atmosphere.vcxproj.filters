@@ -12,6 +12,8 @@
     </ClCompile>
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Atmosphere.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="QuadTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h" />

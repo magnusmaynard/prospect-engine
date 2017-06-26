@@ -1,9 +1,9 @@
 #include <GL/glew.h>
 #include <vector>
-#include <stack>
 #include <glm/vec3.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <set>
+#include <memory>
+#include <array>
 
 enum class Direction
 {
@@ -31,73 +31,51 @@ public:
    {
    }
 
-   void Update(const glm::vec3& camera, std::vector<Node*>& endNodes)
-   {
-      float distance = glm::length(m_origin - camera);
+   //TODO:Make update function non recursive.
+   void Update(const glm::vec3& camera, std::vector<Node*>& endNodes);
 
-      //if (abs(distance - lastUpdateDistance) > UPDATE_DISTANCE_TOLERANCE)
-      //{
-      if (m_level < MAX_LEVELS &&
-         distance < m_size * 2.0)
-      {
-         Divide();
+   void UpdateEdgeScaling();
 
-         for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
-         {
-            m_children[i]->Update(camera, endNodes);
-         }
-      }
-      else
-      {
-         //Node is out of range.
-         endNodes.push_back(this);
-         m_isParent = false;
-      }
-      //}
-   }
+private:
+   void Divide();
 
+   //TODO: Remove current index from update, just use lod.
+   Node* FindNeighbour(const Direction& direction);
 
-   void Divide()
-   {
-      m_isParent = true;
-
-      float childSize = m_size * 0.5;
-      float childSizeHalf = childSize * 0.5;
-      float childLevel = m_level + 1;
-
-      std::vector<glm::vec3> originOffsets =
-      {
-         glm::vec3(-childSizeHalf, 0, childSizeHalf),
-         glm::vec3(childSizeHalf, 0, childSizeHalf),
-         glm::vec3(-childSizeHalf, 0, -childSizeHalf),
-         glm::vec3(childSizeHalf, 0, -childSizeHalf)
-      };
-
-      for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
-      {
-         m_children[i] = std::make_unique<Node>(
-            this,
-            i,
-            childLevel,
-            m_origin + originOffsets[i],
-            childSize);
-      }
-   }
-
-   const float UPDATE_DISTANCE_TOLERANCE = 1.0;
    static const int NUMBER_OF_EDGES = 4;
    static const int NUMBER_OF_CHILDREN = 4;
+   static const int MAX_LEVEL = 8;
+   static const int NUMBER_OF_LEVELS = MAX_LEVEL + 1;
 
    Node* m_parent;
    int m_index;
    int m_level;
+   glm::vec3 m_origin;
+   float m_size;
 
    bool m_isParent = false;
    std::unique_ptr<Node> m_children[NUMBER_OF_CHILDREN];
-   int m_edgeScaling[NUMBER_OF_EDGES];
+   std::array<int, NUMBER_OF_EDGES> m_edgeScaling;
+   bool m_edgeScalingRequiresUpdating = true;
 
-   glm::vec3 m_origin;
-   float m_size;
-   const int MAX_LEVELS = 6;
+public:
+   int Level() const
+   {
+      return m_level;
+   }
 
+   glm::vec3 Origin() const
+   {
+      return m_origin;
+   }
+
+   float Size() const
+   {
+      return m_size;
+   }
+
+   const std::array<int, NUMBER_OF_EDGES>& Edges() const
+   {
+      return m_edgeScaling;
+   }
 };

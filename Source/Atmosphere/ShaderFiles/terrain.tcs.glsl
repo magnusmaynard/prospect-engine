@@ -2,8 +2,8 @@
 
 layout (vertices = 4) out;
 
-uniform float nodeLevel;
-uniform ivec4 nodeLevelDifferences;
+uniform int nodeLevel;
+uniform ivec4 nodeEdgeScaling;
 
 in VS_OUT
 {
@@ -24,10 +24,10 @@ void main()
 
 
       float tessLevel = 4;
-      gl_TessLevelOuter[0] = tessLevel * nodeLevelDifferences[0];
-      gl_TessLevelOuter[1] = tessLevel * nodeLevelDifferences[3];
-      gl_TessLevelOuter[2] = tessLevel * nodeLevelDifferences[1];
-      gl_TessLevelOuter[3] = tessLevel * nodeLevelDifferences[2];;
+      gl_TessLevelOuter[0] = tessLevel * nodeEdgeScaling[0];
+      gl_TessLevelOuter[1] = tessLevel * nodeEdgeScaling[3];
+      gl_TessLevelOuter[2] = tessLevel * nodeEdgeScaling[1];
+      gl_TessLevelOuter[3] = tessLevel * nodeEdgeScaling[2];;
       gl_TessLevelInner[0] = tessLevel;
       gl_TessLevelInner[1] = tessLevel;
    }
