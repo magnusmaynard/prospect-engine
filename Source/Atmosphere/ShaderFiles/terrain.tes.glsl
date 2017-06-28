@@ -12,6 +12,7 @@ in TCS_OUT
 out TES_OUT
 {
    vec2 textureCoord;
+   vec3 normal;
 } tes_out;
 
 void main()
@@ -27,7 +28,17 @@ void main()
 
    vec4 p = mix(p2, p1, gl_TessCoord.y);
 
-   p.y += texture(textureHeight, tc).r; //TODO: uncomment this.
+   p.y += texture(textureHeight, tes_out.textureCoord).r;
+
+   ////Compute normals
+   //float xNeg = textureOffset(textureHeight, tes_out.textureCoord, ivec2(-1, 0)).x;
+   //float xPos = textureOffset(textureHeight, tes_out.textureCoord, ivec2( 1, 0)).x;
+   //float yNeg = textureOffset(textureHeight, tes_out.textureCoord, ivec2( 0,-1)).x;
+   //float yPos = textureOffset(textureHeight, tes_out.textureCoord, ivec2( 0, 1)).x;
+   //vec3 va = normalize(vec3(2.0, 0, xPos - xNeg));
+   //vec3 vb = normalize(vec3(0, 2.0, yPos - yNeg));
+
+   //tes_out.normal = vec3(cross(va, vb));
 
    gl_Position = p;
 }

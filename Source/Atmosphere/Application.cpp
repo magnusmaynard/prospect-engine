@@ -29,7 +29,7 @@ void Application::Startup()
    //glCullFace(GL_BACK);
    //glEnable(GL_CULL_FACE);
 
-   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
    //View.
    UpdateViewMatrix();

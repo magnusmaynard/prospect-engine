@@ -4,15 +4,12 @@
 #include "TessControlShader.h"
 #include "TessEvaluationShader.h"
 
-#include <chrono>
-#include <iostream>
-
 using namespace noise;
 
 Terrain::Terrain()
    :
    m_origin(0, 0, 0),
-   m_size(400.0)
+   m_size(800.0)
 {
    m_shader.Add(VertexShader("terrain"));
    m_shader.Add(TessControlShader("terrain"));
@@ -83,8 +80,8 @@ void Terrain::GenerateHeightTexture()
 {
    //TODO: Refactor this.
    module::Perlin perlin;
-   perlin.SetOctaveCount(6);
-   perlin.SetFrequency(4.0);
+   perlin.SetOctaveCount(10);
+   perlin.SetFrequency(3.0);
 
    int textureSize = static_cast<int>(m_size);
    int currentIndex = 0;
@@ -95,12 +92,14 @@ void Terrain::GenerateHeightTexture()
    {
       for (int x = 0; x < textureSize; x++)
       {
-         float value = static_cast<float>(perlin.GetValue(
+         float elevation = static_cast<float>(perlin.GetValue(
             x / static_cast<float>(textureSize),
             y / static_cast<float>(textureSize),
             0.0)) * 8.0f;
 
-         data[currentIndex] = glm::vec4(value, value, value, value);
+         //TODO: Insert normal map.
+
+         data[currentIndex] = glm::vec4(elevation, elevation, elevation, elevation);
          currentIndex++;
       }
    }
