@@ -1,11 +1,13 @@
 #pragma once
 #include "Node.h"
+#include "QuadTree.h"
 
 Node::Node(
    Node* parent,
    const int index,
    const int level,
    const glm::vec3& origin,
+   const glm::vec3& normal,
    const glm::vec3& left,
    const glm::vec3& top,
    const float size)
@@ -14,24 +16,41 @@ Node::Node(
    m_index(index),
    m_level(level),
    m_origin(origin),
+   m_normal(normal),
    m_left(left),
    m_top(top),
    m_size(size)
 {
 }
 
-void Node::Update(const glm::vec3& camera, std::vector<Node*>& endNodes)
+void Node::Update(
+   const glm::vec3& cameraPosition,
+   const glm::vec3& cameraDirection,
+   std::vector<Node*>& endNodes)
 {
-   float distance = glm::length(m_origin - camera);
+   float radius = 100; //TODO: Do not hardcode these.
+   glm::vec3 normal = glm::normalize(m_origin - glm::vec3(0, 0, 0));
+   glm::vec3 sphericalOrigin = normal * radius;
+
+   float distance = glm::length(m_origin - cameraPosition);
+
+   float frontFaceTolerance = 0.5; //Magic number.
+   bool frontFacing = glm::dot(cameraDirection, normal) < frontFaceTolerance;
+
+   if(frontFacing == false)
+   {
+      return;
+   }
 
    if (m_level < MAX_LEVEL &&
-      distance < m_size * 2.0)
+      distance < m_size * 2.0 &&
+      frontFacing)
    {
       Divide();
 
       for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
       {
-         m_children[i]->Update(camera, endNodes);
+         m_children[i]->Update(cameraPosition, cameraDirection, endNodes);
       }
    }
    else
@@ -51,11 +70,6 @@ void Node::Divide()
    const float childSizeHalf = childSize * 0.5f;
    const int childLevel = m_level + 1;
 
-
-   //glm::vec3(childSizeHalf, 0, childSizeHalf),
-   //   glm::vec3(-childSizeHalf, 0, -childSizeHalf),
-   //   glm::vec3(childSizeHalf, 0, -childSizeHalf)
-
    glm::vec3 originOffsets[NUMBER_OF_CHILDREN] =
    {
       m_left * -childSizeHalf + m_top * childSizeHalf,
@@ -71,6 +85,7 @@ void Node::Divide()
          i,
          childLevel,
          m_origin + originOffsets[i],
+         m_normal,
          m_left,
          m_top,
          childSize);

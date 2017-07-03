@@ -12,7 +12,11 @@ class Terrain
 public:
    Terrain();
    ~Terrain();
-   void Draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& cameraPosition);
+   void Draw(
+      const glm::mat4& view,
+      const glm::mat4& projection,
+      const glm::vec3& cameraPosition,
+      const glm::vec3& camerDirection);
    void Transform(const glm::mat4& transform);
 
 private:
@@ -25,6 +29,8 @@ private:
 
    GLint m_sizeLocation = 0;
    GLint m_heightScaleLocation = 0;
+   GLint m_planetOriginLocation = 0;
+   GLint m_planetRadiusLocation = 0;
 
    GLuint m_VAO;
 
@@ -42,8 +48,8 @@ private:
 
    glm::mat4 m_transform;
 
-   const glm::vec3 m_origin;
-   const float m_size;
+   const glm::vec3 m_planetOrigin;
+   const float m_planetRadius;
    const float m_heightScale = 1;//TODO:
 
    const int NUMBER_OF_QUADTREES = 6;

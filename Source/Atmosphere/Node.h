@@ -5,6 +5,8 @@
 #include <memory>
 #include <array>
 
+class QuadTree;
+
 enum class Direction
 {
    Left,
@@ -21,12 +23,13 @@ public:
       const int index,
       const int level,
       const glm::vec3& origin,
+      const glm::vec3& normal,
       const glm::vec3& left,
       const glm::vec3& top,
       const float size);
 
    //TODO:Make update function non recursive.
-   void Update(const glm::vec3& camera, std::vector<Node*>& endNodes);
+   void Update(const glm::vec3& cameraPosition, const glm::vec3& camerDirection, std::vector<Node*>& endNodes);
 
    void UpdateEdgeScaling();
 
@@ -44,7 +47,8 @@ private:
    Node* m_parent;
    int m_index;
    int m_level;
-   glm::vec3 m_origin;
+   glm::vec3 m_origin; //TODO: These are the same as QuadTree, use those instead of storing them locally.
+   glm::vec3 m_normal;
    glm::vec3 m_left;
    glm::vec3 m_top;
    float m_size;

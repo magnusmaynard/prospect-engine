@@ -4,6 +4,10 @@ layout (quads, equal_spacing) in;
 
 layout (binding = 0) uniform sampler2D textureHeight;
 
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
 uniform float heightScale;
 uniform vec3 nodeNormal;
 
@@ -33,15 +37,7 @@ void main()
 
 //   p += vec4(nodeNormal, 0.0) * texture(textureHeight, tes_out.textureCoord).r * heightScale; //TODO: uncomment.
 
-   ////Compute normals
-   //float xNeg = textureOffset(textureHeight, tes_out.textureCoord, ivec2(-1, 0)).x;
-   //float xPos = textureOffset(textureHeight, tes_out.textureCoord, ivec2( 1, 0)).x;
-   //float yNeg = textureOffset(textureHeight, tes_out.textureCoord, ivec2( 0,-1)).x;
-   //float yPos = textureOffset(textureHeight, tes_out.textureCoord, ivec2( 0, 1)).x;
-   //vec3 va = normalize(vec3(2.0, 0, xPos - xNeg));
-   //vec3 vb = normalize(vec3(0, 2.0, yPos - yNeg));
+   //gl_Position = p;
 
-   //tes_out.normal = vec3(cross(va, vb));
-
-   gl_Position = p;
+   gl_Position = projection * view * model * vec4(normalize(p.xyz - vec3(0,0,0)) * 100.0, 1.0);
 }

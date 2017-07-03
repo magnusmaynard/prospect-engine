@@ -1,25 +1,29 @@
 #include "QuadTree.h"
+#include <GL/glew.h>
 
 QuadTree::QuadTree(
    const glm::vec3& origin,
    const glm::vec3& normal,
    const glm::vec3& left,
    const glm::vec3& top,
-   const float size,
+   const float planetRadius,
+   const glm::vec3& planetOrigin,
    const QuadTreeUniformLocations& locations)
    :
-   m_rootNode(nullptr, 0, 0, origin, left, top, size),
+   m_rootNode(nullptr, 0, 0, origin, normal, left, top, planetRadius * 2.f),
    m_normal(normal),
    m_left(left),
    m_top(top),
+   m_planetRadius(planetRadius),
+   m_planetOrigin(planetOrigin),
    m_locations(locations)
 {
 }
 
-void QuadTree::Update(const glm::vec3& camera)
+void QuadTree::Update(const glm::vec3& cameraPosition, const glm::vec3& cameraDirection)
 {
    m_endNodes.clear();
-   m_rootNode.Update(camera, m_endNodes);
+   m_rootNode.Update(cameraPosition, cameraDirection, m_endNodes);
 }
 
 void QuadTree::Draw()

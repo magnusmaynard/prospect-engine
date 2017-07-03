@@ -43,5 +43,5 @@ void main()
 
    vs_out.textureCoord = tc / size + vec2(0.5);
 
-   gl_Position = projection * view * model * vec4(vertex, 1.0);
+   gl_Position = vec4(vertex, 1.0);
 }

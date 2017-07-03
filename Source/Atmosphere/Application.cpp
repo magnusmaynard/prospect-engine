@@ -57,7 +57,7 @@ void Application::Render(const double time)
    UpdateViewMatrix();
 
    ////Earth
-   m_terrain->Draw(m_view, m_projection, m_eyePosition);
+   m_terrain->Draw(m_view, m_projection, m_eyePosition, m_eyeDirection);
 
    //m_cubeMap->Draw(m_view, m_projection);
 
