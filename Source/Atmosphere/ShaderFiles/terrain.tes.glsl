@@ -4,6 +4,9 @@ layout (quads, equal_spacing) in;
 
 layout (binding = 0) uniform sampler2D textureHeight;
 
+uniform float heightScale;
+uniform vec3 nodeNormal;
+
 in TCS_OUT
 {
    vec2 textureCoord;
@@ -28,7 +31,7 @@ void main()
 
    vec4 p = mix(p2, p1, gl_TessCoord.y);
 
-   p.y += texture(textureHeight, tes_out.textureCoord).r;
+//   p += vec4(nodeNormal, 0.0) * texture(textureHeight, tes_out.textureCoord).r * heightScale; //TODO: uncomment.
 
    ////Compute normals
    //float xNeg = textureOffset(textureHeight, tes_out.textureCoord, ivec2(-1, 0)).x;

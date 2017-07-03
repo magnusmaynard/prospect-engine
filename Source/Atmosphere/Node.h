@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#pragma once
 #include <vector>
 #include <glm/vec3.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -21,15 +21,9 @@ public:
       const int index,
       const int level,
       const glm::vec3& origin,
-      const float size)
-      :
-      m_parent(parent),
-      m_index(index),
-      m_level(level),
-      m_origin(origin),
-      m_size(size)
-   {
-   }
+      const glm::vec3& left,
+      const glm::vec3& top,
+      const float size);
 
    //TODO:Make update function non recursive.
    void Update(const glm::vec3& camera, std::vector<Node*>& endNodes);
@@ -51,6 +45,8 @@ private:
    int m_index;
    int m_level;
    glm::vec3 m_origin;
+   glm::vec3 m_left;
+   glm::vec3 m_top;
    float m_size;
 
    bool m_isParent = false;

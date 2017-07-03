@@ -68,48 +68,33 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)..\Binaries\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)..\Binaries\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)..\Binaries\$(Configuration)\$(Platform)</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)..\Binaries\$(Configuration)\$(Platform)</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\libnoise-1.0.0\include;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glew-2.0.0\include;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glm;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glfw-3.2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>glew32sd.lib;glfw3.lib;opengl32.lib;libnoise.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
-    <PostBuildEvent>
-      <Command>
-      </Command>
-    </PostBuildEvent>
-    <PreBuildEvent>
-      <Command>xcopy $(SolutionDir)..\Dependancies\glfw-3.2.1\build\src\Debug $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Debug\Win32 $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependancies\libnoise-1.0.0\bin $(OutputPath) /y</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glew-2.0.0\include;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glm;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glfw-3.2.1\include;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\libnoise-1.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>glew32sd.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
-    <PostBuildEvent>
-      <Command>
-      </Command>
-    </PostBuildEvent>
-    <PreBuildEvent>
-      <Command>xcopy $(SolutionDir)..\Dependancies\glfw-3.2.1\build\src\Debug $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Debug\Win32 $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependancies\libnoise-1.0.0\bin $(OutputPath) /y</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -118,22 +103,15 @@ xcopy $(SolutionDir)..\Dependancies\libnoise-1.0.0\bin $(OutputPath) /y</Command
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glew-2.0.0\include;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glm;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glfw-3.2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
       </Command>
     </PostBuildEvent>
-    <PreBuildEvent>
-      <Command>xcopy $(SolutionDir)..\Dependancies\glfw-3.2.1\build\src\Release $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /y</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -142,22 +120,11 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glew-2.0.0\include;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glm;D:\Users\Magnus\BitBucket\Atmosphere\Dependancies\glfw-3.2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>
-      </Command>
-    </PostBuildEvent>
-    <PreBuildEvent>
-      <Command>xcopy $(SolutionDir)..\Dependancies\glfw-3.2.1\build\src\Release $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /y</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -179,6 +146,7 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /
     <ClInclude Include="IApplication.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="QuadTree.h" />
+    <ClInclude Include="QuadTreeUniformLocations.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TessEvaluationShader.h" />
@@ -197,6 +165,7 @@ xcopy $(SolutionDir)..\Dependancies\glew-2.0.0\lib\Release\Win32 $(OutputPath) /
     <None Include="ShaderFiles\atmosphere.vs.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(SolutionDir)Atmosphere.props" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>

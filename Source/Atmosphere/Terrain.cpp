@@ -4,12 +4,16 @@
 #include "TessControlShader.h"
 #include "TessEvaluationShader.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 using namespace noise;
 
+typedef unsigned char byte;
 Terrain::Terrain()
    :
    m_origin(0, 0, 0),
-   m_size(800.0)
+   m_size(100.0)
 {
    m_shader.Add(VertexShader("terrain"));
    m_shader.Add(TessControlShader("terrain"));
@@ -22,25 +26,59 @@ Terrain::Terrain()
    m_projectionLocation = m_shader.GetUniformLocation("projection");
 
    m_sizeLocation = m_shader.GetUniformLocation("size");
+   m_heightScaleLocation = m_shader.GetUniformLocation("heightScale");
 
    //TODO: This needs a better solution, uniform blocks?
-   GLint nodeOriginLocation = m_shader.GetUniformLocation("nodeOrigin");
-   GLint nodeSizeLocation = m_shader.GetUniformLocation("nodeSize");
-   GLint nodeLevelLocation = m_shader.GetUniformLocation("nodeLevel");
-   GLint nodeLevelDifferencesLocation = m_shader.GetUniformLocation("nodeEdgeScaling");
-
-   m_quadTree = std::make_unique<QuadTree>(
-      glm::vec3(0, 0, 0),
-      m_size,
-      nodeOriginLocation,
-      nodeSizeLocation,
-      nodeLevelLocation,
-      nodeLevelDifferencesLocation);
+   QuadTreeUniformLocations quadtreeLocations = QuadTreeUniformLocations(
+      m_shader.GetUniformLocation("nodeOrigin"),
+      m_shader.GetUniformLocation("nodeNormal"),
+      m_shader.GetUniformLocation("nodeLeft"),
+      m_shader.GetUniformLocation("nodeTop"),
+      m_shader.GetUniformLocation("nodeSize"),
+      m_shader.GetUniformLocation("nodeLevel"),
+      m_shader.GetUniformLocation("nodeEdgeScaling"));
 
    glCreateVertexArrays(1, &m_VAO);
    glBindVertexArray(m_VAO);
 
-   GenerateHeightTexture();
+
+   int halfSize = m_size * 0.5;
+   std::vector<glm::vec3> left =
+   {
+      glm::vec3(0, 0, -1),
+      glm::vec3(0, 0, 1),
+      glm::vec3(-1, 0, 0),
+      glm::vec3(-1, 0, 0),
+      glm::vec3(-1, 0, 0),
+      glm::vec3(1, 0, 0),
+   };
+
+   std::vector<glm::vec3> top =
+   {
+      glm::vec3(0, 1, 0),
+      glm::vec3(0, 1, 0),
+      glm::vec3(0, 0, 1),
+      glm::vec3(0, 0, -1),
+      glm::vec3(0, 1, 0),
+      glm::vec3(0, 1, 0), //TODO: incorrect z plane??
+   };
+
+
+   for(int i = 0; i < NUMBER_OF_QUADTREES; i++)
+   {
+      glm::vec3 normal = glm::cross(left[i], top[i]);
+      glm::vec3 origin = normal * m_size * 0.5f;
+
+      m_quadTrees.push_back(QuadTree(
+         origin,
+         normal,
+         left[i],
+         top[i],
+         m_size,
+         quadtreeLocations));
+
+      GenerateHeightMap(m_textures[i]);
+   }
 }
 
 Terrain::~Terrain()
@@ -59,16 +97,17 @@ void Terrain::Draw(const glm::mat4& view, const glm::mat4& projection, const glm
    glUniformMatrix4fv(m_viewLocation, 1, GL_FALSE, &view[0][0]);
    glUniformMatrix4fv(m_projectionLocation, 1, GL_FALSE, &projection[0][0]);
    glUniform1f(m_sizeLocation, m_size);
+   glUniform1f(m_heightScaleLocation, m_heightScale);
 
-   //Textures.
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); //TODO: Can this be moved out of the render?
+   for (int i = 0; i < NUMBER_OF_QUADTREES; i++)
+   {
+      //Textures.
+      glBindTextureUnit(i, m_textures[i]);
 
-   glBindTextureUnit(0, m_textures[TEXTURE_HEIGHT]);
-
-   //Draw.
-   m_quadTree->Update(cameraPosition);
-   m_quadTree->Draw();
+      //Draw.
+      m_quadTrees[i].Update(cameraPosition);
+      m_quadTrees[i].Draw();
+   }
 }
 
 void Terrain::Transform(const glm::mat4& transform)
@@ -76,46 +115,29 @@ void Terrain::Transform(const glm::mat4& transform)
    m_transform *= transform;
 }
 
-void Terrain::GenerateHeightTexture()
+
+void Terrain::GenerateHeightMap(GLuint texture)
 {
-   //TODO: Refactor this.
-   module::Perlin perlin;
-   perlin.SetOctaveCount(10);
-   perlin.SetFrequency(3.0);
+   int width = 0;
+   int height = 0;
+   int channels = 0;
+   float* data = stbi_loadf("terrain1.bmp", &width, &height, &channels, 1);
 
-   int textureSize = static_cast<int>(m_size);
-   int currentIndex = 0;
-   std::vector<glm::vec4> data;
-   data.resize(static_cast<int>(textureSize * textureSize));
-
-   for (int y = 0; y < textureSize; y++)
-   {
-      for (int x = 0; x < textureSize; x++)
-      {
-         float elevation = static_cast<float>(perlin.GetValue(
-            x / static_cast<float>(textureSize),
-            y / static_cast<float>(textureSize),
-            0.0)) * 8.0f;
-
-         //TODO: Insert normal map.
-
-         data[currentIndex] = glm::vec4(elevation, elevation, elevation, elevation);
-         currentIndex++;
-      }
-   }
-
-   glCreateTextures(GL_TEXTURE_2D, 1, &m_textures[TEXTURE_HEIGHT]);
-
-   glTextureStorage2D(m_textures[TEXTURE_HEIGHT], 1, GL_RGB32F, textureSize, textureSize); //TODO: Should this be GL_RGBA32F????
-
+   glCreateTextures(GL_TEXTURE_2D, 1, &m_textures[TEXTURE_HEIGHT_POSX]);
+   glTextureStorage2D(m_textures[TEXTURE_HEIGHT_POSX], 4, GL_R32F, width, height); //4
    glTextureSubImage2D(
-      m_textures[TEXTURE_HEIGHT],
+      m_textures[TEXTURE_HEIGHT_POSX],
       0,
       0, 0,
-      textureSize, textureSize,
-      GL_RGBA,
+      width, height,
+      GL_RED,
       GL_FLOAT,
-      &data[0]);
+      data);
 
-   glBindTexture(GL_TEXTURE_2D, m_textures[TEXTURE_HEIGHT]);
+   glTextureParameteri(m_textures[TEXTURE_HEIGHT_POSX], GL_TEXTURE_BASE_LEVEL, 0);
+   glTextureParameteri(m_textures[TEXTURE_HEIGHT_POSX], GL_TEXTURE_MAX_LEVEL, 4);
+   glTextureParameteri(m_textures[TEXTURE_HEIGHT_POSX], GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+   glTextureParameteri(m_textures[TEXTURE_HEIGHT_POSX], GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+   glGenerateTextureMipmap(m_textures[TEXTURE_HEIGHT_POSX]);
 }

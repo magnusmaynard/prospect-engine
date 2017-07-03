@@ -2,6 +2,8 @@
 
 layout (binding = 0) uniform sampler2D textureHeight;
 
+uniform float heightScale;
+
 out vec4 color;
 
 in TES_OUT
@@ -12,10 +14,10 @@ in TES_OUT
 
 void main()
 {
-   float xNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2(-1, 0)).x;
-   float xPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 1, 0)).x;
-   float yNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0,-1)).x;
-   float yPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0, 1)).x;
+   float xNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2(-1, 0)).x * heightScale;
+   float xPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 1, 0)).x * heightScale;
+   float yNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0,-1)).x * heightScale;
+   float yPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0, 1)).x * heightScale;
    vec3 va = normalize(vec3(2.0, 0, xPos - xNeg));
    vec3 vb = normalize(vec3(0, 2.0, yPos - yNeg));
 
@@ -25,7 +27,7 @@ void main()
 
    float lighting = max(dot(normal, lightDirection), 0.0);
 
-   vec3 diffuse = vec3(0.5, 0.5, 0.5) * lighting;
+   vec3 diffuse = vec3(0.5, 0.5, 0.5);// * lighting; //TODO: uncomment.
 
    color = vec4(diffuse, 1.0);
 }

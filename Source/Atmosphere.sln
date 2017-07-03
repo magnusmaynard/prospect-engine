@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Atmosphere", "Atmosphere\Atmosphere.vcxproj", "{987C8FD7-4F5C-45BD-9264-F01A48A484DF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageExporter", "ImageExporter\ImageExporter.vcxproj", "{0BB1635D-49C8-4C93-B6F5-CC40C93167D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{987C8FD7-4F5C-45BD-9264-F01A48A484DF}.Release|x64.Build.0 = Release|x64
 		{987C8FD7-4F5C-45BD-9264-F01A48A484DF}.Release|x86.ActiveCfg = Release|Win32
 		{987C8FD7-4F5C-45BD-9264-F01A48A484DF}.Release|x86.Build.0 = Release|Win32
+		{0BB1635D-49C8-4C93-B6F5-CC40C93167D0}.Debug|x64.ActiveCfg = Debug|x64
+		{0BB1635D-49C8-4C93-B6F5-CC40C93167D0}.Debug|x64.Build.0 = Debug|x64
+		{0BB1635D-49C8-4C93-B6F5-CC40C93167D0}.Debug|x86.ActiveCfg = Debug|Win32
+		{0BB1635D-49C8-4C93-B6F5-CC40C93167D0}.Debug|x86.Build.0 = Debug|Win32
+		{0BB1635D-49C8-4C93-B6F5-CC40C93167D0}.Release|x64.ActiveCfg = Release|x64
+		{0BB1635D-49C8-4C93-B6F5-CC40C93167D0}.Release|x64.Build.0 = Release|x64
+		{0BB1635D-49C8-4C93-B6F5-CC40C93167D0}.Release|x86.ActiveCfg = Release|Win32
+		{0BB1635D-49C8-4C93-B6F5-CC40C93167D0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

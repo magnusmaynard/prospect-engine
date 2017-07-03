@@ -1,22 +1,18 @@
 #pragma once
-#include <GL/glew.h>
 #include <vector>
-#include <stack>
 #include "Node.h"
-
-#include <iostream>
-
+#include "QuadTreeUniformLocations.h"
 
 class QuadTree
 {
 public:
    QuadTree(
       const glm::vec3& origin,
+      const glm::vec3& normal,
+      const glm::vec3& left,
+      const glm::vec3& top,
       const float size,
-      const GLint originLocation,
-      const GLint sizeLocation,
-      const GLint levelLocation,
-      const GLint edgeScalingLocation);
+      const QuadTreeUniformLocations& locations);
 
    void Update(const glm::vec3& camera);
    void Draw();
@@ -25,9 +21,10 @@ private:
    Node m_rootNode;
    std::vector<Node*> m_endNodes;
 
-   const GLint m_originLocation;
-   const GLint m_sizeLocation;
-   const GLint m_levelLocation;
-   const GLint m_edgeScalingLocation;
+   const glm::vec3 m_normal;
+   const glm::vec3 m_left;
+   const glm::vec3 m_top;
+
+   const QuadTreeUniformLocations m_locations;
 
 };

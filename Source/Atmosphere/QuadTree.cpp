@@ -2,17 +2,17 @@
 
 QuadTree::QuadTree(
    const glm::vec3& origin,
+   const glm::vec3& normal,
+   const glm::vec3& left,
+   const glm::vec3& top,
    const float size,
-   const GLint originLocation,
-   const GLint sizeLocation,
-   const GLint levelLocation,
-   const GLint edgeScalingLocation)
+   const QuadTreeUniformLocations& locations)
    :
-   m_rootNode(nullptr, 0, 0, origin, size),
-   m_originLocation(originLocation),
-   m_sizeLocation(sizeLocation),
-   m_levelLocation(levelLocation),
-   m_edgeScalingLocation(edgeScalingLocation)
+   m_rootNode(nullptr, 0, 0, origin, left, top, size),
+   m_normal(normal),
+   m_left(left),
+   m_top(top),
+   m_locations(locations)
 {
 }
 
@@ -30,10 +30,13 @@ void QuadTree::Draw()
       node->UpdateEdgeScaling();
 
       //Draw this node.
-      glUniform3fv(m_originLocation, 1, &node->Origin()[0]);
-      glUniform1f(m_sizeLocation, node->Size());
-      glUniform1i(m_levelLocation, node->Level());
-      glUniform4iv(m_edgeScalingLocation, 1, &node->Edges()[0]);
+      glUniform3fv(m_locations.Origin(), 1, &node->Origin()[0]);
+      glUniform1f(m_locations.Size(), node->Size());
+      glUniform1i(m_locations.Level(), node->Level());
+      glUniform4iv(m_locations.EdgeScaling(), 1, &node->Edges()[0]);
+      glUniform3fv(m_locations.Normal(), 1, &m_normal[0]);
+      glUniform3fv(m_locations.Left(), 1, &m_left[0]);
+      glUniform3fv(m_locations.Top(), 1, &m_top[0]);
 
       glPatchParameteri(GL_PATCH_VERTICES, 4);
       glDrawArrays(GL_PATCHES, 0, 4);

@@ -1,6 +1,25 @@
 #pragma once
 #include "Node.h"
 
+Node::Node(
+   Node* parent,
+   const int index,
+   const int level,
+   const glm::vec3& origin,
+   const glm::vec3& left,
+   const glm::vec3& top,
+   const float size)
+   :
+   m_parent(parent),
+   m_index(index),
+   m_level(level),
+   m_origin(origin),
+   m_left(left),
+   m_top(top),
+   m_size(size)
+{
+}
+
 void Node::Update(const glm::vec3& camera, std::vector<Node*>& endNodes)
 {
    float distance = glm::length(m_origin - camera);
@@ -32,12 +51,17 @@ void Node::Divide()
    const float childSizeHalf = childSize * 0.5f;
    const int childLevel = m_level + 1;
 
+
+   //glm::vec3(childSizeHalf, 0, childSizeHalf),
+   //   glm::vec3(-childSizeHalf, 0, -childSizeHalf),
+   //   glm::vec3(childSizeHalf, 0, -childSizeHalf)
+
    glm::vec3 originOffsets[NUMBER_OF_CHILDREN] =
    {
-      glm::vec3(-childSizeHalf, 0, childSizeHalf),
-      glm::vec3(childSizeHalf, 0, childSizeHalf),
-      glm::vec3(-childSizeHalf, 0, -childSizeHalf),
-      glm::vec3(childSizeHalf, 0, -childSizeHalf)
+      m_left * -childSizeHalf + m_top * childSizeHalf,
+      m_left * childSizeHalf + m_top * childSizeHalf,
+      m_left * -childSizeHalf + m_top * -childSizeHalf,
+      m_left * childSizeHalf + m_top * -childSizeHalf,
    };
 
    for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
@@ -47,6 +71,8 @@ void Node::Divide()
          i,
          childLevel,
          m_origin + originOffsets[i],
+         m_left,
+         m_top,
          childSize);
    }
 }

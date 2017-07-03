@@ -12,8 +12,12 @@
     </ClCompile>
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Atmosphere.cpp" />
-    <ClCompile Include="Node.cpp" />
-    <ClCompile Include="QuadTree.cpp" />
+    <ClCompile Include="Node.cpp">
+      <Filter>QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTree.cpp">
+      <Filter>QuadTree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h" />
@@ -42,8 +46,15 @@
     <ClInclude Include="GeometryShader.h">
       <Filter>Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="QuadTree.h" />
-    <ClInclude Include="Node.h" />
+    <ClInclude Include="Node.h">
+      <Filter>QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTree.h">
+      <Filter>QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTreeUniformLocations.h">
+      <Filter>QuadTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ShadersFiles">
@@ -57,6 +68,9 @@
     </Filter>
     <Filter Include="ShadersFiles\Terrain">
       <UniqueIdentifier>{e2d98ff1-2253-42b2-a311-c191670eff7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QuadTree">
+      <UniqueIdentifier>{d6d039eb-61f2-4ca1-9b13-3f457ecd75bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

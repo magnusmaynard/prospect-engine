@@ -16,10 +16,7 @@ public:
    void Transform(const glm::mat4& transform);
 
 private:
-   void GeneratePlane();
-   void GenerateHeightTexture();
-
-   void Update(const glm::vec3& cameraPosition);
+   void Terrain::GenerateHeightMap(GLuint texture);
 
    ShaderProgram m_shader;
    GLint m_modelLocation = 0;
@@ -27,12 +24,18 @@ private:
    GLint m_projectionLocation = 0;
 
    GLint m_sizeLocation = 0;
+   GLint m_heightScaleLocation = 0;
 
    GLuint m_VAO;
 
    enum TEXTURES
    {
-      TEXTURE_HEIGHT,
+      TEXTURE_HEIGHT_POSX,
+      TEXTURE_HEIGHT_NEGX,
+      TEXTURE_HEIGHT_POSY,
+      TEXTURE_HEIGHT_NEGY,
+      TEXTURE_HEIGHT_POSZ,
+      TEXTURE_HEIGHT_NEGZ,
       TEXTURE_COUNT
    };
    GLuint m_textures[TEXTURE_COUNT];
@@ -41,6 +44,8 @@ private:
 
    const glm::vec3 m_origin;
    const float m_size;
+   const float m_heightScale = 1;//TODO:
 
-   std::unique_ptr<QuadTree> m_quadTree;
+   const int NUMBER_OF_QUADTREES = 6;
+   std::vector<QuadTree> m_quadTrees;
 };

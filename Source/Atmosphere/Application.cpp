@@ -29,21 +29,17 @@ void Application::Startup()
    //glCullFace(GL_BACK);
    //glEnable(GL_CULL_FACE);
 
-   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
    //View.
    UpdateViewMatrix();
 
    //Projection.
    float aspect = m_window.GetSize().x / m_window.GetSize().y;
-   m_projection = glm::perspective(40.0f, aspect, 0.0001f, 10000.0f); //55
+   m_projection = glm::perspective(glm::radians(45.0f), aspect, 0.0001f, 10000.0f);
 
    m_terrain = std::make_unique<Terrain>();
    //m_atmosphere = std::make_unique<Atmosphere>();
-   //m_cubeMap = std::make_unique<CubeMap>();
-
-   //test TODO
-   //m_terrain->Draw(m_view, m_projection, m_eyePosition);
 }
 
 void Application::Shutdown()
@@ -54,7 +50,7 @@ void Application::Render(const double time)
 {
    //Clear
    //glClearBufferfv(GL_COLOR, 0, &m_backgroundColor[0]);
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
    //m_eyePosition.x -= sin(time) * 0.06;
    //m_eyePosition.z += sin(time * 2.0) * 0.5;
