@@ -15,11 +15,11 @@ public:
    ShaderProgram();
    ~ShaderProgram();
 
-   void Add(const VertexShader& vertexShader);
-   void Add(const TessControlShader& tessControlShader);
-   void Add(const TessEvaluationShader& tessEvaluationShader);
-   void Add(const GeometryShader& geometryShader);
-   void Add(const FragmentShader& fragmentShader);
+   void AddVertexShader(const std::string& fileName);
+   void AddTessControlShader(const std::string& fileName);
+   void AddTessEvaluationShader(const std::string& fileName);
+   void AddGeometryShader(const std::string& fileName);
+   void AddFragmentShader(const std::string& fileName);
 
    bool Compile();
 

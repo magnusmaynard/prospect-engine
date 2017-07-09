@@ -2,10 +2,6 @@
 
 layout (location = 0) in vec3 point;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
-
 uniform float size;
 
 //Node properties
@@ -23,13 +19,6 @@ out VS_OUT
 void main()
 {
    float halfSize = nodeSize * 0.5;
-
-   //const vec3 vertices[] = vec3[](
-   //   nodeOrigin + vec3(-halfSize, 0, halfSize),
-   //   nodeOrigin + vec3( halfSize, 0, halfSize),
-   //   nodeOrigin + vec3(-halfSize, 0, -halfSize),
-   //   nodeOrigin + vec3( halfSize, 0, -halfSize));
-
 
    const vec3 offsets[] = vec3[](
       nodeLeft * -halfSize + nodeTop * halfSize,

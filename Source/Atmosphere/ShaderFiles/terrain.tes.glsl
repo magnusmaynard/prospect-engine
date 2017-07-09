@@ -4,9 +4,8 @@ layout (quads, equal_spacing) in;
 
 layout (binding = 0) uniform sampler2D textureHeight;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+layout(location  = 0) uniform mat4 view;
+layout(location  = 1) uniform mat4 projection;
 
 uniform float heightScale;
 uniform vec3 nodeNormal;
@@ -39,5 +38,5 @@ void main()
 
    //gl_Position = p;
 
-   gl_Position = projection * view * model * vec4(normalize(p.xyz - vec3(0,0,0)) * 100.0, 1.0);
+   gl_Position = projection * view * vec4(normalize(p.xyz - vec3(0,0,0)) * 100.0, 1.0);
 }

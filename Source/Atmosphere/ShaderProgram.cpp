@@ -12,29 +12,29 @@ ShaderProgram::~ShaderProgram()
    glDeleteProgram(m_program);
 }
 
-void ShaderProgram::Add(const VertexShader& vertexShader)
+void ShaderProgram::AddVertexShader(const std::string& fileName)
 {
-   m_vertexShader = std::make_unique<BaseShader>(vertexShader);
+   m_vertexShader = std::make_unique<VertexShader>(fileName);
 }
 
-void ShaderProgram::Add(const TessControlShader& tessControlShader)
+void ShaderProgram::AddTessControlShader(const std::string& fileName)
 {
-   m_tessControlShader = std::make_unique<BaseShader>(tessControlShader);
+   m_tessControlShader = std::make_unique<TessControlShader>(fileName);
 }
 
-void ShaderProgram::Add(const TessEvaluationShader& tessEvaluationShader)
+void ShaderProgram::AddTessEvaluationShader(const std::string& fileName)
 {
-   m_tessEvaluationShader = std::make_unique<BaseShader>(tessEvaluationShader);
+   m_tessEvaluationShader = std::make_unique<TessEvaluationShader>(fileName);
 }
 
-void ShaderProgram::Add(const GeometryShader& geometryShader)
+void ShaderProgram::AddGeometryShader(const std::string& fileName)
 {
-   m_geometryShader = std::make_unique<BaseShader>(geometryShader);
+   m_geometryShader = std::make_unique<GeometryShader>(fileName);
 }
 
-void ShaderProgram::Add(const FragmentShader& fragmentShader)
+void ShaderProgram::AddFragmentShader(const std::string& fileName)
 {
-   m_fragmentShader = std::make_unique<BaseShader>(fragmentShader);
+   m_fragmentShader = std::make_unique<FragmentShader>(fileName);
 }
 
 bool ShaderProgram::CompileAndAttachShader(

@@ -1,5 +1,8 @@
-#include "Application.h"
+#include "TestApplication.h"
+
 int main()
 {
-   Application app;
+   //Application app;
+
+   TestApplication testApp;
 }

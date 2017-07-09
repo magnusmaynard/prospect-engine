@@ -48,6 +48,8 @@ void Application::Shutdown()
 
 void Application::Render(const double time)
 {
+   m_fakeEyePosition = glm::rotateY(m_fakeEyePosition, 0.01f);
+
    //Clear
    //glClearBufferfv(GL_COLOR, 0, &m_backgroundColor[0]);
   // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -57,7 +59,7 @@ void Application::Render(const double time)
    UpdateViewMatrix();
 
    ////Earth
-   m_terrain->Draw(m_view, m_projection, m_eyePosition, m_eyeDirection);
+  // m_terrain->Draw(m_view, m_projection, m_fakeEyePosition, m_fakeEyeDirection);
 
    //m_cubeMap->Draw(m_view, m_projection);
 
@@ -81,41 +83,56 @@ void Application::OnKeyPressed(int key, int action, int mods)
    const float rotationIncrement = 0.06f;
    const float zoomIncrement = 2.8f;
 
-   if (key == 49) //1
+   switch (key)
    {
-      //m_sunDirection = glm::rotateY(m_sunDirection, -rotationIncrement);
-
-      m_eyePosition += m_eyeDirection * zoomIncrement;
+      case GLFW_KEY_W:
+      {
+         m_eyePosition += m_eyeDirection * zoomIncrement;
+         return;
+      }
+      case GLFW_KEY_S:
+      {
+         m_eyePosition -= m_eyeDirection * zoomIncrement;
+         return;
+      }
+      case GLFW_KEY_A:
+      {
+         m_eyePosition.x -= zoomIncrement;
+         return;
+      }
+      case GLFW_KEY_D:
+      {
+         m_eyePosition.x += zoomIncrement;
+         return;
+      }
+      default:
+      {
+         break;
+      }
    }
 
-   if (key == 50) //2
-   {
-      //m_sunDirection = glm::rotateY(m_sunDirection, rotationIncrement);
+   //if (key == 49) //1
+   //{
+   //}
 
-      m_eyePosition -= m_eyeDirection * zoomIncrement;
-   }
+   //if (key == 50) //2
+   //{
+   //   //m_sunDirection = glm::rotateY(m_sunDirection, rotationIncrement);
 
-   if (key == 51) //3
-   {
-      m_eyeDirection = glm::rotateX(m_eyeDirection, -rotationIncrement);
-      //m_terrain->Transform(glm::rotate(glm::mat4(), -rotationIncrement, glm::vec3(1, 0, 0)));
-   }
+   //   m_eyePosition -= m_eyeDirection * zoomIncrement;
+   //}
 
-   if (key == 52) //4
-   {
-      m_eyeDirection = glm::rotateX(m_eyeDirection, rotationIncrement);
-      //m_terrain->Transform(glm::rotate(glm::mat4(), rotationIncrement, glm::vec3(1, 0, 0)));
-   }
-   if (key == 53) //5
-   {
-      m_eyePosition.x += zoomIncrement;
-   }
+   //if (key == 51) //3
+   //{
+   //   m_eyeDirection = glm::rotateX(m_eyeDirection, -rotationIncrement);
+   //   //m_terrain->Transform(glm::rotate(glm::mat4(), -rotationIncrement, glm::vec3(1, 0, 0)));
+   //}
 
-   if (key == 54) //6
-   {
-      m_eyePosition.x -= zoomIncrement;
-   }
-
+   //if (key == 52) //4
+   //{
+   //   m_eyeDirection = glm::rotateX(m_eyeDirection, rotationIncrement);
+   //   //m_terrain->Transform(glm::rotate(glm::mat4(), rotationIncrement, glm::vec3(1, 0, 0)));
+   //}
 }
 
 void Application::UpdateViewMatrix()

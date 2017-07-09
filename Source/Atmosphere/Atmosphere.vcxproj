@@ -135,24 +135,33 @@
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="TestApplication.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Atmosphere.h" />
     <ClInclude Include="BaseShader.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="GeometryShader.h" />
     <ClInclude Include="IApplication.h" />
+    <ClInclude Include="Keys.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="PolygonMode.h" />
+    <ClInclude Include="ProspectEngine.h" />
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="QuadTreeUniformLocations.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TessEvaluationShader.h" />
     <ClInclude Include="TessControlShader.h" />
+    <ClInclude Include="TestApplication.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="Window2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ShaderFiles\cubemap.fs.glsl" />

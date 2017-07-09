@@ -39,12 +39,11 @@ void Node::Update(
 
    if(frontFacing == false)
    {
-      return;
+     // return;
    }
 
    if (m_level < MAX_LEVEL &&
-      distance < m_size * 2.0 &&
-      frontFacing)
+      distance < m_size * 2.0)
    {
       Divide();
 

@@ -3,8 +3,8 @@
 
 Atmosphere::Atmosphere()
 {
-   m_shader.Add(VertexShader("atmosphere"));
-   m_shader.Add(FragmentShader("atmosphere"));
+   m_shader.AddVertexShader("atmosphere");
+   m_shader.AddFragmentShader("atmosphere");
    m_shader.Compile();
 
    m_viewLocation = m_shader.GetUniformLocation("view");

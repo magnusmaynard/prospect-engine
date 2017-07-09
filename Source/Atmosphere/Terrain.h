@@ -12,18 +12,12 @@ class Terrain
 public:
    Terrain();
    ~Terrain();
-   void Draw(
-      const glm::mat4& view,
-      const glm::mat4& projection,
-      const glm::vec3& cameraPosition,
-      const glm::vec3& camerDirection);
-   void Transform(const glm::mat4& transform);
+   void Draw();
 
 private:
    void Terrain::GenerateHeightMap(GLuint texture);
 
    ShaderProgram m_shader;
-   GLint m_modelLocation = 0;
    GLint m_viewLocation = 0;
    GLint m_projectionLocation = 0;
 

@@ -18,6 +18,7 @@ public:
 private:
    static void Window::ErrorCallback(int error, const char* description);
    static void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+   static void Window::MouseMoveCallback(GLFWwindow* window, double xPosition, double yPosition);
 
 public:
    IApplication* m_app;

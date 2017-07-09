@@ -15,13 +15,12 @@ Terrain::Terrain()
    m_planetOrigin(0, 0, 0),
    m_planetRadius(100.0)
 {
-   m_shader.Add(VertexShader("terrain"));
-   m_shader.Add(TessControlShader("terrain"));
-   m_shader.Add(TessEvaluationShader("terrain"));
-   m_shader.Add(FragmentShader("terrain"));
+   m_shader.AddVertexShader("terrain");
+   m_shader.AddTessControlShader("terrain");
+   m_shader.AddTessEvaluationShader("terrain");
+   m_shader.AddFragmentShader("terrain");
    m_shader.Compile();
 
-   m_modelLocation = m_shader.GetUniformLocation("model");
    m_viewLocation = m_shader.GetUniformLocation("view");
    m_projectionLocation = m_shader.GetUniformLocation("projection");
 
@@ -62,7 +61,6 @@ Terrain::Terrain()
       glm::vec3(0, 1, 0),
    };
 
-
    for(int i = 0; i < NUMBER_OF_QUADTREES; i++)
    {
       glm::vec3 normal = glm::cross(left[i], top[i]);
@@ -87,19 +85,16 @@ Terrain::~Terrain()
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-void Terrain::Draw(
-   const glm::mat4& view,
-   const glm::mat4& projection,
-   const glm::vec3& cameraPosition,
-   const glm::vec3& camerDirection)
+void Terrain::Draw()
 {
+   //TODO: get from scene
+   const glm::vec3 cameraPosition(0,0,-10);
+   const glm::vec3 cameraDirection(0,0,1);
+
    //Bind.
    m_shader.Use();
 
    //Uniforms.
-   glUniformMatrix4fv(m_modelLocation, 1, GL_FALSE, &m_transform[0][0]);
-   glUniformMatrix4fv(m_viewLocation, 1, GL_FALSE, &view[0][0]);
-   glUniformMatrix4fv(m_projectionLocation, 1, GL_FALSE, &projection[0][0]);
    glUniform1f(m_heightScaleLocation, m_heightScale);
    glUniform1f(m_planetRadiusLocation, m_planetRadius);
    glUniform3fv(m_planetOriginLocation, 1, &m_planetOrigin[0]);
@@ -110,16 +105,10 @@ void Terrain::Draw(
       glBindTextureUnit(i, m_textures[i]);
 
       //Draw.
-      m_quadTrees[i].Update(cameraPosition, camerDirection);
+      m_quadTrees[i].Update(cameraPosition, cameraDirection);
       m_quadTrees[i].Draw();
    }
 }
-
-void Terrain::Transform(const glm::mat4& transform)
-{
-   m_transform *= transform;
-}
-
 
 void Terrain::GenerateHeightMap(GLuint texture)
 {

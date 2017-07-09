@@ -5,18 +5,25 @@
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="BaseShader.cpp">
-      <Filter>Shaders</Filter>
+      <Filter>Engine\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="ShaderProgram.cpp">
-      <Filter>Shaders</Filter>
+      <Filter>Engine\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp" />
-    <ClCompile Include="Atmosphere.cpp" />
     <ClCompile Include="Node.cpp">
-      <Filter>QuadTree</Filter>
+      <Filter>Engine\QuadTree</Filter>
     </ClCompile>
     <ClCompile Include="QuadTree.cpp">
-      <Filter>QuadTree</Filter>
+      <Filter>Engine\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Atmosphere.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TestApplication.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -24,79 +31,114 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="IApplication.h" />
     <ClInclude Include="VertexShader.h">
-      <Filter>Shaders</Filter>
+      <Filter>Engine\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="BaseShader.h">
-      <Filter>Shaders</Filter>
+      <Filter>Engine\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="FragmentShader.h">
-      <Filter>Shaders</Filter>
+      <Filter>Engine\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="ShaderProgram.h">
-      <Filter>Shaders</Filter>
+      <Filter>Engine\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Terrain.h" />
-    <ClInclude Include="Atmosphere.h" />
     <ClInclude Include="TessEvaluationShader.h">
-      <Filter>Shaders</Filter>
+      <Filter>Engine\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="TessControlShader.h">
-      <Filter>Shaders</Filter>
+      <Filter>Engine\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="GeometryShader.h">
-      <Filter>Shaders</Filter>
+      <Filter>Engine\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
-      <Filter>QuadTree</Filter>
+      <Filter>Engine\QuadTree</Filter>
     </ClInclude>
     <ClInclude Include="QuadTree.h">
-      <Filter>QuadTree</Filter>
+      <Filter>Engine\QuadTree</Filter>
     </ClInclude>
     <ClInclude Include="QuadTreeUniformLocations.h">
-      <Filter>QuadTree</Filter>
+      <Filter>Engine\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="TestApplication.h" />
+    <ClInclude Include="ProspectEngine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Window2.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Atmosphere.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="PolygonMode.h">
+      <Filter>Engine\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Keys.h">
+      <Filter>Engine\Enums</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="ShadersFiles">
+    <Filter Include="Engine">
+      <UniqueIdentifier>{02ee15d9-4bfb-46c8-a157-c7ebc5de582b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ShadersFiles">
       <UniqueIdentifier>{1cc03516-f6d5-44f0-89ff-3659c61b4475}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{b27cbef4-acf3-41cc-af63-c9086837751a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ShadersFiles\Atmosphere">
+    <Filter Include="Engine\ShadersFiles\Atmosphere">
       <UniqueIdentifier>{ddb92876-00b9-4f04-9f05-0c2a4ce5effb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ShadersFiles\Terrain">
+    <Filter Include="Engine\ShadersFiles\Terrain">
       <UniqueIdentifier>{e2d98ff1-2253-42b2-a311-c191670eff7d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="QuadTree">
+    <Filter Include="Engine\QuadTree">
       <UniqueIdentifier>{d6d039eb-61f2-4ca1-9b13-3f457ecd75bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shaders">
+      <UniqueIdentifier>{b27cbef4-acf3-41cc-af63-c9086837751a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene">
+      <UniqueIdentifier>{fe486d3d-8eb4-49ab-a9ce-a59feb857489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Enums">
+      <UniqueIdentifier>{1990d1e6-4d61-450e-a877-c9e3612711f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ShaderFiles\terrain.fs.glsl">
-      <Filter>ShadersFiles\Terrain</Filter>
+      <Filter>Engine\ShadersFiles\Terrain</Filter>
     </None>
     <None Include="ShaderFiles\terrain.vs.glsl">
-      <Filter>ShadersFiles\Terrain</Filter>
+      <Filter>Engine\ShadersFiles\Terrain</Filter>
     </None>
     <None Include="ShaderFiles\atmosphere.vs.glsl">
-      <Filter>ShadersFiles\Atmosphere</Filter>
+      <Filter>Engine\ShadersFiles\Atmosphere</Filter>
     </None>
     <None Include="ShaderFiles\atmosphere.fs.glsl">
-      <Filter>ShadersFiles\Atmosphere</Filter>
+      <Filter>Engine\ShadersFiles\Atmosphere</Filter>
     </None>
     <None Include="ShaderFiles\terrain.tes.glsl">
-      <Filter>ShadersFiles\Terrain</Filter>
+      <Filter>Engine\ShadersFiles\Terrain</Filter>
     </None>
     <None Include="ShaderFiles\terrain.tcs.glsl">
-      <Filter>ShadersFiles\Terrain</Filter>
+      <Filter>Engine\ShadersFiles\Terrain</Filter>
     </None>
     <None Include="ShaderFiles\cubemap.fs.glsl">
-      <Filter>ShadersFiles</Filter>
+      <Filter>Engine\ShadersFiles</Filter>
     </None>
     <None Include="ShaderFiles\cubemap.vs.glsl">
-      <Filter>ShadersFiles</Filter>
+      <Filter>Engine\ShadersFiles</Filter>
     </None>
   </ItemGroup>
 </Project>
