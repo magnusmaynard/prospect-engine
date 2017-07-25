@@ -2,7 +2,5 @@
 
 int main()
 {
-   //Application app;
-
    TestApplication testApp;
 }

@@ -1,67 +1,70 @@
 #pragma once
 #include <GL/glew.h>
 
-struct QuadTreeUniformLocations
+namespace Prospect
 {
-   QuadTreeUniformLocations(
-      const GLint originLocation,
-      const GLint normalLocation,
-      const GLint leftLocation,
-      const GLint topLocation,
-      const GLint sizeLocation,
-      const GLint levelLocation,
-      const GLint edgeScalingLocation)
-      :
-      m_origin(originLocation),
-      m_normal(normalLocation),
-      m_left(leftLocation),
-      m_top(topLocation),
-      m_size(sizeLocation),
-      m_level(levelLocation),
-      m_edgeScaling(edgeScalingLocation)
-   {}
-
-   GLint Origin() const
+   struct QuadTreeUniformLocations
    {
-      return m_origin;
-   }
+      QuadTreeUniformLocations(
+         const GLint originLocation,
+         const GLint normalLocation,
+         const GLint leftLocation,
+         const GLint topLocation,
+         const GLint sizeLocation,
+         const GLint levelLocation,
+         const GLint edgeScalingLocation)
+         :
+         m_origin(originLocation),
+         m_normal(normalLocation),
+         m_left(leftLocation),
+         m_top(topLocation),
+         m_size(sizeLocation),
+         m_level(levelLocation),
+         m_edgeScaling(edgeScalingLocation)
+      {}
 
-   GLint Normal() const
-   {
-      return m_normal;
-   }
+      GLint Origin() const
+      {
+         return m_origin;
+      }
 
-   GLint Left() const
-   {
-      return m_left;
-   }
+      GLint Normal() const
+      {
+         return m_normal;
+      }
 
-   GLint Top() const
-   {
-      return m_top;
-   }
+      GLint Left() const
+      {
+         return m_left;
+      }
 
-   GLint Size() const
-   {
-      return m_size;
-   }
+      GLint Top() const
+      {
+         return m_top;
+      }
 
-   GLint Level() const
-   {
-      return m_level;
-   }
+      GLint Size() const
+      {
+         return m_size;
+      }
 
-   GLint EdgeScaling() const
-   {
-      return m_edgeScaling;
-   }
+      GLint Level() const
+      {
+         return m_level;
+      }
 
-private:
-   const GLint m_origin;
-   const GLint m_normal;
-   const GLint m_left;
-   const GLint m_top;
-   const GLint m_size;
-   const GLint m_level;
-   const GLint m_edgeScaling;
-};
+      GLint EdgeScaling() const
+      {
+         return m_edgeScaling;
+      }
+
+   private:
+      const GLint m_origin;
+      const GLint m_normal;
+      const GLint m_left;
+      const GLint m_top;
+      const GLint m_size;
+      const GLint m_level;
+      const GLint m_edgeScaling;
+   };
+}

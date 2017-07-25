@@ -1,12 +1,17 @@
 #pragma once
-
-class IApplication
+namespace Prospect
 {
-public:
-   virtual ~IApplication(){}
+   enum class KeyModifier;
+   enum class Key;
 
-   virtual void Startup() = 0;
-   virtual void Shutdown() = 0;
-   virtual void Render(const double time) = 0;
-   virtual void OnKeyPressed(int key, int action, int mods) = 0;
-};
+   class IApplication
+   {
+   public:
+      virtual ~IApplication() {}
+
+      virtual void OnStartup() = 0;
+      virtual void OnShutdown() = 0;
+      virtual void OnUpdate(const unsigned int time) = 0;
+      virtual void OnKeyDown(const Key& key, const KeyModifier& modifier) = 0;
+   };
+}

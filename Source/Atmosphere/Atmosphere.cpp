@@ -1,6 +1,8 @@
 #pragma once
 #include "Atmosphere.h"
 
+using namespace Prospect;
+
 Atmosphere::Atmosphere()
 {
    m_shader.AddVertexShader("atmosphere");

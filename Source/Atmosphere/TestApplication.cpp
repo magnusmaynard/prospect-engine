@@ -1,34 +1,35 @@
 #include "TestApplication.h"
 
 TestApplication::TestApplication():
-   m_pe(600, 400)
+   m_engine(*this, 600, 400)
 {
-   m_pe.SetStartup(std::bind(&TestApplication::Startup, this));
-   m_pe.SetUpdate(std::bind(&TestApplication::Update, this, -1));
-   m_pe.SetKeyDown(std::bind(&TestApplication::KeyDown, this, Keys::None));
-   m_pe.SetShutdown(std::bind(&TestApplication::Shutdown, this));
-
-   m_pe.Start();
+   m_engine.Start();
 }
 
-void TestApplication::Startup()
+void TestApplication::OnStartup()
 {
-   m_pe.SetPolygonMode(PolygonMode::Line);
+   m_engine.SetTitle("Test Application");
 
-   Scene& scene = m_pe.GetScene();
+   m_engine.SetPolygonMode(PolygonMode::Line);
+
+   Scene& scene = m_engine.GetScene();
 
    scene.CreateTerrain();
 }
 
-void TestApplication::Update(unsigned int time)
+void TestApplication::OnUpdate(const unsigned int time)
 {
-   m_pe.GetScene().GetCamera().LookAt(glm::vec3(0, 0, 1 + sin(time * 0.01)), glm::vec3(0, 0, 0));
+   m_engine.GetScene().GetCamera().LookAt(vec3(0, 0, 1 + sin(time * 0.01)), vec3(0, 0, 0));
 }
 
-void TestApplication::KeyDown(const Keys& keys)
+void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
 {
+   if(key == Key::Escape)
+   {
+      m_engine.Close();
+   }
 }
 
-void TestApplication::Shutdown()
+void TestApplication::OnShutdown()
 {
 }

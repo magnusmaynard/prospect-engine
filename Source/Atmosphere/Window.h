@@ -2,26 +2,48 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "Scene.h"
 
 #include <functional>
+#include "Key.h"
 #include "IApplication.h"
-#include <glm/vec2.hpp>
 
-class Window
+namespace Prospect
 {
-public:
-   Window(IApplication* app);
-   void Open() const;
+   class Window
+   {
+   public:
+      Window(IApplication& application, const glm::ivec2& size);
 
-   glm::vec2 GetSize() const { return m_size; }
+      void Open();
 
-private:
-   static void Window::ErrorCallback(int error, const char* description);
-   static void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-   static void Window::MouseMoveCallback(GLFWwindow* window, double xPosition, double yPosition);
+      void SetTitle(const std::string& title);
 
-public:
-   IApplication* m_app;
+      bool IsOpen() const;
 
-   glm::vec2 m_size = glm::vec2(1200, 600);
-};
+      void PollEvents();
+
+      void SwapBuffers();
+
+      void Close();
+
+      void Destroy();
+
+      unsigned int GetTime() const;
+
+      glm::ivec2 GetSize() const;
+
+   private:
+      static void ErrorCallback(int error, const char* description);
+
+      static void KeyCallback(GLFWwindow* window, int glfwKey, int glfwScancode, int glfwAction, int glfwModifer);
+
+      static Key ConvertGLFWKey(int glfwKey);
+
+      static KeyModifier ConvertGLFWModifier(int glfwModifer);
+
+      IApplication& m_application;
+      GLFWwindow* m_window;
+      const glm::ivec2 m_size;
+   };
+}

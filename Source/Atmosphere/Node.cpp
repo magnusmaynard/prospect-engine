@@ -2,6 +2,8 @@
 #include "Node.h"
 #include "QuadTree.h"
 
+using namespace Prospect;
+
 Node::Node(
    Node* parent,
    const int index,

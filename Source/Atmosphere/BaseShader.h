@@ -5,20 +5,23 @@
 
 #include <string>
 
-class BaseShader
+namespace Prospect
 {
-public:
-   BaseShader(const std::string& fileName, GLenum type);
-   ~BaseShader();
-   bool Compile();
+   class BaseShader
+   {
+   public:
+      BaseShader(const std::string& fileName, GLenum type);
+      ~BaseShader();
+      bool Compile();
 
-   GLuint GetID() const;
+      GLuint GetID() const;
 
-private:
-   const std::string m_extension = ".glsl";
+   private:
+      const std::string m_extension = ".glsl";
 
-   const std::string m_fileName;
-   const GLenum m_type;
+      const std::string m_fileName;
+      const GLenum m_type;
 
-   GLuint m_id = -1;
-};
+      GLuint m_id = -1;
+   };
+}

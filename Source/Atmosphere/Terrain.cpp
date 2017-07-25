@@ -7,6 +7,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+using namespace Prospect;
 using namespace noise;
 
 typedef unsigned char byte;

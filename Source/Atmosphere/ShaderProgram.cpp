@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace Prospect;
+
 ShaderProgram::ShaderProgram()
 {
 }

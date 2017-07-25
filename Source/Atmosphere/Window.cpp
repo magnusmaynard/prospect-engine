@@ -1,32 +1,17 @@
 #include "Window.h"
-#include "IApplication.h"
 
 #include <iostream>
+#include "Defaults.h"
 
-void Window::ErrorCallback(int error, const char* description)
-{
-   std::cerr << "Error: " << description << std::endl;
-}
+using namespace Prospect;
 
-void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-   {
-      glfwSetWindowShouldClose(window, GLFW_TRUE);
-   }
-
-   //Get user pointer so non-static app variable can be accessed in static callback.
-   IApplication* app = static_cast<IApplication*>(glfwGetWindowUserPointer(window));
-   app->OnKeyPressed(key, action, mods);
-}
-
-Window::Window(IApplication* app)
-   :
-   m_app(app)
+Window::Window(IApplication& application, const glm::ivec2& size):
+   m_application(application),
+   m_size(size)
 {
 }
 
-void Window::Open() const
+void Window::Open()
 {
    if (!glfwInit())
    {
@@ -38,15 +23,14 @@ void Window::Open() const
    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-   GLFWwindow* window = glfwCreateWindow(
-      static_cast<int>(m_size.x), static_cast<int>(m_size.y), "Atmosphere", nullptr, nullptr);
-   if (!window)
+   m_window = glfwCreateWindow(m_size.x, m_size.y, DEFAULT_TITLE.c_str(), nullptr, nullptr);
+   if (!m_window)
    {
       glfwTerminate();
       exit(EXIT_FAILURE);
    }
 
-   glfwMakeContextCurrent(window);
+   glfwMakeContextCurrent(m_window);
 
    if (glewInit())
    {
@@ -54,32 +38,135 @@ void Window::Open() const
       exit(EXIT_FAILURE);
    }
 
-   //Set user pointer so static KeyCallback can access memember variable.
-   glfwSetWindowUserPointer(window, m_app);
-   glfwSetKeyCallback(window, KeyCallback);
+   //Set user pointer so static KeyCallback can access member variable.
+   glfwSetWindowUserPointer(m_window, &m_application);
+   glfwSetKeyCallback(m_window, KeyCallback);
 
    int width, height;
-   glfwGetFramebufferSize(window, &width, &height);
+   glfwGetFramebufferSize(m_window, &width, &height);
    glViewport(0, 0, width, height);
    glfwSwapInterval(1);
+}
 
-   m_app->Startup();
+void Window::SetTitle(const std::string& title)
+{
+   glfwSetWindowTitle(m_window, title.c_str());
+}
 
-   while (!glfwWindowShouldClose(window))
-   {
-      glfwPollEvents();
+bool Window::IsOpen() const
+{
+   return !glfwWindowShouldClose(m_window);
+}
 
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+void Window::PollEvents()
+{
+   glfwPollEvents();
+}
 
-      m_app->Render(glfwGetTime());
+void Window::SwapBuffers()
+{
+   glfwSwapBuffers(m_window);
+}
 
-      glfwSwapBuffers(window);
-   }
+void Window::Close()
+{
+   glfwSetWindowShouldClose(m_window, GLFW_TRUE);
+}
 
-   m_app->Shutdown();
-
-   glfwDestroyWindow(window);
+void Window::Destroy()
+{
+   glfwDestroyWindow(m_window);
 
    glfwTerminate();
    exit(EXIT_SUCCESS);
+}
+
+unsigned Window::GetTime() const
+{
+   return static_cast<unsigned int>(glfwGetTime());
+}
+
+glm::ivec2 Window::GetSize() const
+{
+   return m_size;
+}
+
+void Window::ErrorCallback(int error, const char* description)
+{
+   std::cerr << "Error: " << description << std::endl;
+}
+
+void Window::KeyCallback(GLFWwindow* window, int glfwKey, int glfwScancode, int glfwAction, int glfwModifer)
+{
+   //Get user pointer so non-static app variable can be accessed in static callback.
+   IApplication* application = static_cast<IApplication*>(glfwGetWindowUserPointer(window));
+
+   const Key key = ConvertGLFWKey(glfwKey);
+   const KeyModifier modifier = ConvertGLFWModifier(glfwModifer);
+
+   switch (glfwAction)
+   {
+   case GLFW_PRESS:
+      {
+         application->OnKeyDown(key, modifier);
+         break;
+      }
+   case GLFW_RELEASE:
+      {
+         //Do nothing.
+         break;
+      }
+   case GLFW_REPEAT:
+      {
+         //Do nothing.
+         break;
+      }
+   default:
+      {
+         break;
+      }
+   }
+}
+
+Key Window::ConvertGLFWKey(int glfwKey)
+{
+   //TODO: More keys.
+   switch (glfwKey)
+   {
+   case(GLFW_KEY_W):
+      {
+         return Key::W;
+      }
+   case(GLFW_KEY_ESCAPE):
+      {
+         return Key::Escape;
+      }
+   default:
+      {
+         return Key::None;
+      }
+   }
+}
+
+KeyModifier Window::ConvertGLFWModifier(int glfwModifer)
+{
+   switch (glfwModifer)
+   {
+   case(GLFW_MOD_SHIFT):
+      {
+         return KeyModifier::Shift;
+      }
+   case(GLFW_MOD_CONTROL):
+      {
+         return KeyModifier::Control;
+      }
+   case(GLFW_MOD_ALT):
+      {
+         return KeyModifier::Alt;
+      }
+   default:
+      {
+         return KeyModifier::None;
+      }
+   }
 }

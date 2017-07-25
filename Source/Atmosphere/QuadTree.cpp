@@ -1,6 +1,8 @@
 #include "QuadTree.h"
 #include <GL/glew.h>
 
+using namespace Prospect;
+
 QuadTree::QuadTree(
    const glm::vec3& origin,
    const glm::vec3& normal,

@@ -1,12 +1,11 @@
 #pragma once
 #include "BaseShader.h"
 
-class FragmentShader : public BaseShader
+namespace Prospect
 {
-public:
-   FragmentShader(const std::string& fileName)
-      :
-      BaseShader(fileName + ".fs", GL_FRAGMENT_SHADER)
+   class FragmentShader : public BaseShader
    {
-   }
-};
+   public:
+      FragmentShader(const std::string& fileName);
+   };
+}

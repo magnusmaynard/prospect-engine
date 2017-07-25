@@ -5,6 +5,8 @@
 #include <fstream> 
 #include <sstream>
 
+using namespace Prospect;
+
 BaseShader::BaseShader(const std::string& fileName, GLenum type)
    :
    m_fileName(fileName + m_extension),

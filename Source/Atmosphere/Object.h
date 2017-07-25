@@ -1,8 +1,10 @@
 #pragma once
 #include <vector>
 
-class Object
+namespace Prospect
 {
-private:
-   std::vector<Object> m_children;
-};
+   class Object
+   {
+      std::vector<Object> m_children;
+   };
+}
