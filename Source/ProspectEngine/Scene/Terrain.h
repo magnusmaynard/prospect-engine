@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
-#include <GL/glew.h>
+
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
-#include "ShaderProgram.h"
+#include "Renderer/Shaders/ShaderProgram.h"
 
-#include "QuadTree.h"
+#include "Renderer/QuadTree/QuadTree.h"
 
 namespace Prospect
 {

@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Scene\Atmosphere.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shaders\BaseShader.h">
+      <Filter>Renderer\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Camera.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shaders\FragmentShader.h">
+      <Filter>Renderer\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shaders\GeometryShader.h">
+      <Filter>Renderer\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IApplication.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\QuadTree\Node.h">
+      <Filter>Renderer\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Defaults.h" />
+    <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h">
+      <Filter>Renderer\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shaders\TessControlShader.h">
+      <Filter>Renderer\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shaders\VertexShader.h">
+      <Filter>Renderer\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Window.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\QuadTree\QuadTreeUniformLocations.h">
+      <Filter>Renderer\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\QuadTree\QuadTree.h">
+      <Filter>Renderer\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shaders\ShaderProgram.h">
+      <Filter>Renderer\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Terrain.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\Key.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\PolygonMode.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Object.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine_impl.h" />
+    <ClInclude Include="Include\Engine.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Scene\Atmosphere.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shaders\BaseShader.cpp">
+      <Filter>Renderer\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Camera.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shaders\FragmentShader.cpp">
+      <Filter>Renderer\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shaders\GeometryShader.cpp">
+      <Filter>Renderer\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\QuadTree\Node.cpp">
+      <Filter>Renderer\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shaders\TessControlShader.cpp">
+      <Filter>Renderer\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shaders\TessEvaluationShader.cpp">
+      <Filter>Renderer\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shaders\VertexShader.cpp">
+      <Filter>Renderer\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Window.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\QuadTree\QuadTree.cpp">
+      <Filter>Renderer\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shaders\ShaderProgram.cpp">
+      <Filter>Renderer\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Terrain.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine_impl.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{3b9e88a8-f3c3-4d0a-b7b6-2aad96dd7e8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{52da1ea7-c6be-408b-b335-08fba5840556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{3399df07-bd2c-469a-8d71-f782cc3cf595}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{37dfec71-f162-4ad7-824a-540a0f27257e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\ShaderFiles">
+      <UniqueIdentifier>{fc0f943d-fa6c-4f26-b2dd-21dee67387ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\QuadTree">
+      <UniqueIdentifier>{24796140-a448-4476-8dae-a8f1b5c60ef9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Shaders">
+      <UniqueIdentifier>{cc72e1be-5208-40ac-b576-94ee0703df0c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

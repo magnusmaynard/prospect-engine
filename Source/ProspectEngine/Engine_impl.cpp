@@ -1,8 +1,10 @@
-#include "Engine.h"
+#include "Engine_impl.h"
+
+#include "Include/PolygonMode.h"
 
 using namespace Prospect;
 
-Engine::Engine(
+Engine_impl::Engine_impl(
    IApplication& application,
    const int width,
    const int height)
@@ -13,7 +15,7 @@ Engine::Engine(
    m_scene.CreateCamera(m_window.GetSize());
 }
 
-void Engine::Start()
+void Engine_impl::Start()
 {
    m_window.Open();
 
@@ -37,42 +39,42 @@ void Engine::Start()
    m_window.Close();
 }
 
-void Engine::SetTitle(const std::string& title)
+void Engine_impl::SetTitle(const std::string& title)
 {
    m_window.SetTitle(title);
 }
 
-void Engine::Close()
+void Engine_impl::Close()
 {
    m_window.Close();
 }
 
-void Engine::Clear()
+void Engine_impl::Clear()
 {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-void Engine::SetPolygonMode(const PolygonMode& polygonMode)
+void Engine_impl::SetPolygonMode(const PolygonMode& polygonMode)
 {
    int mode = -1;
    switch (polygonMode)
    {
-   case PolygonMode::Point:
+      case PolygonMode::Point:
       {
          mode = GL_POINT;
          break;
       }
-   case PolygonMode::Line:
+      case PolygonMode::Line:
       {
          mode = GL_LINE;
          break;
       }
-   case PolygonMode::Fill:
+      case PolygonMode::Fill:
       {
          mode = GL_FILL;
          break;
       }
-   default:
+      default:
       {
          throw std::exception("Invalid PolygonMode.");
       }
@@ -81,12 +83,12 @@ void Engine::SetPolygonMode(const PolygonMode& polygonMode)
    glPolygonMode(GL_FRONT_AND_BACK, mode);
 }
 
-Scene& Engine::GetScene()
+Scene& Engine_impl::GetScene()
 {
    return m_scene;
 }
 
-glm::ivec2 Engine::GetSize() const
+glm::ivec2 Engine_impl::GetSize() const
 {
    return m_window.GetSize();
 }

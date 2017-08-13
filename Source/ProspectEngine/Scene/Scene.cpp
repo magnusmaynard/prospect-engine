@@ -33,6 +33,9 @@ void Scene::Render()
    glUniformMatrix4fv(1, 1, GL_FALSE, &m_camera->GetProjectionMatrix()[0][0]);
 
    //Update.
-   //m_terrain->Update();
-   m_terrain->Draw();
+   if (m_terrain != nullptr)
+   {
+      //m_terrain->Update();
+      m_terrain->Draw();
+   }
 }

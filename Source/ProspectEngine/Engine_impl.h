@@ -1,21 +1,21 @@
 #pragma once
+
 #define GLEW_STATIC
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
 
-#include <functional>
-#include "Window.h"
-#include "Scene.h"
-#include "PolygonMode.h"
-#include "IApplication.h"
+#include "Renderer/Window.h"
+#include "Scene/Scene.h"
+#include "Include/IApplication.h"
 #include "Defaults.h"
 
 namespace Prospect
 {
-   class Engine
+   enum class PolygonMode;
+
+   class Engine_impl
    {
    public:
-      Engine(
+      Engine_impl(
          IApplication& application,
          const int width = DEFAULT_WIDTH,
          const int height = DEFAULT_HEIGHT);
@@ -32,9 +32,5 @@ namespace Prospect
       IApplication& m_application;
       Window m_window;
       Scene m_scene;
-
-      std::function<void()> m_startupCallback;
-      std::function<void()> m_shutdownCallback;
-      std::function<void(unsigned int)> m_updateCallback;
    };
 }

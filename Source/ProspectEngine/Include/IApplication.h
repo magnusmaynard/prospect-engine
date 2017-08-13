@@ -1,4 +1,5 @@
 #pragma once
+
 namespace Prospect
 {
    enum class KeyModifier;

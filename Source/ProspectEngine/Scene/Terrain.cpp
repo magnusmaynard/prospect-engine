@@ -1,8 +1,7 @@
 #pragma once
 #include "Terrain.h"
 #include <noise/noise.h>
-#include "TessControlShader.h"
-#include "TessEvaluationShader.h"
+#include "Renderer/Shaders/TessEvaluationShader.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"

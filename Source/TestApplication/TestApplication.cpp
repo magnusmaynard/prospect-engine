@@ -1,6 +1,10 @@
 #include "TestApplication.h"
 
-TestApplication::TestApplication():
+#include "Key.h"
+#include "PolygonMode.h"
+
+TestApplication::TestApplication()
+   :
    m_engine(*this, 600, 400)
 {
    m_engine.Start();
@@ -12,14 +16,14 @@ void TestApplication::OnStartup()
 
    m_engine.SetPolygonMode(PolygonMode::Line);
 
-   Scene& scene = m_engine.GetScene();
+   //Scene& scene = m_engine.GetScene();
 
-   scene.CreateTerrain();
+   //scene.CreateTerrain();
 }
 
 void TestApplication::OnUpdate(const unsigned int time)
 {
-   m_engine.GetScene().GetCamera().LookAt(vec3(0, 0, 1 + sin(time * 0.01)), vec3(0, 0, 0));
+   //m_engine.GetScene().GetCamera().LookAt(vec3(0, 0, 1 + sin(time * 0.01)), vec3(0, 0, 0));
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)

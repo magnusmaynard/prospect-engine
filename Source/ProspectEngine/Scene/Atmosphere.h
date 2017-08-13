@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
-#include "ShaderProgram.h"
+#include "Renderer/Shaders/ShaderProgram.h"
 
 namespace Prospect
 {

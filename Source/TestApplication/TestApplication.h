@@ -1,8 +1,8 @@
 #pragma once
-#include "Engine.h"
-#include "IApplication.h"
 
-using namespace glm;
+#include "IApplication.h"
+#include "Engine.h"
+
 using namespace Prospect;
 
 class TestApplication : public IApplication
@@ -16,7 +16,7 @@ public:
    void OnKeyDown(const Key& key, const KeyModifier& modifier) override;
 
 private:
-   Prospect::Engine m_engine;
+   Engine m_engine;
 
-   Terrain* m_terrain = nullptr;
+   //Terrain* m_terrain = nullptr;
 };

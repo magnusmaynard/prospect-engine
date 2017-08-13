@@ -1,15 +1,19 @@
 #pragma once
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "Scene.h"
 
+#include "Include/Key.h"
+#include "Include/IApplication.h"
+
+#include "Scene/Scene.h"
 #include <functional>
-#include "Key.h"
-#include "IApplication.h"
 
 namespace Prospect
 {
+   class IApplication;
+
    class Window
    {
    public:

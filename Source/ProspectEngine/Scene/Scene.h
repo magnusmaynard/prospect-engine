@@ -1,5 +1,4 @@
 #pragma once
-#include "Object.h"
 #include <memory>
 #include "Terrain.h"
 #include "Camera.h"
