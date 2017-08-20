@@ -44,17 +44,8 @@
     <ClInclude Include="Renderer\Shaders\ShaderProgram.h">
       <Filter>Renderer\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Scene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Terrain.h">
       <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Enums\Key.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Enums\PolygonMode.h">
-      <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Object.h">
       <Filter>Scene</Filter>
@@ -63,6 +54,22 @@
     <ClInclude Include="Include\Engine.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Scene.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene_impl.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Defines.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Key.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -109,11 +116,15 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine_impl.cpp" />
+    <ClCompile Include="Scene\Scene_impl.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{3b9e88a8-f3c3-4d0a-b7b6-2aad96dd7e8a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Renderer">
       <UniqueIdentifier>{52da1ea7-c6be-408b-b335-08fba5840556}</UniqueIdentifier>
     </Filter>
@@ -123,14 +134,51 @@
     <Filter Include="Include">
       <UniqueIdentifier>{37dfec71-f162-4ad7-824a-540a0f27257e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer\ShaderFiles">
-      <UniqueIdentifier>{fc0f943d-fa6c-4f26-b2dd-21dee67387ca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Renderer\QuadTree">
       <UniqueIdentifier>{24796140-a448-4476-8dae-a8f1b5c60ef9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Renderer\Shaders">
       <UniqueIdentifier>{cc72e1be-5208-40ac-b576-94ee0703df0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{62459996-0a44-4ee6-99e6-2eb16e579061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Textures">
+      <UniqueIdentifier>{09e6e445-a378-44a1-a225-030642e041ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Shaders">
+      <UniqueIdentifier>{5b6a08ec-e3a7-4a2d-8036-aeb5fa9efa91}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Textures\terrain1.bmp">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\cubemap.fs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\cubemap.vs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\terrain.fs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\terrain.tcs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\terrain.tes.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\terrain.vs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\atmosphere.fs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\atmosphere.vs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

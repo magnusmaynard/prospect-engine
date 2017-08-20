@@ -26,15 +26,18 @@ void QuadTree::Update(const glm::vec3& cameraPosition, const glm::vec3& cameraDi
 {
    m_endNodes.clear();
    m_rootNode.Update(cameraPosition, cameraDirection, m_endNodes);
+
+   for (auto& node : m_endNodes)
+   {
+      //Update edge scaling for this node.
+      node->UpdateEdgeScaling();
+   }
 }
 
 void QuadTree::Draw()
 {
    for (auto& node : m_endNodes)
    {
-      //Update edge scaling for this node.
-      node->UpdateEdgeScaling();
-
       //Draw this node.
       glUniform3fv(m_locations.Origin(), 1, &node->Origin()[0]);
       glUniform1f(m_locations.Size(), node->Size());

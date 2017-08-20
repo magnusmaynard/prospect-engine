@@ -2,19 +2,26 @@
 #include <memory>
 #include "Terrain.h"
 #include "Camera.h"
+#include "Include/Scene.h"
 
 namespace Prospect
 {
-   class Scene
+   class Scene_impl
    {
    public:
-      Scene();
+      Scene_impl(Scene& parent);
+
       void CreateCamera(const glm::ivec2& size);
       void CreateTerrain();
-      Camera& GetCamera() const;
-      void Render();
+
+      Camera* GetCamera();
+      const Camera* GetCamera() const;
+
+      Terrain* Scene_impl::GetTerrain();
+      const Terrain* Scene_impl::GetTerrain() const;
 
    private:
+      Scene& m_parent;
       std::unique_ptr<Camera> m_camera;
       std::unique_ptr<Terrain> m_terrain;
    };

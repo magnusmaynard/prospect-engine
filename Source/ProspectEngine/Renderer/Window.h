@@ -7,8 +7,8 @@
 #include "Include/Key.h"
 #include "Include/IApplication.h"
 
-#include "Scene/Scene.h"
 #include <functional>
+#include <glm/vec2.hpp>
 
 namespace Prospect
 {
@@ -25,16 +25,15 @@ namespace Prospect
 
       bool IsOpen() const;
 
-      void PollEvents();
+      void PollEvents() const;
 
-      void SwapBuffers();
+      void SwapBuffers() const;
 
-      void Close();
+      void Close() const;
 
-      void Destroy();
+      void Destroy() const;
 
       unsigned int GetTime() const;
-
       glm::ivec2 GetSize() const;
 
    private:

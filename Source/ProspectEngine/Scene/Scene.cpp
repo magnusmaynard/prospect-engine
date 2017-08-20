@@ -1,41 +1,28 @@
-#include "Scene.h"
+#include "Include/Scene.h"
+#include "Scene_impl.h"
 
 using namespace Prospect;
 
 Scene::Scene()
+   :
+   m_impl(std::make_unique<Scene_impl>(*this))
 {
 }
 
-void Scene::CreateCamera(const glm::ivec2& size)
+Scene::~Scene() = default;
+
+Scene_impl& Scene::GetImpl()
 {
-   m_camera = std::make_unique<Camera>(size);
+   return *m_impl;
+}
+
+const Scene_impl& Scene::GetImpl() const
+{
+   return *m_impl;
 }
 
 void Scene::CreateTerrain()
 {
-   m_terrain = std::make_unique<Terrain>();
+   m_impl->CreateTerrain();
 }
 
-Camera& Scene::GetCamera() const
-{
-   return *m_camera;
-}
-
-void Scene::Render()
-{
-   if (m_camera == nullptr)
-   {
-      throw std::exception("The must contain a camera to render the scene.");
-   }
-
-   //Constants.
-   glUniformMatrix4fv(0, 1, GL_FALSE, &m_camera->GetViewMatrix()[0][0]);
-   glUniformMatrix4fv(1, 1, GL_FALSE, &m_camera->GetProjectionMatrix()[0][0]);
-
-   //Update.
-   if (m_terrain != nullptr)
-   {
-      //m_terrain->Update();
-      m_terrain->Draw();
-   }
-}

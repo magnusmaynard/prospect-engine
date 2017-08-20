@@ -21,13 +21,15 @@
   <ItemGroup>
     <ClInclude Include="Defaults.h" />
     <ClInclude Include="Engine_impl.h" />
-    <ClInclude Include="Enums\Key.h" />
-    <ClInclude Include="Enums\PolygonMode.h" />
+    <ClInclude Include="Include\Defines.h" />
     <ClInclude Include="Include\Engine.h" />
     <ClInclude Include="Include\IApplication.h" />
+    <ClInclude Include="Include\Key.h" />
+    <ClInclude Include="Include\Scene.h" />
     <ClInclude Include="Renderer\QuadTree\Node.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTree.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTreeUniformLocations.h" />
+    <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\Shaders\BaseShader.h" />
     <ClInclude Include="Renderer\Shaders\FragmentShader.h" />
     <ClInclude Include="Renderer\Shaders\GeometryShader.h" />
@@ -36,10 +38,11 @@
     <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h" />
     <ClInclude Include="Renderer\Shaders\VertexShader.h" />
     <ClInclude Include="Renderer\Window.h" />
+    <ClInclude Include="Resources.h" />
     <ClInclude Include="Scene\Atmosphere.h" />
     <ClInclude Include="Scene\Camera.h" />
     <ClInclude Include="Scene\Object.h" />
-    <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Scene\Scene_impl.h" />
     <ClInclude Include="Scene\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +50,7 @@
     <ClCompile Include="Engine_impl.cpp" />
     <ClCompile Include="Renderer\QuadTree\Node.cpp" />
     <ClCompile Include="Renderer\QuadTree\QuadTree.cpp" />
+    <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\Shaders\BaseShader.cpp" />
     <ClCompile Include="Renderer\Shaders\FragmentShader.cpp" />
     <ClCompile Include="Renderer\Shaders\GeometryShader.cpp" />
@@ -55,10 +59,25 @@
     <ClCompile Include="Renderer\Shaders\TessEvaluationShader.cpp" />
     <ClCompile Include="Renderer\Shaders\VertexShader.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />
+    <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Scene\Atmosphere.cpp" />
     <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
+    <ClCompile Include="Scene\Scene_impl.cpp" />
     <ClCompile Include="Scene\Terrain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Textures\terrain1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\atmosphere.fs.glsl" />
+    <None Include="Resources\Shaders\atmosphere.vs.glsl" />
+    <None Include="Resources\Shaders\cubemap.fs.glsl" />
+    <None Include="Resources\Shaders\cubemap.vs.glsl" />
+    <None Include="Resources\Shaders\terrain.fs.glsl" />
+    <None Include="Resources\Shaders\terrain.tcs.glsl" />
+    <None Include="Resources\Shaders\terrain.tes.glsl" />
+    <None Include="Resources\Shaders\terrain.vs.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{987C8FD7-4F5C-45BD-9264-F01A48A484DF}</ProjectGuid>
@@ -112,7 +131,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir>$(SolutionDir)..\Binaries\$(Configuration)\$(Platform)</OutDir>
+    <OutDir>$(SolutionDir)..\Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

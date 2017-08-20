@@ -9,7 +9,7 @@ Engine::Engine(
    const int width,
    const int height)
    :
-   m_impl(new Engine_impl(application, width, height))
+   m_impl(std::make_unique<Engine_impl>(*this, application, width, height))
 {
 }
 
@@ -28,22 +28,16 @@ void Engine::Close()
    m_impl->Close();
 }
 
-void Engine::Clear()
+Scene& Engine::GetScene()
 {
-   m_impl->Clear();
+   return m_impl->GetScene();
 }
-
-void Engine::SetPolygonMode(const PolygonMode& polygonMode)
-{
-   m_impl->SetPolygonMode(polygonMode);
-}
-
-//Scene& Engine::GetScene()
-//{
-//   return m_impl->Gen
-//}
 
 glm::ivec2 Engine::GetSize() const
 {
    return m_impl->GetSize();
 }
+
+//Using a unique_ptr means the Engine must have a default destructor. See:
+//"Effect Modern C++ - Item 22: When using the Pimpl Idiom, define special member functions in the implementation file."
+Engine::~Engine() = default;

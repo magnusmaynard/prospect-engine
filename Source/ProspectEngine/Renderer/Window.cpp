@@ -58,22 +58,22 @@ bool Window::IsOpen() const
    return !glfwWindowShouldClose(m_window);
 }
 
-void Window::PollEvents()
+void Window::PollEvents() const
 {
    glfwPollEvents();
 }
 
-void Window::SwapBuffers()
+void Window::SwapBuffers() const
 {
    glfwSwapBuffers(m_window);
 }
 
-void Window::Close()
+void Window::Close() const
 {
    glfwSetWindowShouldClose(m_window, GLFW_TRUE);
 }
 
-void Window::Destroy()
+void Window::Destroy() const
 {
    glfwDestroyWindow(m_window);
 

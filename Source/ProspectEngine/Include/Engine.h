@@ -1,35 +1,34 @@
 #pragma once
-#include <memory>
+#include "Defines.h"
 #include <glm/vec2.hpp>
 #include <string>
-
-#define PROSPECT_EXPORT __declspec(dllexport)
+#include <memory>
 
 namespace Prospect
 {
    class IApplication;
-   class Engine_impl;
    enum class PolygonMode;
+   class Scene;
 
-   class PROSPECT_EXPORT Engine
+   class Engine_impl;
+
+   class Engine
    {
    public:
-      Engine(
+      EXPORT_API Engine(
          IApplication& application,
          const int width,
          const int height);
+      EXPORT_API ~Engine();
 
-      void Start();
-      void SetTitle(const std::string& title);
-      void Close();
-      void Clear();
-      void SetPolygonMode(const PolygonMode& polygonMode);
-      //Scene& GetScene();
-      glm::ivec2 GetSize() const;
+      EXPORT_API void Start();
+      EXPORT_API void SetTitle(const std::string& title);
+      EXPORT_API void Close();
+      EXPORT_API Scene& GetScene();
+      EXPORT_API glm::ivec2 GetSize() const;
 
    private:
       //Using opaque pointer to impls to avoid having to include internal headers outside of dll.
-      //https://en.wikibooks.org/wiki/C%2B%2B_Programming/Idioms#Pointer_To_Implementation_.28pImpl.29
-      Engine_impl* m_impl;
+      std::unique_ptr<Engine_impl> m_impl;
    };
 }

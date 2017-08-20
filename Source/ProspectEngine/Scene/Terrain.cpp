@@ -5,6 +5,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include "Resources.h"
 
 using namespace Prospect;
 using namespace noise;
@@ -87,6 +88,8 @@ Terrain::~Terrain()
 
 void Terrain::Draw()
 {
+   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
    //TODO: get from scene
    const glm::vec3 cameraPosition(0,0,-10);
    const glm::vec3 cameraDirection(0,0,1);
@@ -115,7 +118,8 @@ void Terrain::GenerateHeightMap(GLuint texture)
    int width = 0;
    int height = 0;
    int channels = 0;
-   float* data = stbi_loadf("terrain1.bmp", &width, &height, &channels, 1);
+   std::string filePath = Resources::GetTexturePath() + "terrain1.bmp";
+   float* data = stbi_loadf(filePath.c_str(), &width, &height, &channels, 1);
 
    glCreateTextures(GL_TEXTURE_2D, 1, &m_textures[TEXTURE_HEIGHT_POSX]);
    glTextureStorage2D(m_textures[TEXTURE_HEIGHT_POSX], 4, GL_R32F, width, height); //4

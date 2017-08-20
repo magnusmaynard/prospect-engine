@@ -3,9 +3,12 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-#include "Renderer/Window.h"
-#include "Scene/Scene.h"
+#include "Include/Engine.h"
 #include "Include/IApplication.h"
+#include "Include/Scene.h"
+#include "Renderer/Window.h"
+#include "Scene/Scene_impl.h"
+#include "Renderer/Renderer.h"
 #include "Defaults.h"
 
 namespace Prospect
@@ -16,21 +19,25 @@ namespace Prospect
    {
    public:
       Engine_impl(
+         Engine& parent,
          IApplication& application,
          const int width = DEFAULT_WIDTH,
          const int height = DEFAULT_HEIGHT);
 
+      Engine& GetParent();
+      const Engine& GetParent() const;
+
       void Start();
       void SetTitle(const std::string& title);
       void Close();
-      void Clear();
-      void SetPolygonMode(const PolygonMode& polygonMode);
       Scene& GetScene();
       glm::ivec2 GetSize() const;
 
    private:
+      Engine& m_parent;
       IApplication& m_application;
       Window m_window;
       Scene m_scene;
+      Renderer m_renderer;
    };
 }

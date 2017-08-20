@@ -14,11 +14,9 @@ void TestApplication::OnStartup()
 {
    m_engine.SetTitle("Test Application");
 
-   m_engine.SetPolygonMode(PolygonMode::Line);
+   Scene& scene = m_engine.GetScene();
 
-   //Scene& scene = m_engine.GetScene();
-
-   //scene.CreateTerrain();
+   scene.CreateTerrain();
 }
 
 void TestApplication::OnUpdate(const unsigned int time)

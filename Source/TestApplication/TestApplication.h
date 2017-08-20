@@ -2,6 +2,7 @@
 
 #include "IApplication.h"
 #include "Engine.h"
+#include "Scene.h"
 
 using namespace Prospect;
 
@@ -17,6 +18,7 @@ public:
 
 private:
    Engine m_engine;
+   //std::unique_ptr<Scene> m_scene;
 
    //Terrain* m_terrain = nullptr;
 };

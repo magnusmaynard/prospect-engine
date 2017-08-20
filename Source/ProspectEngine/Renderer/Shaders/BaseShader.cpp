@@ -1,5 +1,6 @@
 #include "BaseShader.h"
 
+#include "Resources.h"
 #include <vector>
 #include <iostream>
 #include <fstream> 
@@ -27,7 +28,7 @@ GLuint BaseShader::GetID() const
 bool BaseShader::Compile()
 {
    //Read from file.
-   std::string sourcePath = "ShaderFiles/" + m_fileName; //TODO: Copy shaders to bin folder.
+   std::string sourcePath =  Resources::GetShaderPath() + m_fileName;
    std::ifstream sourceFile(sourcePath);
    std::stringstream sourceStream;
    sourceStream << sourceFile.rdbuf();

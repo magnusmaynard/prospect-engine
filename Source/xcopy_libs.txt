@@ -1,1 +1,0 @@
-xcopy $(SolutionDir)..\Dependancies\glfw-3.2.1\build\src\Release $(OutputPath)

@@ -31,6 +31,7 @@
             xcopy $(SolutionDir)..\Dependencies\glew-2.0.0\lib\Release\$(Platform) $(OutputPath) /y
             xcopy $(SolutionDir)..\Dependencies\glfw-3.2.1\bin\Release\$(PlatformTarget) $(OutputPath) /y
             xcopy $(SolutionDir)..\Dependencies\libnoise-1.0.0\bin $(OutputPath) /y
+            xcopy $(SolutionDir)\ProspectEngine\Resources\* $(OutputPath)\Resources\ /sy
          </Command>
       </PreBuildEvent>
    </ItemDefinitionGroup>
