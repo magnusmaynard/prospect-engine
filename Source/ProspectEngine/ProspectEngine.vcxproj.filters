@@ -47,9 +47,6 @@
     <ClInclude Include="Scene\Terrain.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Object.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Engine_impl.h" />
     <ClInclude Include="Include\Engine.h">
       <Filter>Include</Filter>
@@ -70,6 +67,28 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="Resources\VertexArray.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shaders\Shaders.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\RenderableEntity.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Entity_impl.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Entity.h" />
+    <ClInclude Include="Include\Material.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Mesh.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Color.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -123,6 +142,19 @@
       <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="Renderer\RenderableEntity.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Entity_impl.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Material.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Mesh.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Entity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">

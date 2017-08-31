@@ -3,6 +3,7 @@
 #include "Terrain.h"
 #include "Camera.h"
 #include "Include/Scene.h"
+#include "Include/Entity.h"
 
 namespace Prospect
 {
@@ -17,12 +18,21 @@ namespace Prospect
       Camera* GetCamera();
       const Camera* GetCamera() const;
 
-      Terrain* Scene_impl::GetTerrain();
-      const Terrain* Scene_impl::GetTerrain() const;
+      Terrain* GetTerrain();
+      const Terrain* GetTerrain() const;
+
+      Entity& AddEntity();
+      Entity& GetEntity(const int index);
+
+      std::vector<Entity>& GetEntities();
 
    private:
       Scene& m_parent;
+
       std::unique_ptr<Camera> m_camera;
       std::unique_ptr<Terrain> m_terrain;
+
+      unsigned long m_nextEntityID = 0;
+      std::vector<Entity> m_entities;
    };
 }

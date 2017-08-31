@@ -10,7 +10,7 @@
             $(SolutionDir)..\Dependencies\glm;
             $(SolutionDir)..\Dependencies\libnoise-1.0.0\include;
             $(SolutionDir)..\Dependencies\stb;
-            %(AdditionalIncludeDirectories)
+            %(AdditionalIncludeDirectories);
          </AdditionalIncludeDirectories>
       </ClCompile>
       <Link>
@@ -23,7 +23,7 @@
          </AdditionalDependencies>
          <AdditionalLibraryDirectories>
             $(OutputPath);
-            %(AdditionalLibraryDirectories)
+            %(AdditionalLibraryDirectories);
          </AdditionalLibraryDirectories>
       </Link>
       <PreBuildEvent>

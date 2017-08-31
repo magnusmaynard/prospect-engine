@@ -15,17 +15,17 @@ namespace Prospect
    class Engine
    {
    public:
-      EXPORT_API Engine(
+      EXPORT_DLL Engine(
          IApplication& application,
          const int width,
          const int height);
-      EXPORT_API ~Engine();
+      EXPORT_DLL ~Engine();
 
-      EXPORT_API void Start();
-      EXPORT_API void SetTitle(const std::string& title);
-      EXPORT_API void Close();
-      EXPORT_API Scene& GetScene();
-      EXPORT_API glm::ivec2 GetSize() const;
+      EXPORT_DLL void Start();
+      EXPORT_DLL void SetTitle(const std::string& title);
+      EXPORT_DLL void Close();
+      EXPORT_DLL Scene& GetScene();
+      EXPORT_DLL glm::ivec2 GetSize() const;
 
    private:
       //Using opaque pointer to impls to avoid having to include internal headers outside of dll.

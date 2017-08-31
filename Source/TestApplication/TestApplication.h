@@ -3,8 +3,11 @@
 #include "IApplication.h"
 #include "Engine.h"
 #include "Scene.h"
+#include <vector>
 
 using namespace Prospect;
+
+template class EXPORT_DLL std::vector<int>;
 
 class TestApplication : public IApplication
 {
@@ -18,7 +21,7 @@ public:
 
 private:
    Engine m_engine;
-   //std::unique_ptr<Scene> m_scene;
+   Scene& m_scene;
 
    //Terrain* m_terrain = nullptr;
 };

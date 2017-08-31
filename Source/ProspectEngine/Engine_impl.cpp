@@ -27,7 +27,6 @@ const Engine& Engine_impl::GetParent() const
    return m_parent;
 }
 
-
 void Engine_impl::Start()
 {
    m_window.Open();

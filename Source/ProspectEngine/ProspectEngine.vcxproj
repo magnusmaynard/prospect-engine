@@ -21,11 +21,16 @@
   <ItemGroup>
     <ClInclude Include="Defaults.h" />
     <ClInclude Include="Engine_impl.h" />
+    <ClInclude Include="Include\Color.h" />
     <ClInclude Include="Include\Defines.h" />
     <ClInclude Include="Include\Engine.h" />
+    <ClInclude Include="Include\Entity.h" />
     <ClInclude Include="Include\IApplication.h" />
     <ClInclude Include="Include\Key.h" />
+    <ClInclude Include="Include\Material.h" />
+    <ClInclude Include="Include\Mesh.h" />
     <ClInclude Include="Include\Scene.h" />
+    <ClInclude Include="Renderer\RenderableEntity.h" />
     <ClInclude Include="Renderer\QuadTree\Node.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTree.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTreeUniformLocations.h" />
@@ -34,20 +39,23 @@
     <ClInclude Include="Renderer\Shaders\FragmentShader.h" />
     <ClInclude Include="Renderer\Shaders\GeometryShader.h" />
     <ClInclude Include="Renderer\Shaders\ShaderProgram.h" />
+    <ClInclude Include="Renderer\Shaders\Shaders.h" />
     <ClInclude Include="Renderer\Shaders\TessControlShader.h" />
     <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h" />
     <ClInclude Include="Renderer\Shaders\VertexShader.h" />
     <ClInclude Include="Renderer\Window.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="Resources\VertexArray.h" />
     <ClInclude Include="Scene\Atmosphere.h" />
     <ClInclude Include="Scene\Camera.h" />
-    <ClInclude Include="Scene\Object.h" />
+    <ClInclude Include="Scene\Entity_impl.h" />
     <ClInclude Include="Scene\Scene_impl.h" />
     <ClInclude Include="Scene\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Engine_impl.cpp" />
+    <ClCompile Include="Renderer\RenderableEntity.cpp" />
     <ClCompile Include="Renderer\QuadTree\Node.cpp" />
     <ClCompile Include="Renderer\QuadTree\QuadTree.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
@@ -62,6 +70,10 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Scene\Atmosphere.cpp" />
     <ClCompile Include="Scene\Camera.cpp" />
+    <ClCompile Include="Scene\Entity.cpp" />
+    <ClCompile Include="Scene\Entity_impl.cpp" />
+    <ClCompile Include="Scene\Material.cpp" />
+    <ClCompile Include="Scene\Mesh.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\Scene_impl.cpp" />
     <ClCompile Include="Scene\Terrain.cpp" />
@@ -139,6 +151,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>
+      </MultiProcessorCompilation>
+      <PreprocessorDefinitions>_WINDLL;COMPILING_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -155,6 +170,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>
+      </MultiProcessorCompilation>
+      <PreprocessorDefinitions>_WINDLL;COMPILING_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

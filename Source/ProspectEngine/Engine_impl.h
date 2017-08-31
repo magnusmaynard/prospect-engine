@@ -35,6 +35,7 @@ namespace Prospect
 
    private:
       Engine& m_parent;
+
       IApplication& m_application;
       Window m_window;
       Scene m_scene;

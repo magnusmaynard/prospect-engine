@@ -11,18 +11,22 @@ Scene::Scene()
 
 Scene::~Scene() = default;
 
-Scene_impl& Scene::GetImpl()
-{
-   return *m_impl;
-}
-
-const Scene_impl& Scene::GetImpl() const
-{
-   return *m_impl;
-}
-
 void Scene::CreateTerrain()
 {
    m_impl->CreateTerrain();
 }
 
+Entity& Scene::AddEntity()
+{
+   return m_impl->AddEntity();
+}
+
+Entity& Scene::GetEntity(const int index)
+{
+   return m_impl->GetEntity(index);
+}
+
+Scene_impl& Scene::GetImpl()
+{
+   return *m_impl;
+}

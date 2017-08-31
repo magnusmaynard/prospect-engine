@@ -38,3 +38,26 @@ const Terrain* Scene_impl::GetTerrain() const
    return m_terrain.get();
 }
 
+Entity& Scene_impl::AddEntity()
+{
+   m_entities.emplace_back(Entity(m_nextEntityID));
+
+   m_nextEntityID++;
+
+   return m_entities.back();
+}
+
+Entity& Scene_impl::GetEntity(const int index)
+{
+   if(index < 0 || index >= static_cast<int>(m_entities.size()))
+   {
+      throw std::exception("No Entity is stored at that index.");
+   }
+
+   return m_entities[index];
+}
+
+std::vector<Entity>& Scene_impl::GetEntities()
+{
+   return m_entities;
+}
