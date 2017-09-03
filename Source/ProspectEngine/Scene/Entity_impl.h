@@ -14,11 +14,16 @@ namespace Prospect
    {
    public:
       Entity_impl(Entity& parent, unsigned long id);
+      //Entity_impl(const Entity_impl& entity) = delete;
+      //Entity_impl& operator=(const Entity_impl& entity) = delete;
+      //Entity_impl(Entity_impl&& entity) = default;
+      //Entity_impl& operator=(Entity_impl&& entity) = default;
+
       void SetMesh(const Mesh& mesh);
-      Mesh* GetMesh();
+      Mesh& GetMesh();
 
       void SetMaterial(const Material& material);
-      Material* GetMaterial();
+      Material& GetMaterial();
 
       unsigned long GetID() const;
 
@@ -28,8 +33,8 @@ namespace Prospect
    private:
       Entity& m_parent;
 
-      std::unique_ptr<Mesh> m_mesh;
-      std::unique_ptr<Material> m_material;
+      Mesh m_mesh;
+      Material m_material = DEFAULT_MATERIAL;
       unsigned long m_id = DEFAULT_ENTITY_ID;
 
       glm::vec3 m_translation;

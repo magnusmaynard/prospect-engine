@@ -30,7 +30,7 @@
     <ClInclude Include="Include\Material.h" />
     <ClInclude Include="Include\Mesh.h" />
     <ClInclude Include="Include\Scene.h" />
-    <ClInclude Include="Renderer\RenderableEntity.h" />
+    <ClInclude Include="Renderer\Renderable.h" />
     <ClInclude Include="Renderer\QuadTree\Node.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTree.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTreeUniformLocations.h" />
@@ -55,7 +55,7 @@
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Engine_impl.cpp" />
-    <ClCompile Include="Renderer\RenderableEntity.cpp" />
+    <ClCompile Include="Renderer\Renderable.cpp" />
     <ClCompile Include="Renderer\QuadTree\Node.cpp" />
     <ClCompile Include="Renderer\QuadTree\QuadTree.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
@@ -86,6 +86,8 @@
     <None Include="Resources\Shaders\atmosphere.vs.glsl" />
     <None Include="Resources\Shaders\cubemap.fs.glsl" />
     <None Include="Resources\Shaders\cubemap.vs.glsl" />
+    <None Include="Resources\Shaders\simple.fs.glsl" />
+    <None Include="Resources\Shaders\simple.vs.glsl" />
     <None Include="Resources\Shaders\terrain.fs.glsl" />
     <None Include="Resources\Shaders\terrain.tcs.glsl" />
     <None Include="Resources\Shaders\terrain.tes.glsl" />

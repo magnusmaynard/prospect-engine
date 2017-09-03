@@ -2,16 +2,61 @@
 
 #include <iostream>
 #include <vector>
+#include "VertexShader.h"
+#include "TessControlShader.h"
+#include "TessEvaluationShader.h"
+#include "GeometryShader.h"
+#include "FragmentShader.h"
 
 using namespace Prospect;
 
 ShaderProgram::ShaderProgram()
 {
+   m_program = glCreateProgram();
 }
 
 ShaderProgram::~ShaderProgram()
 {
    glDeleteProgram(m_program);
+}
+
+ShaderProgram::ShaderProgram(ShaderProgram&& other)
+   :
+   m_program(other.m_program),
+   m_vertexShader(std::move(other.m_vertexShader)),
+   m_tessControlShader(std::move(other.m_tessControlShader)),
+   m_tessEvaluationShader(std::move(other.m_tessEvaluationShader)),
+   m_geometryShader(std::move(other.m_geometryShader)),
+   m_fragmentShader(std::move(other.m_fragmentShader))
+{
+   other.m_program = 0;
+   other.m_vertexShader = nullptr;
+   other.m_tessControlShader = nullptr;
+   other.m_tessEvaluationShader = nullptr;
+   other.m_geometryShader = nullptr;
+   other.m_fragmentShader = nullptr;
+}
+
+ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other)
+{
+   if (this != &other)
+   {
+      m_program = 0;
+      m_vertexShader = std::move(other.m_vertexShader);
+      m_tessControlShader = std::move(other.m_tessControlShader);
+      m_tessEvaluationShader = std::move(other.m_tessEvaluationShader);
+      m_geometryShader = std::move(other.m_geometryShader);
+      m_fragmentShader = std::move(other.m_fragmentShader);
+
+      other.m_program = 0;
+      other.m_vertexShader = nullptr;
+      other.m_tessControlShader = nullptr;
+      other.m_tessEvaluationShader = nullptr;
+      other.m_geometryShader = nullptr;
+      other.m_fragmentShader = nullptr;
+   }
+
+   return *this;
 }
 
 void ShaderProgram::AddVertexShader(const std::string& fileName)
@@ -58,9 +103,6 @@ bool ShaderProgram::CompileAndAttachShader(
 bool ShaderProgram::Compile()
 {
    bool success = true;
-
-   //Create program.
-   m_program = glCreateProgram();
 
    //Compile and attach to program.
    success &= CompileAndAttachShader(m_program, m_vertexShader);

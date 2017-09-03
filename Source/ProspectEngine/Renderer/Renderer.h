@@ -1,6 +1,6 @@
 #pragma once
 #include <map>
-#include "RenderableEntity.h"
+#include "Renderable.h"
 
 namespace Prospect
 {
@@ -15,12 +15,12 @@ namespace Prospect
       void Render(Scene_impl& scene);
 
    private:
-      std::map<int, RenderableEntity> m_renderables;
+      std::map<int, Renderable> m_renderables;
 
-      RenderableEntity& GetRenderable(Entity_impl& entity);
+      Renderable& GetRenderable(Entity_impl& entity);
 
-      RenderableEntity ConstructRenderable(Entity_impl& entity);
+      void ApplyCommonUniforms(Scene_impl& scene);
 
-      void Renderer::Render(RenderableEntity& renderable);
+      void Render(Renderable& renderable);
    };
 }

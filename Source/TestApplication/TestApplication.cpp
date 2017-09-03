@@ -23,9 +23,12 @@ void TestApplication::OnStartup()
    m_engine.SetTitle("Test Application");
 
    Entity& box = m_scene.AddEntity();
-
-   box.SetMesh(Mesh::CreatePlane(vec3(0, 0, 0), vec2(10, 10)));
+   box.SetMesh(Mesh::CreatePlane(vec3(0, 0, -50), vec2(10, 10)));
    box.SetMaterial(Material(Color(1, 0, 0)));
+
+   //Entity& box2 = m_scene.AddEntity();
+   //box2.SetMesh(Mesh::CreatePlane(vec3(10, 0, -50), vec2(10, 10)));
+   //box2.SetMaterial(Material(Color(1, 0, 0)));
 
    //scene.CreateTerrain();
 }

@@ -14,22 +14,22 @@ Entity_impl::Entity_impl(Entity& parent, unsigned long id)
 
 void Entity_impl::SetMesh(const Mesh& mesh)
 {
-   m_mesh = std::make_unique<Mesh>(mesh);
+   m_mesh = mesh;
 }
 
 void Entity_impl::SetMaterial(const Material& material)
 {
-   m_material = std::make_unique<Material>(material);
+   m_material = material;
 }
 
-Mesh* Entity_impl::GetMesh()
+Mesh& Entity_impl::GetMesh()
 {
-   return m_mesh.get();
+   return m_mesh;
 }
 
-Material* Entity_impl::GetMaterial()
+Material& Entity_impl::GetMaterial()
 {
-   return m_material.get();
+   return m_material;
 }
 
 unsigned long Entity_impl::GetID() const
@@ -44,6 +44,6 @@ void Entity_impl::SetTranslation(const glm::vec3& translation)
 
 mat4 Entity_impl::GetTransform() const
 {
-   //TODO: This just returns translation right now.
+   //TODO: This just returns translation for now.
    return translate(mat4(), m_translation);
 }

@@ -73,9 +73,6 @@
     <ClInclude Include="Renderer\Shaders\Shaders.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\RenderableEntity.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Entity_impl.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -88,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="Include\Color.h">
       <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderable.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -142,9 +142,6 @@
       <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp" />
-    <ClCompile Include="Renderer\RenderableEntity.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Entity_impl.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -155,6 +152,9 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Entity.cpp" />
+    <ClCompile Include="Renderer\Renderable.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -210,6 +210,12 @@
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\atmosphere.vs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\simple.vs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\simple.fs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
   </ItemGroup>

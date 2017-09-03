@@ -10,10 +10,10 @@ Entity::Entity(unsigned long id)
 {
 }
 
-Entity::Entity(Entity&& entity) noexcept = default;
-
 //These must be declared in the cpp to allow for opaque unique pointers.
 Entity::~Entity() = default;
+Entity::Entity(Entity&& entity) = default;
+Entity& Entity::operator=(Entity&& entity) = default;
 
 void Entity::SetMesh(const Mesh& mesh)
 {
@@ -25,12 +25,12 @@ void Entity::SetMaterial(const Material& material)
    m_impl->SetMaterial(material);
 }
 
-Mesh* Entity::GetMesh()
+Mesh& Entity::GetMesh()
 {
    return m_impl->GetMesh();
 }
 
-Material* Entity::GetMaterial()
+Material& Entity::GetMaterial()
 {
    return m_impl->GetMaterial();
 }

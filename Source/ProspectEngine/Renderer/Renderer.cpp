@@ -1,8 +1,7 @@
 #include "Renderer.h"
 #include "Scene/Scene_impl.h"
 #include "Scene/Terrain.h"
-#include "RenderableEntity.h"
-#include <iostream>
+#include "Renderable.h"
 
 using namespace Prospect;
 
@@ -12,20 +11,14 @@ Renderer::Renderer()
 
 void Renderer::Render(Scene_impl& scene)
 {
+   ApplyCommonUniforms(scene);
+
    for(auto& entity : scene.GetEntities()) //TODO: is this optimized out?
    {
-      RenderableEntity& renderable = GetRenderable(entity.GetImpl());
+      Renderable& renderable = GetRenderable(entity.GetImpl());
 
-      Render(renderable);
+      renderable.Render(scene);
    }
-
-   //const Camera* camera = scene.GetCamera();
-   //if (camera != nullptr)
-   //{
-   //   //Constants.
-   //   glUniformMatrix4fv(0, 1, GL_FALSE, &camera->GetViewMatrix()[0][0]);
-   //   glUniformMatrix4fv(1, 1, GL_FALSE, &camera->GetProjectionMatrix()[0][0]);
-   //}
 
    //Terrain* terrain = scene.GetTerrain();
    //if (terrain != nullptr)
@@ -34,25 +27,23 @@ void Renderer::Render(Scene_impl& scene)
    //}
 }
 
-RenderableEntity& Renderer::GetRenderable(Entity_impl& entity)
+Renderable& Renderer::GetRenderable(Entity_impl& entity)
 {
-   //Returns the found or emplaced value.
-   return m_renderables.emplace(
-      entity.GetID(), RenderableEntity(entity)).first->second;
+   auto itr = m_renderables.find(entity.GetID());
+   if(itr == m_renderables.end())
+   {
+      return m_renderables.emplace(entity.GetID(), Renderable(entity)).first->second;
+   }
+   else
+   {
+      return itr->second;
+   }
 }
 
-void Renderer::Render(RenderableEntity& renderable)
+void Renderer::ApplyCommonUniforms(Scene_impl& scene)
 {
-   //Apply program
+   const Camera* camera = scene.GetCamera();
 
-   //Apply common uniforms
-
-   //Applt transform
-
-   //Apply Material
-
-   //Apply Mesh
-
-   //Render
-   std::cout << renderable.m_entity.GetID() << std::endl;
+   glUniformMatrix4fv(1, 1, GL_FALSE, &camera->GetProjectionMatrix()[0][0]);
+   glUniformMatrix4fv(2, 1, GL_FALSE, &camera->GetViewMatrix()[0][0]);
 }

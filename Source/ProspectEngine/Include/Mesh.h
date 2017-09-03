@@ -13,21 +13,30 @@ namespace Prospect
    class EXPORT_DLL Mesh
    {
    public:
-      Mesh(
-         const std::vector<glm::vec3>& points,
-         const std::vector<int>& indices);
+      Mesh();
 
       Mesh(
-         const std::vector<glm::vec3>& points,
-         const std::vector<int>& indices,
+         const std::vector<glm::vec3>& vertices,
+         const std::vector<unsigned int>& indices);
+
+      Mesh(
+         const std::vector<glm::vec3>& vertices,
+         const std::vector<unsigned int>& indices,
          const std::vector<glm::vec3>& normals);
 
-      static Mesh CreateBox(const glm::vec3& position, const glm::vec3& size);
-      static Mesh CreatePlane(const glm::vec3& position, const glm::vec2& size);
+      std::vector<glm::vec3>& GetVertices();
+      std::vector<unsigned int>& GetIndices();
+
+      static Mesh CreatePlane(const glm::vec3& origin, const glm::vec2& size);
+
+      bool IsDirty() const; //TODO: Make this hidden, using an impl?
+      void SetIsDirty(bool value);
 
    private:
-      std::vector<glm::vec3> m_points;
-      std::vector<int> m_indices;
+      std::vector<glm::vec3> m_vertices;
+      std::vector<unsigned int> m_indices;
       std::vector<glm::vec3> m_normals;
+
+      bool m_isDirty = true;
    };
 }

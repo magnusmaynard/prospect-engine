@@ -2,12 +2,7 @@
 
 #include <string>
 #include <memory>
-
-#include "VertexShader.h"
-#include "TessEvaluationShader.h"
-#include "TessControlShader.h"
-#include "GeometryShader.h"
-#include "FragmentShader.h"
+#include "BaseShader.h"
 
 namespace Prospect
 {
@@ -16,6 +11,10 @@ namespace Prospect
    public:
       ShaderProgram();
       ~ShaderProgram();
+      ShaderProgram(ShaderProgram&& other);
+      ShaderProgram& operator=(ShaderProgram&& other);
+      ShaderProgram(const ShaderProgram& other) = delete;
+      ShaderProgram& operator=(const ShaderProgram& other) = delete;
 
       void AddVertexShader(const std::string& fileName);
       void AddTessControlShader(const std::string& fileName);
@@ -29,7 +28,7 @@ namespace Prospect
       GLint GetUniformLocation(const std::string& uniform) const;
 
    private:
-      GLuint m_program = -1;
+      GLuint m_program = 0;
 
       std::unique_ptr<BaseShader> m_vertexShader;
       std::unique_ptr<BaseShader> m_tessControlShader;
