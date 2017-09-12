@@ -9,6 +9,7 @@ namespace Prospect
    class IApplication;
    enum class PolygonMode;
    class Scene;
+   class MeshLibrary;
 
    class Engine_impl;
 
@@ -24,8 +25,10 @@ namespace Prospect
       EXPORT_DLL void Start();
       EXPORT_DLL void SetTitle(const std::string& title);
       EXPORT_DLL void Close();
-      EXPORT_DLL Scene& GetScene();
       EXPORT_DLL glm::ivec2 GetSize() const;
+
+      EXPORT_DLL Scene& GetScene();
+      EXPORT_DLL MeshLibrary& GetMeshLibrary();
 
    private:
       //Using opaque pointer to impls to avoid having to include internal headers outside of dll.

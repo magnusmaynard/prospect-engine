@@ -4,6 +4,8 @@
 
 namespace Prospect
 {
+   class Mesh;
+   class Material;
    class Scene_impl;
    class Entity;
 
@@ -13,8 +15,8 @@ namespace Prospect
       EXPORT_DLL ~Scene();
       Scene();
 
-      EXPORT_DLL Entity& AddEntity();
-      EXPORT_DLL Entity& GetEntity(const int index);
+      EXPORT_DLL Entity& CreateEntity(Mesh& mesh, Material& material);
+      EXPORT_DLL Entity& GetEntityAtIndex(const int index);
 
       //void CreateCamera(const glm::ivec2& size);
       EXPORT_DLL void CreateTerrain();

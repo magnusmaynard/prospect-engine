@@ -7,6 +7,7 @@
 #include "TessEvaluationShader.h"
 #include "GeometryShader.h"
 #include "FragmentShader.h"
+#include "RendererDefines.h"
 
 using namespace Prospect;
 
@@ -29,7 +30,8 @@ ShaderProgram::ShaderProgram(ShaderProgram&& other)
    m_geometryShader(std::move(other.m_geometryShader)),
    m_fragmentShader(std::move(other.m_fragmentShader))
 {
-   other.m_program = 0;
+   //Release.
+   other.m_program = GL_NULL;
    other.m_vertexShader = nullptr;
    other.m_tessControlShader = nullptr;
    other.m_tessEvaluationShader = nullptr;
@@ -41,14 +43,16 @@ ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other)
 {
    if (this != &other)
    {
-      m_program = 0;
+      //Move
+      m_program = other.m_program;
       m_vertexShader = std::move(other.m_vertexShader);
       m_tessControlShader = std::move(other.m_tessControlShader);
       m_tessEvaluationShader = std::move(other.m_tessEvaluationShader);
       m_geometryShader = std::move(other.m_geometryShader);
       m_fragmentShader = std::move(other.m_fragmentShader);
 
-      other.m_program = 0;
+      //Release
+      other.m_program = GL_NULL;
       other.m_vertexShader = nullptr;
       other.m_tessControlShader = nullptr;
       other.m_tessEvaluationShader = nullptr;

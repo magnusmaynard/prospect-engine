@@ -28,15 +28,22 @@ void Engine::Close()
    m_impl->Close();
 }
 
+glm::ivec2 Engine::GetSize() const
+{
+   return m_impl->GetSize();
+}
+
+
 Scene& Engine::GetScene()
 {
    return m_impl->GetScene();
 }
 
-glm::ivec2 Engine::GetSize() const
+MeshLibrary& Engine::GetMeshLibrary()
 {
-   return m_impl->GetSize();
+   return m_impl->GetMeshLibrary();
 }
+
 
 //Using a unique_ptr means the Engine must have a default destructor. See:
 //"Effect Modern C++ - Item 22: When using the Pimpl Idiom, define special member functions in the implementation file."

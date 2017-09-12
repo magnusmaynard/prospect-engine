@@ -16,14 +16,14 @@ void Scene::CreateTerrain()
    m_impl->CreateTerrain();
 }
 
-Entity& Scene::AddEntity()
+Entity& Scene::CreateEntity(Mesh& mesh, Material& material)
 {
-   return m_impl->AddEntity();
+   return m_impl->CreateEntity(mesh, material);
 }
 
-Entity& Scene::GetEntity(const int index)
+Entity& Scene::GetEntityAtIndex(const int index)
 {
-   return m_impl->GetEntity(index);
+   return m_impl->GetEntityAtIndex(index);
 }
 
 Scene_impl& Scene::GetImpl()

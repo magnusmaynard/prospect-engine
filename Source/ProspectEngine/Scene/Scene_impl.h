@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Include/Scene.h"
 #include "Include/Entity.h"
+#include "Defaults.h"
 
 namespace Prospect
 {
@@ -21,8 +22,8 @@ namespace Prospect
       Terrain* GetTerrain();
       const Terrain* GetTerrain() const;
 
-      Entity& AddEntity();
-      Entity& GetEntity(const int index);
+      Entity& CreateEntity(Mesh& mesh, Material& material);
+      Entity& GetEntityAtIndex(const int index);
 
       std::vector<Entity>& GetEntities();
 
@@ -32,7 +33,7 @@ namespace Prospect
       std::unique_ptr<Camera> m_camera;
       std::unique_ptr<Terrain> m_terrain;
 
-      unsigned long m_nextEntityID = 0;
+      unsigned long m_nextEntityID = DEFAULT_ENTITY_ID;
       std::vector<Entity> m_entities;
    };
 }

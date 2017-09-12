@@ -1,8 +1,10 @@
 ﻿#version 450
 
+layout (location = 3) uniform vec4 diffuse;
+
 out vec4 color;
 
 void main()
 {
-   color = vec4(1.0, 0.5, 0, 1.0);
+   color = diffuse;
 }

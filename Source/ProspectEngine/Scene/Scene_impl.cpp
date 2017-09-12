@@ -38,16 +38,16 @@ const Terrain* Scene_impl::GetTerrain() const
    return m_terrain.get();
 }
 
-Entity& Scene_impl::AddEntity()
+Entity& Scene_impl::CreateEntity(Mesh& mesh, Material& material)
 {
-   m_entities.emplace_back(Entity(m_nextEntityID));
-
    m_nextEntityID++;
+
+   m_entities.emplace_back(Entity(m_nextEntityID, mesh, material));
 
    return m_entities.back();
 }
 
-Entity& Scene_impl::GetEntity(const int index)
+Entity& Scene_impl::GetEntityAtIndex(const int index)
 {
    if(index < 0 || index >= static_cast<int>(m_entities.size()))
    {

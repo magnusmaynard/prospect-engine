@@ -1,133 +1,62 @@
 #include "Renderable.h"
+
 #include <memory>
+#include <iostream>
+#include "Scene/Scene_impl.h"
 
 using namespace Prospect;
 
-Renderable::Renderable(Entity_impl& entity)
+Renderable::Renderable(Entity_impl& entity, RenderableMesh& renderableMesh)
    :
-   m_entity(&entity)
+   m_entity(&entity),
+   m_renderableMesh(renderableMesh)
 {
    m_program.AddVertexShader("simple");
    m_program.AddFragmentShader("simple");
 
    m_program.Compile();
-
-   //Get uniform bindings
-
-   UpdateVertexData();
 }
 
 Renderable::~Renderable()
-{ 
-   //TODO: delete VAO and buffers
+{
 }
-
 
 Renderable::Renderable(Renderable&& other)
    :
    m_entity(other.m_entity),
    m_program(std::move(other.m_program)),
-   m_VAO(other.m_VAO)
+   m_renderableMesh(other.m_renderableMesh)
 {
-   other.m_VAO = -1;
-}
-
-Renderable& Renderable::operator=(Renderable&& other)
-{
-   if(this != &other)
-   {
-      m_entity = other.m_entity;
-      m_program = std::move(other.m_program);
-      m_VAO = other.m_VAO;
-
-      other.m_VAO = -1;
-   }
-
-   return *this;
-}
-
-void Renderable::UpdateVertexData()
-{
-   Mesh& mesh = m_entity->GetMesh();
-
-   if (mesh.IsDirty())
-   {
-      mesh.SetIsDirty(false);
-
-      //TODO: Reset and delete buffers.
-
-      glCreateVertexArrays(1, &m_VAO); //TODO: move into to constructor and move constructors.
-
-      glCreateBuffers(BUFFER_COUNT, m_buffers);
-
-      //Create vertex buffer.
-      auto& vertices = mesh.GetVertices();
-
-      glNamedBufferStorage(
-         m_buffers[BUFFER_VERTICES],
-         vertices.size() * sizeof(glm::vec3),
-         &vertices[0],
-         0);
-
-      glVertexArrayVertexBuffer(
-         m_VAO,
-         0,
-         m_buffers[BUFFER_VERTICES],
-         0,
-         sizeof(glm::vec3));
-
-      glVertexArrayAttribFormat(
-         m_VAO,
-         0,
-         3,
-         GL_FLOAT,
-         GL_FALSE,
-         0);
-
-      glVertexArrayAttribBinding(m_VAO, 0, 0);
-      glEnableVertexArrayAttrib(m_VAO, 0);
-
-      glBindBuffer(GL_ARRAY_BUFFER, m_buffers[BUFFER_VERTICES]);
-
-      //Create index buffer.
-      auto& indices = mesh.GetIndices();
-
-      glNamedBufferStorage(
-         m_buffers[BUFFER_INDICES],
-         indices.size() * sizeof(unsigned int),
-         &indices[0],
-         0);
-
-      glVertexArrayElementBuffer(m_VAO, m_buffers[BUFFER_INDICES]);
-   }
 }
 
 void Renderable::Render(Scene_impl& scene)
 {
-   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //TODO: move somewhere else.
-
-   Mesh& mesh = m_entity->GetMesh();
-
-   if(mesh.GetVertices().size() == 0)
-   {
-      return;
-   }
-
-   UpdateVertexData();
-
    m_program.Use();
 
-   //Apply transform
-   //m_entity.GetTransform();
+   UseCamera(*scene.GetCamera());
 
-   //Apply Material
-   //m_entity.GetMaterial();
+   UseTransform(m_entity->GetTransform());
 
-   //Apply Mesh
-   glBindVertexArray(m_VAO);
+   UseMaterial(m_entity->GetMaterial());
 
-   //Render
-   glDrawElements(GL_TRIANGLES, mesh.GetIndices().size(), GL_UNSIGNED_INT, 0);
+   m_renderableMesh.Render();
+}
 
+void Renderable::UseCamera(const Camera& camera)
+{
+   glUniformMatrix4fv(0, 1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);
+   glUniformMatrix4fv(1, 1, GL_FALSE, &camera.GetViewMatrix()[0][0]);
+}
 
+void Renderable::UseTransform(const glm::mat4& transform)
+{
+   glUniformMatrix4fv(2, 1, GL_FALSE, &transform[0][0]);
+}
+
+void Renderable::UseMaterial(const Material& material)
+{
+   auto& diffuse = material.GetDiffuse();
+   float diffuseRGBA[4] = { diffuse.R, diffuse.G, diffuse.B, diffuse.A };
+
+   glUniform4fv(3, 1, diffuseRGBA);
 }

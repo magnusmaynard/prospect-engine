@@ -10,33 +10,35 @@ namespace Prospect
    //template class EXPORT_DLL std::vector<glm::vec3>;
    //template class EXPORT_DLL std::vector<int>;
 
-   class EXPORT_DLL Mesh
+   class Mesh
    {
    public:
-      Mesh();
-
+      //TODO: make internal.
+      Mesh(unsigned long id);
       Mesh(
+         unsigned long id,
          const std::vector<glm::vec3>& vertices,
          const std::vector<unsigned int>& indices);
 
-      Mesh(
-         const std::vector<glm::vec3>& vertices,
-         const std::vector<unsigned int>& indices,
-         const std::vector<glm::vec3>& normals);
+      EXPORT_DLL const std::vector<glm::vec3>& GetVertices() const;
+      EXPORT_DLL std::vector<glm::vec3>& GetVertices();
+      EXPORT_DLL const std::vector<unsigned int>& GetIndices() const;
+      EXPORT_DLL std::vector<unsigned int>& GetIndices();
 
-      std::vector<glm::vec3>& GetVertices();
-      std::vector<unsigned int>& GetIndices();
+      //TODO: Make these hidden, using an impl.
+      bool IsDirty() const;
+      void SetIsDirty(bool value) const;
 
-      static Mesh CreatePlane(const glm::vec3& origin, const glm::vec2& size);
+      unsigned long GetID() const;
 
-      bool IsDirty() const; //TODO: Make this hidden, using an impl?
-      void SetIsDirty(bool value);
 
    private:
+
+      unsigned long m_id = 0;
+
       std::vector<glm::vec3> m_vertices;
       std::vector<unsigned int> m_indices;
-      std::vector<glm::vec3> m_normals;
 
-      bool m_isDirty = true;
+      mutable bool m_isDirty = true;
    };
 }

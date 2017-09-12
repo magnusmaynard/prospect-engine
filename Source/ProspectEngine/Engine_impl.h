@@ -6,10 +6,11 @@
 #include "Include/Engine.h"
 #include "Include/IApplication.h"
 #include "Include/Scene.h"
-#include "Renderer/Window.h"
-#include "Scene/Scene_impl.h"
-#include "Renderer/Renderer.h"
+#include "Include/MeshLibrary.h"
+
 #include "Defaults.h"
+#include "Renderer/Window.h"
+#include "Renderer/Renderer.h"
 
 namespace Prospect
 {
@@ -30,8 +31,10 @@ namespace Prospect
       void Start();
       void SetTitle(const std::string& title);
       void Close();
-      Scene& GetScene();
       glm::ivec2 GetSize() const;
+
+      Scene& GetScene();
+      MeshLibrary& GetMeshLibrary();
 
    private:
       Engine& m_parent;
@@ -39,6 +42,7 @@ namespace Prospect
       IApplication& m_application;
       Window m_window;
       Scene m_scene;
+      MeshLibrary m_meshLibrary;
       Renderer m_renderer;
    };
 }

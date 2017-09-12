@@ -13,21 +13,25 @@ namespace Prospect
    class Entity
    {
    public:
-      EXPORT_DLL Entity(unsigned long id);
+      EXPORT_DLL Entity(unsigned long id, Mesh& mesh, Material& material);
       EXPORT_DLL ~Entity();
       EXPORT_DLL Entity(const Entity& entity) = delete;
       EXPORT_DLL Entity& operator=(const Entity& entity) = delete;
       EXPORT_DLL Entity(Entity&& entity);
       EXPORT_DLL Entity& operator=(Entity&& entity);
 
-      EXPORT_DLL void SetMesh(const Mesh& mesh);
-      EXPORT_DLL void SetMaterial(const Material& material);
+      EXPORT_DLL void SetMesh(Mesh& mesh);
+      EXPORT_DLL void SetMaterial(Material& material);
 
       EXPORT_DLL Mesh& GetMesh();
       EXPORT_DLL Material& GetMaterial();
 
       EXPORT_DLL void SetTranslation(const glm::vec3& translation);
-      EXPORT_DLL glm::mat4 GetTransform() const;
+      EXPORT_DLL glm::vec3 GetTranslation() const;
+      EXPORT_DLL void SetRotation(const glm::vec3& rotation);
+      EXPORT_DLL glm::vec3 GetRotation() const;
+      EXPORT_DLL void SetScale(const glm::vec3& scale);
+      EXPORT_DLL glm::vec3 GetScale() const;
 
       Entity_impl& GetImpl();
 

@@ -1,6 +1,8 @@
 #include "Engine_impl.h"
 
+#include "Scene/Scene_impl.h"
 #include <glm/vec2.hpp>
+#include <iostream>
 
 using namespace Prospect;
 
@@ -59,46 +61,17 @@ void Engine_impl::Close()
    m_window.Close();
 }
 
-//void Engine_impl::Clear()
-//{
-//   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-//}
-
-//void Engine_impl::SetPolygonMode(const PolygonMode& polygonMode)
-//{
-//   int mode = -1;
-//   switch (polygonMode)
-//   {
-//      case PolygonMode::Point:
-//      {
-//         mode = GL_POINT;
-//         break;
-//      }
-//      case PolygonMode::Line:
-//      {
-//         mode = GL_LINE;
-//         break;
-//      }
-//      case PolygonMode::Fill:
-//      {
-//         mode = GL_FILL;
-//         break;
-//      }
-//      default:
-//      {
-//         throw std::exception("Invalid PolygonMode.");
-//      }
-//   }
-//
-//   glPolygonMode(GL_FRONT_AND_BACK, mode);
-//}
+glm::ivec2 Engine_impl::GetSize() const
+{
+   return m_window.GetSize();
+}
 
 Scene& Engine_impl::GetScene()
 {
    return m_scene;
 }
 
-glm::ivec2 Engine_impl::GetSize() const
+MeshLibrary& Engine_impl::GetMeshLibrary()
 {
-   return m_window.GetSize();
+   return m_meshLibrary;
 }

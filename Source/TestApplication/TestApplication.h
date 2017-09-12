@@ -22,6 +22,7 @@ public:
 private:
    Engine m_engine;
    Scene& m_scene;
+   MeshLibrary& m_meshLib;
 
    //Terrain* m_terrain = nullptr;
 };

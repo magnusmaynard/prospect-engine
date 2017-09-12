@@ -29,11 +29,16 @@
     <ClInclude Include="Include\Key.h" />
     <ClInclude Include="Include\Material.h" />
     <ClInclude Include="Include\Mesh.h" />
+    <ClInclude Include="Include\MeshLibrary.h" />
     <ClInclude Include="Include\Scene.h" />
+    <ClInclude Include="Libraries\MeshLibrary_impl.h" />
+    <ClInclude Include="RendererDefines.h" />
+    <ClInclude Include="Renderer\PolygonMode.h" />
     <ClInclude Include="Renderer\Renderable.h" />
     <ClInclude Include="Renderer\QuadTree\Node.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTree.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTreeUniformLocations.h" />
+    <ClInclude Include="Renderer\RenderableMesh.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\Shaders\BaseShader.h" />
     <ClInclude Include="Renderer\Shaders\FragmentShader.h" />
@@ -55,9 +60,12 @@
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Engine_impl.cpp" />
+    <ClCompile Include="Libraries\MeshLibrary.cpp" />
+    <ClCompile Include="Libraries\MeshLibrary_impl.cpp" />
     <ClCompile Include="Renderer\Renderable.cpp" />
     <ClCompile Include="Renderer\QuadTree\Node.cpp" />
     <ClCompile Include="Renderer\QuadTree\QuadTree.cpp" />
+    <ClCompile Include="Renderer\RenderableMesh.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\Shaders\BaseShader.cpp" />
     <ClCompile Include="Renderer\Shaders\FragmentShader.cpp" />

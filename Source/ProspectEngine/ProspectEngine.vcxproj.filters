@@ -89,6 +89,21 @@
     <ClInclude Include="Renderer\Renderable.h">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="RendererDefines.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\PolygonMode.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\MeshLibrary.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\MeshLibrary_impl.h">
+      <Filter>Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\RenderableMesh.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -155,6 +170,15 @@
     <ClCompile Include="Renderer\Renderable.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Libraries\MeshLibrary.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\MeshLibrary_impl.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\RenderableMesh.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -180,6 +204,9 @@
     </Filter>
     <Filter Include="Resources\Shaders">
       <UniqueIdentifier>{5b6a08ec-e3a7-4a2d-8036-aeb5fa9efa91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{d1c41439-c8db-473a-87f7-8477352d928e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
