@@ -19,8 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Defaults.h" />
+    <ClInclude Include="EngineDefines.h" />
     <ClInclude Include="Engine_impl.h" />
+    <ClInclude Include="Include\Camera.h" />
     <ClInclude Include="Include\Color.h" />
     <ClInclude Include="Include\Defines.h" />
     <ClInclude Include="Include\Engine.h" />
@@ -28,18 +29,21 @@
     <ClInclude Include="Include\IApplication.h" />
     <ClInclude Include="Include\Key.h" />
     <ClInclude Include="Include\Material.h" />
+    <ClInclude Include="Include\MaterialLibrary.h" />
     <ClInclude Include="Include\Mesh.h" />
     <ClInclude Include="Include\MeshLibrary.h" />
     <ClInclude Include="Include\Scene.h" />
+    <ClInclude Include="Libraries\MaterialLibrary_impl.h" />
     <ClInclude Include="Libraries\MeshLibrary_impl.h" />
-    <ClInclude Include="RendererDefines.h" />
     <ClInclude Include="Renderer\PolygonMode.h" />
     <ClInclude Include="Renderer\Renderable.h" />
     <ClInclude Include="Renderer\QuadTree\Node.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTree.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTreeUniformLocations.h" />
+    <ClInclude Include="Renderer\RenderableMaterial.h" />
     <ClInclude Include="Renderer\RenderableMesh.h" />
     <ClInclude Include="Renderer\Renderer.h" />
+    <ClInclude Include="Renderer\RendererDefines.h" />
     <ClInclude Include="Renderer\Shaders\BaseShader.h" />
     <ClInclude Include="Renderer\Shaders\FragmentShader.h" />
     <ClInclude Include="Renderer\Shaders\GeometryShader.h" />
@@ -52,7 +56,7 @@
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Resources\VertexArray.h" />
     <ClInclude Include="Scene\Atmosphere.h" />
-    <ClInclude Include="Scene\Camera.h" />
+    <ClInclude Include="Scene\Camera_impl.h" />
     <ClInclude Include="Scene\Entity_impl.h" />
     <ClInclude Include="Scene\Scene_impl.h" />
     <ClInclude Include="Scene\Terrain.h" />
@@ -60,11 +64,14 @@
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Engine_impl.cpp" />
+    <ClCompile Include="Libraries\MaterialLibrary.cpp" />
+    <ClCompile Include="Libraries\MaterialLibrary_imp.cpp" />
     <ClCompile Include="Libraries\MeshLibrary.cpp" />
     <ClCompile Include="Libraries\MeshLibrary_impl.cpp" />
     <ClCompile Include="Renderer\Renderable.cpp" />
     <ClCompile Include="Renderer\QuadTree\Node.cpp" />
     <ClCompile Include="Renderer\QuadTree\QuadTree.cpp" />
+    <ClCompile Include="Renderer\RenderableMaterial.cpp" />
     <ClCompile Include="Renderer\RenderableMesh.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\Shaders\BaseShader.cpp" />
@@ -78,6 +85,7 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Scene\Atmosphere.cpp" />
     <ClCompile Include="Scene\Camera.cpp" />
+    <ClCompile Include="Scene\Camera_impl.cpp" />
     <ClCompile Include="Scene\Entity.cpp" />
     <ClCompile Include="Scene\Entity_impl.cpp" />
     <ClCompile Include="Scene\Material.cpp" />

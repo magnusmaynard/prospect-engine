@@ -9,6 +9,8 @@ MeshLibrary_impl::MeshLibrary_impl(MeshLibrary& parent)
    :
    m_parent(parent)
 {
+   //Reserve so adding new meshes does not invalidate references to them.
+   m_meshes.reserve(MAX_MESHES);
 }
 
 Mesh& MeshLibrary_impl::CreatePlane(const vec2& size)
@@ -17,10 +19,10 @@ Mesh& MeshLibrary_impl::CreatePlane(const vec2& size)
 
    std::vector<vec3> vertices
    {
-      vec3(-halfSize.x, -halfSize.y, 0),
-      vec3(-halfSize.x,  halfSize.y, 0),
-      vec3(halfSize.x,  halfSize.y, 0),
-      vec3(halfSize.x, -halfSize.y, 0),
+      vec3(-halfSize.x, 0, -halfSize.y),
+      vec3(-halfSize.x, 0,  halfSize.y),
+      vec3(halfSize.x, 0, halfSize.y),
+      vec3(halfSize.x, 0, -halfSize.y),
    };
 
    std::vector<unsigned int> indices =
@@ -30,6 +32,16 @@ Mesh& MeshLibrary_impl::CreatePlane(const vec2& size)
    };
 
    return AddMesh(vertices, indices);
+}
+
+Mesh& MeshLibrary_impl::GetMeshAtIndex(int index)
+{
+   if (index < 0 || index >= static_cast<int>(m_meshes.size()))
+   {
+      throw std::exception("No Mesh at index.");
+   }
+
+   return m_meshes[index];
 }
 
 Mesh& MeshLibrary_impl::AddMesh(

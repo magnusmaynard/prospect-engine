@@ -26,6 +26,17 @@ Entity& Scene::GetEntityAtIndex(const int index)
    return m_impl->GetEntityAtIndex(index);
 }
 
+
+const Camera& Scene::GetCamera() const
+{
+   return m_impl->GetCamera();
+}
+
+Camera& Scene::GetCamera()
+{
+   return m_impl->GetCamera();
+}
+
 Scene_impl& Scene::GetImpl()
 {
    return *m_impl;

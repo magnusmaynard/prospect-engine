@@ -7,8 +7,8 @@
 #include "Include/IApplication.h"
 #include "Include/Scene.h"
 #include "Include/MeshLibrary.h"
+#include "Include/MaterialLibrary.h"
 
-#include "Defaults.h"
 #include "Renderer/Window.h"
 #include "Renderer/Renderer.h"
 
@@ -22,8 +22,8 @@ namespace Prospect
       Engine_impl(
          Engine& parent,
          IApplication& application,
-         const int width = DEFAULT_WIDTH,
-         const int height = DEFAULT_HEIGHT);
+         const int width,
+         const int height);
 
       Engine& GetParent();
       const Engine& GetParent() const;
@@ -35,6 +35,7 @@ namespace Prospect
 
       Scene& GetScene();
       MeshLibrary& GetMeshLibrary();
+      MaterialLibrary& GetMaterialLibrary();
 
    private:
       Engine& m_parent;
@@ -43,6 +44,7 @@ namespace Prospect
       Window m_window;
       Scene m_scene;
       MeshLibrary m_meshLibrary;
+      MaterialLibrary m_materialLibrary;
       Renderer m_renderer;
    };
 }

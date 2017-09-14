@@ -3,6 +3,7 @@
 #include "Scene/Scene_impl.h"
 #include <glm/vec2.hpp>
 #include <iostream>
+#include "Include/MaterialLibrary.h"
 
 using namespace Prospect;
 
@@ -16,7 +17,6 @@ Engine_impl::Engine_impl(
    m_application(application),
    m_window(application, glm::ivec2(width, height))
 {
-   m_scene.GetImpl().CreateCamera(m_window.GetSize());
 }
 
 Engine& Engine_impl::GetParent()
@@ -74,4 +74,9 @@ Scene& Engine_impl::GetScene()
 MeshLibrary& Engine_impl::GetMeshLibrary()
 {
    return m_meshLibrary;
+}
+
+MaterialLibrary& Engine_impl::GetMaterialLibrary()
+{
+   return m_materialLibrary;
 }

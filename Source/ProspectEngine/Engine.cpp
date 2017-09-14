@@ -1,6 +1,7 @@
 #include "Include/Engine.h"
 
 #include "Engine_impl.h"
+#include "Include/MaterialLibrary.h"
 
 using namespace Prospect;
 
@@ -42,6 +43,11 @@ Scene& Engine::GetScene()
 MeshLibrary& Engine::GetMeshLibrary()
 {
    return m_impl->GetMeshLibrary();
+}
+
+MaterialLibrary& Engine::GetMaterialLibrary()
+{
+   return m_impl->GetMaterialLibrary();
 }
 
 

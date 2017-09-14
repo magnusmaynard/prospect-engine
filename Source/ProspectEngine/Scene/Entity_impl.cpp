@@ -1,7 +1,7 @@
 #include "Entity_impl.h"
 
-#include <glm/gtc/matrix_transform.inl>
-#include "RendererDefines.h"
+#include <glm/gtx/transform.hpp>
+#include "EngineDefines.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -84,9 +84,9 @@ const mat4& Entity_impl::GetTransform() const
 
       m_transform = translate(mat4(), m_translation);
 
-      m_transform = rotate(m_transform, m_rotation.x, POS_X);
-      m_transform = rotate(m_transform, m_rotation.y, POS_Y);
-      m_transform = rotate(m_transform, m_rotation.z, POS_Z);
+      m_transform = rotate(m_transform, radians(m_rotation.x), POS_X);
+      m_transform = rotate(m_transform, radians(m_rotation.y), POS_Y);
+      m_transform = rotate(m_transform, radians(m_rotation.z), POS_Z);
 
       m_transform = scale(m_transform, m_scale);
    }

@@ -3,4 +3,5 @@
 *.VC.opendb
 *.VC.db
 *.suo
+*.trace
 Source/.vs

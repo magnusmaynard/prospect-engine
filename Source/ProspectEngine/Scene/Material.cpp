@@ -1,27 +1,19 @@
 #include "Include/Material.h"
+#include "EngineDefines.h"
 
 using namespace Prospect;
 
-const Color Material::DEFAULT_COLOR = Color(1, 0, 0);
-
-Material::Material()
+Material::Material(unsigned long id)
    :
-   m_diffuse(DEFAULT_COLOR),
-   m_ambient(DEFAULT_COLOR)
+   m_id(id),
+   m_diffuse(DEFAULT_COLOR)
 {
 }
 
-Material::Material(const Color& color)
+Material::Material(unsigned long id, const Color& diffuse)
    :
-   m_diffuse(color),
-   m_ambient(color)
-{
-}
-
-Material::Material(const Color& diffuse, const Color& ambient)
-   :
-   m_diffuse(diffuse),
-   m_ambient(ambient)
+   m_id(id),
+   m_diffuse(diffuse)
 {
 }
 
@@ -30,7 +22,7 @@ const Color& Material::GetDiffuse() const
    return m_diffuse;
 }
 
-const Color& Material::GetAmbient() const
+unsigned long Material::GetID() const
 {
-   return m_ambient;
+   return m_id;
 }

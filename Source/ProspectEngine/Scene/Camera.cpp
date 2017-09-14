@@ -1,32 +1,30 @@
-#include "Camera.h"
+#pragma once
+#include "Include/Camera.h"
+
+#include "Camera_impl.h";
 
 using namespace Prospect;
 
-Camera::Camera(const glm::ivec2& size):
-   m_up(0, 1, 0)
+Camera::Camera(const glm::ivec2& size)
+   :
+   m_impl(std::make_unique<Camera_impl>(*this, size))
 {
-   Resize(size);
 }
 
-void Camera::LookAt(const glm::vec3 eyePosition, const glm::vec3 targetPosition)
+Camera::~Camera() = default;
+
+
+Camera_impl& Camera::GetImpl()
 {
-   m_view = glm::lookAt(eyePosition, targetPosition, m_up);
+   return *m_impl;
 }
 
-glm::mat4 Camera::GetViewMatrix() const
+void Camera::LookAt(const glm::vec3 eyePosition, const glm::vec3 lookPosition)
 {
-   return m_view;
-}
-
-glm::mat4 Camera::GetProjectionMatrix() const
-{
-   return m_projection;
+   m_impl->LookAt(eyePosition, lookPosition);
 }
 
 void Camera::Resize(const glm::ivec2& size)
 {
-   m_size = size;
-
-   float aspect = m_size.x / static_cast<float>(m_size.y);
-   m_projection = glm::perspective(glm::radians(45.0f), aspect, 0.0001f, 10000.0f);
+   m_impl->Resize(size);
 }

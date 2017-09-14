@@ -1,18 +1,21 @@
 #pragma once
 #include "Shaders/ShaderProgram.h"
-#include "RendererDefines.h"
 #include "Scene/Entity_impl.h"
 #include "RenderableMesh.h"
+#include "RenderableMaterial.h"
 
 namespace Prospect
 {
-   class Camera;
+   class Camera_impl;
    class Scene_impl;
 
    class Renderable
    {
    public:
-      Renderable(Entity_impl& entity, RenderableMesh& renderableMesh);
+      Renderable(
+         Entity_impl& entity,
+         RenderableMesh& renderableMesh,
+         RenderableMaterial& renderableMaterial);
       ~Renderable();
       Renderable(const Renderable& other) = delete;
       Renderable& operator=(const Renderable &) = delete;
@@ -22,15 +25,13 @@ namespace Prospect
       void Render(Scene_impl& scene);
 
    private:
-      void DrawMesh(const Mesh& mesh);
-      void UpdateBuffers(const Mesh& mesh);
-      void UseCamera(const Camera& camera);
+      void UseCamera(const Camera_impl& camera);
       void UseTransform(const glm::mat4& transform);
-      void UseMaterial(const Material& material);
 
-      Entity_impl* m_entity; //TODO: make reference
+      Entity_impl& m_entity;
 
       RenderableMesh& m_renderableMesh;
+      RenderableMaterial& m_renderableMaterial;
 
       ShaderProgram m_program;
    };

@@ -4,13 +4,11 @@ using namespace Prospect;
 
 Scene_impl::Scene_impl(Scene& parent)
    :
-   m_parent(parent)
+   m_parent(parent),
+   m_camera(DEFAULT_CAMERA_SIZE)
 {
-}
-
-void Scene_impl::CreateCamera(const glm::ivec2& size)
-{
-   m_camera = std::make_unique<Camera>(size);
+   //Reserve so adding new entities does not invalidate references to them.
+   m_entities.reserve(MAX_ENTITIES);
 }
 
 void Scene_impl::CreateTerrain()
@@ -18,14 +16,14 @@ void Scene_impl::CreateTerrain()
    m_terrain = std::make_unique<Terrain>();
 }
 
-Camera* Scene_impl::GetCamera()
+Camera& Scene_impl::GetCamera()
 {
-   return m_camera.get();
+   return m_camera;
 }
 
-const Camera* Scene_impl::GetCamera() const
+const Camera& Scene_impl::GetCamera() const
 {
-   return m_camera.get();
+   return m_camera;
 }
 
 Terrain* Scene_impl::GetTerrain()
@@ -51,7 +49,7 @@ Entity& Scene_impl::GetEntityAtIndex(const int index)
 {
    if(index < 0 || index >= static_cast<int>(m_entities.size()))
    {
-      throw std::exception("No Entity is stored at that index.");
+      throw std::exception("No Entity at index.");
    }
 
    return m_entities[index];

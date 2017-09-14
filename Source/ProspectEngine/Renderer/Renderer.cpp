@@ -2,6 +2,7 @@
 #include "Scene/Scene_impl.h"
 #include "Scene/Terrain.h"
 #include "Renderable.h"
+#include "Scene/Camera_impl.h"
 
 using namespace Prospect;
 
@@ -24,24 +25,6 @@ void Renderer::Render(Scene_impl& scene)
 
    for(auto& entity : scene.GetEntities()) //TODO: is this optimized out?
    {
-      //RenderableMaterial& material = GetRenderable(entity.GetMaterial());
-      //if (currentMaterial != material->GetID())
-      //{
-      //   material.Bind();
-      //}
-
-      //RenderableMesh& mesh = GetRenderable(entity.GetMesh());
-
-      //if (currentMesh != currentMesh->GetID())
-      //{
-      //   mesh.Bind();
-      //}
-
-      //BindTransform(entity.GetTransform());
-
-      //Render(scene, mesh);
-
-
       Renderable& renderable = GetRenderable(entity.GetImpl());
       renderable.Render(scene);
    }
@@ -52,7 +35,12 @@ Renderable& Renderer::GetRenderable(Entity_impl& entity)
    auto itr = m_renderables.find(entity.GetID());
    if(itr == m_renderables.end())
    {
-      return m_renderables.emplace(entity.GetID(), Renderable(entity, GetRenderableMesh(entity.GetMesh()))).first->second;
+      return m_renderables.emplace(
+         entity.GetID(),
+         Renderable(
+            entity,
+            GetRenderableMesh(entity.GetMesh()),
+            GetRenderableMaterial(entity.GetMaterial()))).first->second;
    }
    else
    {
@@ -73,12 +61,25 @@ RenderableMesh& Renderer::GetRenderableMesh(Mesh& mesh)
    }
 }
 
+RenderableMaterial& Renderer::GetRenderableMaterial(Material& material)
+{
+   auto itr = m_renderableMaterials.find(material.GetID());
+   if (itr == m_renderableMaterials.end())
+   {
+      return m_renderableMaterials.emplace(material.GetID(), RenderableMaterial(material)).first->second;
+   }
+   else
+   {
+      return itr->second;
+   }
+}
+
 void Renderer::ApplyCommonUniforms(Scene_impl& scene)
 {
-   const Camera* camera = scene.GetCamera();
+   const Camera_impl& camera = scene.GetCamera().GetImpl();
 
-   glUniformMatrix4fv(0, 1, GL_FALSE, &camera->GetProjectionMatrix()[0][0]);
-   glUniformMatrix4fv(1, 1, GL_FALSE, &camera->GetViewMatrix()[0][0]);
+   glUniformMatrix4fv(0, 1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);
+   glUniformMatrix4fv(1, 1, GL_FALSE, &camera.GetViewMatrix()[0][0]);
 }
 
 void Renderer::Clear()

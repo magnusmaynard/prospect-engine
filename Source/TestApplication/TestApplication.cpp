@@ -1,12 +1,14 @@
 #include "TestApplication.h"
 
+#include <iostream>
 #include "Key.h"
 #include "Entity.h"
 #include "Mesh.h"
 #include "Material.h"
 #include "Color.h"
-#include <iostream>
 #include "MeshLibrary.h"
+#include "MaterialLibrary.h"
+#include "Camera.h"
 
 using namespace glm;
 
@@ -14,7 +16,8 @@ TestApplication::TestApplication()
    :
    m_engine(*this, 600, 400),
    m_scene(m_engine.GetScene()),
-   m_meshLib(m_engine.GetMeshLibrary())
+   m_meshLib(m_engine.GetMeshLibrary()),
+   m_materialLib(m_engine.GetMaterialLibrary())
 {
    m_engine.Start();
 }
@@ -23,33 +26,21 @@ void TestApplication::OnStartup()
 {
    m_engine.SetTitle("Test Application");
 
-   //Entity& box0 = m_scene.AddEntity();
-   //box0.SetMesh(Mesh::CreatePlane(vec2(15, 15)));
-   //box0.SetMaterial(Material(Color(1, 0, 0)));
+   m_scene.GetCamera().LookAt(vec3(0, 100, 100), vec3(0, 0, 0));
 
-   //Entity& box1 = m_scene.AddEntity();
-   //box1.SetMesh(Mesh::CreatePlane(vec2(10, 10)));
-   //box1.SetMaterial(Material(Color(0, 1, 0)));
+   Mesh& groundPlane = m_meshLib.CreatePlane(vec2(100, 100));
+   Material& grass = m_materialLib.CreateMaterial(Color(0.1, 0.6, 0.1));
+   m_scene.CreateEntity(groundPlane, grass);
 
-   //Entity& box2 = m_scene.AddEntity();
-   //box2.SetMesh(Mesh::CreatePlane(vec2(10, 10)));
-   //box2.SetMaterial(Material(Color(0, 0, 1)));
+   Mesh& testPlane = m_meshLib.CreatePlane(vec2(10, 10));
 
-   //TODO: Use libs to create material and meshs.
-   //This means shaders/can be reused on similar material/mesh combinations.
+   Material& matRed = m_materialLib.CreateMaterial(Color(1, 0.2, 0.2));
+   Entity& test1 = m_scene.CreateEntity(testPlane, matRed);
+   test1.SetRotation(vec3(90, 0, 0));
 
-   Mesh& mesh = m_meshLib.CreatePlane(vec2(10, 10));
-
-   Material mat = Material(Color(0, 0, 1));
-   Entity& entity = m_scene.CreateEntity(mesh, mat);
-
-   Material mat2 = Material(Color(0, 1, 0));
-   Entity& entity2 = m_scene.CreateEntity(mesh, mat2);
-
-   Material mat3 = Material(Color(1, 0, 0));
-   Entity& entity3 = m_scene.CreateEntity(mesh, mat3);
-
-   //scene.CreateTerrain();
+   Material& matBlue = m_materialLib.CreateMaterial(Color(0.2, 0.2, 1));
+   Entity& test2 = m_scene.CreateEntity(testPlane, matBlue);
+   test2.SetRotation(vec3(90, 0, 90));
 }
 
 void TestApplication::OnUpdate(const unsigned int time)
@@ -57,24 +48,33 @@ void TestApplication::OnUpdate(const unsigned int time)
    static float counter = 0;
    counter += 0.1;
 
-   auto& e0 = m_scene.GetEntityAtIndex(0);
-   e0.SetTranslation(vec3(cos(counter), sin(counter), -50));
-
    auto& e1 = m_scene.GetEntityAtIndex(1);
    e1.SetTranslation(vec3(-10, 0, -50));
    e1.SetRotation(vec3(cos(counter), 0, sin(counter)));
 
    auto& e2 = m_scene.GetEntityAtIndex(2);
-   e2.SetTranslation(vec3(10, 0, -50));
-   e2.SetRotation(vec3(0, 0, 45));
-   e2.SetScale(vec3(cos(counter), sin(counter), 0));
+   e2.SetTranslation(vec3(sin(counter) * 50, 0, cos(counter) * 50));
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
 {
-   if(key == Key::Escape)
+   switch (key)
    {
-      m_engine.Close();
+      case Key::Escape:
+      {
+         m_engine.Close();
+         break;
+      }
+      case Key::W:
+      {
+         auto& ground = m_scene.GetEntityAtIndex(0);
+         ground.SetRotation(ground.GetRotation() + vec3(0, 2, 0));
+         break;
+      }
+      default:
+      {
+         break;
+      }
    }
 }
 

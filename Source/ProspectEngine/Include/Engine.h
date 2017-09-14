@@ -10,6 +10,7 @@ namespace Prospect
    enum class PolygonMode;
    class Scene;
    class MeshLibrary;
+   class MaterialLibrary;
 
    class Engine_impl;
 
@@ -29,6 +30,7 @@ namespace Prospect
 
       EXPORT_DLL Scene& GetScene();
       EXPORT_DLL MeshLibrary& GetMeshLibrary();
+      EXPORT_DLL MaterialLibrary& GetMaterialLibrary();
 
    private:
       //Using opaque pointer to impls to avoid having to include internal headers outside of dll.

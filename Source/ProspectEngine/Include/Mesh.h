@@ -19,6 +19,7 @@ namespace Prospect
          unsigned long id,
          const std::vector<glm::vec3>& vertices,
          const std::vector<unsigned int>& indices);
+      ~Mesh() {};
 
       EXPORT_DLL const std::vector<glm::vec3>& GetVertices() const;
       EXPORT_DLL std::vector<glm::vec3>& GetVertices();
@@ -31,9 +32,7 @@ namespace Prospect
 
       unsigned long GetID() const;
 
-
    private:
-
       unsigned long m_id = 0;
 
       std::vector<glm::vec3> m_vertices;

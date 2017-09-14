@@ -1,7 +1,7 @@
 #include "Window.h"
 
 #include <iostream>
-#include "Defaults.h"
+#include "RendererDefines.h"
 
 using namespace Prospect;
 

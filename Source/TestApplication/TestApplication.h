@@ -4,6 +4,8 @@
 #include "Engine.h"
 #include "Scene.h"
 #include <vector>
+#include "MeshLibrary.h"
+#include "MaterialLibrary.h"
 
 using namespace Prospect;
 
@@ -23,6 +25,5 @@ private:
    Engine m_engine;
    Scene& m_scene;
    MeshLibrary& m_meshLib;
-
-   //Terrain* m_terrain = nullptr;
+   MaterialLibrary& m_materialLib;
 };

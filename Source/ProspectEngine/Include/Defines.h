@@ -1,5 +1,4 @@
 #pragma once
-
 #ifdef COMPILING_DLL 
 /*Enabled as "export" while compiling the dll project*/
 #define EXPORT_DLL __declspec(dllexport)  

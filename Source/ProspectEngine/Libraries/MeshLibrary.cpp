@@ -14,7 +14,11 @@ MeshLibrary::MeshLibrary()
 
 MeshLibrary::~MeshLibrary() = default;
 
-Mesh& MeshLibrary::CreatePlane(const glm::vec2& size)
+Mesh& MeshLibrary::CreatePlane(const vec2& size)
 {
    return m_impl->CreatePlane(size);
+}
+Mesh& MeshLibrary::GetMeshAtIndex(int index)
+{
+   return m_impl->GetMeshAtIndex(index);
 }

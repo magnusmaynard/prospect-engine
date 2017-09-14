@@ -29,7 +29,6 @@ RenderableMesh::RenderableMesh(RenderableMesh&& other)
    std::fill(other.m_buffers, other.m_buffers + BUFFER_COUNT, GL_NULL);
 }
 
-
 void RenderableMesh::UpdateBuffers()
 {
    //Reset buffers

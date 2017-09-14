@@ -7,9 +7,6 @@
     <ClInclude Include="Renderer\Shaders\BaseShader.h">
       <Filter>Renderer\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Camera.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Shaders\FragmentShader.h">
       <Filter>Renderer\Shaders</Filter>
     </ClInclude>
@@ -22,7 +19,6 @@
     <ClInclude Include="Renderer\QuadTree\Node.h">
       <Filter>Renderer\QuadTree</Filter>
     </ClInclude>
-    <ClInclude Include="Defaults.h" />
     <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h">
       <Filter>Renderer\Shaders</Filter>
     </ClInclude>
@@ -76,7 +72,6 @@
     <ClInclude Include="Scene\Entity_impl.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Entity.h" />
     <ClInclude Include="Include\Material.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -87,9 +82,6 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\Renderable.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="RendererDefines.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\PolygonMode.h">
@@ -104,6 +96,28 @@
     <ClInclude Include="Renderer\RenderableMesh.h">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\MaterialLibrary_impl.h">
+      <Filter>Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\MaterialLibrary.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\RenderableMaterial.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Camera.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Camera_impl.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDefines.h" />
+    <ClInclude Include="Include\Entity.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\RendererDefines.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -112,9 +126,6 @@
     </ClCompile>
     <ClCompile Include="Renderer\Shaders\BaseShader.cpp">
       <Filter>Renderer\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Camera.cpp">
-      <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Renderer\Shaders\FragmentShader.cpp">
       <Filter>Renderer\Shaders</Filter>
@@ -166,7 +177,6 @@
     <ClCompile Include="Scene\Mesh.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Entity.cpp" />
     <ClCompile Include="Renderer\Renderable.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
@@ -178,6 +188,24 @@
     </ClCompile>
     <ClCompile Include="Renderer\RenderableMesh.cpp">
       <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\MaterialLibrary.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\MaterialLibrary_imp.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\RenderableMaterial.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Camera_impl.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Camera.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Entity.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

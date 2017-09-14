@@ -7,17 +7,18 @@ namespace Prospect
    class EXPORT_DLL Material
    {
    public:
-      Material();
-      Material(const Color& color);
-      Material(const Color& diffuse, const Color& ambient);
+      //TODO: Make internal
+      Material(unsigned long id);
+      Material(unsigned long id, const Color& diffuse);
+      ~Material(){}
 
       const Color& GetDiffuse() const;
-      const Color& GetAmbient() const;
+
+      unsigned long GetID() const;
 
    private:
-      static const Color DEFAULT_COLOR;
+      unsigned long m_id;
 
       Color m_diffuse;
-      Color m_ambient;
    };
 }
