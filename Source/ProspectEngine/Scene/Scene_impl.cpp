@@ -11,10 +11,6 @@ Scene_impl::Scene_impl(Scene& parent)
    m_entities.reserve(MAX_ENTITIES);
 }
 
-void Scene_impl::CreateTerrain()
-{
-   m_terrain = std::make_unique<Terrain>();
-}
 
 Camera& Scene_impl::GetCamera()
 {
@@ -24,16 +20,6 @@ Camera& Scene_impl::GetCamera()
 const Camera& Scene_impl::GetCamera() const
 {
    return m_camera;
-}
-
-Terrain* Scene_impl::GetTerrain()
-{
-   return m_terrain.get();
-}
-
-const Terrain* Scene_impl::GetTerrain() const
-{
-   return m_terrain.get();
 }
 
 Entity& Scene_impl::CreateEntity(Mesh& mesh, Material& material)
@@ -58,4 +44,9 @@ Entity& Scene_impl::GetEntityAtIndex(const int index)
 std::vector<Entity>& Scene_impl::GetEntities()
 {
    return m_entities;
+}
+
+Camera_impl& Scene_impl::GetCameraImpl()
+{
+   return *m_camera.m_impl;
 }

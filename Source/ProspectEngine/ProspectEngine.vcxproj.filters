@@ -62,7 +62,6 @@
     <ClInclude Include="Renderer\Renderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Resources.h" />
     <ClInclude Include="Resources\VertexArray.h">
       <Filter>Renderer</Filter>
     </ClInclude>
@@ -81,9 +80,6 @@
     <ClInclude Include="Include\Color.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderable.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\PolygonMode.h">
       <Filter>Renderer</Filter>
     </ClInclude>
@@ -93,17 +89,11 @@
     <ClInclude Include="Libraries\MeshLibrary_impl.h">
       <Filter>Libraries</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\RenderableMesh.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Libraries\MaterialLibrary_impl.h">
       <Filter>Libraries</Filter>
     </ClInclude>
     <ClInclude Include="Include\MaterialLibrary.h">
       <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\RenderableMaterial.h">
-      <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Include\Camera.h">
       <Filter>Include</Filter>
@@ -117,6 +107,18 @@
     </ClInclude>
     <ClInclude Include="Renderer\RendererDefines.h">
       <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Resources.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\Renderable.h">
+      <Filter>Renderer\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\RenderableMaterial.h">
+      <Filter>Renderer\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\RenderableMesh.h">
+      <Filter>Renderer\Renderables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,7 +169,6 @@
     <ClCompile Include="Renderer\Renderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Scene\Entity_impl.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -177,26 +178,17 @@
     <ClCompile Include="Scene\Mesh.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Renderable.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Libraries\MeshLibrary.cpp">
       <Filter>Libraries</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\MeshLibrary_impl.cpp">
       <Filter>Libraries</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\RenderableMesh.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Libraries\MaterialLibrary.cpp">
       <Filter>Libraries</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\MaterialLibrary_imp.cpp">
       <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\RenderableMaterial.cpp">
-      <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Camera_impl.cpp">
       <Filter>Scene</Filter>
@@ -206,6 +198,18 @@
     </ClCompile>
     <ClCompile Include="Scene\Entity.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Resources.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\Renderable.cpp">
+      <Filter>Renderer\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\RenderableMaterial.cpp">
+      <Filter>Renderer\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\RenderableMesh.cpp">
+      <Filter>Renderer\Renderables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +239,9 @@
     </Filter>
     <Filter Include="Libraries">
       <UniqueIdentifier>{d1c41439-c8db-473a-87f7-8477352d928e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Renderables">
+      <UniqueIdentifier>{30caef76-d044-47e3-91c4-05f1f49d8e30}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

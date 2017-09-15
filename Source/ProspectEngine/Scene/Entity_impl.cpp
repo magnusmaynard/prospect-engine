@@ -40,38 +40,38 @@ unsigned long Entity_impl::GetID() const
    return m_id;
 }
 
-void Entity_impl::SetTranslation(const glm::vec3& translation)
+void Entity_impl::SetTranslation(const vec3& translation)
 {
    m_translation = translation;
 
    m_transformIsDirty = true;
 }
 
-const glm::vec3& Entity_impl::GetTranslation() const
+const vec3& Entity_impl::GetTranslation() const
 {
    return m_translation;
 }
 
-void Entity_impl::SetRotation(const glm::vec3& rotation)
+void Entity_impl::SetRotation(const vec3& rotation)
 {
    m_rotation = rotation;
 
    m_transformIsDirty = true;
 }
 
-const glm::vec3& Entity_impl::GetRotation() const
+const vec3& Entity_impl::GetRotation() const
 {
    return m_rotation;
 }
 
-void Entity_impl::SetScale(const glm::vec3& scale)
+void Entity_impl::SetScale(const vec3& scale)
 {
    m_scale = scale;
 
    m_transformIsDirty = true;
 }
 
-const glm::vec3& Entity_impl::GetScale() const
+const vec3& Entity_impl::GetScale() const
 {
    return m_scale;
 }

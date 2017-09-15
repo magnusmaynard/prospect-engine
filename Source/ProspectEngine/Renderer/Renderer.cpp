@@ -1,8 +1,8 @@
 #include "Renderer.h"
 #include "Scene/Scene_impl.h"
 #include "Scene/Terrain.h"
-#include "Renderable.h"
 #include "Scene/Camera_impl.h"
+#include "Renderables/Renderable.h"
 
 using namespace Prospect;
 
@@ -25,7 +25,7 @@ void Renderer::Render(Scene_impl& scene)
 
    for(auto& entity : scene.GetEntities()) //TODO: is this optimized out?
    {
-      Renderable& renderable = GetRenderable(entity.GetImpl());
+      Renderable& renderable = GetRenderable(*entity.m_impl);
       renderable.Render(scene);
    }
 }
@@ -76,7 +76,7 @@ RenderableMaterial& Renderer::GetRenderableMaterial(Material& material)
 
 void Renderer::ApplyCommonUniforms(Scene_impl& scene)
 {
-   const Camera_impl& camera = scene.GetCamera().GetImpl();
+   Camera_impl& camera = scene.GetCameraImpl();
 
    glUniformMatrix4fv(0, 1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);
    glUniformMatrix4fv(1, 1, GL_FALSE, &camera.GetViewMatrix()[0][0]);

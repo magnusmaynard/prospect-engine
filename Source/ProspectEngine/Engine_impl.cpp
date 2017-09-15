@@ -19,16 +19,6 @@ Engine_impl::Engine_impl(
 {
 }
 
-Engine& Engine_impl::GetParent()
-{
-   return m_parent;
-}
-
-const Engine& Engine_impl::GetParent() const
-{
-   return m_parent;
-}
-
 void Engine_impl::Start()
 {
    m_window.Open();
@@ -39,7 +29,7 @@ void Engine_impl::Start()
    {
       m_window.PollEvents();
 
-      m_renderer.Render(m_scene.GetImpl());
+      m_renderer.Render(*m_scene.m_impl);
 
       m_application.OnUpdate(m_window.GetTime());
 
@@ -79,4 +69,9 @@ MeshLibrary& Engine_impl::GetMeshLibrary()
 MaterialLibrary& Engine_impl::GetMaterialLibrary()
 {
    return m_materialLibrary;
+}
+
+Scene_impl& Engine_impl::GetSceneImpl()
+{
+   return *m_scene.m_impl;
 }

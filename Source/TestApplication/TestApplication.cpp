@@ -58,6 +58,8 @@ void TestApplication::OnUpdate(const unsigned int time)
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
 {
+   float moveIncrement = 10.0;
+
    switch (key)
    {
       case Key::Escape:
@@ -67,8 +69,16 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
       }
       case Key::W:
       {
-         auto& ground = m_scene.GetEntityAtIndex(0);
-         ground.SetRotation(ground.GetRotation() + vec3(0, 2, 0));
+         auto& camera = m_scene.GetCamera();
+         vec3 position = camera.GetPosition() + camera.GetForwardDirection() * moveIncrement;
+         camera.SetPosition(position);
+         break;
+      }
+      case Key::S:
+      {
+         auto& camera = m_scene.GetCamera();
+         vec3 position = camera.GetPosition() - camera.GetForwardDirection() * moveIncrement;
+         camera.SetPosition(position);
          break;
       }
       default:
@@ -77,6 +87,11 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
       }
    }
 }
+
+void TestApplication::OnKeyUp(const Key& key, const KeyModifier& modifier)
+{
+}
+
 
 void TestApplication::OnShutdown()
 {

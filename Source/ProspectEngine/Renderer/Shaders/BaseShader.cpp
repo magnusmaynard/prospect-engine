@@ -1,6 +1,6 @@
 #include "BaseShader.h"
 
-#include "Resources.h"
+#include "Resources/Resources.h"
 #include <vector>
 #include <iostream>
 #include <fstream> 

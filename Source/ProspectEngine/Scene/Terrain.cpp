@@ -5,7 +5,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-#include "Resources.h"
+#include "Resources/Resources.h"
 
 using namespace Prospect;
 using namespace noise;

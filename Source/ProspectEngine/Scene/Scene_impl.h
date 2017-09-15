@@ -8,30 +8,28 @@
 
 namespace Prospect
 {
+   class Camera_impl;
+
    class Scene_impl
    {
    public:
       Scene_impl(Scene& parent);
 
-      void CreateCamera(const glm::ivec2& size);
-      void CreateTerrain();
-
+      //Public
       Camera& GetCamera();
       const Camera& GetCamera() const;
-
-      Terrain* GetTerrain();
-      const Terrain* GetTerrain() const;
 
       Entity& CreateEntity(Mesh& mesh, Material& material);
       Entity& GetEntityAtIndex(const int index);
 
+      //Internal
       std::vector<Entity>& GetEntities();
+      Camera_impl& GetCameraImpl();
 
    private:
       Scene& m_parent;
 
       Camera m_camera;
-      std::unique_ptr<Terrain> m_terrain;
 
       unsigned long m_nextEntityID = DEFAULT_ENTITY_ID;
       std::vector<Entity> m_entities;

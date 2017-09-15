@@ -5,7 +5,7 @@
 
 using namespace Prospect;
 
-Window::Window(IApplication& application, const glm::ivec2& size):
+Window::Window(IApplication& application, const glm::ivec2& size) :
    m_application(application),
    m_size(size)
 {
@@ -106,22 +106,22 @@ void Window::KeyCallback(GLFWwindow* window, int glfwKey, int glfwScancode, int 
 
    switch (glfwAction)
    {
-   case GLFW_PRESS:
+      case GLFW_PRESS:
       {
          application->OnKeyDown(key, modifier);
          break;
       }
-   case GLFW_RELEASE:
+      case GLFW_RELEASE:
       {
-         //Do nothing.
+         application->OnKeyUp(key, modifier);
          break;
       }
-   case GLFW_REPEAT:
+      case GLFW_REPEAT:
       {
-         //Do nothing.
+         application->OnKeyDown(key, modifier);
          break;
       }
-   default:
+      default:
       {
          break;
       }
@@ -133,16 +133,29 @@ Key Window::ConvertGLFWKey(int glfwKey)
    //TODO: More keys.
    switch (glfwKey)
    {
-   case(GLFW_KEY_W):
+      case(GLFW_KEY_W):
       {
          return Key::W;
       }
-   case(GLFW_KEY_ESCAPE):
+      case(GLFW_KEY_S):
+      {
+         return Key::S;
+      }
+      case(GLFW_KEY_A):
+      {
+         return Key::A;
+      }
+      case(GLFW_KEY_D):
+      {
+         return Key::D;
+      }
+      case(GLFW_KEY_ESCAPE):
       {
          return Key::Escape;
       }
-   default:
+      default:
       {
+         std::cout << "Key not supported: " << glfwKey << std::endl;
          return Key::None;
       }
    }
@@ -152,20 +165,25 @@ KeyModifier Window::ConvertGLFWModifier(int glfwModifer)
 {
    switch (glfwModifer)
    {
-   case(GLFW_MOD_SHIFT):
+      case(GLFW_MOD_SHIFT):
       {
          return KeyModifier::Shift;
       }
-   case(GLFW_MOD_CONTROL):
+      case(GLFW_MOD_CONTROL):
       {
          return KeyModifier::Control;
       }
-   case(GLFW_MOD_ALT):
+      case(GLFW_MOD_ALT):
       {
          return KeyModifier::Alt;
       }
-   default:
+      case(0):
       {
+         return KeyModifier::None;
+      }
+      default:
+      {
+         std::cout << "Modifier not supported: " << glfwModifer << std::endl;
          return KeyModifier::None;
       }
    }

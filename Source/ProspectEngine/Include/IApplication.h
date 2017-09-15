@@ -14,5 +14,6 @@ namespace Prospect
       virtual void OnShutdown() = 0;
       virtual void OnUpdate(const unsigned int time) = 0;
       virtual void OnKeyDown(const Key& key, const KeyModifier& modifier) = 0;
+      virtual void OnKeyUp(const Key& key, const KeyModifier& modifier) = 0;
    };
 }

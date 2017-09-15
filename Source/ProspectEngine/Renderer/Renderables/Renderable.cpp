@@ -39,7 +39,7 @@ void Renderable::Render(Scene_impl& scene)
 {
    m_program.Use();
 
-   UseCamera(scene.GetCamera().GetImpl());
+   UseCamera(scene.GetCameraImpl());
 
    UseTransform(m_entity.GetTransform());
 

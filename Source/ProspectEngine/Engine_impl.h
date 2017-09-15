@@ -14,20 +14,12 @@
 
 namespace Prospect
 {
-   enum class PolygonMode;
+   class Scene_impl;
 
    class Engine_impl
    {
    public:
-      Engine_impl(
-         Engine& parent,
-         IApplication& application,
-         const int width,
-         const int height);
-
-      Engine& GetParent();
-      const Engine& GetParent() const;
-
+      //Public
       void Start();
       void SetTitle(const std::string& title);
       void Close();
@@ -36,6 +28,15 @@ namespace Prospect
       Scene& GetScene();
       MeshLibrary& GetMeshLibrary();
       MaterialLibrary& GetMaterialLibrary();
+
+      //Internal
+      Engine_impl(
+         Engine& parent,
+         IApplication& application,
+         const int width,
+         const int height);
+
+      Scene_impl& GetSceneImpl();
 
    private:
       Engine& m_parent;

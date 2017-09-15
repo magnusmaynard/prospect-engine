@@ -13,7 +13,6 @@ namespace Prospect
    class Entity
    {
    public:
-      EXPORT_DLL Entity(unsigned long id, Mesh& mesh, Material& material);
       EXPORT_DLL ~Entity();
       EXPORT_DLL Entity(const Entity& entity) = delete;
       EXPORT_DLL Entity& operator=(const Entity& entity) = delete;
@@ -33,9 +32,12 @@ namespace Prospect
       EXPORT_DLL void SetScale(const glm::vec3& scale);
       EXPORT_DLL glm::vec3 GetScale() const;
 
-      Entity_impl& GetImpl();
-
    private:
+      Entity(unsigned long id, Mesh& mesh, Material& material);
+
       std::unique_ptr<Entity_impl> m_impl;
+
+      friend class Renderer;
+      friend class Scene_impl;
    };
 }

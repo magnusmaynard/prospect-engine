@@ -1,8 +1,8 @@
 #pragma once
 #include <map>
-#include "Renderable.h"
-#include "RenderableMesh.h"
-#include "RenderableMaterial.h"
+#include "Renderables/Renderable.h"
+#include "Renderables/RenderableMesh.h"
+#include "Renderables/RenderableMaterial.h"
 
 namespace Prospect
 {

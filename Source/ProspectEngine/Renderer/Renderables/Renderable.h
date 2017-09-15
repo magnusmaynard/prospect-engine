@@ -1,5 +1,5 @@
 #pragma once
-#include "Shaders/ShaderProgram.h"
+#include "Renderer/Shaders/ShaderProgram.h"
 #include "Scene/Entity_impl.h"
 #include "RenderableMesh.h"
 #include "RenderableMaterial.h"

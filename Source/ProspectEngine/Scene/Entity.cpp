@@ -64,8 +64,3 @@ glm::vec3 Entity::GetScale() const
 {
    return m_impl->GetScale();
 }
-
-Entity_impl& Entity::GetImpl()
-{
-   return *m_impl;
-}
