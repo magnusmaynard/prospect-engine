@@ -5,3 +5,7 @@
 *.suo
 *.trace
 Source/.vs
+
+#Dependencies
+Dependencies/glew*
+Dependencies/glfw*
