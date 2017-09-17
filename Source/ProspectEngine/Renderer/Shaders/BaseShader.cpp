@@ -35,7 +35,7 @@ bool BaseShader::Compile()
    auto sourceString = sourceStream.str();
 
    const GLchar* sourceChars = sourceString.c_str();
-   const GLint sourceLength = sourceString.length();
+   const GLint sourceLength = static_cast<GLint>(sourceString.length());
 
    //Compile.
    m_id = glCreateShader(m_type);

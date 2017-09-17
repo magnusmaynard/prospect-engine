@@ -9,7 +9,7 @@
 
 using namespace Prospect;
 
-template class EXPORT_DLL std::vector<int>;
+template class std::vector<int>;
 
 class TestApplication : public IApplication
 {

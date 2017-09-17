@@ -49,7 +49,7 @@ int main()
             std::cout << elevation << std::endl;
          }
 
-         float temp = (1.0 + elevation) / 2.0;
+            float temp = (1 + elevation) / 2.f;
 
          data[currentIndex] = byte(temp * 255.0);
          currentIndex++;

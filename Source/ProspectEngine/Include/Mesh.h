@@ -1,5 +1,5 @@
 #pragma once
-#include "Defines.h"
+
 #include <vector>
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
@@ -7,8 +7,8 @@
 namespace Prospect
 {
    //TODO: Export mesh to remove warnings, or use a lib instead of dll.
-   //template class EXPORT_DLL std::vector<glm::vec3>;
-   //template class EXPORT_DLL std::vector<int>;
+   //template class std::vector<glm::vec3>;
+   //template class std::vector<int>;
 
    class Mesh
    {
@@ -21,10 +21,10 @@ namespace Prospect
          const std::vector<unsigned int>& indices);
       ~Mesh() {};
 
-      EXPORT_DLL const std::vector<glm::vec3>& GetVertices() const;
-      EXPORT_DLL std::vector<glm::vec3>& GetVertices();
-      EXPORT_DLL const std::vector<unsigned int>& GetIndices() const;
-      EXPORT_DLL std::vector<unsigned int>& GetIndices();
+      const std::vector<glm::vec3>& GetVertices() const;
+      std::vector<glm::vec3>& GetVertices();
+      const std::vector<unsigned int>& GetIndices() const;
+      std::vector<unsigned int>& GetIndices();
 
       //TODO: Make these hidden, using an impl.
       bool IsDirty() const;

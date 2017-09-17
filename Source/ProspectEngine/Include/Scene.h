@@ -1,5 +1,5 @@
 #pragma once
-#include "Defines.h"
+
 #include <memory>
 
 namespace Prospect
@@ -15,13 +15,13 @@ namespace Prospect
    {
    public:
       //Public
-      EXPORT_DLL ~Scene();
+      ~Scene();
 
-      EXPORT_DLL Entity& CreateEntity(Mesh& mesh, Material& material);
-      EXPORT_DLL Entity& GetEntityAtIndex(const int index);
+      Entity& CreateEntity(Mesh& mesh, Material& material);
+      Entity& GetEntityAtIndex(const int index);
 
-      EXPORT_DLL const Camera& GetCamera() const;
-      EXPORT_DLL Camera& GetCamera();
+      const Camera& GetCamera() const;
+      Camera& GetCamera();
 
       //Internal
       Scene();

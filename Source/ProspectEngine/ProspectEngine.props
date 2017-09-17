@@ -5,7 +5,7 @@
       <ClCompile>
          <AdditionalIncludeDirectories>         
             $(ProjectDir);
-            $(SolutionDir)..\Dependencies\glew-2.0.0\include;
+            $(SolutionDir)..\Dependencies\glew-2.1.0\include;
             $(SolutionDir)..\Dependencies\glfw-3.2.1\include;
             $(SolutionDir)..\Dependencies\glm;
             $(SolutionDir)..\Dependencies\libnoise-1.0.0\include;
@@ -28,8 +28,8 @@
       </Link>
       <PreBuildEvent>
          <Command>
-            xcopy $(SolutionDir)..\Dependencies\glew-2.0.0\lib\Release\$(Platform) $(OutputPath) /y
-            xcopy $(SolutionDir)..\Dependencies\glfw-3.2.1\bin\Release\$(PlatformTarget) $(OutputPath) /y
+            xcopy $(SolutionDir)..\Dependencies\glew-2.1.0\lib\Release\$(Platform) $(OutputPath) /y
+            xcopy $(SolutionDir)..\Dependencies\glfw-3.2.1\build\src\Release $(OutputPath) /y
             xcopy $(SolutionDir)..\Dependencies\libnoise-1.0.0\bin $(OutputPath) /y
             xcopy $(SolutionDir)\ProspectEngine\Resources\* $(OutputPath)\Resources\ /sy
          </Command>

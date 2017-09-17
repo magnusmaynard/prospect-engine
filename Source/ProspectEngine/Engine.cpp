@@ -34,7 +34,6 @@ glm::ivec2 Engine::GetSize() const
    return m_impl->GetSize();
 }
 
-
 Scene& Engine::GetScene()
 {
    return m_impl->GetScene();

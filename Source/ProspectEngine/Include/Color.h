@@ -1,9 +1,8 @@
 #pragma once
-#include "Defines.h"
 
 namespace Prospect
 {
-   struct EXPORT_DLL Color
+   struct Color
    {
       Color(float r, float g, float b, float a = 1.0)
          :

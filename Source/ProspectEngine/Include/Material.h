@@ -1,10 +1,10 @@
 #pragma once
-#include "Defines.h"
+
 #include "Color.h"
 
 namespace Prospect
 {
-   class EXPORT_DLL Material
+   class Material
    {
    public:
       //TODO: Make internal

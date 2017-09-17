@@ -53,9 +53,6 @@
     <ClInclude Include="Scene\Scene_impl.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Defines.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Key.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -102,9 +99,6 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="EngineDefines.h" />
-    <ClInclude Include="Include\Entity.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\RendererDefines.h">
       <Filter>Renderer</Filter>
     </ClInclude>
@@ -119,6 +113,9 @@
     </ClInclude>
     <ClInclude Include="Renderer\Renderables\RenderableMesh.h">
       <Filter>Renderer\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Entity.h">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

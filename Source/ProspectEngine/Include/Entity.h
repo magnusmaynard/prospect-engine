@@ -1,5 +1,5 @@
 #pragma once
-#include "Defines.h"
+
 #include <memory>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp> //TODO: change this
@@ -13,24 +13,24 @@ namespace Prospect
    class Entity
    {
    public:
-      EXPORT_DLL ~Entity();
-      EXPORT_DLL Entity(const Entity& entity) = delete;
-      EXPORT_DLL Entity& operator=(const Entity& entity) = delete;
-      EXPORT_DLL Entity(Entity&& entity);
-      EXPORT_DLL Entity& operator=(Entity&& entity);
+      ~Entity();
+      Entity(const Entity& entity) = delete;
+      Entity& operator=(const Entity& entity) = delete;
+      Entity(Entity&& entity);
+      Entity& operator=(Entity&& entity);
 
-      EXPORT_DLL void SetMesh(Mesh& mesh);
-      EXPORT_DLL void SetMaterial(Material& material);
+      void SetMesh(Mesh& mesh);
+      void SetMaterial(Material& material);
 
-      EXPORT_DLL Mesh& GetMesh();
-      EXPORT_DLL Material& GetMaterial();
+      Mesh& GetMesh();
+      Material& GetMaterial();
 
-      EXPORT_DLL void SetTranslation(const glm::vec3& translation);
-      EXPORT_DLL glm::vec3 GetTranslation() const;
-      EXPORT_DLL void SetRotation(const glm::vec3& rotation);
-      EXPORT_DLL glm::vec3 GetRotation() const;
-      EXPORT_DLL void SetScale(const glm::vec3& scale);
-      EXPORT_DLL glm::vec3 GetScale() const;
+      void SetTranslation(const glm::vec3& translation);
+      glm::vec3 GetTranslation() const;
+      void SetRotation(const glm::vec3& rotation);
+      glm::vec3 GetRotation() const;
+      void SetScale(const glm::vec3& scale);
+      glm::vec3 GetScale() const;
 
    private:
       Entity(unsigned long id, Mesh& mesh, Material& material);
