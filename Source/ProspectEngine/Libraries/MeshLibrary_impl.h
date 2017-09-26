@@ -6,12 +6,12 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <vector>
+#include <deque>
 #include "EngineDefines.h"
 
 namespace Prospect
 {
    class MeshLibrary;
-   class Mesh;
 
    class MeshLibrary_impl
    {
@@ -28,7 +28,7 @@ namespace Prospect
 
       MeshLibrary& m_parent;
 
-      unsigned long m_nextMeshID = DEFAULT_MESH_ID;
-      std::vector<Mesh> m_meshes;
+      unsigned long m_nextMeshID = NULL_ID;
+      std::deque<Mesh> m_meshes;
    };
 }

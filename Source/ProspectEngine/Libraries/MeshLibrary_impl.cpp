@@ -9,8 +9,6 @@ MeshLibrary_impl::MeshLibrary_impl(MeshLibrary& parent)
    :
    m_parent(parent)
 {
-   //Reserve so adding new meshes does not invalidate references to them.
-   m_meshes.reserve(MAX_MESHES);
 }
 
 Mesh& MeshLibrary_impl::CreatePlane(const vec2& size)
@@ -50,7 +48,7 @@ Mesh& MeshLibrary_impl::AddMesh(
 {
    m_nextMeshID++;
 
-   m_meshes.emplace_back(m_nextMeshID, vertices, indices);
+   m_meshes.emplace_back(Mesh(m_nextMeshID, vertices, indices));
 
    return m_meshes.back();
 }

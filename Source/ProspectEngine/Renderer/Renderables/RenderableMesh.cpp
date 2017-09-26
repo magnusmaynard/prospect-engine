@@ -3,7 +3,7 @@
 
 using namespace Prospect;
 
-RenderableMesh::RenderableMesh(Mesh& mesh)
+RenderableMesh::RenderableMesh(Mesh_impl& mesh)
    :
    m_mesh(mesh)
 {

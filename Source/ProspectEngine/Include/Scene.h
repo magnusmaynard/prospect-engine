@@ -17,8 +17,8 @@ namespace Prospect
       //Public
       ~Scene();
 
-      Entity& CreateEntity(Mesh& mesh, Material& material);
-      Entity& GetEntityAtIndex(const int index);
+      Entity& AddEntity(Mesh* mesh, Material* material);
+      Entity& GetEntity(const int index);
 
       const Camera& GetCamera() const;
       Camera& GetCamera();

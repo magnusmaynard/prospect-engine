@@ -4,9 +4,14 @@
 
 using namespace Prospect;
 
-Entity::Entity(unsigned long id, Mesh& mesh, Material& material)
+Entity::Entity(
+   EntityLibrary& entityLib,
+   unsigned int id,
+   Entity* parent,
+   Mesh* mesh,
+   Material* material)
    :
-   m_impl(std::make_unique<Entity_impl>(*this, id, mesh, material))
+   m_impl(std::make_unique<Entity_impl>(*this, entityLib, id, parent, mesh, material))
 {
 }
 
@@ -25,12 +30,12 @@ void Entity::SetMaterial(Material& material)
    m_impl->SetMaterial(material);
 }
 
-Mesh& Entity::GetMesh()
+Mesh* Entity::GetMesh()
 {
    return m_impl->GetMesh();
 }
 
-Material& Entity::GetMaterial()
+Material* Entity::GetMaterial()
 {
    return m_impl->GetMaterial();
 }
@@ -63,4 +68,14 @@ void Entity::SetScale(const glm::vec3& scale)
 glm::vec3 Entity::GetScale() const
 {
    return m_impl->GetScale();
+}
+
+Entity& Entity::AddEntity(Mesh* mesh, Material* material)
+{
+   return m_impl->AddEntity(mesh, material);
+}
+
+Entity& Entity::GetEntity(unsigned int index)
+{
+   return m_impl->GetEntityAtIndex(index);
 }

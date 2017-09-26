@@ -3,10 +3,14 @@
 #include <iostream>
 #include "RendererDefines.h"
 
+#include "Engine_impl.h"
+
 using namespace Prospect;
 
-Window::Window(IApplication& application, const glm::ivec2& size) :
-   m_application(application),
+Window::Window(Engine_impl* engine, const glm::ivec2& size)
+   :
+   m_engine(engine),
+   m_window(nullptr),
    m_size(size)
 {
 }
@@ -18,7 +22,7 @@ void Window::Open()
       exit(EXIT_FAILURE);
    }
 
-   glfwSetErrorCallback(ErrorCallback);
+   glfwSetErrorCallback(GLFWErrorCallback);
 
    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -38,9 +42,12 @@ void Window::Open()
       exit(EXIT_FAILURE);
    }
 
-   //Set user pointer so static KeyCallback can access member variable.
-   glfwSetWindowUserPointer(m_window, &m_application);
-   glfwSetKeyCallback(m_window, KeyCallback);
+   //Set user pointer so static function can access member variable.
+   glfwSetWindowUserPointer(m_window, m_engine);
+
+   glfwSetKeyCallback(m_window, GLFWKeyCallback);
+   glfwSetWindowSizeCallback(m_window, GLFWWindowSizeCallback);
+   glfwSetCursorPosCallback(m_window, GLFWCursorPosCallback);
 
    int width, height;
    glfwGetFramebufferSize(m_window, &width, &height);
@@ -81,7 +88,7 @@ void Window::Destroy() const
    exit(EXIT_SUCCESS);
 }
 
-unsigned Window::GetTime() const
+unsigned int Window::GetTime() const
 {
    return static_cast<unsigned int>(glfwGetTime());
 }
@@ -91,15 +98,15 @@ glm::ivec2 Window::GetSize() const
    return m_size;
 }
 
-void Window::ErrorCallback(int error, const char* description)
+void Window::GLFWErrorCallback(int error, const char* description)
 {
    std::cerr << "Error: " << description << std::endl;
 }
 
-void Window::KeyCallback(GLFWwindow* window, int glfwKey, int glfwScancode, int glfwAction, int glfwModifer)
+void Window::GLFWKeyCallback(GLFWwindow* window, int glfwKey, int glfwScancode, int glfwAction, int glfwModifer)
 {
-   //Get user pointer so non-static app variable can be accessed in static callback.
-   IApplication* application = static_cast<IApplication*>(glfwGetWindowUserPointer(window));
+   //Get user pointer so non-static variable can be accessed in static callback.
+   Engine_impl* engine = static_cast<Engine_impl*>(glfwGetWindowUserPointer(window));
 
    const Key key = ConvertGLFWKey(glfwKey);
    const KeyModifier modifier = ConvertGLFWModifier(glfwModifer);
@@ -108,17 +115,17 @@ void Window::KeyCallback(GLFWwindow* window, int glfwKey, int glfwScancode, int 
    {
       case GLFW_PRESS:
       {
-         application->OnKeyDown(key, modifier);
+         engine->OnKeyDown(key, modifier);
          break;
       }
       case GLFW_RELEASE:
       {
-         application->OnKeyUp(key, modifier);
+         engine->OnKeyUp(key, modifier);
          break;
       }
       case GLFW_REPEAT:
       {
-         application->OnKeyDown(key, modifier);
+         engine->OnKeyDown(key, modifier);
          break;
       }
       default:
@@ -127,6 +134,25 @@ void Window::KeyCallback(GLFWwindow* window, int glfwKey, int glfwScancode, int 
       }
    }
 }
+
+void Window::GLFWWindowSizeCallback(GLFWwindow* window, int width, int height)
+{
+   //Get user pointer so non-static variable can be accessed in static callback.
+   Engine_impl* engine = static_cast<Engine_impl*>(glfwGetWindowUserPointer(window));
+
+   glViewport(0, 0, width, height);
+
+   engine->OnResize(glm::ivec2(width, height));
+}
+
+void Window::GLFWCursorPosCallback(GLFWwindow* window, double xPosition, double yPosition)
+{
+   //Get user pointer so non-static variable can be accessed in static callback.
+   Engine_impl* engine = static_cast<Engine_impl*>(glfwGetWindowUserPointer(window));
+
+   engine->OnMouseMove(glm::vec2(xPosition, yPosition));
+}
+
 
 Key Window::ConvertGLFWKey(int glfwKey)
 {

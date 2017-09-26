@@ -7,16 +7,13 @@
 
 #include <string>
 #include "Include/Material.h"
+#include "Include/Color.h"
 
 namespace Prospect
 {
    static const int DEFAULT_WIDTH = 600;
    static const int DEFAULT_HEIGHT = 400;
-   static const glm::ivec2 DEFAULT_CAMERA_SIZE(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-
-   static const unsigned long DEFAULT_ENTITY_ID = 0;
-   static const unsigned long DEFAULT_MESH_ID = 0;
-   static const unsigned long DEFAULT_MATERIAL_ID = 0;
+   static const unsigned long NULL_ID = 0;
 
    static const Color DEFAULT_COLOR(1, 1, 0);
 
@@ -31,11 +28,8 @@ namespace Prospect
    static const glm::vec3 DEFAULT_ROTATION(0, 0, 0);
    static const glm::vec3 DEFAULT_SCALE(1, 1, 1);
 
+   static const glm::ivec2 DEFAULT_CAMERA_SIZE(DEFAULT_WIDTH, DEFAULT_HEIGHT);
    static const float DEFAULT_CAMERA_NEAR = 0.0001f;
    static const float DEFAULT_CAMERA_FAR = 10000.f;
    static const float DEFAULT_CAMERA_FOV = 45.f;
-
-   static const int MAX_MATERIALS = 100;
-   static const int MAX_MESHES = 100;
-   static const int MAX_ENTITIES = 100;
 }

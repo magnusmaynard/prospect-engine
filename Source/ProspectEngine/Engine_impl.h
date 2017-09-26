@@ -36,6 +36,11 @@ namespace Prospect
          const int width,
          const int height);
 
+      void OnResize(const glm::ivec2& size);
+      void OnKeyDown(const Key& key, const KeyModifier& modifier);
+      void OnKeyUp(const Key& key, const KeyModifier& modifier);
+      void OnMouseMove(const glm::vec2& position);
+
       Scene_impl& GetSceneImpl();
 
    private:

@@ -1,14 +1,14 @@
 #pragma once
 #include "RendererDefines.h"
 
-#include "Include/Mesh.h"
+#include "Scene/Mesh_impl.h"
 
 namespace Prospect
 {
    class RenderableMesh
    {
    public:
-      RenderableMesh(Mesh& mesh);
+      RenderableMesh(Mesh_impl& mesh);
       ~RenderableMesh();
       RenderableMesh(const RenderableMesh& other) = delete;
       RenderableMesh& operator=(const RenderableMesh &) = delete;
@@ -20,7 +20,7 @@ namespace Prospect
    private:
       void UpdateBuffers();
 
-      Mesh& m_mesh;
+      Mesh_impl& m_mesh;
       GLuint m_VAO = GL_NULL;
 
       enum BUFFERS

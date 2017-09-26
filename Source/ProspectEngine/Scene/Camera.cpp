@@ -13,14 +13,14 @@ Camera::Camera(const glm::ivec2& size)
 
 Camera::~Camera() = default;
 
-void Camera::LookAt(const glm::vec3 eyePosition, const glm::vec3 lookPosition)
-{
-   m_impl->LookAt(eyePosition, lookPosition);
-}
-
 void Camera::SetSize(const glm::ivec2& size)
 {
    m_impl->SetSize(size);
+}
+
+void Camera::LookAt(const glm::vec3 eyePosition, const glm::vec3 lookPosition)
+{
+   m_impl->LookAt(eyePosition, lookPosition);
 }
 
 void Camera::SetPosition(const glm::vec3 position)

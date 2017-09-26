@@ -8,7 +8,7 @@ namespace Prospect
 {
    class Terrain;
    class Scene_impl;
-   class Mesh;
+   class Mesh_impl;
    class Material;
 
    class Renderer
@@ -23,9 +23,10 @@ namespace Prospect
       std::map<int, RenderableMesh> m_renderableMeshes;
       std::map<int, RenderableMaterial> m_renderableMaterials;
 
-      Renderable& GetRenderable(Entity_impl& entity);
-      RenderableMesh& GetRenderableMesh(Mesh& mesh);
       RenderableMaterial& GetRenderableMaterial(Material& mesh);
+      RenderableMesh& GetRenderableMesh(Mesh_impl& mesh);
+
+      void UpdateRenderables(EntityLibrary& entityLib);
 
       void ApplyCommonUniforms(Scene_impl& scene);
 

@@ -1,25 +1,27 @@
 #pragma once
 #include "Include/Entity.h"
 
-#include <memory>
+#include <deque>
 #include "Include/Mesh.h"
 #include "Include/Material.h"
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include "EngineDefines.h"
+#include "Libraries/EntityLibrary.h"
 
 namespace Prospect
 {
+   class Mesh_impl;
+
    class Entity_impl
    {
    public:
-      Entity_impl(Entity& parent, unsigned long id, Mesh& mesh, Material& material);
-
+      //Public
       void SetMesh(Mesh& mesh);
-      Mesh& GetMesh();
+      Mesh* GetMesh();
 
       void SetMaterial(Material& material);
-      Material& GetMaterial();
+      Material* GetMaterial();
 
       unsigned long GetID() const;
 
@@ -32,20 +34,43 @@ namespace Prospect
       void SetScale(const glm::vec3& scale);
       const glm::vec3& GetScale() const;
 
-      const glm::mat4& GetTransform() const;
+      Entity& AddEntity(Mesh* mesh, Material* material);
+      Entity& GetEntityAtIndex(unsigned int index);
+
+      //Internal
+      Entity_impl(
+         Entity& parent,
+         EntityLibrary& entityLib,
+         unsigned int id,
+         Entity* parentNode,
+         Mesh* mesh,
+         Material* material);
+      
+      void UpdateTransform(const glm::mat4& transform, const bool isParentDirty);
+      glm::mat4& GetTransform();
+
+
+      Mesh_impl* GetMeshImpl();
 
    private:
-      Entity& m_parent;
+      void UpdateLocalTransform();
 
-      Mesh& m_mesh;
-      Material& m_material;
-      unsigned long m_id = DEFAULT_ENTITY_ID;
+      Entity& m_parent;
+      EntityLibrary& m_entityLib;
+
+      unsigned long m_id;
+      Mesh* m_mesh;
+      Material* m_material;
+
+      Entity* m_parentNode;
+      std::deque<Entity*> m_childNodes;
 
       glm::vec3 m_translation = DEFAULT_TRANSLATION;
       glm::vec3 m_rotation = DEFAULT_ROTATION;
       glm::vec3 m_scale = DEFAULT_SCALE;
 
-      mutable bool m_transformIsDirty = true;
-      mutable glm::mat4 m_transform;
+      mutable bool m_isTransformDirty = true;
+      glm::mat4 m_localTransform;
+      glm::mat4 m_transform;
    };
 }

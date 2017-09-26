@@ -37,24 +37,24 @@ Renderable::Renderable(Renderable&& other)
 
 void Renderable::Render(Scene_impl& scene)
 {
-   m_program.Use();
+   m_program.Bind();
 
-   UseCamera(scene.GetCameraImpl());
+   BindCamera(scene.GetCameraImpl());
 
-   UseTransform(m_entity.GetTransform());
+   BindTransform(m_entity.GetTransform());
 
-   m_renderableMaterial.Use();
-
+   m_renderableMaterial.Bind();
+   
    m_renderableMesh.Render();
 }
 
-void Renderable::UseCamera(const Camera_impl& camera)
+void Renderable::BindCamera(const Camera_impl& camera)
 {
    glUniformMatrix4fv(0, 1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);
    glUniformMatrix4fv(1, 1, GL_FALSE, &camera.GetViewMatrix()[0][0]);
 }
 
-void Renderable::UseTransform(const glm::mat4& transform)
+void Renderable::BindTransform(const glm::mat4& transform)
 {
    glUniformMatrix4fv(2, 1, GL_FALSE, &transform[0][0]);
 }

@@ -15,7 +15,7 @@ namespace Prospect
       RenderableMaterial(RenderableMaterial&& other);
       RenderableMaterial& operator=(RenderableMaterial&& other) = delete;
 
-      void Use();
+      void Bind();
 
    private:
 

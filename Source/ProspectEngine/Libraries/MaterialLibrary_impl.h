@@ -3,7 +3,7 @@
 #include "Include/Material.h"
 #include "Include/MaterialLibrary.h"
 
-#include <vector>
+#include <deque>
 #include "EngineDefines.h"
 
 namespace Prospect
@@ -23,7 +23,7 @@ namespace Prospect
    private:
       MaterialLibrary& m_parent;
 
-      unsigned long m_nextMaterialID = DEFAULT_MATERIAL_ID;
-      std::vector<Material> m_materials;
+      unsigned long m_nextMaterialID = NULL_ID;
+      std::deque<Material> m_materials;
    };
 }

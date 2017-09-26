@@ -25,8 +25,10 @@ namespace Prospect
       void Render(Scene_impl& scene);
 
    private:
-      void UseCamera(const Camera_impl& camera);
-      void UseTransform(const glm::mat4& transform);
+      void BindCamera(const Camera_impl& camera);
+      void BindTransform(const glm::mat4& transform);
+
+      void UpdateBuffers(const Mesh& mesh);
 
       Entity_impl& m_entity;
 

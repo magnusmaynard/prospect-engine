@@ -15,7 +15,7 @@ Engine_impl::Engine_impl(
    :
    m_parent(parent),
    m_application(application),
-   m_window(application, glm::ivec2(width, height))
+   m_window(this, glm::ivec2(width, height))
 {
 }
 
@@ -74,4 +74,23 @@ MaterialLibrary& Engine_impl::GetMaterialLibrary()
 Scene_impl& Engine_impl::GetSceneImpl()
 {
    return *m_scene.m_impl;
+}
+
+void Engine_impl::OnResize(const glm::ivec2& size)
+{
+   m_scene.GetCamera().SetSize(size);
+}
+
+void Engine_impl::OnKeyDown(const Key& key, const KeyModifier& modifier)
+{
+   m_application.OnKeyDown(key, modifier);
+}
+
+void Engine_impl::OnKeyUp(const Key& key, const KeyModifier& modifier)
+{
+   m_application.OnKeyUp(key, modifier);
+}
+
+void Engine_impl::OnMouseMove(const glm::vec2& position)
+{
 }

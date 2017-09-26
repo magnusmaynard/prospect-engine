@@ -155,7 +155,7 @@ bool ShaderProgram::LinkProgram(const GLuint& program)
    return true;
 }
 
-void ShaderProgram::Use() const
+void ShaderProgram::Bind() const
 {
    glUseProgram(m_program);
 }

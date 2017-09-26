@@ -94,8 +94,8 @@ void Terrain::Draw()
    const glm::vec3 cameraPosition(0,0,-10);
    const glm::vec3 cameraDirection(0,0,1);
 
-   //Use.
-   m_shader.Use();
+   //Bind.
+   m_shader.Bind();
 
    //Uniforms.
    glUniform1f(m_heightScaleLocation, m_heightScale);

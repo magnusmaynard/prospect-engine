@@ -1,24 +1,31 @@
 #pragma once
 
-#include "Color.h"
+#include <memory>
 
 namespace Prospect
 {
+   class Material_impl;
+   struct Color;
+
    class Material
    {
    public:
-      //TODO: Make internal
-      Material(unsigned long id);
-      Material(unsigned long id, const Color& diffuse);
-      ~Material(){}
+      ~Material();
+      Material(const Material& other) = delete;
+      Material& operator=(const Material& other) = delete;
+      Material(Material&& other);
+      Material& operator=(Material&& other);
 
       const Color& GetDiffuse() const;
 
       unsigned long GetID() const;
 
    private:
-      unsigned long m_id;
+      Material(unsigned long id);
+      Material(unsigned long id, const Color& diffuse);
 
-      Color m_diffuse;
+      std::unique_ptr<Material_impl> m_impl;
+
+      friend class MaterialLibrary_impl;
    };
 }

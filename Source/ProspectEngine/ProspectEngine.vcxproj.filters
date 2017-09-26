@@ -117,6 +117,15 @@
     <ClInclude Include="Include\Entity.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\EntityLibrary.h">
+      <Filter>Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Mesh_impl.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Material_impl.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -184,9 +193,6 @@
     <ClCompile Include="Libraries\MaterialLibrary.cpp">
       <Filter>Libraries</Filter>
     </ClCompile>
-    <ClCompile Include="Libraries\MaterialLibrary_imp.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Camera_impl.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -207,6 +213,18 @@
     </ClCompile>
     <ClCompile Include="Renderer\Renderables\RenderableMesh.cpp">
       <Filter>Renderer\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\MaterialLibrary_impl.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\EntityLibrary.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Mesh_impl.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Material_impl.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

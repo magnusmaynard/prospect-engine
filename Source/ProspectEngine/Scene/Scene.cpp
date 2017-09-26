@@ -11,12 +11,12 @@ Scene::Scene()
 
 Scene::~Scene() = default;
 
-Entity& Scene::CreateEntity(Mesh& mesh, Material& material)
+Entity& Scene::AddEntity(Mesh* mesh, Material* material)
 {
-   return m_impl->CreateEntity(mesh, material);
+   return m_impl->AddEntity(mesh, material);
 }
 
-Entity& Scene::GetEntityAtIndex(const int index)
+Entity& Scene::GetEntity(const int index)
 {
    return m_impl->GetEntityAtIndex(index);
 }

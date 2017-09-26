@@ -28,19 +28,21 @@ void TestApplication::OnStartup()
 
    m_scene.GetCamera().LookAt(vec3(0, 100, 100), vec3(0, 0, 0));
 
-   Mesh& groundPlane = m_meshLib.CreatePlane(vec2(100, 100));
    Material& grass = m_materialLib.CreateMaterial(Color(0.1f, 0.6f, 0.1f));
-   m_scene.CreateEntity(groundPlane, grass);
+   Material& matRed = m_materialLib.CreateMaterial(Color(1, 0.2f, 0.2f));
+   Material& matBlue = m_materialLib.CreateMaterial(Color(0.2f, 0.2f, 1));
 
+   Mesh& groundPlane = m_meshLib.CreatePlane(vec2(100, 100));
    Mesh& testPlane = m_meshLib.CreatePlane(vec2(10, 10));
 
-   Material& matRed = m_materialLib.CreateMaterial(Color(1, 0.2f, 0.2f));
-   Entity& test1 = m_scene.CreateEntity(testPlane, matRed);
-   test1.SetRotation(vec3(90, 0, 0));
+   auto& ground = m_scene.AddEntity(&groundPlane, &grass);
+   ground.SetRotation(vec3(0, 45, 0));
 
-   Material& matBlue = m_materialLib.CreateMaterial(Color(0.2f, 0.2f, 1));
-   Entity& test2 = m_scene.CreateEntity(testPlane, matBlue);
-   test2.SetRotation(vec3(90, 0, 90));
+   Entity& child = ground.AddEntity(&testPlane, &matRed);
+   child.SetTranslation(vec3(0, 10, 0));
+
+   Entity& child2 = child.AddEntity(&testPlane, &matBlue);
+   child2.SetTranslation(vec3(0, 10, 0));
 }
 
 void TestApplication::OnUpdate(const unsigned int time)
@@ -48,12 +50,13 @@ void TestApplication::OnUpdate(const unsigned int time)
    static float counter = 0;
    counter += 0.1f;
 
-   auto& e1 = m_scene.GetEntityAtIndex(1);
-   e1.SetTranslation(vec3(-10, 0, -50));
-   e1.SetRotation(vec3(cos(counter), 0, sin(counter)));
+   auto& e1 = m_scene.GetEntity(0).GetEntity(0);
+   e1.SetTranslation(vec3(-5, 0, -50));
+   e1.SetRotation(vec3(0, counter * 10.0, 0));
 
-   auto& e2 = m_scene.GetEntityAtIndex(2);
-   e2.SetTranslation(vec3(sin(counter) * 50, 0, cos(counter) * 50));
+   auto& e2 = m_scene.GetEntity(0).GetEntity(0).GetEntity(0);
+   e2.SetTranslation(vec3(-5, 0, -50));
+   e2.SetRotation(vec3(0, counter * 10.0, 0));
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)

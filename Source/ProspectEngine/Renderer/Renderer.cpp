@@ -3,52 +3,60 @@
 #include "Scene/Terrain.h"
 #include "Scene/Camera_impl.h"
 #include "Renderables/Renderable.h"
+#include "Libraries/EntityLibrary.h"
 
 using namespace Prospect;
+using namespace glm;
 
 Renderer::Renderer()
 {
    //TODO: This currently only supports one shader.
    //Compile program.
 
-   //Use program.
+   //Bind program.
 
-   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//TODO: temp
-   glEnable(GL_BLEND);
+   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//TODO: temp
+   //glEnable(GL_BLEND);
 }
 
 void Renderer::Render(Scene_impl& scene)
 {
    Clear();
 
-   //BindCamera(scene.GetCamera());
+   scene.UpdateTransforms();
 
-   for(auto& entity : scene.GetEntities()) //TODO: is this optimized out?
+   UpdateRenderables(scene.GetEntityLib());
+
+   //Render all renderables.
+   for (auto& renderable : m_renderables)
    {
-      Renderable& renderable = GetRenderable(*entity.m_impl);
-      renderable.Render(scene);
+      renderable.second.Render(scene);
    }
 }
 
-Renderable& Renderer::GetRenderable(Entity_impl& entity)
+void Renderer::UpdateRenderables(EntityLibrary& entityLib)
 {
-   auto itr = m_renderables.find(entity.GetID());
-   if(itr == m_renderables.end())
+   for (int i = 0; i < entityLib.Count(); ++i)
    {
-      return m_renderables.emplace(
-         entity.GetID(),
-         Renderable(
-            entity,
-            GetRenderableMesh(entity.GetMesh()),
-            GetRenderableMaterial(entity.GetMaterial()))).first->second;
-   }
-   else
-   {
-      return itr->second;
+      Entity_impl& entity = *entityLib[i].m_impl;
+
+      if (entity.GetMesh() != nullptr && entity.GetMaterial() != nullptr)
+      {
+         auto itr = m_renderables.find(entity.GetID());
+         if (itr == m_renderables.end())
+         {
+            m_renderables.emplace(
+               entity.GetID(),
+               Renderable(
+                  entity,
+                  GetRenderableMesh(*entity.GetMeshImpl()),
+                  GetRenderableMaterial(*entity.GetMaterial())));
+         }
+      }
    }
 }
 
-RenderableMesh& Renderer::GetRenderableMesh(Mesh& mesh)
+RenderableMesh& Renderer::GetRenderableMesh(Mesh_impl& mesh)
 {
    auto itr = m_renderableMeshes.find(mesh.GetID());
    if (itr == m_renderableMeshes.end())

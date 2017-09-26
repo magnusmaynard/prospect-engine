@@ -30,7 +30,7 @@ void Atmosphere::Draw(
    const glm::vec3& eyePosition,
    const glm::vec3& earthPosition)
 {
-   m_shader.Use();
+   m_shader.Bind();
    
    glUniformMatrix4fv(m_viewLocation, 1, GL_FALSE, &view[0][0]);
    glUniformMatrix4fv(m_projectionLocation, 1, GL_FALSE, &projection[0][0]);

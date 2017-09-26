@@ -24,7 +24,7 @@ namespace Prospect
 
       bool Compile();
 
-      void Use() const;
+      void Bind() const;
       GLint GetUniformLocation(const std::string& uniform) const;
 
    private:

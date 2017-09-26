@@ -1,16 +1,18 @@
 #include "Scene_impl.h"
 
+#include "EngineDefines.h"
+#include "Entity_impl.h"
+
 using namespace Prospect;
+using namespace glm;
 
 Scene_impl::Scene_impl(Scene& parent)
    :
    m_parent(parent),
    m_camera(DEFAULT_CAMERA_SIZE)
 {
-   //Reserve so adding new entities does not invalidate references to them.
-   m_entities.reserve(MAX_ENTITIES);
+   m_rootEntity = &m_entityLib.AddEntity(nullptr, nullptr, nullptr);
 }
-
 
 Camera& Scene_impl::GetCamera()
 {
@@ -22,31 +24,34 @@ const Camera& Scene_impl::GetCamera() const
    return m_camera;
 }
 
-Entity& Scene_impl::CreateEntity(Mesh& mesh, Material& material)
+Entity& Scene_impl::AddEntity(Mesh* mesh, Material* material)
 {
-   m_nextEntityID++;
-
-   m_entities.emplace_back(Entity(m_nextEntityID, mesh, material));
-
-   return m_entities.back();
+   return m_rootEntity->AddEntity(mesh, material);
 }
 
 Entity& Scene_impl::GetEntityAtIndex(const int index)
 {
-   if(index < 0 || index >= static_cast<int>(m_entities.size()))
-   {
-      throw std::exception("No Entity at index.");
-   }
-
-   return m_entities[index];
+   return m_rootEntity->GetEntity(index);
 }
 
-std::vector<Entity>& Scene_impl::GetEntities()
+Entity* Scene_impl::GetRootEntity()
 {
-   return m_entities;
+   return m_rootEntity;
 }
 
 Camera_impl& Scene_impl::GetCameraImpl()
 {
    return *m_camera.m_impl;
+}
+
+EntityLibrary& Scene_impl::GetEntityLib()
+{
+   return m_entityLib;
+}
+
+void Scene_impl::UpdateTransforms()
+{
+   mat4 origin;
+
+   m_rootEntity->m_impl->UpdateTransform(origin, false);
 }

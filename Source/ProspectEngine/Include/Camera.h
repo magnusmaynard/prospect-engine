@@ -13,9 +13,9 @@ namespace Prospect
    public:
       ~Camera();
 
-      void LookAt(const glm::vec3 eyePosition, const glm::vec3 targetPosition);
-
       void SetSize(const glm::ivec2& size);
+
+      void LookAt(const glm::vec3 eyePosition, const glm::vec3 targetPosition);
 
       void SetPosition(const glm::vec3 position);
       glm::vec3 GetPosition() const;

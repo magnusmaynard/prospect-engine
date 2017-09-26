@@ -1,5 +1,5 @@
 #include "RenderableMaterial.h"
-#include <algorithm>
+#include "Include/Color.h"
 
 using namespace Prospect;
 
@@ -19,7 +19,7 @@ RenderableMaterial::RenderableMaterial(RenderableMaterial&& other)
 {
 }
 
-void RenderableMaterial::Use()
+void RenderableMaterial::Bind()
 {
    auto& diffuse = m_material.GetDiffuse();
    float diffuseRGBA[4] = { diffuse.R, diffuse.G, diffuse.B, diffuse.A };
