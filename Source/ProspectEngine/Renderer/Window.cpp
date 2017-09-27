@@ -6,12 +6,14 @@
 #include "Engine_impl.h"
 
 using namespace Prospect;
+using namespace glm;
 
-Window::Window(Engine_impl* engine, const glm::ivec2& size)
+Window::Window(Engine_impl& engine, const ivec2& size)
    :
    m_engine(engine),
    m_window(nullptr),
-   m_size(size)
+   m_size(size),
+   m_isMouseInsideWindow(false)
 {
 }
 
@@ -43,11 +45,12 @@ void Window::Open()
    }
 
    //Set user pointer so static function can access member variable.
-   glfwSetWindowUserPointer(m_window, m_engine);
+   glfwSetWindowUserPointer(m_window, this);
 
    glfwSetKeyCallback(m_window, GLFWKeyCallback);
    glfwSetWindowSizeCallback(m_window, GLFWWindowSizeCallback);
    glfwSetCursorPosCallback(m_window, GLFWCursorPosCallback);
+   glfwSetCursorEnterCallback(m_window, GLFWCursorEnterCallback);
 
    int width, height;
    glfwGetFramebufferSize(m_window, &width, &height);
@@ -93,7 +96,7 @@ unsigned int Window::GetTime() const
    return static_cast<unsigned int>(glfwGetTime());
 }
 
-glm::ivec2 Window::GetSize() const
+ivec2 Window::GetSize() const
 {
    return m_size;
 }
@@ -103,10 +106,22 @@ void Window::GLFWErrorCallback(int error, const char* description)
    std::cerr << "Error: " << description << std::endl;
 }
 
-void Window::GLFWKeyCallback(GLFWwindow* window, int glfwKey, int glfwScancode, int glfwAction, int glfwModifer)
+Window& Window::GetWindow(GLFWwindow* glfwWindow)
 {
    //Get user pointer so non-static variable can be accessed in static callback.
-   Engine_impl* engine = static_cast<Engine_impl*>(glfwGetWindowUserPointer(window));
+   Window* window = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
+
+   if(window == nullptr)
+   {
+      throw std::exception("Error: Null GLFW window pointer.");
+   }
+
+   return *window;
+}
+
+void Window::GLFWKeyCallback(GLFWwindow* glfwWindow, int glfwKey, int glfwScancode, int glfwAction, int glfwModifer)
+{
+   Engine_impl& engine = GetWindow(glfwWindow).m_engine;
 
    const Key key = ConvertGLFWKey(glfwKey);
    const KeyModifier modifier = ConvertGLFWModifier(glfwModifer);
@@ -115,17 +130,17 @@ void Window::GLFWKeyCallback(GLFWwindow* window, int glfwKey, int glfwScancode, 
    {
       case GLFW_PRESS:
       {
-         engine->OnKeyDown(key, modifier);
+         engine.OnKeyDown(key, modifier);
          break;
       }
       case GLFW_RELEASE:
       {
-         engine->OnKeyUp(key, modifier);
+         engine.OnKeyUp(key, modifier);
          break;
       }
       case GLFW_REPEAT:
       {
-         engine->OnKeyDown(key, modifier);
+         engine.OnKeyDown(key, modifier);
          break;
       }
       default:
@@ -135,28 +150,45 @@ void Window::GLFWKeyCallback(GLFWwindow* window, int glfwKey, int glfwScancode, 
    }
 }
 
-void Window::GLFWWindowSizeCallback(GLFWwindow* window, int width, int height)
+void Window::GLFWWindowSizeCallback(GLFWwindow* glfwWindow, int width, int height)
 {
-   //Get user pointer so non-static variable can be accessed in static callback.
-   Engine_impl* engine = static_cast<Engine_impl*>(glfwGetWindowUserPointer(window));
+   Engine_impl& engine = GetWindow(glfwWindow).m_engine;
 
    glViewport(0, 0, width, height);
 
-   engine->OnResize(glm::ivec2(width, height));
+   engine.OnResize(ivec2(width, height));
 }
 
-void Window::GLFWCursorPosCallback(GLFWwindow* window, double xPosition, double yPosition)
+void Window::GLFWCursorPosCallback(GLFWwindow* glfwWindow, double xPosition, double yPosition)
 {
-   //Get user pointer so non-static variable can be accessed in static callback.
-   Engine_impl* engine = static_cast<Engine_impl*>(glfwGetWindowUserPointer(window));
+   Window& window = GetWindow(glfwWindow);
 
-   engine->OnMouseMove(glm::vec2(xPosition, yPosition));
+   vec2 mousePosition(xPosition, yPosition);
+
+   if(window.m_isMouseInsideWindow == false)
+   {
+      window.m_previousMousePosition = mousePosition;
+      window.m_isMouseInsideWindow = true;
+   }
+
+   window.m_engine.OnMouseMove(mousePosition, window.m_previousMousePosition);
+
+   window.m_previousMousePosition = mousePosition;
 }
 
+void Window::GLFWCursorEnterCallback(GLFWwindow* glfwWindow, int hasEntered)
+{
+   Window& window = GetWindow(glfwWindow);
+
+   if (hasEntered == false)
+   {
+      window.m_isMouseInsideWindow = false;
+   }
+}
 
 Key Window::ConvertGLFWKey(int glfwKey)
 {
-   //TODO: More keys.
+   //TODO: Support more keys.
    switch (glfwKey)
    {
       case(GLFW_KEY_W):

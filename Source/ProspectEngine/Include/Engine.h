@@ -25,6 +25,7 @@ namespace Prospect
 
       void Start();
       void SetTitle(const std::string& title);
+      void SetEnableCameraControls(bool isEnabled);
       void Close();
       glm::ivec2 GetSize() const;
 

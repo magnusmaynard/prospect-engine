@@ -13,11 +13,6 @@ Camera::Camera(const glm::ivec2& size)
 
 Camera::~Camera() = default;
 
-void Camera::SetSize(const glm::ivec2& size)
-{
-   m_impl->SetSize(size);
-}
-
 void Camera::LookAt(const glm::vec3 eyePosition, const glm::vec3 lookPosition)
 {
    m_impl->LookAt(eyePosition, lookPosition);
@@ -33,22 +28,27 @@ glm::vec3 Camera::GetPosition() const
    return m_impl->GetPosition();
 }
 
-void Camera::SetForwardDirection(const glm::vec3 forward)
+void Camera::SetForward(const glm::vec3 forward)
 {
    m_impl->SetForward(forward);
 }
 
-glm::vec3 Camera::GetForwardDirection() const
+glm::vec3 Camera::GetForward() const
 {
    return m_impl->GetForward();
 }
 
-void Camera::SetUpDirection(const glm::vec3 up)
+void Camera::SetUp(const glm::vec3 up)
 {
    m_impl->SetUp(up);
 }
 
-glm::vec3 Camera::GetUpDirection() const
+glm::vec3 Camera::GetUp() const
 {
    return m_impl->GetUp();
+}
+
+glm::vec3 Camera::GetLeft() const
+{
+   return m_impl->GetLeft();
 }

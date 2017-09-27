@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/vec2.hpp>
+
 namespace Prospect
 {
    enum class KeyModifier;
@@ -15,5 +17,6 @@ namespace Prospect
       virtual void OnUpdate(const unsigned int time) = 0;
       virtual void OnKeyDown(const Key& key, const KeyModifier& modifier) = 0;
       virtual void OnKeyUp(const Key& key, const KeyModifier& modifier) = 0;
+      virtual void OnMouseMove(const glm::vec2& newPosition, const glm::vec2& oldPosition) = 0;
    };
 }

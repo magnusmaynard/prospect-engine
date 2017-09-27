@@ -21,6 +21,7 @@ public:
    void OnUpdate(const unsigned int time) override;
    void OnKeyDown(const Key& key, const KeyModifier& modifier) override;
    void OnKeyUp(const Key& key, const KeyModifier& modifier) override;
+   void OnMouseMove(const glm::vec2& oldPosition, const glm::vec2& newPosition) override;
 
 private:
    Engine m_engine;

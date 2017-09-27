@@ -16,6 +16,7 @@ namespace Prospect
    public:
       Renderer();
 
+      void Setup();
       void Render(Scene_impl& scene);
 
    private:

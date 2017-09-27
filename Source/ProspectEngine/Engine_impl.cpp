@@ -1,27 +1,32 @@
 #include "Engine_impl.h"
 
 #include "Scene/Scene_impl.h"
+#include "Scene/Camera_impl.h"
 #include <glm/vec2.hpp>
 #include <iostream>
 #include "Include/MaterialLibrary.h"
 
 using namespace Prospect;
+using namespace glm;
 
 Engine_impl::Engine_impl(
-   Engine& parent, 
+   Engine& parent,
    IApplication& application,
    const int width,
    const int height)
    :
    m_parent(parent),
    m_application(application),
-   m_window(this, glm::ivec2(width, height))
+   m_window(*this, ivec2(width, height)),
+   m_isCameraControlsEnabled(true)
 {
 }
 
 void Engine_impl::Start()
 {
    m_window.Open();
+
+   m_renderer.Setup();
 
    m_application.OnStartup();
 
@@ -44,6 +49,11 @@ void Engine_impl::Start()
 void Engine_impl::SetTitle(const std::string& title)
 {
    m_window.SetTitle(title);
+}
+
+void Engine_impl::SetEnableCameraControls(bool isEnabled)
+{
+   m_isCameraControlsEnabled = isEnabled;
 }
 
 void Engine_impl::Close()
@@ -76,9 +86,9 @@ Scene_impl& Engine_impl::GetSceneImpl()
    return *m_scene.m_impl;
 }
 
-void Engine_impl::OnResize(const glm::ivec2& size)
+void Engine_impl::OnResize(const ivec2& size)
 {
-   m_scene.GetCamera().SetSize(size);
+   m_scene.m_impl->GetCameraImpl().SetSize(size);
 }
 
 void Engine_impl::OnKeyDown(const Key& key, const KeyModifier& modifier)
@@ -91,6 +101,13 @@ void Engine_impl::OnKeyUp(const Key& key, const KeyModifier& modifier)
    m_application.OnKeyUp(key, modifier);
 }
 
-void Engine_impl::OnMouseMove(const glm::vec2& position)
+void Engine_impl::OnMouseMove(const vec2& newPosition, const vec2& oldPosition)
 {
+   if (m_isCameraControlsEnabled)
+   {
+      vec2 turnDelta = oldPosition - newPosition;
+      m_scene.m_impl->GetCameraImpl().Turn(turnDelta);
+   }
+
+   m_application.OnMouseMove(oldPosition, newPosition);
 }

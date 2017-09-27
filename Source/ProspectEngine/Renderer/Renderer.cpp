@@ -10,13 +10,14 @@ using namespace glm;
 
 Renderer::Renderer()
 {
-   //TODO: This currently only supports one shader.
-   //Compile program.
+}
 
-   //Bind program.
+void Renderer::Setup()
+{
+   glEnable(GL_DEPTH_TEST);
+   glDepthFunc(GL_LESS);
 
-   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//TODO: temp
-   //glEnable(GL_BLEND);
+   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void Renderer::Render(Scene_impl& scene)
@@ -63,10 +64,8 @@ RenderableMesh& Renderer::GetRenderableMesh(Mesh_impl& mesh)
    {
       return m_renderableMeshes.emplace(mesh.GetID(), RenderableMesh(mesh)).first->second;
    }
-   else
-   {
-      return itr->second;
-   }
+   
+   return itr->second;
 }
 
 RenderableMaterial& Renderer::GetRenderableMaterial(Material& material)
@@ -76,10 +75,8 @@ RenderableMaterial& Renderer::GetRenderableMaterial(Material& material)
    {
       return m_renderableMaterials.emplace(material.GetID(), RenderableMaterial(material)).first->second;
    }
-   else
-   {
-      return itr->second;
-   }
+
+   return itr->second;
 }
 
 void Renderer::ApplyCommonUniforms(Scene_impl& scene)

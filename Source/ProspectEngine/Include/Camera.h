@@ -13,18 +13,18 @@ namespace Prospect
    public:
       ~Camera();
 
-      void SetSize(const glm::ivec2& size);
-
       void LookAt(const glm::vec3 eyePosition, const glm::vec3 targetPosition);
 
       void SetPosition(const glm::vec3 position);
       glm::vec3 GetPosition() const;
 
-      void SetForwardDirection(const glm::vec3 forward);
-      glm::vec3 GetForwardDirection() const;
+      void SetForward(const glm::vec3 forward);
+      glm::vec3 GetForward() const;
 
-      void SetUpDirection(const glm::vec3 up);
-      glm::vec3 GetUpDirection() const;
+      void SetUp(const glm::vec3 up);
+      glm::vec3 GetUp() const;
+
+      glm::vec3 Camera::GetLeft() const;
 
    private:
       Camera(const glm::ivec2& size);

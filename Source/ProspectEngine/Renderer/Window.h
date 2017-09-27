@@ -17,7 +17,7 @@ namespace Prospect
    class Window
    {
    public:
-      Window::Window(Engine_impl* engine, const glm::ivec2& size);
+      Window::Window(Engine_impl& engine, const glm::ivec2& size);
 
       void Open();
 
@@ -38,16 +38,21 @@ namespace Prospect
 
    private:
       static void GLFWErrorCallback(int error, const char* description);
-      static void GLFWKeyCallback(GLFWwindow* window, int glfwKey, int glfwScancode, int glfwAction, int glfwModifer);
-      static void GLFWWindowSizeCallback(GLFWwindow* window, int width, int height);
-      static void GLFWCursorPosCallback(GLFWwindow* window, double xPosition, double yPosition);
+      static void GLFWKeyCallback(GLFWwindow* glfwWindow, int glfwKey, int glfwScancode, int glfwAction, int glfwModifer);
+      static void GLFWWindowSizeCallback(GLFWwindow* glfwWindow, int width, int height);
+      static void GLFWCursorPosCallback(GLFWwindow* glfwWindow, double xPosition, double yPosition);
+      static void GLFWCursorEnterCallback(GLFWwindow* glfwWindow, int hasEntered);
+
+      static Window& GetWindow(GLFWwindow* glfwWindow);
 
       static Key ConvertGLFWKey(int glfwKey);
 
       static KeyModifier ConvertGLFWModifier(int glfwModifer);
 
-      Engine_impl* m_engine;
+      Engine_impl& m_engine;
       GLFWwindow* m_window;
       const glm::ivec2 m_size;
+      glm::vec2 m_previousMousePosition;
+      bool m_isMouseInsideWindow;
    };
 }

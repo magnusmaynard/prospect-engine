@@ -22,6 +22,8 @@ namespace Prospect
       //Public
       void Start();
       void SetTitle(const std::string& title);
+      void SetEnableCameraControls(bool isEnabled);
+
       void Close();
       glm::ivec2 GetSize() const;
 
@@ -39,7 +41,7 @@ namespace Prospect
       void OnResize(const glm::ivec2& size);
       void OnKeyDown(const Key& key, const KeyModifier& modifier);
       void OnKeyUp(const Key& key, const KeyModifier& modifier);
-      void OnMouseMove(const glm::vec2& position);
+      void OnMouseMove(const glm::vec2& newPosition, const glm::vec2& oldPosition);
 
       Scene_impl& GetSceneImpl();
 
@@ -52,5 +54,7 @@ namespace Prospect
       MeshLibrary m_meshLibrary;
       MaterialLibrary m_materialLibrary;
       Renderer m_renderer;
+
+      bool m_isCameraControlsEnabled;
    };
 }

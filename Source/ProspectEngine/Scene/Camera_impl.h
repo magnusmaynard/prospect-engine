@@ -11,7 +11,6 @@ namespace Prospect
    public:
       //Public
       void LookAt(const glm::vec3 eyePosition, const glm::vec3 targetPosition);
-      void SetSize(const glm::ivec2& size);
 
       void SetPosition(const glm::vec3 position);
       glm::vec3 GetPosition() const;
@@ -22,15 +21,20 @@ namespace Prospect
       void SetUp(const glm::vec3 up);
       glm::vec3 GetUp() const;
 
+      glm::vec3 GetLeft() const;
+
       //Internal
       Camera_impl(Camera& parent, const glm::ivec2& size);
+
+      void SetSize(const glm::ivec2& size);
+      void Turn(const glm::vec2 delta);
 
       glm::mat4 GetViewMatrix() const;
       glm::mat4 GetProjectionMatrix() const;
 
    private:
-      void UpdateViewMatrix();
-      void UpdateProjectionMatrix();
+      void UpdateViewMatrix() const;
+      void UpdateProjectionMatrix() const;
 
       Camera& m_parent;
 
@@ -39,7 +43,12 @@ namespace Prospect
       glm::vec3 m_forward;
       glm::ivec2 m_size;
 
-      glm::mat4 m_projection;
-      glm::mat4 m_view;
+      float m_minAngle;
+      float m_maxAngle;
+
+      mutable bool m_viewIsDirty;
+      mutable bool m_projectionIsDirty;
+      mutable glm::mat4 m_projection;
+      mutable glm::mat4 m_view;
    };
 }

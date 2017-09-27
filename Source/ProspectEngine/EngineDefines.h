@@ -29,7 +29,10 @@ namespace Prospect
    static const glm::vec3 DEFAULT_SCALE(1, 1, 1);
 
    static const glm::ivec2 DEFAULT_CAMERA_SIZE(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-   static const float DEFAULT_CAMERA_NEAR = 0.0001f;
+   static const float DEFAULT_CAMERA_NEAR = 0.01f;
    static const float DEFAULT_CAMERA_FAR = 10000.f;
    static const float DEFAULT_CAMERA_FOV = 45.f;
+   static const float DEFAULT_CAMERA_MIN_ANGLE = 20.f;
+   static const float DEFAULT_CAMERA_MAX_ANGLE = 160.f;
+   static const float DEFAULT_CAMERA_SENSITIVITY = 0.2f;
 }

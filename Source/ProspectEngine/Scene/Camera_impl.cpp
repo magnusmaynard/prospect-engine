@@ -1,6 +1,9 @@
 #include "Camera_impl.h"
 #include "EngineDefines.h"
 
+#include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtx/vector_angle.hpp>
+
 using namespace Prospect;
 using namespace glm;
 
@@ -9,10 +12,12 @@ Camera_impl::Camera_impl(Camera& parent, const ivec2& size)
    m_parent(parent),
    m_size(size),
    m_up(POS_Y),
-   m_forward(POS_Z)
+   m_forward(POS_Z),
+   m_minAngle(DEFAULT_CAMERA_MIN_ANGLE),
+   m_maxAngle(DEFAULT_CAMERA_MAX_ANGLE),
+   m_viewIsDirty(true),
+   m_projectionIsDirty(true)
 {
-   UpdateViewMatrix();
-   UpdateProjectionMatrix();
 }
 
 void Camera_impl::LookAt(const vec3 eyePosition, const vec3 targetPosition)
@@ -20,21 +25,41 @@ void Camera_impl::LookAt(const vec3 eyePosition, const vec3 targetPosition)
    m_position = eyePosition;
    m_forward = normalize(targetPosition - eyePosition);
 
-   UpdateViewMatrix();
+   m_viewIsDirty = true;
 }
 
 void Camera_impl::SetSize(const ivec2& size)
 {
    m_size = size;
 
-   UpdateProjectionMatrix();
+   m_projectionIsDirty = true;
+}
+
+void Camera_impl::Turn(const vec2 delta)
+{
+   float horizontal = delta.x * DEFAULT_CAMERA_SENSITIVITY;
+   float vertical = delta.y * DEFAULT_CAMERA_SENSITIVITY;
+
+   //Horizontal rotation.
+   m_forward = rotate(m_forward, radians(horizontal), m_up);
+
+   //Vertical rotation.
+   vec3 newForward = rotate(m_forward, radians(vertical), GetLeft());
+   float newAngle = degrees(glm::angle(m_up, newForward));
+
+   if (newAngle > m_minAngle && newAngle < m_maxAngle)
+   {
+      m_forward = newForward;
+   }
+
+   m_viewIsDirty = true;
 }
 
 void Camera_impl::SetPosition(const vec3 position)
 {
    m_position = position;
 
-   UpdateViewMatrix();
+   m_viewIsDirty = true;
 }
 
 vec3 Camera_impl::GetPosition() const
@@ -46,7 +71,7 @@ void Camera_impl::SetForward(const vec3 forward)
 {
    m_forward = forward;
 
-   UpdateViewMatrix();
+   m_viewIsDirty = true;
 }
 
 vec3 Camera_impl::GetForward() const
@@ -58,7 +83,7 @@ void Camera_impl::SetUp(const vec3 up)
 {
    m_up = up;
 
-   UpdateViewMatrix();
+   m_viewIsDirty = true;
 }
 
 vec3 Camera_impl::GetUp() const
@@ -66,28 +91,47 @@ vec3 Camera_impl::GetUp() const
    return m_up;
 }
 
-void Camera_impl::UpdateViewMatrix()
+vec3 Camera_impl::GetLeft() const
 {
-   m_view = lookAt(m_position, m_position + m_forward, m_up);
+   return cross(m_forward, m_up);
 }
 
-void Camera_impl::UpdateProjectionMatrix()
+void Camera_impl::UpdateViewMatrix() const
 {
-   float aspect = m_size.x / static_cast<float>(m_size.y);
+   if (m_viewIsDirty)
+   {
+      m_view = lookAt(m_position, m_position + m_forward, m_up);
 
-   m_projection = perspective(
-      radians(DEFAULT_CAMERA_FOV),
-      aspect,
-      DEFAULT_CAMERA_NEAR,
-      DEFAULT_CAMERA_FAR);
+      m_viewIsDirty = false;
+   }
+}
+
+void Camera_impl::UpdateProjectionMatrix() const
+{
+   if (m_projectionIsDirty)
+   {
+      float aspect = m_size.x / static_cast<float>(m_size.y);
+
+      m_projection = perspective(
+         radians(DEFAULT_CAMERA_FOV),
+         aspect,
+         DEFAULT_CAMERA_NEAR,
+         DEFAULT_CAMERA_FAR);
+
+      m_projectionIsDirty = false;
+   }
 }
 
 mat4 Camera_impl::GetViewMatrix() const
 {
+   UpdateViewMatrix();
+
    return m_view;
 }
 
 mat4 Camera_impl::GetProjectionMatrix() const
 {
+   UpdateProjectionMatrix();
+
    return m_projection;
 }

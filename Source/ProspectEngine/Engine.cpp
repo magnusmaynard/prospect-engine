@@ -24,6 +24,11 @@ void Engine::SetTitle(const std::string& title)
    m_impl->SetTitle(title);
 }
 
+void Engine::SetEnableCameraControls(bool isEnabled)
+{
+   m_impl->SetEnableCameraControls(isEnabled);
+}
+
 void Engine::Close()
 {
    m_impl->Close();
@@ -48,7 +53,6 @@ MaterialLibrary& Engine::GetMaterialLibrary()
 {
    return m_impl->GetMaterialLibrary();
 }
-
 
 //Using a unique_ptr means the Engine must have a default destructor. See:
 //"Effect Modern C++ - Item 22: When using the Pimpl Idiom, define special member functions in the implementation file."

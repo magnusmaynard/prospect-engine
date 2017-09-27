@@ -26,7 +26,7 @@ void TestApplication::OnStartup()
 {
    m_engine.SetTitle("Test Application");
 
-   m_scene.GetCamera().LookAt(vec3(0, 100, 100), vec3(0, 0, 0));
+   m_scene.GetCamera().LookAt(vec3(0, 50, 100), vec3(0, 0, 0));
 
    Material& grass = m_materialLib.CreateMaterial(Color(0.1f, 0.6f, 0.1f));
    Material& matRed = m_materialLib.CreateMaterial(Color(1, 0.2f, 0.2f));
@@ -39,10 +39,7 @@ void TestApplication::OnStartup()
    ground.SetRotation(vec3(0, 45, 0));
 
    Entity& child = ground.AddEntity(&testPlane, &matRed);
-   child.SetTranslation(vec3(0, 10, 0));
-
    Entity& child2 = child.AddEntity(&testPlane, &matBlue);
-   child2.SetTranslation(vec3(0, 10, 0));
 }
 
 void TestApplication::OnUpdate(const unsigned int time)
@@ -51,11 +48,11 @@ void TestApplication::OnUpdate(const unsigned int time)
    counter += 0.1f;
 
    auto& e1 = m_scene.GetEntity(0).GetEntity(0);
-   e1.SetTranslation(vec3(-5, 0, -50));
+   e1.SetTranslation(vec3(-5, 10, -20));
    e1.SetRotation(vec3(0, counter * 10.0, 0));
 
    auto& e2 = m_scene.GetEntity(0).GetEntity(0).GetEntity(0);
-   e2.SetTranslation(vec3(-5, 0, -50));
+   e2.SetTranslation(vec3(-5, 10, -40));
    e2.SetRotation(vec3(0, counter * 10.0, 0));
 }
 
@@ -73,14 +70,28 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
       case Key::W:
       {
          auto& camera = m_scene.GetCamera();
-         vec3 position = camera.GetPosition() + camera.GetForwardDirection() * moveIncrement;
+         vec3 position = camera.GetPosition() + camera.GetForward() * moveIncrement;
          camera.SetPosition(position);
          break;
       }
       case Key::S:
       {
          auto& camera = m_scene.GetCamera();
-         vec3 position = camera.GetPosition() - camera.GetForwardDirection() * moveIncrement;
+         vec3 position = camera.GetPosition() - camera.GetForward() * moveIncrement;
+         camera.SetPosition(position);
+         break;
+      }
+      case Key::A:
+      {
+         auto& camera = m_scene.GetCamera();
+         vec3 position = camera.GetPosition() - camera.GetLeft() * moveIncrement;
+         camera.SetPosition(position);
+         break;
+      }
+      case Key::D:
+      {
+         auto& camera = m_scene.GetCamera();
+         vec3 position = camera.GetPosition() + camera.GetLeft() * moveIncrement;
          camera.SetPosition(position);
          break;
       }
@@ -95,6 +106,9 @@ void TestApplication::OnKeyUp(const Key& key, const KeyModifier& modifier)
 {
 }
 
+void TestApplication::OnMouseMove(const glm::vec2& oldPosition, const glm::vec2& newPosition)
+{
+}
 
 void TestApplication::OnShutdown()
 {
