@@ -99,14 +99,8 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="EngineDefines.h" />
-    <ClInclude Include="Renderer\RendererDefines.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Resources\Resources.h">
       <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Renderables\Renderable.h">
-      <Filter>Renderer\Renderables</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\Renderables\RenderableMaterial.h">
       <Filter>Renderer\Renderables</Filter>
@@ -125,6 +119,15 @@
     </ClInclude>
     <ClInclude Include="Scene\Material_impl.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\UniformBuffer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\IRenderable.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\RenderableEntity.h">
+      <Filter>Renderer\Renderables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,9 +208,6 @@
     <ClCompile Include="Resources\Resources.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Renderables\Renderable.cpp">
-      <Filter>Renderer\Renderables</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Renderables\RenderableMaterial.cpp">
       <Filter>Renderer\Renderables</Filter>
     </ClCompile>
@@ -225,6 +225,12 @@
     </ClCompile>
     <ClCompile Include="Scene\Material_impl.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\UniformBuffer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\RenderableEntity.cpp">
+      <Filter>Renderer\Renderables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

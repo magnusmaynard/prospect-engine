@@ -2,7 +2,7 @@
 #include "Scene/Scene_impl.h"
 #include "Scene/Terrain.h"
 #include "Scene/Camera_impl.h"
-#include "Renderables/Renderable.h"
+#include "Renderables/RenderableEntity.h"
 #include "Libraries/EntityLibrary.h"
 
 using namespace Prospect;
@@ -26,16 +26,18 @@ void Renderer::Render(Scene_impl& scene)
 
    scene.UpdateTransforms();
 
-   UpdateRenderables(scene.GetEntityLib());
+   UpdateUniformBuffer(scene);
+
+   UpdateEntityRenderables(scene.GetEntityLib());
 
    //Render all renderables.
    for (auto& renderable : m_renderables)
    {
-      renderable.second.Render(scene);
+      renderable->Render(m_uniformBuffer);
    }
 }
 
-void Renderer::UpdateRenderables(EntityLibrary& entityLib)
+void Renderer::UpdateEntityRenderables(EntityLibrary& entityLib)
 {
    for (int i = 0; i < entityLib.Count(); ++i)
    {
@@ -43,15 +45,12 @@ void Renderer::UpdateRenderables(EntityLibrary& entityLib)
 
       if (entity.GetMesh() != nullptr && entity.GetMaterial() != nullptr)
       {
-         auto itr = m_renderables.find(entity.GetID());
-         if (itr == m_renderables.end())
+         if(entity.GetRenderable() == nullptr)
          {
-            m_renderables.emplace(
-               entity.GetID(),
-               Renderable(
-                  entity,
-                  GetRenderableMesh(*entity.GetMeshImpl()),
-                  GetRenderableMaterial(*entity.GetMaterial())));
+            m_renderables.push_back(std::make_unique<RenderableEntity>(
+               entity, GetRenderableMesh(*entity.GetMeshImpl())));
+
+            entity.SetRenderable(m_renderables.back().get());
          }
       }
    }
@@ -68,23 +67,12 @@ RenderableMesh& Renderer::GetRenderableMesh(Mesh_impl& mesh)
    return itr->second;
 }
 
-RenderableMaterial& Renderer::GetRenderableMaterial(Material& material)
-{
-   auto itr = m_renderableMaterials.find(material.GetID());
-   if (itr == m_renderableMaterials.end())
-   {
-      return m_renderableMaterials.emplace(material.GetID(), RenderableMaterial(material)).first->second;
-   }
-
-   return itr->second;
-}
-
-void Renderer::ApplyCommonUniforms(Scene_impl& scene)
+void Renderer::UpdateUniformBuffer(Scene_impl& scene)
 {
    Camera_impl& camera = scene.GetCameraImpl();
 
-   glUniformMatrix4fv(0, 1, GL_FALSE, &camera.GetProjectionMatrix()[0][0]);
-   glUniformMatrix4fv(1, 1, GL_FALSE, &camera.GetViewMatrix()[0][0]);
+   m_uniformBuffer.SetProjectionTransform(camera.GetProjectionMatrix());
+   m_uniformBuffer.SetViewTransform(camera.GetViewMatrix());
 }
 
 void Renderer::Clear()

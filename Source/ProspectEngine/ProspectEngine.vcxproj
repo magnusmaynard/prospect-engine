@@ -35,15 +35,15 @@
     <ClInclude Include="Libraries\EntityLibrary.h" />
     <ClInclude Include="Libraries\MaterialLibrary_impl.h" />
     <ClInclude Include="Libraries\MeshLibrary_impl.h" />
+    <ClInclude Include="Renderer\IRenderable.h" />
     <ClInclude Include="Renderer\PolygonMode.h" />
     <ClInclude Include="Renderer\QuadTree\Node.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTree.h" />
     <ClInclude Include="Renderer\QuadTree\QuadTreeUniformLocations.h" />
-    <ClInclude Include="Renderer\Renderables\Renderable.h" />
+    <ClInclude Include="Renderer\Renderables\RenderableEntity.h" />
     <ClInclude Include="Renderer\Renderables\RenderableMaterial.h" />
     <ClInclude Include="Renderer\Renderables\RenderableMesh.h" />
     <ClInclude Include="Renderer\Renderer.h" />
-    <ClInclude Include="Renderer\RendererDefines.h" />
     <ClInclude Include="Renderer\Shaders\BaseShader.h" />
     <ClInclude Include="Renderer\Shaders\FragmentShader.h" />
     <ClInclude Include="Renderer\Shaders\GeometryShader.h" />
@@ -52,6 +52,7 @@
     <ClInclude Include="Renderer\Shaders\TessControlShader.h" />
     <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h" />
     <ClInclude Include="Renderer\Shaders\VertexShader.h" />
+    <ClInclude Include="Renderer\UniformBuffer.h" />
     <ClInclude Include="Renderer\Window.h" />
     <ClInclude Include="Resources\Resources.h" />
     <ClInclude Include="Resources\VertexArray.h" />
@@ -73,7 +74,7 @@
     <ClCompile Include="Libraries\MeshLibrary_impl.cpp" />
     <ClCompile Include="Renderer\QuadTree\Node.cpp" />
     <ClCompile Include="Renderer\QuadTree\QuadTree.cpp" />
-    <ClCompile Include="Renderer\Renderables\Renderable.cpp" />
+    <ClCompile Include="Renderer\Renderables\RenderableEntity.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableMaterial.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableMesh.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
@@ -84,6 +85,7 @@
     <ClCompile Include="Renderer\Shaders\TessControlShader.cpp" />
     <ClCompile Include="Renderer\Shaders\TessEvaluationShader.cpp" />
     <ClCompile Include="Renderer\Shaders\VertexShader.cpp" />
+    <ClCompile Include="Renderer\UniformBuffer.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />
     <ClCompile Include="Resources\Resources.cpp" />
     <ClCompile Include="Scene\Atmosphere.cpp" />

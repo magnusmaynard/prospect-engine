@@ -12,6 +12,7 @@
 namespace Prospect
 {
    class Mesh_impl;
+   class IRenderable;
 
    class Entity_impl
    {
@@ -49,8 +50,10 @@ namespace Prospect
       void UpdateTransform(const glm::mat4& transform, const bool isParentDirty);
       glm::mat4& GetTransform();
 
-
       Mesh_impl* GetMeshImpl();
+
+      IRenderable* GetRenderable();
+      void SetRenderable(IRenderable* renderable);
 
    private:
       void UpdateLocalTransform();
@@ -72,5 +75,7 @@ namespace Prospect
       mutable bool m_isTransformDirty = true;
       glm::mat4 m_localTransform;
       glm::mat4 m_transform;
+
+      IRenderable* m_renderable;
    };
 }

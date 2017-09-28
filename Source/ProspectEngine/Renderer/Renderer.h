@@ -1,8 +1,10 @@
 #pragma once
 #include <map>
-#include "Renderables/Renderable.h"
+#include "Renderables/RenderableEntity.h"
 #include "Renderables/RenderableMesh.h"
 #include "Renderables/RenderableMaterial.h"
+#include "UniformBuffer.h"
+#include <memory>
 
 namespace Prospect
 {
@@ -20,18 +22,17 @@ namespace Prospect
       void Render(Scene_impl& scene);
 
    private:
-      std::map<int, Renderable> m_renderables;
+      std::deque<std::unique_ptr<IRenderable>> m_renderables;
       std::map<int, RenderableMesh> m_renderableMeshes;
-      std::map<int, RenderableMaterial> m_renderableMaterials;
+      UniformBuffer m_uniformBuffer;
 
-      RenderableMaterial& GetRenderableMaterial(Material& mesh);
       RenderableMesh& GetRenderableMesh(Mesh_impl& mesh);
 
-      void UpdateRenderables(EntityLibrary& entityLib);
+      void UpdateEntityRenderables(EntityLibrary& entityLib);
 
-      void ApplyCommonUniforms(Scene_impl& scene);
+      void UpdateUniformBuffer(Scene_impl& scene);
 
-      void Render(Renderable& renderable);
+      void Render(RenderableEntity& renderable);
 
       void Clear();
    };

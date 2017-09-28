@@ -2,6 +2,7 @@
 
 #include <glm/gtx/transform.hpp>
 #include "EngineDefines.h"
+#include "Renderer/IRenderable.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -147,4 +148,15 @@ Mesh_impl* Entity_impl::GetMeshImpl()
    }
 
    return m_mesh->m_impl.get();
+}
+
+
+IRenderable* Entity_impl::GetRenderable()
+{
+   return m_renderable;
+}
+
+void Entity_impl::SetRenderable(IRenderable* renderable)
+{
+   m_renderable = renderable;
 }
