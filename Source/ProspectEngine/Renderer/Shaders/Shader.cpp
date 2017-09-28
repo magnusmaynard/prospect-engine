@@ -1,5 +1,6 @@
-#include "ShaderProgram.h"
+#include "Shader.h"
 
+#include "Renderer/RendererDefines.h"
 #include <iostream>
 #include <vector>
 #include "VertexShader.h"
@@ -7,21 +8,21 @@
 #include "TessEvaluationShader.h"
 #include "GeometryShader.h"
 #include "FragmentShader.h"
-#include "RendererDefines.h"
 
 using namespace Prospect;
 
-ShaderProgram::ShaderProgram()
+Shader::Shader()
+   :
+   m_program(GL_NULL)
 {
-   m_program = glCreateProgram();
 }
 
-ShaderProgram::~ShaderProgram()
+Shader::~Shader()
 {
    glDeleteProgram(m_program);
 }
 
-ShaderProgram::ShaderProgram(ShaderProgram&& other)
+Shader::Shader(Shader&& other)
    :
    m_program(other.m_program),
    m_vertexShader(std::move(other.m_vertexShader)),
@@ -39,7 +40,7 @@ ShaderProgram::ShaderProgram(ShaderProgram&& other)
    other.m_fragmentShader = nullptr;
 }
 
-ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other)
+Shader& Shader::operator=(Shader&& other)
 {
    if (this != &other)
    {
@@ -63,32 +64,52 @@ ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other)
    return *this;
 }
 
-void ShaderProgram::AddVertexShader(const std::string& fileName)
+bool Shader::operator==(const Shader &other) const
+{
+   return
+      AreEqual(m_vertexShader.get(), other.m_vertexShader.get()) &&
+      AreEqual(m_tessControlShader.get(), other.m_tessControlShader.get()) &&
+      AreEqual(m_tessEvaluationShader.get(), other.m_tessEvaluationShader.get()) &&
+      AreEqual(m_geometryShader.get(), other.m_geometryShader.get()) &&
+      AreEqual(m_fragmentShader.get(), other.m_fragmentShader.get());
+}
+
+bool Shader::AreEqual(BaseShader* lhs, BaseShader* rhs) const
+{
+   if (lhs != nullptr && rhs != nullptr)
+   {
+      return lhs->GetName() == rhs->GetName();
+   }
+
+   return lhs == rhs;
+}
+
+void Shader::AddVertexShader(const std::string& fileName)
 {
    m_vertexShader = std::make_unique<VertexShader>(fileName);
 }
 
-void ShaderProgram::AddTessControlShader(const std::string& fileName)
+void Shader::AddTessControlShader(const std::string& fileName)
 {
    m_tessControlShader = std::make_unique<TessControlShader>(fileName);
 }
 
-void ShaderProgram::AddTessEvaluationShader(const std::string& fileName)
+void Shader::AddTessEvaluationShader(const std::string& fileName)
 {
    m_tessEvaluationShader = std::make_unique<TessEvaluationShader>(fileName);
 }
 
-void ShaderProgram::AddGeometryShader(const std::string& fileName)
+void Shader::AddGeometryShader(const std::string& fileName)
 {
    m_geometryShader = std::make_unique<GeometryShader>(fileName);
 }
 
-void ShaderProgram::AddFragmentShader(const std::string& fileName)
+void Shader::AddFragmentShader(const std::string& fileName)
 {
    m_fragmentShader = std::make_unique<FragmentShader>(fileName);
 }
 
-bool ShaderProgram::CompileAndAttachShader(
+bool Shader::CompileAndAttachShader(
    const GLuint program,
    const std::unique_ptr<BaseShader>& shader)
 {
@@ -104,8 +125,10 @@ bool ShaderProgram::CompileAndAttachShader(
    return true; //No error has occured, just a null shader.
 }
 
-bool ShaderProgram::Compile()
+bool Shader::Compile()
 {
+   m_program = glCreateProgram();
+
    bool success = true;
 
    //Compile and attach to program.
@@ -124,7 +147,7 @@ bool ShaderProgram::Compile()
    return success;
 }
 
-bool ShaderProgram::LinkProgram(const GLuint& program)
+bool Shader::LinkProgram(const GLuint& program)
 {
    //Link program.
    glLinkProgram(program);
@@ -155,12 +178,12 @@ bool ShaderProgram::LinkProgram(const GLuint& program)
    return true;
 }
 
-void ShaderProgram::Bind() const
+void Shader::Bind() const
 {
    glUseProgram(m_program);
 }
 
-GLint ShaderProgram::GetUniformLocation(const std::string& uniform) const
+GLint Shader::GetUniformLocation(const std::string& uniform) const
 {
    return glGetUniformLocation(m_program, uniform.c_str());
 }

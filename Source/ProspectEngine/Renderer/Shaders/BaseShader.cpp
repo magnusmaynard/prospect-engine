@@ -10,7 +10,7 @@ using namespace Prospect;
 
 BaseShader::BaseShader(const std::string& fileName, GLenum type)
    :
-   m_fileName(fileName + m_extension),
+   m_fileName(fileName),
    m_type(type)
 {
 }
@@ -23,6 +23,11 @@ BaseShader::~BaseShader()
 GLuint BaseShader::GetID() const
 {
    return m_id;
+}
+
+std::string BaseShader::GetName() const
+{
+   return m_fileName;
 }
 
 bool BaseShader::Compile()

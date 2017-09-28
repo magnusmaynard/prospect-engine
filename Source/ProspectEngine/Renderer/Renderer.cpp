@@ -4,6 +4,7 @@
 #include "Scene/Camera_impl.h"
 #include "Renderables/RenderableEntity.h"
 #include "Libraries/EntityLibrary.h"
+#include "Scene/Mesh_impl.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -28,7 +29,9 @@ void Renderer::Render(Scene_impl& scene)
 
    UpdateUniformBuffer(scene);
 
-   UpdateEntityRenderables(scene.GetEntityLib());
+   UpdateRenderableEntities(scene.GetEntityLib());
+
+   //UpdateRenderableTerrain(scene.GetTerrain());
 
    //Render all renderables.
    for (auto& renderable : m_renderables)
@@ -37,7 +40,7 @@ void Renderer::Render(Scene_impl& scene)
    }
 }
 
-void Renderer::UpdateEntityRenderables(EntityLibrary& entityLib)
+void Renderer::UpdateRenderableEntities(EntityLibrary& entityLib)
 {
    for (int i = 0; i < entityLib.Count(); ++i)
    {
@@ -47,8 +50,9 @@ void Renderer::UpdateEntityRenderables(EntityLibrary& entityLib)
       {
          if(entity.GetRenderable() == nullptr)
          {
-            m_renderables.push_back(std::make_unique<RenderableEntity>(
-               entity, GetRenderableMesh(*entity.GetMeshImpl())));
+            VertexData& vertexData = GetVertexData(*entity.GetMeshImpl());
+
+            m_renderables.push_back(std::make_unique<RenderableEntity>(entity, vertexData, m_shaderFactory));
 
             entity.SetRenderable(m_renderables.back().get());
          }
@@ -56,12 +60,12 @@ void Renderer::UpdateEntityRenderables(EntityLibrary& entityLib)
    }
 }
 
-RenderableMesh& Renderer::GetRenderableMesh(Mesh_impl& mesh)
+VertexData& Renderer::GetVertexData(Mesh_impl& mesh)
 {
-   auto itr = m_renderableMeshes.find(mesh.GetID());
-   if (itr == m_renderableMeshes.end())
+   auto itr = m_vertexDataMap.find(mesh.GetID());
+   if (itr == m_vertexDataMap.end())
    {
-      return m_renderableMeshes.emplace(mesh.GetID(), RenderableMesh(mesh)).first->second;
+      return m_vertexDataMap.emplace(mesh.GetID(), VertexData(mesh)).first->second;
    }
    
    return itr->second;

@@ -6,15 +6,17 @@
 
 namespace Prospect
 {
-   class ShaderProgram
+   class Shader
    {
    public:
-      ShaderProgram();
-      ~ShaderProgram();
-      ShaderProgram(ShaderProgram&& other);
-      ShaderProgram& operator=(ShaderProgram&& other);
-      ShaderProgram(const ShaderProgram& other) = delete;
-      ShaderProgram& operator=(const ShaderProgram& other) = delete;
+      Shader();
+      ~Shader();
+      Shader(Shader&& other);
+      Shader& operator=(Shader&& other);
+      Shader(const Shader& other) = delete;
+      Shader& operator=(const Shader& other) = delete;
+
+      bool operator ==(const Shader &other) const;
 
       void AddVertexShader(const std::string& fileName);
       void AddTessControlShader(const std::string& fileName);
@@ -28,7 +30,9 @@ namespace Prospect
       GLint GetUniformLocation(const std::string& uniform) const;
 
    private:
-      GLuint m_program = 0;
+      bool AreEqual(BaseShader* lhs, BaseShader* rhs) const;
+
+      GLuint m_program;
 
       std::unique_ptr<BaseShader> m_vertexShader;
       std::unique_ptr<BaseShader> m_tessControlShader;
@@ -36,7 +40,7 @@ namespace Prospect
       std::unique_ptr<BaseShader> m_geometryShader;
       std::unique_ptr<BaseShader> m_fragmentShader;
 
-      static bool ShaderProgram::CompileAndAttachShader(
+      static bool Shader::CompileAndAttachShader(
          const GLuint program,
          const std::unique_ptr<BaseShader>& shader);
 

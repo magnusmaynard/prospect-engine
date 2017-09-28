@@ -3,6 +3,6 @@
 using namespace Prospect;
 
 TessControlShader::TessControlShader(const std::string& fileName):
-   BaseShader(fileName + ".tcs", GL_TESS_CONTROL_SHADER)
+   BaseShader(fileName, GL_TESS_CONTROL_SHADER)
 {
 }

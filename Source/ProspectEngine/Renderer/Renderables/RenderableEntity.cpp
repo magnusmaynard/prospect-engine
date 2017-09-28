@@ -5,35 +5,36 @@
 #include "Scene/Scene_impl.h"
 #include "Scene/Camera_impl.h"
 #include "Renderer/UniformBuffer.h"
+#include "Renderer/VertexData.h"
+#include "Renderer/Shaders/ShaderFactory.h"
+#include "Renderer/Shaders/Shaders.h"
 
 using namespace Prospect;
 
-RenderableEntity::RenderableEntity(Entity_impl& entity, RenderableMesh& renderableMesh)
+RenderableEntity::RenderableEntity(Entity_impl& entity, VertexData& vertexData, ShaderFactory& shaderFactory)
    :
    m_entity(entity),
-   m_renderableMesh(renderableMesh)
+   m_vertexData(vertexData),
+   m_shader(shaderFactory.CreateShader(SIMPLE_VERTEX_SHADER, SIMPLE_FRAGMENT_SHADER))
 {
-   m_program.AddVertexShader("simple");
-   m_program.AddFragmentShader("simple");
-
-   m_program.Compile();
 }
 
 RenderableEntity::~RenderableEntity()
 {
+   //TODO: shaderFactory decrement references.
 }
 
 RenderableEntity::RenderableEntity(RenderableEntity&& other)
    :
    m_entity(other.m_entity),
-   m_program(std::move(other.m_program)),
-   m_renderableMesh(other.m_renderableMesh)
+   m_shader(other.m_shader),
+   m_vertexData(other.m_vertexData)
 {
 }
 
 void RenderableEntity::Render(UniformBuffer& uniformBuffer)
 {
-   m_program.Bind();
+   m_shader.Bind();
 
    uniformBuffer.Bind();
 
@@ -41,7 +42,7 @@ void RenderableEntity::Render(UniformBuffer& uniformBuffer)
 
    BindMaterial(*m_entity.GetMaterial());
    
-   m_renderableMesh.Render();
+   m_vertexData.Render();
 }
 
 void RenderableEntity::BindTransform(const glm::mat4& transform)

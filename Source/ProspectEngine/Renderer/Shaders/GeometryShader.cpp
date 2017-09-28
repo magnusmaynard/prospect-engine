@@ -3,6 +3,6 @@
 using namespace Prospect;
 
 GeometryShader::GeometryShader(const std::string& fileName):
-   BaseShader(fileName + ".gs", GL_GEOMETRY_SHADER)
+   BaseShader(fileName, GL_GEOMETRY_SHADER)
 {
 }

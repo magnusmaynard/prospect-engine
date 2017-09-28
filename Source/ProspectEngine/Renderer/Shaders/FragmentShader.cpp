@@ -3,6 +3,6 @@
 using namespace Prospect;
 
 FragmentShader::FragmentShader(const std::string& fileName):
-   BaseShader(fileName + ".fs", GL_FRAGMENT_SHADER)
+   BaseShader(fileName, GL_FRAGMENT_SHADER)
 {
 }

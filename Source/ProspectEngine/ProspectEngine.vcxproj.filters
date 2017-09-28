@@ -37,9 +37,6 @@
     <ClInclude Include="Renderer\QuadTree\QuadTree.h">
       <Filter>Renderer\QuadTree</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Shaders\ShaderProgram.h">
-      <Filter>Renderer\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Terrain.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -60,9 +57,6 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Resources\VertexArray.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Shaders\Shaders.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Entity_impl.h">
@@ -102,12 +96,6 @@
     <ClInclude Include="Resources\Resources.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderables\RenderableMaterial.h">
-      <Filter>Renderer\Renderables</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Renderables\RenderableMesh.h">
-      <Filter>Renderer\Renderables</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Entity.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -128,6 +116,21 @@
     </ClInclude>
     <ClInclude Include="Renderer\Renderables\RenderableEntity.h">
       <Filter>Renderer\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\RendererDefines.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\VertexData.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shaders\Shaders.h">
+      <Filter>Renderer\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shaders\ShaderFactory.h">
+      <Filter>Renderer\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shaders\Shader.h">
+      <Filter>Renderer\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +164,6 @@
     </ClCompile>
     <ClCompile Include="Renderer\QuadTree\QuadTree.cpp">
       <Filter>Renderer\QuadTree</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Shaders\ShaderProgram.cpp">
-      <Filter>Renderer\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
       <Filter>Scene</Filter>
@@ -208,12 +208,6 @@
     <ClCompile Include="Resources\Resources.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Renderables\RenderableMaterial.cpp">
-      <Filter>Renderer\Renderables</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Renderables\RenderableMesh.cpp">
-      <Filter>Renderer\Renderables</Filter>
-    </ClCompile>
     <ClCompile Include="Libraries\MaterialLibrary_impl.cpp">
       <Filter>Libraries</Filter>
     </ClCompile>
@@ -231,6 +225,15 @@
     </ClCompile>
     <ClCompile Include="Renderer\Renderables\RenderableEntity.cpp">
       <Filter>Renderer\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\VertexData.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shaders\ShaderFactory.cpp">
+      <Filter>Renderer\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shaders\Shader.cpp">
+      <Filter>Renderer\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

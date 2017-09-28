@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
-#include "Renderer/Shaders/ShaderProgram.h"
+#include "Renderer/Shaders/Shader.h"
 
 namespace Prospect
 {
@@ -21,7 +21,7 @@ namespace Prospect
          const glm::vec3& earthPosition);
 
    private:
-      ShaderProgram m_shader;
+      Shader m_shader;
 
       GLint m_modelLocation = 0;
       GLint m_viewLocation = 0;

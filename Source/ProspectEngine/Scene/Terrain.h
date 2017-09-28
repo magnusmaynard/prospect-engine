@@ -3,7 +3,7 @@
 
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
-#include "Renderer/Shaders/ShaderProgram.h"
+#include "Renderer/Shaders/Shader.h"
 
 #include "Renderer/QuadTree/QuadTree.h"
 
@@ -19,7 +19,7 @@ namespace Prospect
    private:
       void Terrain::GenerateHeightMap(GLuint texture);
 
-      ShaderProgram m_shader;
+      Shader m_shader;
       GLint m_viewLocation = 0;
       GLint m_projectionLocation = 0;
 

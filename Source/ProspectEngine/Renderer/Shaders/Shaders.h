@@ -1,25 +1,8 @@
 #pragma once
 #include <string>
 
-struct Shaders
+namespace Prospect
 {
-   Shaders(
-      std::string& vertex,
-      std::string& geometry,
-      std::string& tessControl,
-      std::string& tessEvaluation,
-      std::string& fragment)
-      :
-      Vertex(vertex),
-      Geometry(geometry),
-      TessControl(tessControl),
-      TessEvaluation(tessEvaluation),
-      Fragment(fragment)
-   {}
-
-   std::string Vertex;
-   std::string Geometry;
-   std::string TessControl;
-   std::string TessEvaluation;
-   std::string Fragment;
-};
+   static const std::string SIMPLE_VERTEX_SHADER = "simple.vs.glsl";
+   static const std::string SIMPLE_FRAGMENT_SHADER = "simple.fs.glsl";
+}

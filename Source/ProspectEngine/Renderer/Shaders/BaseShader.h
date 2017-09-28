@@ -1,8 +1,5 @@
 #pragma once
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#include <string>
+#include "Renderer/RendererDefines.h"
 
 namespace Prospect
 {
@@ -11,16 +8,16 @@ namespace Prospect
    public:
       BaseShader(const std::string& fileName, GLenum type);
       ~BaseShader();
+
       bool Compile();
 
       GLuint GetID() const;
+      std::string GetName() const;
 
    private:
-      const std::string m_extension = ".glsl";
-
       const std::string m_fileName;
       const GLenum m_type;
 
-      GLuint m_id = -1;
+      GLuint m_id = GL_NULL;
    };
 }

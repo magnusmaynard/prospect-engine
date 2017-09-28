@@ -1,22 +1,23 @@
-#include "RenderableMesh.h"
-#include <algorithm>
+#include "VertexData.h"
+
+#include "Scene/Mesh_impl.h"
 
 using namespace Prospect;
 
-RenderableMesh::RenderableMesh(Mesh_impl& mesh)
+VertexData::VertexData(Mesh_impl& mesh)
    :
    m_mesh(mesh)
 {
    glCreateVertexArrays(1, &m_VAO);
 }
 
-RenderableMesh::~RenderableMesh()
+VertexData::~VertexData()
 {
    glDeleteBuffers(BUFFER_COUNT, m_buffers);
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-RenderableMesh::RenderableMesh(RenderableMesh&& other)
+VertexData::VertexData(VertexData&& other)
    :
    m_VAO(other.m_VAO),
    m_mesh(other.m_mesh)
@@ -29,7 +30,8 @@ RenderableMesh::RenderableMesh(RenderableMesh&& other)
    std::fill(other.m_buffers, other.m_buffers + BUFFER_COUNT, GL_NULL);
 }
 
-void RenderableMesh::UpdateBuffers()
+
+void VertexData::UpdateBuffers()
 {
    //Reset buffers
    glDeleteBuffers(BUFFER_COUNT, m_buffers);
@@ -76,7 +78,8 @@ void RenderableMesh::UpdateBuffers()
       m_buffers[BUFFER_INDICES]);
 }
 
-void RenderableMesh::Render()
+
+void VertexData::Render()
 {
    if (m_mesh.GetVertices().size() > 0)
    {

@@ -1,8 +1,6 @@
 #pragma once
-#include "Renderer/Shaders/ShaderProgram.h"
+#include "Renderer/Shaders/Shader.h"
 #include "Scene/Entity_impl.h"
-#include "RenderableMesh.h"
-#include "RenderableMaterial.h"
 #include "Renderer/IRenderable.h"
 
 namespace Prospect
@@ -10,11 +8,13 @@ namespace Prospect
    class Camera_impl;
    class Scene_impl;
    class UniformBuffer;
+   class VertexData;
+   class ShaderFactory;
 
    class RenderableEntity : public IRenderable
    {
    public:
-      RenderableEntity(Entity_impl& entity, RenderableMesh& renderableMesh);
+      RenderableEntity(Entity_impl& entity, VertexData& vertexData, ShaderFactory& shaderFactory);
       ~RenderableEntity();
       RenderableEntity(const RenderableEntity& other) = delete;
       RenderableEntity& operator=(const RenderableEntity &) = delete;
@@ -29,8 +29,8 @@ namespace Prospect
 
       Entity_impl& m_entity;
 
-      RenderableMesh& m_renderableMesh;
+      VertexData& m_vertexData;
 
-      ShaderProgram m_program;
+      Shader& m_shader;
    };
 }
