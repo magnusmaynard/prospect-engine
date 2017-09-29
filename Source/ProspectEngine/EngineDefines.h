@@ -11,6 +11,8 @@
 
 namespace Prospect
 {
+   static const double TIME_PER_UPDATE = 1000.0 / 60.0;
+
    static const int DEFAULT_WIDTH = 600;
    static const int DEFAULT_HEIGHT = 400;
    static const unsigned long NULL_ID = 0;

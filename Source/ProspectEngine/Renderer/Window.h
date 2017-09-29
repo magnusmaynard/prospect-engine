@@ -33,7 +33,7 @@ namespace Prospect
 
       void Destroy() const;
 
-      unsigned int GetTime() const;
+      double GetTime() const;
       glm::ivec2 GetSize() const;
 
    private:
@@ -49,10 +49,14 @@ namespace Prospect
 
       static KeyModifier ConvertGLFWModifier(int glfwModifer);
 
+      static void EnableVSync(bool enableVSync);
+
       Engine_impl& m_engine;
       GLFWwindow* m_window;
       const glm::ivec2 m_size;
       glm::vec2 m_previousMousePosition;
       bool m_isMouseInsideWindow;
+
+      bool m_enableVSync;
    };
 }

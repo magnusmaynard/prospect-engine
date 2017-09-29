@@ -18,7 +18,7 @@ public:
 
    void OnStartup() override;
    void OnShutdown() override;
-   void OnUpdate(const unsigned int time) override;
+   void OnUpdate(double timeElapsed) override;
    void OnKeyDown(const Key& key, const KeyModifier& modifier) override;
    void OnKeyUp(const Key& key, const KeyModifier& modifier) override;
    void OnMouseMove(const glm::vec2& oldPosition, const glm::vec2& newPosition) override;

@@ -20,7 +20,9 @@ namespace Prospect
       Renderer();
 
       void Setup();
-      void Render(Scene_impl& scene);
+      void Render(double time, Scene_impl& scene);
+
+      void ShowFPS(bool showFPS);
 
    private:
       std::deque<std::unique_ptr<IRenderable>> m_renderables;
@@ -37,5 +39,11 @@ namespace Prospect
       void Render(RenderableEntity& renderable);
 
       void Clear();
+
+      void DisplayFPS(double time);
+
+      bool m_showFPS;
+      unsigned int m_frameCount;
+      double m_previousTime;
    };
 }

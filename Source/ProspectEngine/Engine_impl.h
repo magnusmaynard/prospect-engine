@@ -22,7 +22,8 @@ namespace Prospect
       //Public
       void Start();
       void SetTitle(const std::string& title);
-      void SetEnableCameraControls(bool isEnabled);
+      void EnableCameraControls(bool isEnabled);
+      void ShowFPS(bool showFPS);
 
       void Close();
       glm::ivec2 GetSize() const;
@@ -56,5 +57,6 @@ namespace Prospect
       Renderer m_renderer;
 
       bool m_isCameraControlsEnabled;
+      double m_lastUpdateTime;
    };
 }

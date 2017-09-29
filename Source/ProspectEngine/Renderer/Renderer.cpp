@@ -5,11 +5,17 @@
 #include "Renderables/RenderableEntity.h"
 #include "Libraries/EntityLibrary.h"
 #include "Scene/Mesh_impl.h"
+#include <iostream>
+#include "Text/Text.h"
 
 using namespace Prospect;
 using namespace glm;
 
 Renderer::Renderer()
+   :
+   m_frameCount(0),
+   m_previousTime(0),
+   m_showFPS(false)
 {
 }
 
@@ -19,9 +25,12 @@ void Renderer::Setup()
    glDepthFunc(GL_LESS);
 
    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+
+   Text fpsText("Test");
 }
 
-void Renderer::Render(Scene_impl& scene)
+void Renderer::Render(double time, Scene_impl& scene)
 {
    Clear();
 
@@ -38,6 +47,8 @@ void Renderer::Render(Scene_impl& scene)
    {
       renderable->Render(m_uniformBuffer);
    }
+
+   DisplayFPS(time);
 }
 
 void Renderer::UpdateRenderableEntities(EntityLibrary& entityLib)
@@ -82,4 +93,27 @@ void Renderer::UpdateUniformBuffer(Scene_impl& scene)
 void Renderer::Clear()
 {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+}
+
+void Renderer::ShowFPS(bool showFPS)
+{
+   m_showFPS = showFPS;
+}
+
+void Renderer::DisplayFPS(double time)
+{
+   static const double FPS_INTERVAL = 1000.0;
+
+   if (m_showFPS)
+   {
+      m_frameCount++;
+
+      if(time - m_previousTime >= FPS_INTERVAL)
+      {
+         std::cout << m_frameCount << std::endl;
+
+         m_frameCount = 0;
+         m_previousTime = time;
+      }
+   }
 }

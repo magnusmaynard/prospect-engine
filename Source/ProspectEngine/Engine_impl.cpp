@@ -32,11 +32,19 @@ void Engine_impl::Start()
 
    while (m_window.IsOpen())
    {
+      double milliseconds = m_window.GetTime();
+      double elapsed = milliseconds - m_lastUpdateTime;
+
       m_window.PollEvents();
 
-      m_renderer.Render(*m_scene.m_impl);
+      if (elapsed >= TIME_PER_UPDATE)
+      {
+         m_lastUpdateTime = milliseconds;
 
-      m_application.OnUpdate(m_window.GetTime());
+         m_application.OnUpdate(elapsed);
+      }
+
+      m_renderer.Render(milliseconds, *m_scene.m_impl);
 
       m_window.SwapBuffers();
    }
@@ -51,9 +59,14 @@ void Engine_impl::SetTitle(const std::string& title)
    m_window.SetTitle(title);
 }
 
-void Engine_impl::SetEnableCameraControls(bool isEnabled)
+void Engine_impl::EnableCameraControls(bool isEnabled)
 {
    m_isCameraControlsEnabled = isEnabled;
+}
+
+void Engine_impl::ShowFPS(bool showFPS)
+{
+   m_renderer.ShowFPS(showFPS);
 }
 
 void Engine_impl::Close()

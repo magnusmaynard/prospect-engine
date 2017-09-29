@@ -13,7 +13,8 @@ Window::Window(Engine_impl& engine, const ivec2& size)
    m_engine(engine),
    m_window(nullptr),
    m_size(size),
-   m_isMouseInsideWindow(false)
+   m_isMouseInsideWindow(false),
+   m_enableVSync(true)
 {
 }
 
@@ -55,7 +56,8 @@ void Window::Open()
    int width, height;
    glfwGetFramebufferSize(m_window, &width, &height);
    glViewport(0, 0, width, height);
-   glfwSwapInterval(1);
+
+   EnableVSync(m_enableVSync);
 }
 
 void Window::SetTitle(const std::string& title)
@@ -91,14 +93,19 @@ void Window::Destroy() const
    exit(EXIT_SUCCESS);
 }
 
-unsigned int Window::GetTime() const
+double Window::GetTime() const
 {
-   return static_cast<unsigned int>(glfwGetTime());
+   return glfwGetTime() * 1000.0;
 }
 
 ivec2 Window::GetSize() const
 {
    return m_size;
+}
+
+void Window::EnableVSync(bool enableVSync)
+{
+   glfwSwapInterval(enableVSync ? 1 : 0);
 }
 
 void Window::GLFWErrorCallback(int error, const char* description)

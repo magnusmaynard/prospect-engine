@@ -25,6 +25,7 @@ TestApplication::TestApplication()
 void TestApplication::OnStartup()
 {
    m_engine.SetTitle("Test Application");
+   m_engine.ShowFPS(true);
 
    m_scene.GetCamera().LookAt(vec3(0, 50, 100), vec3(0, 0, 0));
 
@@ -42,7 +43,7 @@ void TestApplication::OnStartup()
    Entity& child2 = child.AddEntity(&testPlane, &matBlue);
 }
 
-void TestApplication::OnUpdate(const unsigned int time)
+void TestApplication::OnUpdate(double timeElapsed)
 {
    static float counter = 0;
    counter += 0.1f;

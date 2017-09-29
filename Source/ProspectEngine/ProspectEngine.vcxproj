@@ -52,6 +52,7 @@
     <ClInclude Include="Renderer\Shaders\TessControlShader.h" />
     <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h" />
     <ClInclude Include="Renderer\Shaders\VertexShader.h" />
+    <ClInclude Include="Renderer\Text\Text.h" />
     <ClInclude Include="Renderer\UniformBuffer.h" />
     <ClInclude Include="Renderer\VertexData.h" />
     <ClInclude Include="Renderer\Window.h" />
@@ -85,6 +86,7 @@
     <ClCompile Include="Renderer\Shaders\TessControlShader.cpp" />
     <ClCompile Include="Renderer\Shaders\TessEvaluationShader.cpp" />
     <ClCompile Include="Renderer\Shaders\VertexShader.cpp" />
+    <ClCompile Include="Renderer\Text\Text.cpp" />
     <ClCompile Include="Renderer\UniformBuffer.cpp" />
     <ClCompile Include="Renderer\VertexData.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />
@@ -116,6 +118,9 @@
     <None Include="Resources\Shaders\terrain.tcs.glsl" />
     <None Include="Resources\Shaders\terrain.tes.glsl" />
     <None Include="Resources\Shaders\terrain.vs.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\Fonts\arial.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{987C8FD7-4F5C-45BD-9264-F01A48A484DF}</ProjectGuid>
@@ -179,7 +184,7 @@
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
-      <PreprocessorDefinitions>_WINDLL;COMPILING_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;COMPILING_DLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -198,7 +203,7 @@
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
-      <PreprocessorDefinitions>_WINDLL;COMPILING_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;COMPILING_DLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

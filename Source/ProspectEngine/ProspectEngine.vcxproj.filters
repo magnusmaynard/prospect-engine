@@ -132,6 +132,9 @@
     <ClInclude Include="Renderer\Shaders\Shader.h">
       <Filter>Renderer\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Text\Text.h">
+      <Filter>Renderer\Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -235,6 +238,9 @@
     <ClCompile Include="Renderer\Shaders\Shader.cpp">
       <Filter>Renderer\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\Text\Text.cpp">
+      <Filter>Renderer\Text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -266,6 +272,12 @@
     </Filter>
     <Filter Include="Renderer\Renderables">
       <UniqueIdentifier>{30caef76-d044-47e3-91c4-05f1f49d8e30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Text">
+      <UniqueIdentifier>{0898f028-352e-44ba-935a-67b56091cad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Fonts">
+      <UniqueIdentifier>{a26ab673-7d6f-45e7-8d54-0341544e6f63}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -304,5 +316,10 @@
     <None Include="Resources\Shaders\simple.fs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\Fonts\arial.ttf">
+      <Filter>Resources\Fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

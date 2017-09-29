@@ -24,9 +24,14 @@ void Engine::SetTitle(const std::string& title)
    m_impl->SetTitle(title);
 }
 
-void Engine::SetEnableCameraControls(bool isEnabled)
+void Engine::EnableCameraControls(bool isEnabled)
 {
-   m_impl->SetEnableCameraControls(isEnabled);
+   m_impl->EnableCameraControls(isEnabled);
+}
+
+void Engine::ShowFPS(bool showFPS)
+{
+   m_impl->ShowFPS(true);
 }
 
 void Engine::Close()

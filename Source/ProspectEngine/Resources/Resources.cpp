@@ -22,7 +22,13 @@ std::string Resources::GetShaderPath()
 {
    return GetResourcePath() + "Shaders\\";
 }
+
 std::string Resources::GetTexturePath()
 {
    return GetResourcePath() + "Textures\\";
+}
+
+std::string Resources::GetFontPath()
+{
+   return GetResourcePath() + "Fonts\\";
 }
