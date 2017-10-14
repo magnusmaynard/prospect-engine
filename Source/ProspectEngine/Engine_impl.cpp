@@ -32,19 +32,19 @@ void Engine_impl::Start()
 
    while (m_window.IsOpen())
    {
-      double milliseconds = m_window.GetTime();
-      double elapsed = milliseconds - m_lastUpdateTime;
+      double time = m_window.GetTime();
+      double elapsed = time - m_lastUpdateTime;
 
       m_window.PollEvents();
 
       if (elapsed >= TIME_PER_UPDATE)
       {
-         m_lastUpdateTime = milliseconds;
+         m_lastUpdateTime = time;
 
          m_application.OnUpdate(elapsed);
       }
 
-      m_renderer.Render(milliseconds, *m_scene.m_impl);
+      m_renderer.Render(time, *m_scene.m_impl);
 
       m_window.SwapBuffers();
    }

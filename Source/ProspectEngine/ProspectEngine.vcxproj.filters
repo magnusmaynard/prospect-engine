@@ -56,9 +56,6 @@
     <ClInclude Include="Renderer\Renderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Resources\VertexArray.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Entity_impl.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -314,6 +311,12 @@
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\simple.fs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\text.fs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\text.vs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
   </ItemGroup>

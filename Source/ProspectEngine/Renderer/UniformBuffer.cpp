@@ -17,7 +17,7 @@ void UniformBuffer::SetProjectionTransform(const glm::mat4& projectionTransform)
    m_projectionTransform = projectionTransform;
 }
 
-void UniformBuffer::Bind()
+void UniformBuffer::Bind() const
 {
    glUniformMatrix4fv(0, 1, GL_FALSE, &m_projectionTransform[0][0]);
    glUniformMatrix4fv(1, 1, GL_FALSE, &m_viewTransform[0][0]);

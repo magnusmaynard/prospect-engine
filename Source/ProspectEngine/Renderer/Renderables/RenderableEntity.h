@@ -9,12 +9,11 @@ namespace Prospect
    class Scene_impl;
    class UniformBuffer;
    class VertexData;
-   class ShaderFactory;
 
    class RenderableEntity : public IRenderable
    {
    public:
-      RenderableEntity(Entity_impl& entity, VertexData& vertexData, ShaderFactory& shaderFactory);
+      RenderableEntity(Entity_impl& entity, VertexData& vertexData);
       ~RenderableEntity();
       RenderableEntity(const RenderableEntity& other) = delete;
       RenderableEntity& operator=(const RenderableEntity &) = delete;

@@ -5,6 +5,7 @@
 #include <memory>
 #include "Renderer/VertexData.h"
 #include "Renderer/Shaders/ShaderFactory.h"
+#include "Text/Text.h"
 
 namespace Prospect
 {
@@ -40,8 +41,9 @@ namespace Prospect
 
       void Clear();
 
-      void DisplayFPS(double time);
+      void RenderFPS(double time, const Scene_impl& scene);
 
+      std::unique_ptr<Text> m_fpsText;
       bool m_showFPS;
       unsigned int m_frameCount;
       double m_previousTime;

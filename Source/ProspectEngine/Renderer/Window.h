@@ -33,7 +33,9 @@ namespace Prospect
 
       void Destroy() const;
 
+      //Gets the current time in milliseconds.
       double GetTime() const;
+
       glm::ivec2 GetSize() const;
 
    private:

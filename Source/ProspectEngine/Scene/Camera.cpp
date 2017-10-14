@@ -52,3 +52,8 @@ glm::vec3 Camera::GetLeft() const
 {
    return m_impl->GetLeft();
 }
+
+glm::ivec2 Camera::GetSize() const
+{
+   return m_impl->GetSize();
+}

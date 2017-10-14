@@ -35,6 +35,11 @@ void Camera_impl::SetSize(const ivec2& size)
    m_projectionIsDirty = true;
 }
 
+ivec2 Camera_impl::GetSize() const
+{
+   return m_size;
+}
+
 void Camera_impl::Turn(const vec2 delta)
 {
    float horizontal = delta.x * DEFAULT_CAMERA_SENSITIVITY;

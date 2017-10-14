@@ -7,7 +7,7 @@ namespace Prospect
    class UniformBuffer
    {
    public:
-      void Bind();
+      void Bind() const;
       void SetViewTransform(const glm::mat4& viewTransform);
       void SetProjectionTransform(const glm::mat4& projectionTransform);
 

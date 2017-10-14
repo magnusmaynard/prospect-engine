@@ -3,78 +3,66 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#include "Resources/Resources.h"
+#include "EngineDefines.h"
+#include "Renderer/Shaders/Shader.h"
 
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb_image_write.h>
+#include <glm/mat4x4.hpp>
 
 namespace Prospect
 {
+   //Relative to origin baseline.
+   struct TextBounds
+   {
+      glm::ivec2 min;
+      glm::ivec2 max;
+      glm::ivec2 size;
+   };
+
    class Text
    {
    public:
-      Text(const std::string& text)
-         :
-         m_text(text)
-      {
-         auto error = FT_Init_FreeType(&m_library);
-         if (error)
-         {
-            throw std::exception("Error initializing FreeType m_library.");
-         }
+      Text(const std::string& text, const glm::ivec2& position, int size);
 
-         std::string fontFile = Resources::GetFontPath() + "arial.ttf";
+      void SetText(const std::string& text);
+      void SetPosition(const glm::ivec2 position);
 
-         error = FT_New_Face(
-            m_library,
-            fontFile.c_str(),
-            0,
-            &m_face);
-
-         if (error == FT_Err_Unknown_File_Format)
-         {
-            throw std::exception("Error: Unknown font format.");
-         }
-         if (error)
-         {
-            throw std::exception("Error: Font file could not be opened");
-         }
-
-         error = FT_Set_Pixel_Sizes(m_face, 0, 16);
-
-         UpdateText();
-      }
-
-      void UpdateText()
-      {
-         auto chars = m_text.c_str();
-         int penX = 300;
-         int penY = 200;
-         FT_GlyphSlot slot = m_face->glyph;
-
-         for (int i = 0; i < m_text.size(); i++)
-         {
-            FT_Load_Char(m_face, chars[i], FT_LOAD_RENDER);
-
-            RenderToFile(
-               slot->bitmap,
-               penX + slot->bitmap_left,
-               penY - slot->bitmap_top);
-
-            penX += slot->advance.x >> 6;
-         }
-      }
-
-      //TODO: Combine slots then render to a single texture.
-      void RenderToFile(FT_Bitmap& image, int posX, int posY)
-      {
-         std::string filename("testtext" + std::to_string(posX) + ".bmp");
-         auto success = stbi_write_bmp(filename.c_str(), image.width, image.rows, 1, &image.buffer[0]);
-      }
+      void Render(const glm::ivec2& screenSize);
 
    private:
+      void InitialiseFont(int size);
+      void CreateBuffers();
+      void UpdateText();
+      void UpdateProjectionMatrix(const glm::ivec2& screenSize);
+      void UpdateTransformMatrix();
+
+      static TextBounds GetTextBounds(const FT_Face face, const std::string& text);
+      static glm::ivec2 NextPowerOf2(const glm::ivec2& value);
+      static int NextPowerOf2(int value);
+
       FT_Library m_library;
       FT_Face m_face;
       std::string m_text;
+
+      GLuint m_texture;
+      Shader& m_shader;
+
+      GLuint m_VAO;
+
+      const enum Buffers
+      {
+         BUFFER_POSITIONS,
+         BUFFER_TEXTURECOORDS,
+         BUFFER_COUNT
+      };
+
+      GLuint m_buffers[BUFFER_COUNT];
+
+      glm::mat4 m_transform;
+      glm::mat4 m_projection;
+      glm::ivec2 m_screenSize;
+      glm::ivec2 m_position;
+
+      mutable bool m_textIsDirty;
+      mutable bool m_transformIsDirty;
    };
 }

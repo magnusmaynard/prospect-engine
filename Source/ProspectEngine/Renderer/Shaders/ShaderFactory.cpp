@@ -3,16 +3,18 @@
 
 using namespace Prospect;
 
+std::deque<Shader> ShaderFactory::m_shaders;
+
 Shader& ShaderFactory::CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
 {
    Shader newShader;
    newShader.AddVertexShader(vertexShader);
    newShader.AddFragmentShader(fragmentShader);
 
-   return AddShaderIfDoesNotExist(newShader);
+   return AddShaderIfUnique(newShader);
 }
 
-Shader& ShaderFactory::AddShaderIfDoesNotExist(Shader& newShader)
+Shader& ShaderFactory::AddShaderIfUnique(Shader& newShader)
 {
    auto it = std::find_if(m_shaders.begin(), m_shaders.end(), [&](Shader& existingShader)
    {

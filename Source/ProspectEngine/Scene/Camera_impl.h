@@ -26,6 +26,7 @@ namespace Prospect
       //Internal
       Camera_impl(Camera& parent, const glm::ivec2& size);
 
+      glm::ivec2 GetSize() const;
       void SetSize(const glm::ivec2& size);
       void Turn(const glm::vec2 delta);
 

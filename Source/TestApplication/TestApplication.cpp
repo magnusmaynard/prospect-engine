@@ -31,7 +31,7 @@ void TestApplication::OnStartup()
 
    Material& grass = m_materialLib.CreateMaterial(Color(0.1f, 0.6f, 0.1f));
    Material& matRed = m_materialLib.CreateMaterial(Color(1, 0.2f, 0.2f));
-   Material& matBlue = m_materialLib.CreateMaterial(Color(0.2f, 0.2f, 1));
+   Material& maGrey = m_materialLib.CreateMaterial(Color(0.5f, 0.5f, 0.5f));
 
    Mesh& groundPlane = m_meshLib.CreatePlane(vec2(100, 100));
    Mesh& testPlane = m_meshLib.CreatePlane(vec2(10, 10));
@@ -40,7 +40,7 @@ void TestApplication::OnStartup()
    ground.SetRotation(vec3(0, 45, 0));
 
    Entity& child = ground.AddEntity(&testPlane, &matRed);
-   Entity& child2 = child.AddEntity(&testPlane, &matBlue);
+   Entity& child2 = child.AddEntity(&testPlane, &maGrey);
 }
 
 void TestApplication::OnUpdate(double timeElapsed)

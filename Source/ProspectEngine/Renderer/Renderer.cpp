@@ -6,6 +6,7 @@
 #include "Libraries/EntityLibrary.h"
 #include "Scene/Mesh_impl.h"
 #include <iostream>
+#include <memory>
 #include "Text/Text.h"
 
 using namespace Prospect;
@@ -24,10 +25,13 @@ void Renderer::Setup()
    glEnable(GL_DEPTH_TEST);
    glDepthFunc(GL_LESS);
 
-   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   glEnable(GL_BLEND);
+   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
+  // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   glPolygonMode(GL_FRONT, GL_FILL);
 
-   Text fpsText("Test");
+   m_fpsText = std::make_unique<Text>("", ivec2(2, 2), 18);
 }
 
 void Renderer::Render(double time, Scene_impl& scene)
@@ -40,15 +44,13 @@ void Renderer::Render(double time, Scene_impl& scene)
 
    UpdateRenderableEntities(scene.GetEntityLib());
 
-   //UpdateRenderableTerrain(scene.GetTerrain());
-
    //Render all renderables.
    for (auto& renderable : m_renderables)
    {
       renderable->Render(m_uniformBuffer);
    }
 
-   DisplayFPS(time);
+   RenderFPS(time, scene);
 }
 
 void Renderer::UpdateRenderableEntities(EntityLibrary& entityLib)
@@ -63,7 +65,7 @@ void Renderer::UpdateRenderableEntities(EntityLibrary& entityLib)
          {
             VertexData& vertexData = GetVertexData(*entity.GetMeshImpl());
 
-            m_renderables.push_back(std::make_unique<RenderableEntity>(entity, vertexData, m_shaderFactory));
+            m_renderables.push_back(std::make_unique<RenderableEntity>(entity, vertexData));
 
             entity.SetRenderable(m_renderables.back().get());
          }
@@ -100,7 +102,7 @@ void Renderer::ShowFPS(bool showFPS)
    m_showFPS = showFPS;
 }
 
-void Renderer::DisplayFPS(double time)
+void Renderer::RenderFPS(double time, const Scene_impl& scene)
 {
    static const double FPS_INTERVAL = 1000.0;
 
@@ -110,10 +112,14 @@ void Renderer::DisplayFPS(double time)
 
       if(time - m_previousTime >= FPS_INTERVAL)
       {
-         std::cout << m_frameCount << std::endl;
+         std::string text = std::to_string(m_frameCount);
+
+         m_fpsText->SetText(text);
 
          m_frameCount = 0;
          m_previousTime = time;
       }
+
+      m_fpsText->Render(scene.GetCamera().GetSize());
    }
 }

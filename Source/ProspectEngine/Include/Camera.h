@@ -26,6 +26,8 @@ namespace Prospect
 
       glm::vec3 Camera::GetLeft() const;
 
+      glm::ivec2 Camera::GetSize() const;
+
    private:
       Camera(const glm::ivec2& size);
 

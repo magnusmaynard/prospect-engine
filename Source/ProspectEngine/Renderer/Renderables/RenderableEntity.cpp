@@ -11,11 +11,11 @@
 
 using namespace Prospect;
 
-RenderableEntity::RenderableEntity(Entity_impl& entity, VertexData& vertexData, ShaderFactory& shaderFactory)
+RenderableEntity::RenderableEntity(Entity_impl& entity, VertexData& vertexData)
    :
    m_entity(entity),
    m_vertexData(vertexData),
-   m_shader(shaderFactory.CreateShader(SIMPLE_VERTEX_SHADER, SIMPLE_FRAGMENT_SHADER))
+   m_shader(ShaderFactory::CreateShader(SIMPLE_VERTEX_SHADER, SIMPLE_FRAGMENT_SHADER))
 {
 }
 
