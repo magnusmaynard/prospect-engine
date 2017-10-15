@@ -7,7 +7,15 @@ namespace Prospect
    class ShaderFactory
    {
    public:
-      static Shader& CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
+      static Shader& CreateShader(
+         const std::string& vertexShader,
+         const std::string& fragmentShader);
+
+      static Shader& CreateShader(
+         const std::string& vertexShader,
+         const std::string& tessControlShader,
+         const std::string& tessEvaluationShader,
+         const std::string& fragmentShader);
 
    private:
       static Shader& AddShaderIfUnique(Shader& newShader);

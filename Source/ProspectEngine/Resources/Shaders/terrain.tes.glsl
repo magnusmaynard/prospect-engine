@@ -4,9 +4,6 @@ layout (quads, equal_spacing) in;
 
 layout (binding = 0) uniform sampler2D textureHeight;
 
-layout(location  = 0) uniform mat4 view;
-layout(location  = 1) uniform mat4 projection;
-
 uniform float heightScale;
 uniform vec3 nodeNormal;
 
@@ -18,7 +15,6 @@ in TCS_OUT
 out TES_OUT
 {
    vec2 textureCoord;
-   vec3 normal;
 } tes_out;
 
 void main()
@@ -34,9 +30,7 @@ void main()
 
    vec4 p = mix(p2, p1, gl_TessCoord.y);
 
-//   p += vec4(nodeNormal, 0.0) * texture(textureHeight, tes_out.textureCoord).r * heightScale; //TODO: uncomment.
+   p.y += texture(textureHeight, tc).r * heightScale;
 
-   //gl_Position = p;
-
-   gl_Position = projection * view * vec4(normalize(p.xyz - vec3(0,0,0)) * 100.0, 1.0);
+   gl_Position = p;
 }

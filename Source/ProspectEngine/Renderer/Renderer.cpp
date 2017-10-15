@@ -28,15 +28,17 @@ void Renderer::Setup()
    glEnable(GL_BLEND);
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-   //glPolygonMode(GL_FRONT, GL_FILL);
-
+   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
    m_fpsText = std::make_unique<Text>("", ivec2(2, 2), 18);
+   m_terrain = std::make_unique<Terrain>();
 }
 
 void Renderer::Render(double time, Scene_impl& scene)
 {
+   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
    Clear();
 
    scene.UpdateTransforms();

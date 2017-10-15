@@ -5,12 +5,10 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-//#define STB_IMAGE_WRITE_IMPLEMENTATION
-//#include <stb_image_write.h>
-
-#include "Renderer/Shaders/ShaderFactory.h"
-#include "Renderer/Shaders/Shaders.h"
 #include "Resources/Resources.h"
+#include "Renderer/Shaders/ShaderFactory.h"
+#include "Resources/Resources.h"
+#include "Resources/ResourceIO.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -19,7 +17,7 @@ Text::Text(const std::string& text, const glm::ivec2& position, int size)
    :
    m_text(text),
    m_position(position),
-   m_shader(ShaderFactory::CreateShader(TEXT_VERTEX_SHADER, TEXT_FRAGMENT_SHADER)),
+   m_shader(ShaderFactory::CreateShader(Resources::TEXT_VERTEX_SHADER, Resources::TEXT_FRAGMENT_SHADER)),
    m_textIsDirty(true),
    m_transformIsDirty(true)
 {
@@ -36,7 +34,7 @@ void Text::InitialiseFont(int size)
       throw std::exception("Error initializing FreeType m_library.");
    }
 
-   std::string fontFile = Resources::GetFontPath() + "arial.ttf";
+   std::string fontFile = ResourceIO::GetResourcePath() + Resources::ARIAL_FONT;
 
    error = FT_New_Face(
       m_library,
@@ -137,6 +135,8 @@ void Text::SetPosition(const glm::ivec2 position)
 
 void Text::Render(const ivec2& screenSize)
 {
+   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
    if(m_textIsDirty)
    {
       m_textIsDirty = false;

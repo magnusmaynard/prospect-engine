@@ -38,6 +38,7 @@ void TestApplication::OnStartup()
 
    auto& ground = m_scene.AddEntity(&groundPlane, &grass);
    ground.SetRotation(vec3(0, 45, 0));
+   ground.SetTranslation(vec3(0, 10, 0));
 
    Entity& child = ground.AddEntity(&testPlane, &matRed);
    Entity& child2 = child.AddEntity(&testPlane, &maGrey);

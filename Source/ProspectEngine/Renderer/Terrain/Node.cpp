@@ -10,18 +10,12 @@ Node::Node(
    const int index,
    const int level,
    const glm::vec3& origin,
-   const glm::vec3& normal,
-   const glm::vec3& left,
-   const glm::vec3& top,
    const float size)
    :
    m_parent(parent),
    m_index(index),
    m_level(level),
    m_origin(origin),
-   m_normal(normal),
-   m_left(left),
-   m_top(top),
    m_size(size)
 {
 }
@@ -31,19 +25,9 @@ void Node::Update(
    const glm::vec3& cameraDirection,
    std::vector<Node*>& endNodes)
 {
-   float radius = 100; //TODO: Do not hardcode these.
-   glm::vec3 normal = glm::normalize(m_origin - glm::vec3(0, 0, 0));
-   glm::vec3 sphericalOrigin = normal * radius;
+   glm::vec3 normal = glm::vec3(0, 1, 0);
 
-   float distance = glm::length(m_origin - cameraPosition);
-
-   float frontFaceTolerance = 0.5; //Magic number.
-   bool frontFacing = glm::dot(cameraDirection, normal) < frontFaceTolerance;
-
-   if(frontFacing == false)
-   {
-     // return;
-   }
+   float distance = length(m_origin - cameraPosition);
 
    if (m_level < MAX_LEVEL &&
       distance < m_size * 2.0)
@@ -59,7 +43,7 @@ void Node::Update(
    {
       //Node is out of range.
       m_isParent = false;
-      m_edgeScalingRequiresUpdating = true;
+      m_edgeScalingIsDirty = true;
       endNodes.push_back(this);
    }
 }
@@ -72,12 +56,12 @@ void Node::Divide()
    const float childSizeHalf = childSize * 0.5f;
    const int childLevel = m_level + 1;
 
-   glm::vec3 originOffsets[NUMBER_OF_CHILDREN] =
+   const glm::vec3 childOrigins[NUMBER_OF_CHILDREN] =
    {
-      m_left * -childSizeHalf + m_top * childSizeHalf,
-      m_left * childSizeHalf + m_top * childSizeHalf,
-      m_left * -childSizeHalf + m_top * -childSizeHalf,
-      m_left * childSizeHalf + m_top * -childSizeHalf,
+      m_origin + glm::vec3(-childSizeHalf, 0, childSizeHalf),
+      m_origin + glm::vec3(childSizeHalf, 0, childSizeHalf),
+      m_origin + glm::vec3(-childSizeHalf, 0, -childSizeHalf),
+      m_origin + glm::vec3(childSizeHalf, 0, -childSizeHalf)
    };
 
    for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
@@ -86,17 +70,14 @@ void Node::Divide()
          this,
          i,
          childLevel,
-         m_origin + originOffsets[i],
-         m_normal,
-         m_left,
-         m_top,
+         childOrigins[i],
          childSize);
    }
 }
 
 void Node::UpdateEdgeScaling()
 {
-   if (m_edgeScalingRequiresUpdating)
+   if (m_edgeScalingIsDirty)
    {
       for (int i = 0; i < NUMBER_OF_EDGES; i++)
       {
@@ -113,7 +94,7 @@ void Node::UpdateEdgeScaling()
          m_edgeScaling[i] = scale;
       }
 
-      m_edgeScalingRequiresUpdating = false;
+      m_edgeScalingIsDirty = false;
    }
 }
 

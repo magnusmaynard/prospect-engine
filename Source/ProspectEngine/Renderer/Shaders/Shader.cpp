@@ -25,11 +25,11 @@ Shader::~Shader()
 Shader::Shader(Shader&& other)
    :
    m_program(other.m_program),
-   m_vertexShader(std::move(other.m_vertexShader)),
-   m_tessControlShader(std::move(other.m_tessControlShader)),
-   m_tessEvaluationShader(std::move(other.m_tessEvaluationShader)),
-   m_geometryShader(std::move(other.m_geometryShader)),
-   m_fragmentShader(std::move(other.m_fragmentShader))
+   m_vertexShader(move(other.m_vertexShader)),
+   m_tessControlShader(move(other.m_tessControlShader)),
+   m_tessEvaluationShader(move(other.m_tessEvaluationShader)),
+   m_geometryShader(move(other.m_geometryShader)),
+   m_fragmentShader(move(other.m_fragmentShader))
 {
    //Release.
    other.m_program = GL_NULL;
@@ -46,11 +46,11 @@ Shader& Shader::operator=(Shader&& other)
    {
       //Move
       m_program = other.m_program;
-      m_vertexShader = std::move(other.m_vertexShader);
-      m_tessControlShader = std::move(other.m_tessControlShader);
-      m_tessEvaluationShader = std::move(other.m_tessEvaluationShader);
-      m_geometryShader = std::move(other.m_geometryShader);
-      m_fragmentShader = std::move(other.m_fragmentShader);
+      m_vertexShader = move(other.m_vertexShader);
+      m_tessControlShader = move(other.m_tessControlShader);
+      m_tessEvaluationShader = move(other.m_tessEvaluationShader);
+      m_geometryShader = move(other.m_geometryShader);
+      m_fragmentShader = move(other.m_fragmentShader);
 
       //Release
       other.m_program = GL_NULL;

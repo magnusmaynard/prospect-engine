@@ -6,10 +6,27 @@ using namespace Prospect;
 
 std::deque<Shader> ShaderFactory::m_shaders;
 
-Shader& ShaderFactory::CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
+Shader& ShaderFactory::CreateShader(
+   const std::string& vertexShader,
+   const std::string& fragmentShader)
 {
    Shader newShader;
    newShader.AddVertexShader(vertexShader);
+   newShader.AddFragmentShader(fragmentShader);
+
+   return AddShaderIfUnique(newShader);
+}
+
+Shader& ShaderFactory::CreateShader(
+   const std::string& vertexShader,
+   const std::string& tessControlShader,
+   const std::string& tessEvaluationShader,
+   const std::string& fragmentShader)
+{
+   Shader newShader;
+   newShader.AddVertexShader(vertexShader);
+   newShader.AddTessControlShader(tessControlShader);
+   newShader.AddTessEvaluationShader(tessEvaluationShader);
    newShader.AddFragmentShader(fragmentShader);
 
    return AddShaderIfUnique(newShader);

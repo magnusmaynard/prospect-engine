@@ -22,11 +22,11 @@ void main()
       //TODO: http://victorbush.com/2015/01/tessellated-terrain/
       //https://bitbucket.org/victorbush/ufl.cap5705.terrain/src/93c5ab3824a5a66d87d1bb6dcc9ed9aee7a16357/src_uniform/shader/tess.tcs.glsl?at=master&fileviewer=file-view-default
 
-      float tessLevel = 8;
+      float tessLevel = 4;
       gl_TessLevelOuter[0] = tessLevel * nodeEdgeScaling[0];
       gl_TessLevelOuter[1] = tessLevel * nodeEdgeScaling[3];
       gl_TessLevelOuter[2] = tessLevel * nodeEdgeScaling[1];
-      gl_TessLevelOuter[3] = tessLevel * nodeEdgeScaling[2];;
+      gl_TessLevelOuter[3] = tessLevel * nodeEdgeScaling[2];
       gl_TessLevelInner[0] = tessLevel;
       gl_TessLevelInner[1] = tessLevel;
    }

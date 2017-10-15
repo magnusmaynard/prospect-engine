@@ -6,7 +6,7 @@
 #include "Renderer/UniformBuffer.h"
 #include "Renderer/VertexData.h"
 #include "Renderer/Shaders/ShaderFactory.h"
-#include "Renderer/Shaders/Shaders.h"
+#include "Resources/Resources.h"
 
 using namespace Prospect;
 
@@ -14,7 +14,7 @@ RenderableEntity::RenderableEntity(Entity_impl& entity, VertexData& vertexData)
    :
    m_entity(entity),
    m_vertexData(vertexData),
-   m_shader(ShaderFactory::CreateShader(SIMPLE_VERTEX_SHADER, SIMPLE_FRAGMENT_SHADER))
+   m_shader(ShaderFactory::CreateShader(Resources::SIMPLE_VERTEX_SHADER, Resources::SIMPLE_FRAGMENT_SHADER))
 {
 }
 

@@ -36,6 +36,7 @@
     <ClInclude Include="Libraries\MaterialLibrary_impl.h" />
     <ClInclude Include="Libraries\MeshLibrary_impl.h" />
     <ClInclude Include="ProspectEngine_pch.h" />
+    <ClInclude Include="Renderer\Bitmap.h" />
     <ClInclude Include="Renderer\IRenderable.h" />
     <ClInclude Include="Renderer\PolygonMode.h" />
     <ClInclude Include="Renderer\Renderables\RenderableEntity.h" />
@@ -46,7 +47,6 @@
     <ClInclude Include="Renderer\Shaders\GeometryShader.h" />
     <ClInclude Include="Renderer\Shaders\ShaderFactory.h" />
     <ClInclude Include="Renderer\Shaders\Shader.h" />
-    <ClInclude Include="Renderer\Shaders\Shaders.h" />
     <ClInclude Include="Renderer\Shaders\TessControlShader.h" />
     <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h" />
     <ClInclude Include="Renderer\Shaders\VertexShader.h" />
@@ -58,6 +58,7 @@
     <ClInclude Include="Renderer\UniformBuffer.h" />
     <ClInclude Include="Renderer\VertexData.h" />
     <ClInclude Include="Renderer\Window.h" />
+    <ClInclude Include="Resources\ResourceIO.h" />
     <ClInclude Include="Resources\Resources.h" />
     <ClInclude Include="Scene\Atmosphere.h" />
     <ClInclude Include="Scene\Camera_impl.h" />
@@ -78,6 +79,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Renderer\Bitmap.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableEntity.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\Shaders\BaseShader.cpp" />
@@ -95,7 +97,7 @@
     <ClCompile Include="Renderer\UniformBuffer.cpp" />
     <ClCompile Include="Renderer\VertexData.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />
-    <ClCompile Include="Resources\Resources.cpp" />
+    <ClCompile Include="Resources\ResourceIO.cpp" />
     <ClCompile Include="Scene\Atmosphere.cpp" />
     <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="Scene\Camera_impl.cpp" />
@@ -109,26 +111,67 @@
     <ClCompile Include="Scene\Scene_impl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\Textures\terrain1.bmp" />
+    <Image Include="Resources\Textures\terrain1.bmp">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\atmosphere.fs.glsl">
       <DeploymentContent>false</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
     </None>
-    <None Include="Resources\Shaders\atmosphere.vs.glsl" />
-    <None Include="Resources\Shaders\cubemap.fs.glsl" />
-    <None Include="Resources\Shaders\cubemap.vs.glsl" />
-    <None Include="Resources\Shaders\simple.fs.glsl" />
-    <None Include="Resources\Shaders\simple.vs.glsl" />
-    <None Include="Resources\Shaders\terrain.fs.glsl" />
-    <None Include="Resources\Shaders\terrain.tcs.glsl" />
-    <None Include="Resources\Shaders\terrain.tes.glsl" />
-    <None Include="Resources\Shaders\terrain.vs.glsl" />
-    <None Include="Resources\Shaders\text.fs.glsl" />
-    <None Include="Resources\Shaders\text.vs.glsl" />
+    <None Include="Resources\Shaders\atmosphere.vs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Resources\Shaders\cubemap.fs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Resources\Shaders\cubemap.vs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Resources\Shaders\simple.fs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Resources\Shaders\simple.vs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Resources\Shaders\terrain.fs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Resources\Shaders\terrain.tcs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Resources\Shaders\terrain.tes.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Resources\Shaders\terrain.vs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Resources\Shaders\text.fs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="Resources\Shaders\text.vs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="Resources\Fonts\arial.ttf" />
+    <Font Include="Resources\Fonts\arial.ttf">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+    </Font>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{987C8FD7-4F5C-45BD-9264-F01A48A484DF}</ProjectGuid>

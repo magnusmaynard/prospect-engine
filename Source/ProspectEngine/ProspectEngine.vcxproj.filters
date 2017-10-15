@@ -78,9 +78,6 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="EngineDefines.h" />
-    <ClInclude Include="Resources\Resources.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Entity.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -108,9 +105,6 @@
     <ClInclude Include="Renderer\VertexData.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Shaders\Shaders.h">
-      <Filter>Renderer\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Shaders\ShaderFactory.h">
       <Filter>Renderer\Shaders</Filter>
     </ClInclude>
@@ -133,6 +127,15 @@
       <Filter>Renderer\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="ProspectEngine_pch.h" />
+    <ClInclude Include="Resources\Resources.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\ResourceIO.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Bitmap.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -197,9 +200,6 @@
     <ClCompile Include="Scene\Entity.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Resources\Resources.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="Libraries\MaterialLibrary_impl.cpp">
       <Filter>Libraries</Filter>
     </ClCompile>
@@ -240,6 +240,12 @@
       <Filter>Renderer\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="ProspectEngine_pch.cpp" />
+    <ClCompile Include="Resources\ResourceIO.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Bitmap.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">

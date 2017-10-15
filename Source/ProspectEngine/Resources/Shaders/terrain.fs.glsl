@@ -9,7 +9,6 @@ out vec4 color;
 in TES_OUT
 {
    vec2 textureCoord;
-   vec3 normal;
 } fs_in;
 
 void main()
@@ -27,7 +26,10 @@ void main()
 
    float lighting = max(dot(normal, lightDirection), 0.0);
 
-   vec3 diffuse = vec3(0.5, 0.5, 0.5);// * lighting; //TODO: uncomment.
+   vec3 diffuse = vec3(0.3, 0.3, 0.3) * lighting; //TODO: uncomment.
 
    color = vec4(diffuse, 1.0);
+
+   //color = vec4(fs_in.textureCoord, 0.0, 1.0);
+   //color = vec4(texture(textureHeight, fs_in.textureCoord).r * 0.1, 0.1, 0.1, 1); //TODO: uncomment this.
 }

@@ -2,9 +2,7 @@
 
 #include "BaseShader.h"
 
-#include "Resources/Resources.h"
-#include <fstream> 
-#include <sstream>
+#include "Resources/ResourceIO.h"
 
 using namespace Prospect;
 
@@ -33,14 +31,10 @@ std::string BaseShader::GetName() const
 bool BaseShader::Compile()
 {
    //Read from file.
-   std::string sourcePath =  Resources::GetShaderPath() + m_fileName;
-   std::ifstream sourceFile(sourcePath);
-   std::stringstream sourceStream;
-   sourceStream << sourceFile.rdbuf();
-   auto sourceString = sourceStream.str();
+   auto data = ResourceIO::ReadText(m_fileName);
 
-   const GLchar* sourceChars = sourceString.c_str();
-   const GLint sourceLength = static_cast<GLint>(sourceString.length());
+   const GLchar* sourceChars = data.c_str();
+   const GLint sourceLength = static_cast<GLint>(data.length());
 
    //Compile.
    m_id = glCreateShader(m_type);

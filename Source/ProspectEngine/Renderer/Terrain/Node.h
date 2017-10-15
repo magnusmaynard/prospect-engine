@@ -20,13 +20,13 @@ namespace Prospect
          const int index,
          const int level,
          const glm::vec3& origin,
-         const glm::vec3& normal,
-         const glm::vec3& left,
-         const glm::vec3& top,
          const float size);
 
       //TODO:Make update function non recursive.
-      void Update(const glm::vec3& cameraPosition, const glm::vec3& camerDirection, std::vector<Node*>& endNodes);
+      void Update(
+         const glm::vec3& cameraPosition,
+         const glm::vec3& cameraDirection,
+         std::vector<Node*>& endNodes);
 
       void UpdateEdgeScaling();
 
@@ -38,22 +38,19 @@ namespace Prospect
 
       static const int NUMBER_OF_EDGES = 4;
       static const int NUMBER_OF_CHILDREN = 4;
-      static const int MAX_LEVEL = 8;
+      static const int MAX_LEVEL = 6; //8
       static const int NUMBER_OF_LEVELS = MAX_LEVEL + 1;
 
       Node* m_parent;
       int m_index;
       int m_level;
       glm::vec3 m_origin; //TODO: These are the same as QuadTree, use those instead of storing them locally.
-      glm::vec3 m_normal;
-      glm::vec3 m_left;
-      glm::vec3 m_top;
       float m_size;
 
       bool m_isParent = false;
       std::unique_ptr<Node> m_children[NUMBER_OF_CHILDREN];
       std::array<int, NUMBER_OF_EDGES> m_edgeScaling;
-      bool m_edgeScalingRequiresUpdating = true;
+      bool m_edgeScalingIsDirty = true;
 
    public:
       int Level() const
