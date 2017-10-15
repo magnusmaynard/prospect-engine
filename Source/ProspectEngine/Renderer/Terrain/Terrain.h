@@ -5,19 +5,22 @@
 #include <glm/vec3.hpp>
 #include "Renderer/Shaders/Shader.h"
 
-#include "Renderer/QuadTree/QuadTree.h"
+#include "Renderer/Terrain/QuadTree.h"
 
 namespace Prospect
 {
+   class Scene_impl;
+   class UniformBuffer;
+
    class Terrain
    {
    public:
       Terrain();
       ~Terrain();
-      void Draw();
+      void Render(const Scene_impl& scene, const UniformBuffer& uniformBuffer);
 
    private:
-      void Terrain::GenerateHeightMap(GLuint texture);
+      void GenerateHeightMap();
 
       Shader m_shader;
       GLint m_viewLocation = 0;
@@ -30,25 +33,14 @@ namespace Prospect
 
       GLuint m_VAO;
 
-      enum TEXTURES
-      {
-         TEXTURE_HEIGHT_POSX,
-         TEXTURE_HEIGHT_NEGX,
-         TEXTURE_HEIGHT_POSY,
-         TEXTURE_HEIGHT_NEGY,
-         TEXTURE_HEIGHT_POSZ,
-         TEXTURE_HEIGHT_NEGZ,
-         TEXTURE_COUNT
-      };
-      GLuint m_textures[TEXTURE_COUNT];
+      GLuint m_texture;
 
       glm::mat4 m_transform;
 
       const glm::vec3 m_planetOrigin;
       const float m_planetRadius;
-      const float m_heightScale = 1;//TODO:
+      const float m_heightScale = 1;
 
-      const int NUMBER_OF_QUADTREES = 6;
-      std::vector<QuadTree> m_quadTrees;
+      std::unique_ptr<QuadTree> m_quadTree;
    };
 }

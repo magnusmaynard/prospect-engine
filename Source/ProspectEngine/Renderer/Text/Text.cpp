@@ -1,4 +1,4 @@
-#pragma once
+#include "ProspectEngine_pch.h"
 
 #include "Text.h"
 
@@ -10,11 +10,7 @@
 
 #include "Renderer/Shaders/ShaderFactory.h"
 #include "Renderer/Shaders/Shaders.h"
-#include "Renderer/UniformBuffer.h"
 #include "Resources/Resources.h"
-#include <iostream>
-#include <vector>
-#include <glm/gtc/matrix_transform.inl>
 
 using namespace Prospect;
 using namespace glm;

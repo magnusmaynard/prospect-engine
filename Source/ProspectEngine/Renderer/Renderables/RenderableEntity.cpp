@@ -1,9 +1,8 @@
+#include "ProspectEngine_pch.h"
+
 #include "RenderableEntity.h"
 
-#include <memory>
-#include <iostream>
 #include "Scene/Scene_impl.h"
-#include "Scene/Camera_impl.h"
 #include "Renderer/UniformBuffer.h"
 #include "Renderer/VertexData.h"
 #include "Renderer/Shaders/ShaderFactory.h"

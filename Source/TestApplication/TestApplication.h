@@ -1,5 +1,8 @@
 #pragma once
 
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+
 #include "IApplication.h"
 #include "Engine.h"
 #include "Scene.h"

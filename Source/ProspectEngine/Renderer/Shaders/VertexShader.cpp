@@ -1,3 +1,5 @@
+#include "ProspectEngine_pch.h"
+
 #include "VertexShader.h"
 
 using namespace Prospect;

@@ -35,11 +35,9 @@
     <ClInclude Include="Libraries\EntityLibrary.h" />
     <ClInclude Include="Libraries\MaterialLibrary_impl.h" />
     <ClInclude Include="Libraries\MeshLibrary_impl.h" />
+    <ClInclude Include="ProspectEngine_pch.h" />
     <ClInclude Include="Renderer\IRenderable.h" />
     <ClInclude Include="Renderer\PolygonMode.h" />
-    <ClInclude Include="Renderer\QuadTree\Node.h" />
-    <ClInclude Include="Renderer\QuadTree\QuadTree.h" />
-    <ClInclude Include="Renderer\QuadTree\QuadTreeUniformLocations.h" />
     <ClInclude Include="Renderer\Renderables\RenderableEntity.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\RendererDefines.h" />
@@ -52,6 +50,10 @@
     <ClInclude Include="Renderer\Shaders\TessControlShader.h" />
     <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h" />
     <ClInclude Include="Renderer\Shaders\VertexShader.h" />
+    <ClInclude Include="Renderer\Terrain\Node.h" />
+    <ClInclude Include="Renderer\Terrain\QuadTree.h" />
+    <ClInclude Include="Renderer\Terrain\QuadTreeUniformLocations.h" />
+    <ClInclude Include="Renderer\Terrain\Terrain.h" />
     <ClInclude Include="Renderer\Text\Text.h" />
     <ClInclude Include="Renderer\UniformBuffer.h" />
     <ClInclude Include="Renderer\VertexData.h" />
@@ -63,7 +65,6 @@
     <ClInclude Include="Scene\Material_impl.h" />
     <ClInclude Include="Scene\Mesh_impl.h" />
     <ClInclude Include="Scene\Scene_impl.h" />
-    <ClInclude Include="Scene\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -73,8 +74,10 @@
     <ClCompile Include="Libraries\MaterialLibrary_impl.cpp" />
     <ClCompile Include="Libraries\MeshLibrary.cpp" />
     <ClCompile Include="Libraries\MeshLibrary_impl.cpp" />
-    <ClCompile Include="Renderer\QuadTree\Node.cpp" />
-    <ClCompile Include="Renderer\QuadTree\QuadTree.cpp" />
+    <ClCompile Include="ProspectEngine_pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Renderer\Renderables\RenderableEntity.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\Shaders\BaseShader.cpp" />
@@ -85,6 +88,9 @@
     <ClCompile Include="Renderer\Shaders\TessControlShader.cpp" />
     <ClCompile Include="Renderer\Shaders\TessEvaluationShader.cpp" />
     <ClCompile Include="Renderer\Shaders\VertexShader.cpp" />
+    <ClCompile Include="Renderer\Terrain\Node.cpp" />
+    <ClCompile Include="Renderer\Terrain\QuadTree.cpp" />
+    <ClCompile Include="Renderer\Terrain\Terrain.cpp" />
     <ClCompile Include="Renderer\Text\Text.cpp" />
     <ClCompile Include="Renderer\UniformBuffer.cpp" />
     <ClCompile Include="Renderer\VertexData.cpp" />
@@ -101,7 +107,6 @@
     <ClCompile Include="Scene\Mesh_impl.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\Scene_impl.cpp" />
-    <ClCompile Include="Scene\Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Textures\terrain1.bmp" />
@@ -188,6 +193,8 @@
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
       <PreprocessorDefinitions>_WINDLL;COMPILING_DLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>ProspectEngine_pch.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -207,6 +214,8 @@
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
       <PreprocessorDefinitions>_WINDLL;COMPILING_DLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>ProspectEngine_pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

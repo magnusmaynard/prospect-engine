@@ -1,13 +1,13 @@
+#include "ProspectEngine_pch.h"
+
 #include "Renderer.h"
-#include "Scene/Scene_impl.h"
-#include "Scene/Terrain.h"
-#include "Scene/Camera_impl.h"
-#include "Renderables/RenderableEntity.h"
-#include "Libraries/EntityLibrary.h"
 #include "Scene/Mesh_impl.h"
-#include <iostream>
-#include <memory>
-#include "Text/Text.h"
+#include "Scene/Scene_impl.h"
+#include "Scene/Camera_impl.h"
+#include "Renderer/Text/Text.h"
+#include "Renderer/Terrain/Terrain.h"
+#include "Renderer/Renderables/RenderableEntity.h"
+#include "Libraries/EntityLibrary.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -28,8 +28,9 @@ void Renderer::Setup()
    glEnable(GL_BLEND);
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-  // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-   glPolygonMode(GL_FRONT, GL_FILL);
+   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   //glPolygonMode(GL_FRONT, GL_FILL);
+
 
    m_fpsText = std::make_unique<Text>("", ivec2(2, 2), 18);
 }
@@ -50,7 +51,13 @@ void Renderer::Render(double time, Scene_impl& scene)
       renderable->Render(m_uniformBuffer);
    }
 
-   RenderFPS(time, scene);
+   m_terrain->Render(scene, m_uniformBuffer);
+
+   if (m_showFPS)
+   {
+      UpdateFPS(time);
+      m_fpsText->Render(scene.GetCamera().GetSize());
+   }
 }
 
 void Renderer::UpdateRenderableEntities(EntityLibrary& entityLib)
@@ -102,24 +109,19 @@ void Renderer::ShowFPS(bool showFPS)
    m_showFPS = showFPS;
 }
 
-void Renderer::RenderFPS(double time, const Scene_impl& scene)
+void Renderer::UpdateFPS(double time)
 {
    static const double FPS_INTERVAL = 1000.0;
 
-   if (m_showFPS)
+   m_frameCount++;
+
+   if (time - m_previousTime >= FPS_INTERVAL)
    {
-      m_frameCount++;
+      std::string text = std::to_string(m_frameCount);
 
-      if(time - m_previousTime >= FPS_INTERVAL)
-      {
-         std::string text = std::to_string(m_frameCount);
+      m_fpsText->SetText(text);
 
-         m_fpsText->SetText(text);
-
-         m_frameCount = 0;
-         m_previousTime = time;
-      }
-
-      m_fpsText->Render(scene.GetCamera().GetSize());
+      m_frameCount = 0;
+      m_previousTime = time;
    }
 }

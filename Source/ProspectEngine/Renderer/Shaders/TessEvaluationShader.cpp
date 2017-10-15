@@ -1,3 +1,5 @@
+#include "ProspectEngine_pch.h"
+
 #include "TessEvaluationShader.h"
 
 using namespace Prospect;

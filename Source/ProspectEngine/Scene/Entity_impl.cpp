@@ -1,6 +1,7 @@
-#include "Entity_impl.h"
+#include "ProspectEngine_pch.h"
 
-#include <glm/gtx/transform.hpp>
+#include "Scene/Entity_impl.h"
+
 #include "EngineDefines.h"
 #include "Renderer/IRenderable.h"
 
@@ -20,7 +21,8 @@ Entity_impl::Entity_impl(
    m_id(id),
    m_parentNode(parentNode),
    m_mesh(mesh),
-   m_material(material)
+   m_material(material),
+   m_renderable(nullptr)
 {
 }
 

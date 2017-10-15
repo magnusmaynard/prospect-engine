@@ -3,8 +3,6 @@
 #include "Include/Mesh.h"
 #include "Include/MeshLibrary.h"
 
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
 #include <vector>
 #include <deque>
 #include "EngineDefines.h"

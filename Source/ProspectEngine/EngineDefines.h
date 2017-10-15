@@ -1,11 +1,5 @@
 #pragma once
-#define GLEW_STATIC
-#include <GL/glew.h>
 
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-
-#include <string>
 #include "Include/Material.h"
 #include "Include/Color.h"
 

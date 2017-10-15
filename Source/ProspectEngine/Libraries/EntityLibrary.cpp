@@ -1,5 +1,6 @@
-#include "EntityLibrary.h"
+#include "ProspectEngine_pch.h"
 
+#include "EntityLibrary.h"
 
 using namespace Prospect;
 using namespace glm;

@@ -1,7 +1,8 @@
-#include "Window.h"
+#include "ProspectEngine_pch.h"
 
-#include <iostream>
-#include "RendererDefines.h"
+#include "Renderer/Window.h"
+
+#include "Renderer/RendererDefines.h"
 
 #include "Engine_impl.h"
 

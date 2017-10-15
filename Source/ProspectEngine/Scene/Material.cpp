@@ -1,3 +1,5 @@
+#include "ProspectEngine_pch.h"
+
 #include "Include/Material.h"
 #include "Scene/Material_impl.h"
 

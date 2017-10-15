@@ -1,9 +1,6 @@
-#pragma once
-#include "Renderer/UniformBuffer.h"
+#include "ProspectEngine_pch.h"
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "Renderer/UniformBuffer.h"
 
 using namespace Prospect;
 

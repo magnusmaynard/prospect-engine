@@ -1,5 +1,6 @@
+#include "ProspectEngine_pch.h"
+
 #include "ShaderFactory.h"
-#include <algorithm>
 
 using namespace Prospect;
 

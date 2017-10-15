@@ -4,8 +4,6 @@
 #include <deque>
 #include "Include/Mesh.h"
 #include "Include/Material.h"
-#include <glm/vec3.hpp>
-#include <glm/mat4x4.hpp>
 #include "EngineDefines.h"
 #include "Libraries/EntityLibrary.h"
 

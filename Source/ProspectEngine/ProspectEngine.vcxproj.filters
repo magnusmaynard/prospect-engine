@@ -16,9 +16,6 @@
     <ClInclude Include="Include\IApplication.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\QuadTree\Node.h">
-      <Filter>Renderer\QuadTree</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h">
       <Filter>Renderer\Shaders</Filter>
     </ClInclude>
@@ -30,15 +27,6 @@
     </ClInclude>
     <ClInclude Include="Renderer\Window.h">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\QuadTree\QuadTreeUniformLocations.h">
-      <Filter>Renderer\QuadTree</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\QuadTree\QuadTree.h">
-      <Filter>Renderer\QuadTree</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Terrain.h">
-      <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine_impl.h" />
     <ClInclude Include="Include\Engine.h">
@@ -132,6 +120,19 @@
     <ClInclude Include="Renderer\Text\Text.h">
       <Filter>Renderer\Text</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Terrain\Node.h">
+      <Filter>Renderer\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Terrain\QuadTree.h">
+      <Filter>Renderer\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Terrain\QuadTreeUniformLocations.h">
+      <Filter>Renderer\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Terrain\Terrain.h">
+      <Filter>Renderer\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="ProspectEngine_pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -147,9 +148,6 @@
     <ClCompile Include="Renderer\Shaders\GeometryShader.cpp">
       <Filter>Renderer\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\QuadTree\Node.cpp">
-      <Filter>Renderer\QuadTree</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Shaders\TessControlShader.cpp">
       <Filter>Renderer\Shaders</Filter>
     </ClCompile>
@@ -162,13 +160,7 @@
     <ClCompile Include="Renderer\Window.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\QuadTree\QuadTree.cpp">
-      <Filter>Renderer\QuadTree</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Terrain.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine_impl.cpp" />
@@ -238,6 +230,16 @@
     <ClCompile Include="Renderer\Text\Text.cpp">
       <Filter>Renderer\Text</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\Terrain\Node.cpp">
+      <Filter>Renderer\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Terrain\QuadTree.cpp">
+      <Filter>Renderer\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Terrain\Terrain.cpp">
+      <Filter>Renderer\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="ProspectEngine_pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -248,9 +250,6 @@
     </Filter>
     <Filter Include="Include">
       <UniqueIdentifier>{37dfec71-f162-4ad7-824a-540a0f27257e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer\QuadTree">
-      <UniqueIdentifier>{24796140-a448-4476-8dae-a8f1b5c60ef9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Renderer\Shaders">
       <UniqueIdentifier>{cc72e1be-5208-40ac-b576-94ee0703df0c}</UniqueIdentifier>
@@ -275,6 +274,9 @@
     </Filter>
     <Filter Include="Resources\Fonts">
       <UniqueIdentifier>{a26ab673-7d6f-45e7-8d54-0341544e6f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Terrain">
+      <UniqueIdentifier>{ee81ce71-3c95-4234-814a-996dfd20ccaf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

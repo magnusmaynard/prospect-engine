@@ -1,9 +1,9 @@
+#include "ProspectEngine_pch.h"
+
 #include "Engine_impl.h"
 
 #include "Scene/Scene_impl.h"
 #include "Scene/Camera_impl.h"
-#include <glm/vec2.hpp>
-#include <iostream>
 #include "Include/MaterialLibrary.h"
 
 using namespace Prospect;
@@ -18,7 +18,8 @@ Engine_impl::Engine_impl(
    m_parent(parent),
    m_application(application),
    m_window(*this, ivec2(width, height)),
-   m_isCameraControlsEnabled(true)
+   m_isCameraControlsEnabled(true),
+   m_lastUpdateTime(0)
 {
 }
 

@@ -1,4 +1,5 @@
-#pragma once
+#include "ProspectEngine_pch.h"
+
 #include "Include/Camera.h"
 
 #include "Camera_impl.h"

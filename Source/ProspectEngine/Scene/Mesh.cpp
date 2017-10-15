@@ -1,6 +1,8 @@
+#include "ProspectEngine_pch.h"
+
 #include "Include/Mesh.h"
 
-#include "Mesh_impl.h"
+#include "Scene/Mesh_impl.h"
 
 using namespace Prospect;
 using namespace glm;

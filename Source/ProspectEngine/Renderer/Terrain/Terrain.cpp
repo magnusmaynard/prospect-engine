@@ -1,14 +1,19 @@
-#pragma once
+#include "ProspectEngine_pch.h"
+
 #include "Terrain.h"
 #include <noise/noise.h>
 #include "Renderer/Shaders/TessEvaluationShader.h"
+#include "Renderer/UniformBuffer.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include "Resources/Resources.h"
+#include "Scene/Scene_impl.h"
+#include "Include/Camera.h"
 
 using namespace Prospect;
 using namespace noise;
+using namespace glm;
 
 typedef unsigned char byte;
 Terrain::Terrain()
@@ -42,42 +47,21 @@ Terrain::Terrain()
    glCreateVertexArrays(1, &m_VAO);
    glBindVertexArray(m_VAO);
 
-   std::vector<glm::vec3> left =
-   {
-      glm::vec3(0, 0, -1),
-      glm::vec3(0, 0, 1),
-      glm::vec3(-1, 0, 0),
-      glm::vec3(-1, 0, 0),
-      glm::vec3(-1, 0, 0),
-      glm::vec3(1, 0, 0),
-   };
+   vec3 left(0, 0, -1);
+   vec3 top(0, 1, 0);
+   vec3 normal = cross(left, top);
+   vec3 origin = normal * m_planetRadius;
 
-   std::vector<glm::vec3> top =
-   {
-      glm::vec3(0, 1, 0),
-      glm::vec3(0, 1, 0),
-      glm::vec3(0, 0, 1),
-      glm::vec3(0, 0, -1),
-      glm::vec3(0, 1, 0),
-      glm::vec3(0, 1, 0),
-   };
+   m_quadTree = std::make_unique<QuadTree>(
+      origin,
+      normal,
+      left,
+      top,
+      m_planetRadius,
+      vec3(0,0,0),
+      quadtreeLocations);
 
-   for(int i = 0; i < NUMBER_OF_QUADTREES; i++)
-   {
-      glm::vec3 normal = glm::cross(left[i], top[i]);
-      glm::vec3 origin = normal * m_planetRadius;
-
-      m_quadTrees.push_back(QuadTree(
-         origin,
-         normal,
-         left[i],
-         top[i],
-         m_planetRadius,
-         glm::vec3(0,0,0),
-         quadtreeLocations));
-
-      GenerateHeightMap(m_textures[i]);
-   }
+   GenerateHeightMap();
 }
 
 Terrain::~Terrain()
@@ -86,14 +70,8 @@ Terrain::~Terrain()
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-void Terrain::Draw()
+void Terrain::Render(const Scene_impl& scene, const UniformBuffer& uniformBuffer)
 {
-   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-   //TODO: get from scene
-   const glm::vec3 cameraPosition(0,0,-10);
-   const glm::vec3 cameraDirection(0,0,1);
-
    //Bind.
    m_shader.Bind();
 
@@ -102,18 +80,17 @@ void Terrain::Draw()
    glUniform1f(m_planetRadiusLocation, m_planetRadius);
    glUniform3fv(m_planetOriginLocation, 1, &m_planetOrigin[0]);
 
-   for (int i = 0; i < NUMBER_OF_QUADTREES; i++)
-   {
-      //Textures.
-      glBindTextureUnit(i, m_textures[i]);
+   //Textures.
+   glBindTextureUnit(0, m_texture);
 
-      //Draw.
-      m_quadTrees[i].Update(cameraPosition, cameraDirection);
-      m_quadTrees[i].Draw();
-   }
+   //Draw.
+   const Camera& camera = scene.GetCamera();
+
+   m_quadTree->Update(camera.GetPosition(), camera.GetForward());
+   m_quadTree->Draw();
 }
 
-void Terrain::GenerateHeightMap(GLuint texture)
+void Terrain::GenerateHeightMap()
 {
    int width = 0;
    int height = 0;
@@ -121,10 +98,10 @@ void Terrain::GenerateHeightMap(GLuint texture)
    std::string filePath = Resources::GetTexturePath() + "terrain1.bmp";
    float* data = stbi_loadf(filePath.c_str(), &width, &height, &channels, 1);
 
-   glCreateTextures(GL_TEXTURE_2D, 1, &m_textures[TEXTURE_HEIGHT_POSX]);
-   glTextureStorage2D(m_textures[TEXTURE_HEIGHT_POSX], 4, GL_R32F, width, height); //4
+   glCreateTextures(GL_TEXTURE_2D, 1, &m_texture);
+   glTextureStorage2D(m_texture, 4, GL_R32F, width, height);
    glTextureSubImage2D(
-      m_textures[TEXTURE_HEIGHT_POSX],
+      m_texture,
       0,
       0, 0,
       width, height,
@@ -132,10 +109,10 @@ void Terrain::GenerateHeightMap(GLuint texture)
       GL_FLOAT,
       data);
 
-   glTextureParameteri(m_textures[TEXTURE_HEIGHT_POSX], GL_TEXTURE_BASE_LEVEL, 0);
-   glTextureParameteri(m_textures[TEXTURE_HEIGHT_POSX], GL_TEXTURE_MAX_LEVEL, 4);
-   glTextureParameteri(m_textures[TEXTURE_HEIGHT_POSX], GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-   glTextureParameteri(m_textures[TEXTURE_HEIGHT_POSX], GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+   glTextureParameteri(m_texture, GL_TEXTURE_BASE_LEVEL, 0);
+   glTextureParameteri(m_texture, GL_TEXTURE_MAX_LEVEL, 4);
+   glTextureParameteri(m_texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+   glTextureParameteri(m_texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
-   glGenerateTextureMipmap(m_textures[TEXTURE_HEIGHT_POSX]);
+   glGenerateTextureMipmap(m_texture);
 }

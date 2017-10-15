@@ -1,15 +1,14 @@
 #pragma once
-#include <map>
-#include "Renderables/RenderableEntity.h"
-#include "UniformBuffer.h"
-#include <memory>
+
+#include "Renderer/Renderables/RenderableEntity.h"
+#include "Renderer/UniformBuffer.h"
 #include "Renderer/VertexData.h"
 #include "Renderer/Shaders/ShaderFactory.h"
-#include "Text/Text.h"
+#include "Renderer/Text/Text.h"
+#include "Renderer/Terrain/Terrain.h"
 
 namespace Prospect
 {
-   class Terrain;
    class Scene_impl;
    class Mesh_impl;
    class Material;
@@ -27,25 +26,22 @@ namespace Prospect
 
    private:
       std::deque<std::unique_ptr<IRenderable>> m_renderables;
+      std::unique_ptr<Terrain> m_terrain;
+      std::unique_ptr<Text> m_fpsText;
+
       std::map<int, VertexData> m_vertexDataMap;
       UniformBuffer m_uniformBuffer;
-
-      VertexData& GetVertexData(Mesh_impl& mesh);
-      ShaderFactory m_shaderFactory;
-
-      void UpdateRenderableEntities(EntityLibrary& entityLib);
-
-      void UpdateUniformBuffer(Scene_impl& scene);
-
-      void Render(RenderableEntity& renderable);
-
-      void Clear();
-
-      void RenderFPS(double time, const Scene_impl& scene);
-
-      std::unique_ptr<Text> m_fpsText;
       bool m_showFPS;
       unsigned int m_frameCount;
       double m_previousTime;
+
+      void UpdateRenderableEntities(EntityLibrary& entityLib);
+      void UpdateUniformBuffer(Scene_impl& scene);
+
+      VertexData& GetVertexData(Mesh_impl& mesh);
+
+      void UpdateFPS(double time);
+
+      void Clear();
    };
 }

@@ -1,4 +1,5 @@
-#pragma once
+#include "ProspectEngine_pch.h"
+
 #include "Node.h"
 #include "QuadTree.h"
 

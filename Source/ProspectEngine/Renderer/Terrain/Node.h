@@ -1,9 +1,4 @@
 #pragma once
-#include <vector>
-#include <glm/vec3.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <memory>
-#include <array>
 
 namespace Prospect
 {

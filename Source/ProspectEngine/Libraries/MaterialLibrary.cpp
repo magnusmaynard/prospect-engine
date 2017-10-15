@@ -1,4 +1,5 @@
-#pragma once
+#include "ProspectEngine_pch.h"
+
 #include "Include/MaterialLibrary.h"
 
 #include "MaterialLibrary_impl.h"

@@ -1,8 +1,8 @@
+#include "ProspectEngine_pch.h"
+
 #include "BaseShader.h"
 
 #include "Resources/Resources.h"
-#include <vector>
-#include <iostream>
 #include <fstream> 
 #include <sstream>
 

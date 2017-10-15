@@ -1,8 +1,8 @@
+#include "ProspectEngine_pch.h"
+
 #include "Shader.h"
 
 #include "Renderer/RendererDefines.h"
-#include <iostream>
-#include <vector>
 #include "VertexShader.h"
 #include "TessControlShader.h"
 #include "TessEvaluationShader.h"

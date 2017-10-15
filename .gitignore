@@ -1,11 +1,16 @@
+#Build Folders
 *Debug/
 *Release/
+
+#Extensions
 *.VC.opendb
 *.VC.db
 *.suo
 *.trace
-Source/.vs
+*.vs
+*.ipch
 
 #Dependencies
 Dependencies/glew*
 Dependencies/glfw*
+Dependencies/freetype*

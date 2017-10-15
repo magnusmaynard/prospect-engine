@@ -1,8 +1,7 @@
+#include "ProspectEngine_pch.h"
+
 #include "Camera_impl.h"
 #include "EngineDefines.h"
-
-#include <glm/gtx/rotate_vector.hpp>
-#include <glm/gtx/vector_angle.hpp>
 
 using namespace Prospect;
 using namespace glm;

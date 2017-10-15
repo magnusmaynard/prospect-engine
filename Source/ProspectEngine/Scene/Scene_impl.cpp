@@ -1,7 +1,9 @@
-#include "Scene_impl.h"
+#include "ProspectEngine_pch.h"
+
+#include "Scene/Scene_impl.h"
 
 #include "EngineDefines.h"
-#include "Entity_impl.h"
+#include "Scene/Entity_impl.h"
 
 using namespace Prospect;
 using namespace glm;

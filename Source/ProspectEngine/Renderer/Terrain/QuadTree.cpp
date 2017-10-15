@@ -1,5 +1,6 @@
+#include "ProspectEngine_pch.h"
+
 #include "QuadTree.h"
-#include <GL/glew.h>
 
 using namespace Prospect;
 

@@ -1,6 +1,7 @@
+#include "ProspectEngine_pch.h"
+
 #include "MaterialLibrary_impl.h"
 
-#include <vector>
 #include "Include/Color.h"
 #include "Include/Material.h"
 
