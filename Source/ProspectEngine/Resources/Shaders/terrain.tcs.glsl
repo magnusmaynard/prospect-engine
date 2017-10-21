@@ -2,8 +2,13 @@
 
 layout (vertices = 4) out;
 
-uniform int nodeLevel;
-uniform ivec4 nodeEdgeScaling;
+layout (std140, binding = 1) uniform NodeUniforms
+{
+   vec4 Origin; //xyz
+   ivec4 Edges;
+   float Size;
+   float Level;
+} node;
 
 in VS_OUT
 {
@@ -23,10 +28,10 @@ void main()
       //https://bitbucket.org/victorbush/ufl.cap5705.terrain/src/93c5ab3824a5a66d87d1bb6dcc9ed9aee7a16357/src_uniform/shader/tess.tcs.glsl?at=master&fileviewer=file-view-default
 
       float tessLevel = 4;
-      gl_TessLevelOuter[0] = tessLevel * nodeEdgeScaling[0];
-      gl_TessLevelOuter[1] = tessLevel * nodeEdgeScaling[3];
-      gl_TessLevelOuter[2] = tessLevel * nodeEdgeScaling[1];
-      gl_TessLevelOuter[3] = tessLevel * nodeEdgeScaling[2];
+      gl_TessLevelOuter[0] = tessLevel * node.Edges.x;
+      gl_TessLevelOuter[1] = tessLevel * node.Edges.w;
+      gl_TessLevelOuter[2] = tessLevel * node.Edges.y;
+      gl_TessLevelOuter[3] = tessLevel * node.Edges.z;
       gl_TessLevelInner[0] = tessLevel;
       gl_TessLevelInner[1] = tessLevel;
    }

@@ -36,6 +36,11 @@ void Engine::ShowFPS(bool showFPS)
    m_impl->ShowFPS(true);
 }
 
+void Engine::ShowWireframe(bool showWireframe)
+{
+   m_impl->ShowWireframe(showWireframe);
+}
+
 void Engine::Close()
 {
    m_impl->Close();

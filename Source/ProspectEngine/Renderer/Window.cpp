@@ -17,6 +17,7 @@ Window::Window(Engine_impl& engine, const ivec2& size)
    m_isMouseInsideWindow(false),
    m_enableVSync(true)
 {
+   Open();
 }
 
 void Window::Open()
@@ -200,26 +201,36 @@ Key Window::ConvertGLFWKey(int glfwKey)
    //TODO: Support more keys.
    switch (glfwKey)
    {
+      case(GLFW_KEY_1):
+         return Key::D1;
+      case(GLFW_KEY_2):
+         return Key::D2;
+      case(GLFW_KEY_3):
+         return Key::D3;
+      case(GLFW_KEY_4):
+         return Key::D4;
+      case(GLFW_KEY_5):
+         return Key::D5;
+      case(GLFW_KEY_6):
+         return Key::D6;
+      case(GLFW_KEY_7):
+         return Key::D7;
+      case(GLFW_KEY_8):
+         return Key::D8;
+      case(GLFW_KEY_9):
+         return Key::D9;
+      case(GLFW_KEY_0):
+         return Key::D0;
       case(GLFW_KEY_W):
-      {
          return Key::W;
-      }
       case(GLFW_KEY_S):
-      {
          return Key::S;
-      }
       case(GLFW_KEY_A):
-      {
          return Key::A;
-      }
       case(GLFW_KEY_D):
-      {
          return Key::D;
-      }
       case(GLFW_KEY_ESCAPE):
-      {
          return Key::Escape;
-      }
       default:
       {
          std::cout << "Key not supported: " << glfwKey << std::endl;

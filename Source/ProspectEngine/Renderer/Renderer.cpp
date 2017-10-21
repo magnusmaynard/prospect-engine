@@ -4,9 +4,9 @@
 #include "Scene/Mesh_impl.h"
 #include "Scene/Scene_impl.h"
 #include "Scene/Camera_impl.h"
-#include "Renderer/Text/Text.h"
-#include "Renderer/Terrain/Terrain.h"
 #include "Renderer/Renderables/RenderableEntity.h"
+#include "Renderer/Renderables/RenderableTerrain.h"
+#include "Renderer/Renderables/RenderableText.h"
 #include "Libraries/EntityLibrary.h"
 
 using namespace Prospect;
@@ -16,11 +16,13 @@ Renderer::Renderer()
    :
    m_frameCount(0),
    m_previousTime(0),
-   m_showFPS(false)
+   m_showFPS(false),
+   m_showWireframe(false)
 {
+   Initialize();
 }
 
-void Renderer::Setup()
+void Renderer::Initialize()
 {
    glEnable(GL_DEPTH_TEST);
    glDepthFunc(GL_LESS);
@@ -31,34 +33,44 @@ void Renderer::Setup()
    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-   m_fpsText = std::make_unique<Text>("", ivec2(2, 2), 18);
-   m_terrain = std::make_unique<Terrain>();
+   m_fpsText = std::make_unique<RenderableText>(
+      m_globalUniformBuffers, "", ivec2(2, 2), 18);
 }
 
 void Renderer::Render(double time, Scene_impl& scene)
 {
-   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   if(m_showWireframe)
+   {
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   }
+   else
+   {
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   }
 
    Clear();
 
-   scene.UpdateTransforms();
-
    UpdateUniformBuffer(scene);
-
    UpdateRenderableEntities(scene.GetEntityLib());
+   UpdateRenderableTerrain(scene);
 
    //Render all renderables.
-   for (auto& renderable : m_renderables)
+   for (auto& renderable : m_renderableEntities)
    {
-      renderable->Render(m_uniformBuffer);
+      renderable->Render();
    }
 
-   m_terrain->Render(scene, m_uniformBuffer);
+   if (m_renderableTerrain)
+   {
+      m_renderableTerrain->Render();
+   }
 
    if (m_showFPS)
    {
+      m_fpsText->SetScreenSize(scene.GetCamera().GetSize()); //TODO: Pass ortho projection via UniformBuffer
+
       UpdateFPS(time);
-      m_fpsText->Render(scene.GetCamera().GetSize());
+      m_fpsText->Render();
    }
 }
 
@@ -74,9 +86,9 @@ void Renderer::UpdateRenderableEntities(EntityLibrary& entityLib)
          {
             VertexData& vertexData = GetVertexData(*entity.GetMeshImpl());
 
-            m_renderables.push_back(std::make_unique<RenderableEntity>(entity, vertexData));
+            m_renderableEntities.push_back(std::make_unique<RenderableEntity>(entity, vertexData, m_globalUniformBuffers));
 
-            entity.SetRenderable(m_renderables.back().get());
+            entity.SetRenderable(m_renderableEntities.back().get());
          }
       }
    }
@@ -93,13 +105,29 @@ VertexData& Renderer::GetVertexData(Mesh_impl& mesh)
    return itr->second;
 }
 
-void Renderer::UpdateUniformBuffer(Scene_impl& scene)
+void Renderer::UpdateUniformBuffer(const Scene_impl& scene)
 {
-   Camera_impl& camera = scene.GetCameraImpl();
+   const Camera_impl& camera = scene.GetCameraImpl();
 
-   m_uniformBuffer.SetProjectionTransform(camera.GetProjectionMatrix());
-   m_uniformBuffer.SetViewTransform(camera.GetViewMatrix());
+   m_globalUniformBuffers.Camera.Update(
+   {
+      camera.GetProjectionMatrix(),
+      camera.GetViewMatrix()
+   });
 }
+
+void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)
+{
+   if(m_renderableTerrain == nullptr)
+   {
+      const Terrain* terrain = scene.GetTerrain();
+      if (terrain)
+      {
+         m_renderableTerrain = std::make_unique<RenderableTerrain>(*terrain, m_globalUniformBuffers);
+      }
+   }
+}
+
 
 void Renderer::Clear()
 {
@@ -109,6 +137,11 @@ void Renderer::Clear()
 void Renderer::ShowFPS(bool showFPS)
 {
    m_showFPS = showFPS;
+}
+
+void Renderer::ShowWireframe(bool showWireframe)
+{
+   m_showWireframe = showWireframe;
 }
 
 void Renderer::UpdateFPS(double time)

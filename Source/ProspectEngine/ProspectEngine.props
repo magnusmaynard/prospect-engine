@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ImportGroup Label="ProspectEnginePropertySheet" />
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <AdditionalIncludeDirectories>
-        $(ProjectDir);
-        $(SolutionDir)..\Dependencies\glew-2.1.0\include;
-        $(SolutionDir)..\Dependencies\glfw-3.2.1\include;
-        $(SolutionDir)..\Dependencies\glm;
-        $(SolutionDir)..\Dependencies\libnoise-1.0.0\include;
-        $(SolutionDir)..\Dependencies\stb;
-        $(SolutionDir)..\Dependencies\freetype-2.8.1\include;
-        %(AdditionalIncludeDirectories);
-      </AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>
-        glew32s.lib;
-        glfw3.lib;
-        opengl32.lib;
-        libnoise.lib;
-        freetype281ST.lib;
-        %(AdditionalDependencies)
-      </AdditionalDependencies>
-      <AdditionalLibraryDirectories>
-        $(OutputPath);
-        %(AdditionalLibraryDirectories);
-      </AdditionalLibraryDirectories>
-    </Link>
-    <PreBuildEvent>
-      <Command>
-         xcopy $(SolutionDir)..\Dependencies\glew-2.1.0\lib\Release\$(Platform) $(OutputPath) /y
-         xcopy $(SolutionDir)..\Dependencies\glfw-3.2.1\build\src\Release $(OutputPath) /y
-         xcopy $(SolutionDir)..\Dependencies\libnoise-1.0.0\bin $(OutputPath) /y
-         xcopy $(SolutionDir)..\Dependencies\freetype-2.8.1\objs\vc2010\$(Platform) $(OutputPath) /y
-         xcopy $(SolutionDir)\ProspectEngine\Resources\Fonts\* $(OutputPath)\Resources\Fonts\ /sy
-         xcopy $(SolutionDir)\ProspectEngine\Resources\Shaders\* $(OutputPath)\Resources\Shaders\ /sy
-         xcopy $(SolutionDir)\ProspectEngine\Resources\Textures\* $(OutputPath)\Resources\Textures\ /sy
-      </Command>
-    </PreBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemGroup />
+   <ImportGroup Label="ProspectEnginePropertySheet" />
+   <ItemDefinitionGroup>
+      <ClCompile>
+         <AdditionalIncludeDirectories>
+            $(ProjectDir);
+            $(SolutionDir)..\Dependencies\glew-2.1.0\include;
+            $(SolutionDir)..\Dependencies\glfw-3.2.1\include;
+            $(SolutionDir)..\Dependencies\glm;
+            $(SolutionDir)..\Dependencies\libnoise-1.0.0\include;
+            $(SolutionDir)..\Dependencies\stb;
+            $(SolutionDir)..\Dependencies\freetype-2.8.1\include;
+            %(AdditionalIncludeDirectories);
+         </AdditionalIncludeDirectories>
+      </ClCompile>
+      <Link>
+         <AdditionalDependencies>
+            glew32s.lib;
+            glfw3.lib;
+            opengl32.lib;
+            libnoise.lib;
+            freetype281ST.lib;
+            %(AdditionalDependencies)
+         </AdditionalDependencies>
+         <AdditionalLibraryDirectories>
+            $(OutputPath);
+            %(AdditionalLibraryDirectories);
+         </AdditionalLibraryDirectories>
+      </Link>
+      <PreBuildEvent>
+         <Command>
+            xcopy $(SolutionDir)..\Dependencies\glew-2.1.0\lib\Release\$(Platform) $(OutputPath) /y
+            xcopy $(SolutionDir)..\Dependencies\glfw-3.2.1\build\src\Release $(OutputPath) /y
+            xcopy $(SolutionDir)..\Dependencies\libnoise-1.0.0\bin $(OutputPath) /y
+            xcopy $(SolutionDir)..\Dependencies\freetype-2.8.1\objs\vc2010\$(Platform) $(OutputPath) /y
+         </Command>
+      </PreBuildEvent>
+      <PostBuildEvent>
+         <Command>
+            xcopy $(SolutionDir)\ProspectEngine\Resources\Fonts\* $(OutputPath)\Resources\Fonts\ /sy
+            xcopy $(SolutionDir)\ProspectEngine\Resources\Shaders\* $(OutputPath)\Resources\Shaders\ /sy
+            xcopy $(SolutionDir)\ProspectEngine\Resources\Textures\* $(OutputPath)\Resources\Textures\ /sy
+         </Command>
+      </PostBuildEvent>
+   </ItemDefinitionGroup>
+   <ItemGroup />
 </Project>

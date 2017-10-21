@@ -90,9 +90,6 @@
     <ClInclude Include="Scene\Material_impl.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\UniformBuffer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\IRenderable.h">
       <Filter>Renderer</Filter>
     </ClInclude>
@@ -111,21 +108,6 @@
     <ClInclude Include="Renderer\Shaders\Shader.h">
       <Filter>Renderer\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Text\Text.h">
-      <Filter>Renderer\Text</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Terrain\Node.h">
-      <Filter>Renderer\Terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Terrain\QuadTree.h">
-      <Filter>Renderer\Terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Terrain\QuadTreeUniformLocations.h">
-      <Filter>Renderer\Terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Terrain\Terrain.h">
-      <Filter>Renderer\Terrain</Filter>
-    </ClInclude>
     <ClInclude Include="ProspectEngine_pch.h" />
     <ClInclude Include="Resources\Resources.h">
       <Filter>Resources</Filter>
@@ -133,8 +115,35 @@
     <ClInclude Include="Resources\ResourceIO.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Bitmap.h">
-      <Filter>Renderer</Filter>
+    <ClInclude Include="Include\Bitmap.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\IO.h">
+      <Filter>Include\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Uniforms\UniformBuffer.h">
+      <Filter>Renderer\Uniforms</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Uniforms\UniformBlocks.h">
+      <Filter>Renderer\Uniforms</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Uniforms\GlobalUniformBuffers.h">
+      <Filter>Renderer\Uniforms</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Terrain\Node.h">
+      <Filter>Scene\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Terrain\QuadTree.h">
+      <Filter>Scene\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Terrain\Terrain.h">
+      <Filter>Scene\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\RenderableTerrain.h">
+      <Filter>Renderer\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\RenderableText.h">
+      <Filter>Renderer\Renderables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +221,6 @@
     <ClCompile Include="Scene\Material_impl.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\UniformBuffer.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Renderables\RenderableEntity.cpp">
       <Filter>Renderer\Renderables</Filter>
     </ClCompile>
@@ -227,24 +233,30 @@
     <ClCompile Include="Renderer\Shaders\Shader.cpp">
       <Filter>Renderer\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Text\Text.cpp">
-      <Filter>Renderer\Text</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Terrain\Node.cpp">
-      <Filter>Renderer\Terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Terrain\QuadTree.cpp">
-      <Filter>Renderer\Terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Terrain\Terrain.cpp">
-      <Filter>Renderer\Terrain</Filter>
-    </ClCompile>
     <ClCompile Include="ProspectEngine_pch.cpp" />
     <ClCompile Include="Resources\ResourceIO.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Bitmap.cpp">
-      <Filter>Renderer</Filter>
+    <ClCompile Include="Containers\Bitmap.cpp">
+      <Filter>Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\IO.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Terrain\Node.cpp">
+      <Filter>Scene\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Terrain\QuadTree.cpp">
+      <Filter>Scene\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\RenderableTerrain.cpp">
+      <Filter>Renderer\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Terrain\Terrain.cpp">
+      <Filter>Scene\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\RenderableText.cpp">
+      <Filter>Renderer\Renderables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,20 +287,24 @@
     <Filter Include="Renderer\Renderables">
       <UniqueIdentifier>{30caef76-d044-47e3-91c4-05f1f49d8e30}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer\Text">
-      <UniqueIdentifier>{0898f028-352e-44ba-935a-67b56091cad2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources\Fonts">
       <UniqueIdentifier>{a26ab673-7d6f-45e7-8d54-0341544e6f63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer\Terrain">
-      <UniqueIdentifier>{ee81ce71-3c95-4234-814a-996dfd20ccaf}</UniqueIdentifier>
+    <Filter Include="Containers">
+      <UniqueIdentifier>{c42ad7ad-2a43-4335-927a-a12d14c16a3c}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resources\Textures\terrain1.bmp">
-      <Filter>Resources\Textures</Filter>
-    </Image>
+    <Filter Include="Include\Utilities">
+      <UniqueIdentifier>{2f896a28-3fc0-404c-928e-fe9f895713cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{94b4f406-72fe-4c6e-b6fa-850f763b775e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Uniforms">
+      <UniqueIdentifier>{7e377cf9-50b4-4c33-9f49-8b47dfd54fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Terrain">
+      <UniqueIdentifier>{cb84526a-536c-42ef-9190-6685cb17d845}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\cubemap.fs.glsl">

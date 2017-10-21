@@ -20,7 +20,7 @@ Entity& Scene::AddEntity(Mesh* mesh, Material* material)
 
 Entity& Scene::GetEntity(const int index)
 {
-   return m_impl->GetEntityAtIndex(index);
+   return m_impl->GetEntity(index);
 }
 
 const Camera& Scene::GetCamera() const
@@ -31,4 +31,24 @@ const Camera& Scene::GetCamera() const
 Camera& Scene::GetCamera()
 {
    return m_impl->GetCamera();
+}
+
+void Scene::CreateTerrain(
+   const glm::vec3& origin,
+   const Bitmap& heightMap,
+   float size,
+   float minHeight,
+   float maxHeight)
+{
+   m_impl->CreateTerrain(
+      origin,
+      heightMap,
+      size,
+      minHeight,
+      maxHeight);
+}
+
+void Scene::CreateAtmosphere()
+{
+   m_impl->CreateAtmosphere();
 }

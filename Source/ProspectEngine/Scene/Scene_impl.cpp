@@ -31,9 +31,37 @@ Entity& Scene_impl::AddEntity(Mesh* mesh, Material* material)
    return m_rootEntity->AddEntity(mesh, material);
 }
 
-Entity& Scene_impl::GetEntityAtIndex(const int index)
+Entity& Scene_impl::GetEntity(const int index)
 {
    return m_rootEntity->GetEntity(index);
+}
+
+void Scene_impl::CreateTerrain(
+   const vec3& origin,
+   const Bitmap& heightMap,
+   float size,
+   float minHeight,
+   float maxHeight)
+{
+   m_terrain = std::make_unique<Terrain>(
+      origin,
+      heightMap,
+      size,
+      minHeight,
+      maxHeight);
+}
+
+void Scene_impl::CreateAtmosphere()
+{
+   //TODO:
+}
+
+void Scene_impl::Update(double time)
+{
+   mat4 origin;
+   m_rootEntity->m_impl->UpdateTransform(origin, false);
+
+   m_terrain->Update(*this);
 }
 
 Entity* Scene_impl::GetRootEntity()
@@ -46,14 +74,17 @@ Camera_impl& Scene_impl::GetCameraImpl()
    return *m_camera.m_impl;
 }
 
+const Camera_impl& Scene_impl::GetCameraImpl() const
+{
+   return *m_camera.m_impl;
+}
+
 EntityLibrary& Scene_impl::GetEntityLib()
 {
    return m_entityLib;
 }
 
-void Scene_impl::UpdateTransforms()
+const Terrain* Scene_impl::GetTerrain() const
 {
-   mat4 origin;
-
-   m_rootEntity->m_impl->UpdateTransform(origin, false);
+   return m_terrain.get();
 }

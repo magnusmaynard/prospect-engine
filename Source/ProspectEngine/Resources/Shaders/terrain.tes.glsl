@@ -4,8 +4,7 @@ layout (quads, equal_spacing) in;
 
 layout (binding = 0) uniform sampler2D textureHeight;
 
-uniform float heightScale;
-uniform vec3 nodeNormal;
+uniform float maxHeight;
 
 in TCS_OUT
 {
@@ -30,7 +29,7 @@ void main()
 
    vec4 p = mix(p2, p1, gl_TessCoord.y);
 
-   p.y += texture(textureHeight, tc).r * heightScale;
+   p.y += texture(textureHeight, tc).r * maxHeight;
 
    gl_Position = p;
 }

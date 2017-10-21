@@ -17,41 +17,33 @@ namespace Prospect
    class Window
    {
    public:
-      Window::Window(Engine_impl& engine, const glm::ivec2& size);
-
-      void Open();
+      Window(Engine_impl& engine, const glm::ivec2& size);
 
       void SetTitle(const std::string& title);
-
       bool IsOpen() const;
-
       void PollEvents() const;
-
       void SwapBuffers() const;
 
       void Close() const;
-
       void Destroy() const;
 
       //Gets the current time in milliseconds.
       double GetTime() const;
-
       glm::ivec2 GetSize() const;
 
    private:
+      void Open();
+
+      static Window& GetWindow(GLFWwindow* glfwWindow);
+      static Key ConvertGLFWKey(int glfwKey);
+      static KeyModifier ConvertGLFWModifier(int glfwModifer);
+      static void EnableVSync(bool enableVSync);
+
       static void GLFWErrorCallback(int error, const char* description);
       static void GLFWKeyCallback(GLFWwindow* glfwWindow, int glfwKey, int glfwScancode, int glfwAction, int glfwModifer);
       static void GLFWWindowSizeCallback(GLFWwindow* glfwWindow, int width, int height);
       static void GLFWCursorPosCallback(GLFWwindow* glfwWindow, double xPosition, double yPosition);
       static void GLFWCursorEnterCallback(GLFWwindow* glfwWindow, int hasEntered);
-
-      static Window& GetWindow(GLFWwindow* glfwWindow);
-
-      static Key ConvertGLFWKey(int glfwKey);
-
-      static KeyModifier ConvertGLFWModifier(int glfwModifer);
-
-      static void EnableVSync(bool enableVSync);
 
       Engine_impl& m_engine;
       GLFWwindow* m_window;

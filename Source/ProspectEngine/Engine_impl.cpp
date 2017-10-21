@@ -25,10 +25,6 @@ Engine_impl::Engine_impl(
 
 void Engine_impl::Start()
 {
-   m_window.Open();
-
-   m_renderer.Setup();
-
    m_application.OnStartup();
 
    while (m_window.IsOpen())
@@ -44,6 +40,8 @@ void Engine_impl::Start()
 
          m_application.OnUpdate(elapsed);
       }
+
+      m_scene.m_impl->Update(time);
 
       m_renderer.Render(time, *m_scene.m_impl);
 
@@ -68,6 +66,11 @@ void Engine_impl::EnableCameraControls(bool isEnabled)
 void Engine_impl::ShowFPS(bool showFPS)
 {
    m_renderer.ShowFPS(showFPS);
+}
+
+void Engine_impl::ShowWireframe(bool showWireframe)
+{
+   m_renderer.ShowWireframe(showWireframe);
 }
 
 void Engine_impl::Close()

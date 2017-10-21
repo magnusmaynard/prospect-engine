@@ -3,19 +3,23 @@
 #include "RenderableEntity.h"
 
 #include "Scene/Scene_impl.h"
-#include "Renderer/UniformBuffer.h"
 #include "Renderer/VertexData.h"
 #include "Renderer/Shaders/ShaderFactory.h"
+#include "Renderer/Uniforms/GlobalUniformBuffers.h"
 #include "Resources/Resources.h"
 
 using namespace Prospect;
 
-RenderableEntity::RenderableEntity(Entity_impl& entity, VertexData& vertexData)
+RenderableEntity::RenderableEntity(
+   Entity_impl& entity,
+   VertexData& vertexData,
+   const GlobalUniformBuffers& globalUniformBuffers)
    :
    m_entity(entity),
    m_vertexData(vertexData),
    m_shader(ShaderFactory::CreateShader(Resources::SIMPLE_VERTEX_SHADER, Resources::SIMPLE_FRAGMENT_SHADER))
 {
+   globalUniformBuffers.Camera.Bind(m_shader);
 }
 
 RenderableEntity::~RenderableEntity()
@@ -31,11 +35,9 @@ RenderableEntity::RenderableEntity(RenderableEntity&& other)
 {
 }
 
-void RenderableEntity::Render(UniformBuffer& uniformBuffer)
+void RenderableEntity::Render()
 {
    m_shader.Bind();
-
-   uniformBuffer.Bind();
 
    BindTransform(m_entity.GetTransform());
 

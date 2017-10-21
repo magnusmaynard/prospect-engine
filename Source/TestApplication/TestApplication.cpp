@@ -1,6 +1,5 @@
 #include "TestApplication.h"
 
-#include <iostream>
 #include "Key.h"
 #include "Entity.h"
 #include "Mesh.h"
@@ -9,6 +8,8 @@
 #include "MeshLibrary.h"
 #include "MaterialLibrary.h"
 #include "Camera.h"
+#include "Bitmap.h"
+#include "Utilities/IO.h"
 
 using namespace glm;
 
@@ -28,6 +29,18 @@ void TestApplication::OnStartup()
    m_engine.ShowFPS(true);
 
    m_scene.GetCamera().LookAt(vec3(0, 50, 100), vec3(0, 0, 0));
+
+   Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\bagstone2.bmp");
+
+   m_scene.CreateTerrain(
+      vec3(),
+      heightMap,
+      800,
+      0,
+      50);
+
+
+   //m_scene.CreateAtmosphere();
 
    Material& grass = m_materialLib.CreateMaterial(Color(0.1f, 0.6f, 0.1f));
    Material& matRed = m_materialLib.CreateMaterial(Color(1, 0.2f, 0.2f));
@@ -67,6 +80,16 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
       case Key::Escape:
       {
          m_engine.Close();
+         break;
+      }
+      case Key::D1:
+      {
+         m_engine.ShowWireframe(false);
+         break;
+      }
+      case Key::D2:
+      {
+         m_engine.ShowWireframe(true);
          break;
       }
       case Key::W:

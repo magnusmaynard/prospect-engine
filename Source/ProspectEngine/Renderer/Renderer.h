@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Renderer/Renderables/RenderableEntity.h"
-#include "Renderer/UniformBuffer.h"
 #include "Renderer/VertexData.h"
 #include "Renderer/Shaders/ShaderFactory.h"
-#include "Renderer/Text/Text.h"
-#include "Renderer/Terrain/Terrain.h"
+#include "Renderer/Uniforms/GlobalUniformBuffers.h"
+#include "Renderer/Renderables/RenderableTerrain.h"
+#include "Renderer/Renderables/RenderableText.h"
 
 namespace Prospect
 {
@@ -19,24 +19,29 @@ namespace Prospect
    public:
       Renderer();
 
-      void Setup();
       void Render(double time, Scene_impl& scene);
 
       void ShowFPS(bool showFPS);
+      void ShowWireframe(bool showWireframe);
 
    private:
-      std::deque<std::unique_ptr<IRenderable>> m_renderables;
-      std::unique_ptr<Terrain> m_terrain;
-      std::unique_ptr<Text> m_fpsText;
+      std::deque<std::unique_ptr<IRenderable>> m_renderableEntities;
+      std::unique_ptr<RenderableTerrain> m_renderableTerrain;
+      std::unique_ptr<RenderableText> m_fpsText;
 
       std::map<int, VertexData> m_vertexDataMap;
-      UniformBuffer m_uniformBuffer;
+      GlobalUniformBuffers m_globalUniformBuffers;
+
       bool m_showFPS;
+      bool m_showWireframe;
       unsigned int m_frameCount;
       double m_previousTime;
 
+      void Initialize();
+
       void UpdateRenderableEntities(EntityLibrary& entityLib);
-      void UpdateUniformBuffer(Scene_impl& scene);
+      void UpdateUniformBuffer(const Scene_impl& scene);
+      void UpdateRenderableTerrain(const Scene_impl& scene);
 
       VertexData& GetVertexData(Mesh_impl& mesh);
 

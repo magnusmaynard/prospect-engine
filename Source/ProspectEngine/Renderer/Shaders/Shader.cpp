@@ -187,3 +187,9 @@ GLint Shader::GetUniformLocation(const std::string& uniform) const
 {
    return glGetUniformLocation(m_program, uniform.c_str());
 }
+
+GLuint Shader::GetProgram() const
+{
+   return m_program;
+}
+

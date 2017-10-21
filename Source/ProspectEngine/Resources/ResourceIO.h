@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Renderer/Bitmap.h"
+#include "Include/Bitmap.h"
 
 namespace Prospect
 {

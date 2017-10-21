@@ -30,6 +30,11 @@
       <Project>{987c8fd7-4f5c-45bd-9264-f01a48a484df}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="HeightMap1.bmp">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8AC74FFD-A6E8-419E-98C2-69FE6E1C78C7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -156,6 +161,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <PostBuildEvent>
+      <Command>xcopy $(ProjectDir)TerrainMaps\* $(OutputPath)TerrainMaps\ /sy</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(SolutionDir)\ProspectEngine\ProspectEngine.props" />

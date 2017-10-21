@@ -2,14 +2,21 @@
 
 layout (location = 0) in vec3 point;
 
-layout (location = 0) uniform mat4 projection;
-layout (location = 1) uniform mat4 view;
+layout (std140, binding = 0) uniform CameraUniforms
+{
+   mat4 Projection;
+   mat4 View;
+} camera;
+
+layout (std140, binding = 1) uniform NodeUniforms
+{
+   vec4 Origin;
+   ivec4 Edges;
+   float Size;
+   float Level;
+} node;
 
 uniform float totalSize;
-
-//Node properties
-uniform vec3 nodeOrigin;
-uniform float nodeSize;
 
 out VS_OUT
 {
@@ -18,17 +25,18 @@ out VS_OUT
 
 void main()
 {
-   float halfSize = nodeSize * 0.5;
+   //float halfSize = node.Size * 0.5;
+   float halfSize = node.Size * 0.5;
 
    const vec3 vertices[] = vec3[](
-      nodeOrigin + vec3(-halfSize, 0, halfSize),
-      nodeOrigin + vec3( halfSize, 0, halfSize),
-      nodeOrigin + vec3(-halfSize, 0, -halfSize),
-      nodeOrigin + vec3( halfSize, 0, -halfSize));
+      node.Origin.xyz + vec3(-halfSize, 0, halfSize),
+      node.Origin.xyz + vec3( halfSize, 0, halfSize),
+      node.Origin.xyz + vec3(-halfSize, 0, -halfSize),
+      node.Origin.xyz + vec3( halfSize, 0, -halfSize));
 
    const vec4 vertex = vec4(vertices[gl_VertexID], 1.0);
 
    vs_out.textureCoord = vertex.xz / totalSize + vec2(0.5);
 
-   gl_Position = projection * view * vertex;
+   gl_Position = camera.Projection * camera.View * vertex;
 }

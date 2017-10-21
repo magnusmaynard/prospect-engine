@@ -26,6 +26,7 @@ namespace Prospect
 
       void Bind() const;
       GLint GetUniformLocation(const std::string& uniform) const;
+      GLuint GetProgram() const;
 
    private:
       bool AreEqual(BaseShader* lhs, BaseShader* rhs) const;
