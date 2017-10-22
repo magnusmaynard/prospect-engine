@@ -6,9 +6,11 @@ layout (std140, binding = 0) uniform CameraUniforms
 {
    mat4 Projection;
    mat4 View;
+   vec4 Position;
+   vec2 ScreenSize;
 } camera;
 
-layout (std140, binding = 1) uniform NodeUniforms
+layout (std140, binding = 4) uniform NodeUniforms //TODO: Automatic binding index.
 {
    vec4 Origin;
    ivec4 Edges;

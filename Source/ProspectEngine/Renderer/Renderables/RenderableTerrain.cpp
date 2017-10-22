@@ -16,17 +16,19 @@ using namespace noise;
 using namespace glm;
 
 RenderableTerrain::RenderableTerrain(
-   const Terrain& terrain,
-   const GlobalUniformBuffers& globalUniformBuffers)
+   const GlobalUniformBuffers& globalUniformBuffers,
+   const Terrain& terrain)
    :
    m_terrain(terrain),
    m_shader(ShaderFactory::CreateShader(
       Resources::TERRAIN_VERTEX_SHADER,
       Resources::TERRAIN_TESSCONTROL_SHADER,
       Resources::TERRAIN_TESSEVALUATION_SHADER,
-      Resources::TERRAIN_FRAGMENT_SHADER))
+      Resources::TERRAIN_FRAGMENT_SHADER)),
+   m_nodeUniformBuffer(4)//m_nodeUniformBuffer(m_shader, "NodeUniforms")
 {
    globalUniformBuffers.Camera.Bind(m_shader);
+   globalUniformBuffers.DirectionalLight.Bind(m_shader);
    m_nodeUniformBuffer.Bind(m_shader);
 
    m_minHeightLocation = m_shader.GetUniformLocation("minHeight");

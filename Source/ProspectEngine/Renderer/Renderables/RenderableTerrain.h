@@ -14,8 +14,8 @@ namespace Prospect
    {
    public:
       RenderableTerrain(
-         const Terrain& terrain,
-         const GlobalUniformBuffers& globalUniformBuffers);
+         const GlobalUniformBuffers& globalUniformBuffers,
+         const Terrain& terrain);
       ~RenderableTerrain();
 
       void Render();
@@ -35,6 +35,6 @@ namespace Prospect
       GLuint m_texture;
       glm::mat4 m_transform;
 
-      UniformBuffer<NodeUniforms, 1> m_nodeUniformBuffer;
+      UniformBuffer<NodeUniforms> m_nodeUniformBuffer;
    };
 }

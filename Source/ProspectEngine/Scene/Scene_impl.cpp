@@ -61,7 +61,10 @@ void Scene_impl::Update(double time)
    mat4 origin;
    m_rootEntity->m_impl->UpdateTransform(origin, false);
 
-   m_terrain->Update(*this);
+   if (m_terrain)
+   {
+      m_terrain->Update(*this);
+   }
 }
 
 Entity* Scene_impl::GetRootEntity()

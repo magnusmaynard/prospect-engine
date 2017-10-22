@@ -25,6 +25,8 @@ Engine_impl::Engine_impl(
 
 void Engine_impl::Start()
 {
+   OnResize(m_window.GetSize());
+
    m_application.OnStartup();
 
    while (m_window.IsOpen())

@@ -1,7 +1,7 @@
 #pragma once
 #include "Renderer/Shaders/Shader.h"
 #include "Scene/Entity_impl.h"
-#include "Renderer/IRenderable.h"
+#include "Renderer/Renderables/IRenderable.h"
 
 namespace Prospect
 {
@@ -13,8 +13,12 @@ namespace Prospect
    class RenderableEntity : public IRenderable
    {
    public:
-      RenderableEntity(Entity_impl& entity, VertexData& vertexData, const GlobalUniformBuffers& globalUniformBuffers);
+      RenderableEntity(
+         const GlobalUniformBuffers& globalUniformBuffers,
+         Entity_impl& entity,
+         VertexData& vertexData);
       ~RenderableEntity();
+
       RenderableEntity(const RenderableEntity& other) = delete;
       RenderableEntity& operator=(const RenderableEntity &) = delete;
       RenderableEntity(RenderableEntity&& other);

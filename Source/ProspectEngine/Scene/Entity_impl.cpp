@@ -3,7 +3,7 @@
 #include "Scene/Entity_impl.h"
 
 #include "EngineDefines.h"
-#include "Renderer/IRenderable.h"
+#include "Renderer/Renderables/IRenderable.h"
 
 using namespace Prospect;
 using namespace glm;

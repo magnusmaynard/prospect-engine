@@ -29,7 +29,14 @@ void Camera_impl::LookAt(const vec3 eyePosition, const vec3 targetPosition)
 
 void Camera_impl::SetSize(const ivec2& size)
 {
-   m_size = size;
+   if (m_size.x > 0 && m_size.y > 0)
+   {
+      m_size = size;
+   }
+   else
+   {
+      m_size = ivec2(1, 1);
+   }
 
    m_projectionIsDirty = true;
 }
@@ -48,7 +55,7 @@ void Camera_impl::Turn(const vec2 delta)
    m_forward = rotate(m_forward, radians(horizontal), m_up);
 
    //Vertical rotation.
-   vec3 newForward = rotate(m_forward, radians(vertical), GetLeft());
+   vec3 newForward = rotate(m_forward, -radians(vertical), GetLeft());
    float newAngle = degrees(glm::angle(m_up, newForward));
 
    if (newAngle > m_minAngle && newAngle < m_maxAngle)
@@ -97,7 +104,7 @@ vec3 Camera_impl::GetUp() const
 
 vec3 Camera_impl::GetLeft() const
 {
-   return cross(m_forward, m_up);
+   return cross(m_up, m_forward);
 }
 
 void Camera_impl::UpdateViewMatrix() const

@@ -34,11 +34,15 @@ void Renderer::Initialize()
    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
    m_fpsText = std::make_unique<RenderableText>(
-      m_globalUniformBuffers, "", ivec2(2, 2), 18);
+      m_globalUniformBuffers, "", ivec2(4, 0), 12);
+
+   m_atmosphere = std::make_unique<RenderableAtmosphere>(
+      m_globalUniformBuffers);
 }
 
 void Renderer::Render(double time, Scene_impl& scene)
 {
+   //Pre Render
    if(m_showWireframe)
    {
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -50,21 +54,31 @@ void Renderer::Render(double time, Scene_impl& scene)
 
    Clear();
 
-   UpdateUniformBuffer(scene);
+   //Update
+   UpdateGlobalUniformBuffers(scene);
    UpdateRenderableEntities(scene.GetEntityLib());
    UpdateRenderableTerrain(scene);
 
-   //Render all renderables.
-   for (auto& renderable : m_renderableEntities)
+   //Background
+   if (m_atmosphere)
+   {
+      m_atmosphere->Render();
+   }
+
+   ClearDepthBuffer();
+
+   //Foreground
+   for (auto& renderable : m_renderables)
    {
       renderable->Render();
    }
 
-   if (m_renderableTerrain)
+   if (m_terrain)
    {
-      m_renderableTerrain->Render();
+      m_terrain->Render();
    }
 
+   //HUD
    if (m_showFPS)
    {
       m_fpsText->SetScreenSize(scene.GetCamera().GetSize()); //TODO: Pass ortho projection via UniformBuffer
@@ -86,9 +100,9 @@ void Renderer::UpdateRenderableEntities(EntityLibrary& entityLib)
          {
             VertexData& vertexData = GetVertexData(*entity.GetMeshImpl());
 
-            m_renderableEntities.push_back(std::make_unique<RenderableEntity>(entity, vertexData, m_globalUniformBuffers));
+            m_renderables.push_back(std::make_unique<RenderableEntity>(m_globalUniformBuffers, entity, vertexData));
 
-            entity.SetRenderable(m_renderableEntities.back().get());
+            entity.SetRenderable(m_renderables.back().get());
          }
       }
    }
@@ -105,33 +119,44 @@ VertexData& Renderer::GetVertexData(Mesh_impl& mesh)
    return itr->second;
 }
 
-void Renderer::UpdateUniformBuffer(const Scene_impl& scene)
+void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
 {
    const Camera_impl& camera = scene.GetCameraImpl();
 
-   m_globalUniformBuffers.Camera.Update(
-   {
+   m_globalUniformBuffers.Camera.Update(CameraUniforms(
       camera.GetProjectionMatrix(),
-      camera.GetViewMatrix()
-   });
+      camera.GetViewMatrix(),
+      camera.GetPosition(),
+      camera.GetSize()
+   ));
+
+   m_globalUniformBuffers.DirectionalLight.Update(DirectionalLightUniforms(
+      normalize(vec3(0, -0.1, 1.0))
+   ));
 }
 
 void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)
 {
-   if(m_renderableTerrain == nullptr)
+   if(m_terrain == nullptr)
    {
       const Terrain* terrain = scene.GetTerrain();
       if (terrain)
       {
-         m_renderableTerrain = std::make_unique<RenderableTerrain>(*terrain, m_globalUniformBuffers);
+         m_terrain = std::make_unique<RenderableTerrain>(m_globalUniformBuffers, *terrain);
       }
    }
 }
 
-
 void Renderer::Clear()
 {
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+   glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+   ClearDepthBuffer();
+}
+
+void Renderer::ClearDepthBuffer()
+{
+   glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 void Renderer::ShowFPS(bool showFPS)

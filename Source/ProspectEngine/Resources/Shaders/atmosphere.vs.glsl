@@ -1,8 +1,5 @@
 #version 450
 
-uniform mat4 view;
-uniform mat4 projection;
-
 void main()
 {
    const vec4 vertices[6] = vec4[6](

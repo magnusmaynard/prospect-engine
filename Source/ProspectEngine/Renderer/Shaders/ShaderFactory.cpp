@@ -39,16 +39,15 @@ Shader& ShaderFactory::AddShaderIfUnique(Shader& newShader)
       return newShader == existingShader;
    });
 
+
    if (it != m_shaders.end())
    {
+      //Shader already exists.
       return *it;
    }
-   else
-   {
-      newShader.Compile();
 
-      m_shaders.push_back(std::move(newShader));
+   newShader.Compile();
 
-      return m_shaders.back();
-   }
+   m_shaders.push_back(std::move(newShader));
+   return m_shaders.back();
 }

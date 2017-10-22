@@ -6,7 +6,7 @@
 #include "Renderer/Shaders/Shader.h"
 
 #include <glm/mat4x4.hpp>
-#include "Renderer/IRenderable.h"
+#include "Renderer/Renderables/IRenderable.h"
 
 namespace Prospect
 {

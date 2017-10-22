@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Scene\Atmosphere.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Shaders\BaseShader.h">
       <Filter>Renderer\Shaders</Filter>
     </ClInclude>
@@ -90,9 +87,6 @@
     <ClInclude Include="Scene\Material_impl.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\IRenderable.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Renderables\RenderableEntity.h">
       <Filter>Renderer\Renderables</Filter>
     </ClInclude>
@@ -145,12 +139,18 @@
     <ClInclude Include="Renderer\Renderables\RenderableText.h">
       <Filter>Renderer\Renderables</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Renderables\RenderableAtmosphere.h">
+      <Filter>Renderer\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\IRenderable.h">
+      <Filter>Renderer\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Uniforms\UniformBufferBindingsCounter.h">
+      <Filter>Renderer\Uniforms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Scene\Atmosphere.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Shaders\BaseShader.cpp">
       <Filter>Renderer\Shaders</Filter>
     </ClCompile>
@@ -234,9 +234,6 @@
       <Filter>Renderer\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="ProspectEngine_pch.cpp" />
-    <ClCompile Include="Resources\ResourceIO.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="Containers\Bitmap.cpp">
       <Filter>Containers</Filter>
     </ClCompile>
@@ -257,6 +254,15 @@
     </ClCompile>
     <ClCompile Include="Renderer\Renderables\RenderableText.cpp">
       <Filter>Renderer\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\RenderableAtmosphere.cpp">
+      <Filter>Renderer\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Uniforms\UniformBufferBindingsCounter.cpp">
+      <Filter>Renderer\Uniforms</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\ResourceIO.cpp">
+      <Filter>Resources\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

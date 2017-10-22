@@ -11,9 +11,9 @@
 using namespace Prospect;
 
 RenderableEntity::RenderableEntity(
+   const GlobalUniformBuffers& globalUniformBuffers,
    Entity_impl& entity,
-   VertexData& vertexData,
-   const GlobalUniformBuffers& globalUniformBuffers)
+   VertexData& vertexData)
    :
    m_entity(entity),
    m_vertexData(vertexData),

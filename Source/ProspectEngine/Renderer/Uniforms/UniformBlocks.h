@@ -7,8 +7,27 @@ namespace Prospect
 
    struct CameraUniforms
    {
+      CameraUniforms()
+      {
+      }
+
+      CameraUniforms(
+         const glm::mat4& projection,
+         const glm::mat4& view,
+         const glm::vec3 position,
+         const glm::vec2 screenSize)
+         :
+         Projection(projection),
+         View(view),
+         Position(glm::vec4(position, 0)),
+         ScreenSize(screenSize)
+      {
+      }
+
       glm::mat4 Projection;
       glm::mat4 View;
+      glm::vec4 Position;
+      glm::vec2 ScreenSize;
    };
 
    struct NodeUniforms
@@ -34,5 +53,37 @@ namespace Prospect
       glm::ivec4 Edges;
       float Size = 0;
       float Level = 0;
+   };
+
+   struct DirectionalLightUniforms
+   {
+      DirectionalLightUniforms()
+      {
+      }
+
+      DirectionalLightUniforms(
+         glm::vec3 direction)
+         :
+         Direction(glm::vec4(direction, 0))
+      {
+      }
+
+      glm::vec4 Direction;
+   };
+
+   struct AtmosphereUniforms
+   {
+      AtmosphereUniforms()
+      {
+      }
+
+      AtmosphereUniforms(
+         glm::vec3 eyePosition)
+         :
+         EyePosition(glm::vec4(eyePosition, 0))
+      {
+      }
+
+      glm::vec4 EyePosition;
    };
 }

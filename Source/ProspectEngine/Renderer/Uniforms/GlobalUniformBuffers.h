@@ -4,10 +4,12 @@
 
 namespace Prospect
 {
-   typedef UniformBuffer<CameraUniforms, 0> CameraUniformBuffer;
+   typedef UniformBuffer<CameraUniforms> CameraUniformBuffer;
+   typedef UniformBuffer<DirectionalLightUniforms> DirectionalLightBuffer;
 
    struct GlobalUniformBuffers
    {
-      CameraUniformBuffer Camera;
+      CameraUniformBuffer Camera = CameraUniformBuffer(0);
+      DirectionalLightBuffer DirectionalLight = DirectionalLightBuffer(1);
    };
 }

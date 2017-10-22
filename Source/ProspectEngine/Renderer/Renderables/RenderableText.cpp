@@ -21,11 +21,12 @@ RenderableText::RenderableText(
    const glm::ivec2& position,
    int size)
    :
+   m_shader(ShaderFactory::CreateShader(Resources::TEXT_VERTEX_SHADER, Resources::TEXT_FRAGMENT_SHADER)),
    m_text(text),
    m_position(position),
-   m_shader(ShaderFactory::CreateShader(Resources::TEXT_VERTEX_SHADER, Resources::TEXT_FRAGMENT_SHADER)),
    m_textIsDirty(true),
-   m_transformIsDirty(true)
+   m_transformIsDirty(true),
+   m_projectionIsDirty(true)
 {
    globalUniformBuffers.Camera.Bind(m_shader);
 
@@ -290,14 +291,18 @@ void RenderableText::UpdateText()
       originX += glyph->advance.x >> 6;
    }
 }
+
 void RenderableText::UpdateProjectionMatrix()
 {
-   m_projectionIsDirty = false;
+   if (m_projectionIsDirty)
+   {
+      m_projectionIsDirty = false;
 
-   m_projection = ortho(
-      0.f, static_cast<float>(m_screenSize.x),
-      0.f, static_cast<float>(m_screenSize.y),
-      -1.f, 1.f);
+      m_projection = ortho(
+         0.f, static_cast<float>(m_screenSize.x),
+         0.f, static_cast<float>(m_screenSize.y),
+         -1.f, 1.f);
+   }
 }
 
 void RenderableText::UpdateTransformMatrix()
