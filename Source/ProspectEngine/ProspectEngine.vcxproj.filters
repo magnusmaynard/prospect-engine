@@ -115,13 +115,7 @@
     <ClInclude Include="Include\Utilities\IO.h">
       <Filter>Include\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Uniforms\UniformBuffer.h">
-      <Filter>Renderer\Uniforms</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Uniforms\UniformBlocks.h">
-      <Filter>Renderer\Uniforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Uniforms\GlobalUniformBuffers.h">
       <Filter>Renderer\Uniforms</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Terrain\Node.h">
@@ -145,7 +139,13 @@
     <ClInclude Include="Renderer\Renderables\IRenderable.h">
       <Filter>Renderer\Renderables</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Uniforms\UniformBufferBindingsCounter.h">
+    <ClInclude Include="Renderer\Uniforms\GlobalUniformBuffers.h">
+      <Filter>Renderer\Uniforms</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Uniforms\UniformBufferCounter.h">
+      <Filter>Renderer\Uniforms</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Uniforms\UniformBuffer.h">
       <Filter>Renderer\Uniforms</Filter>
     </ClInclude>
   </ItemGroup>
@@ -258,11 +258,11 @@
     <ClCompile Include="Renderer\Renderables\RenderableAtmosphere.cpp">
       <Filter>Renderer\Renderables</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Uniforms\UniformBufferBindingsCounter.cpp">
-      <Filter>Renderer\Uniforms</Filter>
-    </ClCompile>
     <ClCompile Include="Resources\ResourceIO.cpp">
-      <Filter>Resources\Shaders</Filter>
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Uniforms\UniformBufferCounter.cpp">
+      <Filter>Renderer\Uniforms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

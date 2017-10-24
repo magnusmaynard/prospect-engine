@@ -2,7 +2,7 @@
 
 layout (location = 0) in vec3 point;
 
-layout (std140, binding = 0) uniform CameraUniforms
+layout (std140) uniform CameraUniforms
 {
    mat4 Projection;
    mat4 View;
@@ -10,7 +10,7 @@ layout (std140, binding = 0) uniform CameraUniforms
    vec2 ScreenSize;
 } camera;
 
-layout (std140, binding = 4) uniform NodeUniforms //TODO: Automatic binding index.
+layout (std140) uniform NodeUniforms
 {
    vec4 Origin;
    ivec4 Edges;

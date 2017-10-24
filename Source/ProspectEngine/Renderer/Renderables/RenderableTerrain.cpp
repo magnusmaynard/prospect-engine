@@ -25,7 +25,7 @@ RenderableTerrain::RenderableTerrain(
       Resources::TERRAIN_TESSCONTROL_SHADER,
       Resources::TERRAIN_TESSEVALUATION_SHADER,
       Resources::TERRAIN_FRAGMENT_SHADER)),
-   m_nodeUniformBuffer(4)//m_nodeUniformBuffer(m_shader, "NodeUniforms")
+   m_nodeUniformBuffer("NodeUniforms")
 {
    globalUniformBuffers.Camera.Bind(m_shader);
    globalUniformBuffers.DirectionalLight.Bind(m_shader);

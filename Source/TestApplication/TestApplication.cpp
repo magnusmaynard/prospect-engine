@@ -62,8 +62,36 @@ void TestApplication::OnUpdate(double timeElapsed)
    static float counter = 0;
    counter += 0.1f;
 
+   //Update direction.
+   vec3 playerDirection;
+   if (m_playerForward)
+   {
+      playerDirection += m_scene.GetCamera().GetForward();
+   }
+   if (m_playerBackward)
+   {
+      playerDirection -= m_scene.GetCamera().GetForward();
+   }
+   if (m_playerLeft)
+   {
+      playerDirection += m_scene.GetCamera().GetLeft();
+   }
+   if (m_playerRight)
+   {
+      playerDirection -= m_scene.GetCamera().GetLeft();
+   }
+
+   if (length(playerDirection) > m_playerThreshold)
+   {
+      playerDirection = normalize(playerDirection);
+   }
+   else
+   {
+      playerDirection = vec3();
+   }
+
    //Apply direction.
-   m_playerMomentum += m_playerDirection * m_playerSpeed * static_cast<float>(timeElapsed);
+   m_playerMomentum += playerDirection * m_playerSpeed * static_cast<float>(timeElapsed);
 
    //Apply friction.
    if (length(m_playerMomentum) > m_playerThreshold)
@@ -136,8 +164,6 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
          break;
       }
    }
-
-   UpdatePlayerDirection();
 }
 
 void TestApplication::OnKeyUp(const Key& key, const KeyModifier& modifier)
@@ -169,8 +195,6 @@ void TestApplication::OnKeyUp(const Key& key, const KeyModifier& modifier)
          break;
       }
    }
-
-   UpdatePlayerDirection();
 }
 
 void TestApplication::OnMouseMove(const glm::vec2& oldPosition, const glm::vec2& newPosition)
@@ -179,35 +203,4 @@ void TestApplication::OnMouseMove(const glm::vec2& oldPosition, const glm::vec2&
 
 void TestApplication::OnShutdown()
 {
-}
-
-void TestApplication::UpdatePlayerDirection()
-{
-   vec3 playerDirection;
-
-   if (m_playerForward)
-   {
-      playerDirection += m_scene.GetCamera().GetForward();
-   }
-   if (m_playerBackward)
-   {
-      playerDirection -= m_scene.GetCamera().GetForward();
-   }
-   if (m_playerLeft)
-   {
-      playerDirection += m_scene.GetCamera().GetLeft();
-   }
-   if (m_playerRight)
-   {
-      playerDirection -= m_scene.GetCamera().GetLeft();
-   }
-
-   if (length(playerDirection) > m_playerThreshold)
-   {
-      m_playerDirection = normalize(playerDirection);
-   }
-   else
-   {
-      m_playerDirection = vec3();
-   }
 }

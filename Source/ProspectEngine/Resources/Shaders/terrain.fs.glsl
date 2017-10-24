@@ -5,12 +5,12 @@ layout (binding = 0) uniform sampler2D textureHeight;
 uniform float minHeight;
 uniform float maxHeight;
 
-layout (std140, binding = 1) uniform DirectionalLightUniforms
+layout (std140) uniform DirectionalLightUniforms
 {
    vec4 Direction;
 } light;
 
-layout (std140, binding = 4) uniform NodeUniforms //TODO: Automatic binding index.
+layout (std140) uniform NodeUniforms //TODO: Automatic binding index.
 {
    vec4 Origin;
    ivec4 Edges;

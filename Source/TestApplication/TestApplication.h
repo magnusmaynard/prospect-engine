@@ -27,8 +27,6 @@ public:
    void OnKeyUp(const Key& key, const KeyModifier& modifier) override;
    void OnMouseMove(const glm::vec2& oldPosition, const glm::vec2& newPosition) override;
 
-   void UpdatePlayerDirection();
-
 private:
    Engine m_engine;
    Scene& m_scene;
@@ -39,6 +37,5 @@ private:
    const float m_playerFriction = 0.25;
    const float m_playerSpeed = 0.01;
    glm::vec3 m_playerMomentum;
-   glm::vec3 m_playerDirection;
    bool m_playerLeft = false, m_playerRight = false, m_playerForward = false, m_playerBackward = false;
 };

@@ -21,6 +21,6 @@ namespace Prospect
 
       glm::vec3 m_eyePosition;
 
-      //UniformBuffer<AtmosphereUniforms> m_atmosphereUniformBuffer;
+      UniformBuffer<AtmosphereUniforms> m_atmosphereUniformBuffer;
    };
 }

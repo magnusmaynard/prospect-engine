@@ -9,18 +9,19 @@ using namespace Prospect;
 
 RenderableAtmosphere::RenderableAtmosphere(const GlobalUniformBuffers& globalUniformBuffers)
    :
-   m_shader(ShaderFactory::CreateShader(Resources::ATMOSPHERE_VERTEX_SHADER, Resources::ATMOSPHERE_FRAGMENT_SHADER)),
-   m_eyePosition(glm::vec3(0, 1500.1, 0))
-   //m_atmosphereUniformBuffer(m_shader, "AtmosphereUniforms")
+   m_shader(ShaderFactory::CreateShader(
+      Resources::ATMOSPHERE_VERTEX_SHADER,
+      Resources::ATMOSPHERE_FRAGMENT_SHADER)),
+   m_eyePosition(glm::vec3(0, 1500.1, 0)),
+   m_atmosphereUniformBuffer("AtmosphereUniforms")
 {
    globalUniformBuffers.Camera.Bind(m_shader);
    globalUniformBuffers.DirectionalLight.Bind(m_shader);
+   m_atmosphereUniformBuffer.Bind(m_shader);
 
-   //m_atmosphereUniformBuffer.Bind(m_shader);
-
-   //m_atmosphereUniformBuffer.Update(AtmosphereUniforms(
-   //   m_eyePosition
-   //));
+   m_atmosphereUniformBuffer.Update(AtmosphereUniforms(
+      m_eyePosition
+   ));
 }
 
 RenderableAtmosphere::~RenderableAtmosphere()

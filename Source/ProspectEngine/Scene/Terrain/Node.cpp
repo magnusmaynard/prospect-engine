@@ -28,7 +28,7 @@ void Node::Update(const glm::vec3& cameraPosition, std::vector<Node*>& endNodes)
    float distance = length(m_origin - cameraPosition);
 
    if (m_level < MAX_LEVEL &&
-      distance < m_size * 2.0)
+      distance < m_size * DIVISION_THRESHOLD)
    {
       Divide();
 

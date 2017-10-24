@@ -4,7 +4,7 @@
 //http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter16.html
 
 //Global Uniforms
-layout (std140, binding = 0) uniform CameraUniforms
+layout (std140) uniform CameraUniforms
 {
    mat4 Projection;
    mat4 View;
@@ -12,16 +12,16 @@ layout (std140, binding = 0) uniform CameraUniforms
    vec2 ScreenSize;
 } camera;
 
-layout (std140, binding = 1) uniform DirectionalLightUniforms
+layout (std140) uniform DirectionalLightUniforms
 {
    vec4 Direction;
 } light;
 
-////Local Uniforms
-//layout (std140, binding = 2) uniform AtmosphereUniforms //TODO: Dont use binding.
-//{
-//   vec4 EyePosition;
-//} atmosphere;
+//Local Uniforms
+layout (std140) uniform AtmosphereUniforms //TODO: Dont use binding.
+{
+   vec4 EyePosition;
+} atmosphere;
 
 //Output
 out vec4 color;
@@ -197,7 +197,7 @@ vec3 InScattering(vec3 ray, vec3 near, vec3 far)
 
 void main()
 {
-   vec3 eyePosition = vec3(0, 1500.1, 0);// atmosphere.EyePosition.xyz;
+   vec3 eyePosition = atmosphere.EyePosition.xyz;//vec3(0, 1500.1, 0);// atmosphere.EyePosition.xyz;
    vec3 ray = RayFromCamera(gl_FragCoord.xy);
 
    vec2 nearFar = vec2(0, 0);

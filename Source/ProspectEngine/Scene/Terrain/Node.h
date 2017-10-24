@@ -35,8 +35,9 @@ namespace Prospect
 
       static const int NUMBER_OF_EDGES = 4;
       static const int NUMBER_OF_CHILDREN = 4;
-      static const int MAX_LEVEL = 8;
+      static const int MAX_LEVEL = 6;
       static const int NUMBER_OF_LEVELS = MAX_LEVEL + 1;
+      static const int DIVISION_THRESHOLD = 10;
 
       Node* m_parent;
       int m_index;

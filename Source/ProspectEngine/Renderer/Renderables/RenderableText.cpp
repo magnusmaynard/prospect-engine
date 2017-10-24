@@ -28,7 +28,7 @@ RenderableText::RenderableText(
    m_transformIsDirty(true),
    m_projectionIsDirty(true)
 {
-   globalUniformBuffers.Camera.Bind(m_shader);
+   //globalUniformBuffers.Camera.Bind(m_shader);
 
    InitialiseFont(size);
 
