@@ -18,9 +18,9 @@ layout (std140) uniform DirectionalLightUniforms
 } light;
 
 //Local Uniforms
-layout (std140) uniform AtmosphereUniforms //TODO: Dont use binding.
+layout (std140) uniform AtmosphereUniforms
 {
-   vec4 EyePosition;
+   float Altitude;
 } atmosphere;
 
 //Output
@@ -35,9 +35,9 @@ const float SCALE_HEIGHT = 0.25; //Height of average density of atmosphere.
 const float SCALE = 1.0 / (EARTH_OUTTER_RADIUS - EARTH_INNER_RADIUS);
 
 const int IN_SCATTER_SAMPLES = 10;
-const float IN_SCATTER_SAMPLES_F = 10.0f;
+const float IN_SCATTER_SAMPLES_F = IN_SCATTER_SAMPLES;
 const int OUT_SCATTER_SAMPLES = 10;
-const float OUT_SCATTER_SAMPLES_F =10.0f;
+const float OUT_SCATTER_SAMPLES_F = OUT_SCATTER_SAMPLES;
 
 //Scattering Constants.
 const float G_MIE = -0.85;
@@ -197,7 +197,7 @@ vec3 InScattering(vec3 ray, vec3 near, vec3 far)
 
 void main()
 {
-   vec3 eyePosition = atmosphere.EyePosition.xyz;//vec3(0, 1500.1, 0);// atmosphere.EyePosition.xyz;
+   vec3 eyePosition = vec3(0, atmosphere.Altitude, 0);
    vec3 ray = RayFromCamera(gl_FragCoord.xy);
 
    vec2 nearFar = vec2(0, 0);

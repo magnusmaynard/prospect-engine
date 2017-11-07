@@ -2,9 +2,11 @@
 #include "Include/Camera.h"
 #include "Include/Scene.h"
 #include "Include/Entity.h"
+#include "Include/Atmosphere.h"
+#include "Include/Lights/Light.h"
+#include "Include/Terrain.h"
 
 #include "Libraries/EntityLibrary.h"
-#include "Scene/Terrain/Terrain.h"
 
 namespace Prospect
 {
@@ -17,20 +19,25 @@ namespace Prospect
       Scene_impl(Scene& parent);
 
       //Public
-      Camera& GetCamera();
-      const Camera& GetCamera() const;
+      void Add(Terrain& terrain);
+
+      std::optional<Terrain> GetTerrain();
 
       Entity& AddEntity(Mesh* mesh, Material* material);
       Entity& GetEntity(const int index);
 
-      void CreateTerrain(
-         const glm::vec3& origin,
-         const Bitmap& heightMap,
-         float size,
-         float minHeight,
-         float maxHeight);
+      Camera& GetCamera();
+      const Camera& GetCamera() const;
 
-      void CreateAtmosphere();
+      Light& AddLight(
+         const glm::vec3& position,
+         const glm::vec3& direction);
+      Light& GetLight(const int index);
+
+      Atmosphere* GetAtmosphere();
+      const Atmosphere* GetAtmosphere() const;
+
+      Atmosphere& CreateAtmosphere();
 
       //Internal
       void Update(double time);
@@ -40,13 +47,16 @@ namespace Prospect
       Camera_impl& GetCameraImpl();
       const Camera_impl& GetCameraImpl() const;
 
-      const Terrain* GetTerrain() const;
+      Terrain_impl* GetTerrainImpl();
+      const Terrain_impl* GetTerrainImpl() const;
 
    private:
       Scene& m_parent;
 
       Camera m_camera;
-      std::unique_ptr<Terrain> m_terrain;
+      std::shared_ptr<Terrain_impl> m_terrain;
+      std::unique_ptr<Atmosphere> m_atmosphere;
+      std::deque<Light> m_lights;
 
       EntityLibrary m_entityLib;
       Entity* m_rootEntity;

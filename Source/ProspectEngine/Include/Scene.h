@@ -1,34 +1,40 @@
 #pragma once
 
 #include <memory>
+#include <optional> //TODO: Why are these needed?
 
 namespace Prospect
 {
    class Scene_impl;
 
+   class Terrain;
    class Mesh;
    class Material;
    class Entity;
    class Camera;
    struct Bitmap;
+   class Atmosphere;
+   class Light;
 
    class Scene
    {
    public:
+      void Add(Terrain& terrain);
+
+      std::optional<Terrain> GetTerrain();
+
       Entity& AddEntity(Mesh* mesh, Material* material);
       Entity& GetEntity(const int index);
 
       const Camera& GetCamera() const;
       Camera& GetCamera();
 
-      void CreateTerrain(
-         const glm::vec3& origin,
-         const Bitmap& heightMap,
-         float size,
-         float minHeight,
-         float maxHeight);
+      Light& AddLight(
+         const glm::vec3& position,
+         const glm::vec3& direction);
+      Light& GetLight(const int index);
 
-      void CreateAtmosphere();
+      Atmosphere& CreateAtmosphere();
 
    private:
       std::unique_ptr<Scene_impl> m_impl;

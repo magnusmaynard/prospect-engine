@@ -8,6 +8,7 @@
 #include <memory>
 #include <algorithm>
 #include <iostream>
+#include <optional>
 
 #define GLEW_STATIC
 #include <GL/glew.h>

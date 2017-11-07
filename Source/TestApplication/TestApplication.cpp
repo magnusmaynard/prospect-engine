@@ -10,8 +10,12 @@
 #include "Camera.h"
 #include "Bitmap.h"
 #include "Utilities/IO.h"
+#include "Atmosphere.h"
+//#include "Lights/Light.h"
+#include "Terrain.h";
 
 using namespace glm;
+using namespace Prospect;
 
 TestApplication::TestApplication()
    :
@@ -30,17 +34,27 @@ void TestApplication::OnStartup()
 
    m_scene.GetCamera().LookAt(vec3(0, 10, 50), vec3(0, 0, 0));
 
-   Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\bagstone2.bmp");
+   const Bitmap heightMap =
+      IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\bagstone2.bmp");
 
-   m_scene.CreateTerrain(
-      vec3(),
-      heightMap,
-      800,
-      0,
-      50);
+   Terrain terrain(vec3(), heightMap, 800, 0, 50);
 
+   m_scene.Add(terrain);
 
-   //m_scene.CreateAtmosphere();
+   auto temp = m_scene.GetTerrain();
+
+   //Light& sun = m_scene.AddLight(vec3(0, 0, 0), vec3(0, -1, 0));
+
+   //Atmosphere atmosphere();
+
+   //m_scene.Add(atmosphere);
+
+   //auto& atmosphere = m_scene.CreateAtmosphere();
+   //atmosphere.SetAltitude(1550);
+   //atmosphere.SetLightSource(sun);
+
+   //Light sun(vec3(0, 0, 0), vec3(0, -1, 0));
+   //m_scene.Add(sun);
 
    //Material& grass = m_materialLib.CreateMaterial(Color(0.1f, 0.6f, 0.1f));
    //Material& matRed = m_materialLib.CreateMaterial(Color(1, 0.2f, 0.2f));

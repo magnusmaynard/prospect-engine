@@ -44,6 +44,7 @@ namespace Prospect
       void UpdateRenderableEntities(EntityLibrary& entityLib);
       void UpdateGlobalUniformBuffers(const Scene_impl& scene);
       void UpdateRenderableTerrain(const Scene_impl& scene);
+      void UpdateRenderableAtmosphere(const Scene_impl& scene);
 
       VertexData& GetVertexData(Mesh_impl& mesh);
 

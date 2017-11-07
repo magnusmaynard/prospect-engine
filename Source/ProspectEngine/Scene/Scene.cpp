@@ -13,6 +13,16 @@ Scene::Scene()
 
 Scene::~Scene() = default;
 
+void Scene::Add(Terrain& terrain)
+{
+   m_impl->Add(terrain);
+}
+
+std::optional<Terrain> Scene::GetTerrain()
+{
+   return m_impl->GetTerrain();
+}
+
 Entity& Scene::AddEntity(Mesh* mesh, Material* material)
 {
    return m_impl->AddEntity(mesh, material);
@@ -33,22 +43,19 @@ Camera& Scene::GetCamera()
    return m_impl->GetCamera();
 }
 
-void Scene::CreateTerrain(
-   const glm::vec3& origin,
-   const Bitmap& heightMap,
-   float size,
-   float minHeight,
-   float maxHeight)
+Light& Scene::AddLight(
+   const glm::vec3& position,
+   const glm::vec3& direction)
 {
-   m_impl->CreateTerrain(
-      origin,
-      heightMap,
-      size,
-      minHeight,
-      maxHeight);
+   return m_impl->AddLight(position, direction);
 }
 
-void Scene::CreateAtmosphere()
+Light& Scene::GetLight(const int index)
 {
-   m_impl->CreateAtmosphere();
+   return m_impl->GetLight(index);
+}
+
+Atmosphere& Scene::CreateAtmosphere()
+{
+   return m_impl->CreateAtmosphere();
 }

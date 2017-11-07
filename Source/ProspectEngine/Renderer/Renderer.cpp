@@ -35,9 +35,6 @@ void Renderer::Initialize()
 
    m_fpsText = std::make_unique<RenderableText>(
       m_globalUniformBuffers, "", ivec2(4, 0), 12);
-
-   m_atmosphere = std::make_unique<RenderableAtmosphere>(
-      m_globalUniformBuffers);
 }
 
 void Renderer::Render(double time, Scene_impl& scene)
@@ -58,6 +55,7 @@ void Renderer::Render(double time, Scene_impl& scene)
    UpdateGlobalUniformBuffers(scene);
    UpdateRenderableEntities(scene.GetEntityLib());
    UpdateRenderableTerrain(scene);
+   UpdateRenderableAtmosphere(scene);
 
    //Background
    if (m_atmosphere)
@@ -130,8 +128,11 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
       camera.GetSize()
    ));
 
+   static double counter = 0; //TODO: Making lighting configurable.
+   counter += 0.01;
+
    m_globalUniformBuffers.DirectionalLight.Update(DirectionalLightUniforms(
-      normalize(vec3(0, -0.1, 1.0))
+      normalize(vec3(0, sin(counter), cos(counter)))
    ));
 }
 
@@ -139,10 +140,22 @@ void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)
 {
    if(m_terrain == nullptr)
    {
-      const Terrain* terrain = scene.GetTerrain();
+      const Terrain_impl* terrain = scene.GetTerrainImpl();
       if (terrain)
       {
          m_terrain = std::make_unique<RenderableTerrain>(m_globalUniformBuffers, *terrain);
+      }
+   }
+}
+
+void Renderer::UpdateRenderableAtmosphere(const Scene_impl& scene)
+{
+   if (m_atmosphere == nullptr)
+   {
+      const Atmosphere* atmosphere = scene.GetAtmosphere();
+      if (atmosphere)
+      {
+         m_atmosphere = std::make_unique<RenderableAtmosphere>(m_globalUniformBuffers, *atmosphere);
       }
    }
 }

@@ -2,7 +2,7 @@
 #include "Renderer/Shaders/Shader.h"
 #include "Include/Bitmap.h"
 #include "Renderer/Uniforms/UniformBlocks.h"
-#include "Scene/Terrain/Terrain.h"
+#include "Scene/Terrain/Terrain_impl.h"
 #include "Renderer/Uniforms/UniformBuffer.h"
 
 namespace Prospect
@@ -15,7 +15,7 @@ namespace Prospect
    public:
       RenderableTerrain(
          const GlobalUniformBuffers& globalUniformBuffers,
-         const Terrain& terrain);
+         const Terrain_impl& terrain);
       ~RenderableTerrain();
 
       void Render();
@@ -23,7 +23,7 @@ namespace Prospect
    private:
       void ConstructHeightMapTexture();
 
-      const Terrain& m_terrain;
+      const Terrain_impl& m_terrain;
 
       Shader& m_shader;
 

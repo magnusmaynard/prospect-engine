@@ -2,7 +2,7 @@
 
 layout (vertices = 4) out;
 
-layout (std140) uniform NodeUniforms //TODO: Automatic binding index.
+layout (std140) uniform NodeUniforms
 {
    vec4 Origin; //xyz
    ivec4 Edges;

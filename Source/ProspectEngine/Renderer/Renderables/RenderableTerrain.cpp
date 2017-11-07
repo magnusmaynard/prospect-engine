@@ -17,7 +17,7 @@ using namespace glm;
 
 RenderableTerrain::RenderableTerrain(
    const GlobalUniformBuffers& globalUniformBuffers,
-   const Terrain& terrain)
+   const Terrain_impl& terrain)
    :
    m_terrain(terrain),
    m_shader(ShaderFactory::CreateShader(

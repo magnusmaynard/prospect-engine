@@ -73,17 +73,6 @@ namespace Prospect
 
    struct AtmosphereUniforms
    {
-      AtmosphereUniforms()
-      {
-      }
-
-      AtmosphereUniforms(
-         glm::vec3 eyePosition)
-         :
-         EyePosition(glm::vec4(eyePosition, 0))
-      {
-      }
-
-      glm::vec4 EyePosition;
+      float Altitude;
    };
 }

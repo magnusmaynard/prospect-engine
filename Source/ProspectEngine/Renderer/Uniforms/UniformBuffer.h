@@ -19,6 +19,11 @@ namespace Prospect
          glBindBufferBase(GL_UNIFORM_BUFFER, m_bindingIndex, m_buffer);
       }
 
+      ~UniformBuffer()
+      {
+         glDeleteBuffers(1, &m_buffer);
+      }
+
       void Bind(const Shader& shader) const
       {
          GLuint blockIndex = glGetUniformBlockIndex(shader.GetProgram(), m_name.c_str());

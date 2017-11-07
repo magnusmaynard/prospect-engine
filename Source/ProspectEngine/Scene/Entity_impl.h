@@ -18,9 +18,11 @@ namespace Prospect
       //Public
       void SetMesh(Mesh& mesh);
       Mesh* GetMesh();
+      const Mesh* GetMesh() const;
 
       void SetMaterial(Material& material);
       Material* GetMaterial();
+      const Material* GetMaterial() const;
 
       unsigned long GetID() const;
 

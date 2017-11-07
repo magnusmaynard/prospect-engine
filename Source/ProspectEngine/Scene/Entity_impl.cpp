@@ -41,7 +41,17 @@ Mesh* Entity_impl::GetMesh()
    return m_mesh;
 }
 
+const Mesh* Entity_impl::GetMesh() const
+{
+   return m_mesh;
+}
+
 Material* Entity_impl::GetMaterial()
+{
+   return m_material;
+}
+
+const Material* Entity_impl::GetMaterial() const
 {
    return m_material;
 }
@@ -134,7 +144,7 @@ void Entity_impl::UpdateLocalTransform()
 
 Entity& Entity_impl::GetEntityAtIndex(unsigned int index)
 {
-   if(index < 0 || index >= static_cast<int>(m_childNodes.size()))
+   if (index < 0 || index >= static_cast<int>(m_childNodes.size()))
    {
       throw std::exception("No Entity at index.");
    }
@@ -144,7 +154,7 @@ Entity& Entity_impl::GetEntityAtIndex(unsigned int index)
 
 Mesh_impl* Entity_impl::GetMeshImpl()
 {
-   if(m_mesh == nullptr)
+   if (m_mesh == nullptr)
    {
       return nullptr;
    }

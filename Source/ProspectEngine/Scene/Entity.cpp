@@ -37,10 +37,21 @@ Mesh* Entity::GetMesh()
    return m_impl->GetMesh();
 }
 
+const Mesh* Entity::GetMesh() const
+{
+   return m_impl->GetMesh();
+}
+
 Material* Entity::GetMaterial()
 {
    return m_impl->GetMaterial();
 }
+
+const Material* Entity::GetMaterial() const
+{
+   return m_impl->GetMaterial();
+}
+
 
 void Entity::SetTranslation(const glm::vec3& translation)
 {

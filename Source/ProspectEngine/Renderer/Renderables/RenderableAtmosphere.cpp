@@ -5,23 +5,27 @@
 #include "Renderer/Shaders/ShaderFactory.h"
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
 
+#include "Include/Atmosphere.h"
+
 using namespace Prospect;
 
-RenderableAtmosphere::RenderableAtmosphere(const GlobalUniformBuffers& globalUniformBuffers)
+RenderableAtmosphere::RenderableAtmosphere(
+   const GlobalUniformBuffers& globalUniformBuffers,
+   const Atmosphere& atmosphere)
    :
+   m_atmosphereUniformBuffer("AtmosphereUniforms"),
+   m_atmosphere(atmosphere),
    m_shader(ShaderFactory::CreateShader(
       Resources::ATMOSPHERE_VERTEX_SHADER,
-      Resources::ATMOSPHERE_FRAGMENT_SHADER)),
-   m_eyePosition(glm::vec3(0, 1500.1, 0)),
-   m_atmosphereUniformBuffer("AtmosphereUniforms")
+      Resources::ATMOSPHERE_FRAGMENT_SHADER))
 {
    globalUniformBuffers.Camera.Bind(m_shader);
    globalUniformBuffers.DirectionalLight.Bind(m_shader);
    m_atmosphereUniformBuffer.Bind(m_shader);
 
-   m_atmosphereUniformBuffer.Update(AtmosphereUniforms(
-      m_eyePosition
-   ));
+   m_atmosphereUniformBuffer.Update({
+      m_atmosphere.GetAltitude()
+   });
 }
 
 RenderableAtmosphere::~RenderableAtmosphere()

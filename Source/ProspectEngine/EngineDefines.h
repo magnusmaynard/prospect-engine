@@ -31,4 +31,7 @@ namespace Prospect
    static const float DEFAULT_CAMERA_MIN_ANGLE = 20.f;
    static const float DEFAULT_CAMERA_MAX_ANGLE = 160.f;
    static const float DEFAULT_CAMERA_SENSITIVITY = 0.2f;
+
+   static const Color DEFAULT_LIGHT_COLOR(1, 1, 1);
+   static const float DEFAULT_LIGHT_BRIGHTNESS = 1.f;
 }

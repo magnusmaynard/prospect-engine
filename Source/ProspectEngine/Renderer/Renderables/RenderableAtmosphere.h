@@ -6,21 +6,24 @@
 
 namespace Prospect
 {
+   class Atmosphere;
    struct GlobalUniformBuffers;
 
    class RenderableAtmosphere : public IRenderable
    {
    public:
-      RenderableAtmosphere(const GlobalUniformBuffers& globalUniformBuffers);
+      RenderableAtmosphere(const GlobalUniformBuffers& globalUniformBuffers, const Atmosphere& atmosphere);
       ~RenderableAtmosphere();
 
       void Render() override;
 
    private:
+      UniformBuffer<AtmosphereUniforms> m_atmosphereUniformBuffer;
+      const Atmosphere& m_atmosphere;
+
       Shader& m_shader;
 
       glm::vec3 m_eyePosition;
 
-      UniformBuffer<AtmosphereUniforms> m_atmosphereUniformBuffer;
    };
 }
