@@ -6,7 +6,7 @@
 #include "Include/Lights/Light.h"
 #include "Include/Terrain.h"
 
-#include "Libraries/EntityLibrary.h"
+#include "Scene/Entity_impl.h"
 
 namespace Prospect
 {
@@ -20,11 +20,10 @@ namespace Prospect
 
       //Public
       void Add(Terrain& terrain);
-
       std::optional<Terrain> GetTerrain();
 
-      Entity& AddEntity(Mesh* mesh, Material* material);
-      Entity& GetEntity(const int index);
+      void Add(Entity& entity);
+      Entity GetEntity(const int index);
 
       Camera& GetCamera();
       const Camera& GetCamera() const;
@@ -41,8 +40,7 @@ namespace Prospect
 
       //Internal
       void Update(double time);
-      Entity* GetRootEntity();
-      EntityLibrary& GetEntityLib();
+      Entity_impl& GetRootEntity();
 
       Camera_impl& GetCameraImpl();
       const Camera_impl& GetCameraImpl() const;
@@ -58,7 +56,6 @@ namespace Prospect
       std::unique_ptr<Atmosphere> m_atmosphere;
       std::deque<Light> m_lights;
 
-      EntityLibrary m_entityLib;
-      Entity* m_rootEntity;
+      Entity_impl m_rootEntity;
    };
 }

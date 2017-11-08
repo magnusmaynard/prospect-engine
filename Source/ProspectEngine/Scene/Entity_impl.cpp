@@ -8,22 +8,37 @@
 using namespace Prospect;
 using namespace glm;
 
-Entity_impl::Entity_impl(
-   Entity& parent,
-   EntityLibrary& entityLib,
-   unsigned int id,
-   Entity* parentNode,
-   Mesh* mesh,
-   Material* material)
+unsigned long Entity_impl::m_nextEntityID = 0;
+
+Entity_impl::Entity_impl(Mesh& mesh, Material& material)
    :
-   m_parent(parent),
-   m_entityLib(entityLib),
-   m_id(id),
-   m_parentNode(parentNode),
-   m_mesh(mesh),
-   m_material(material),
+   m_id(m_nextEntityID++),
+   m_mesh(&mesh),
+   m_material(&material),
+   m_parent(nullptr),
    m_renderable(nullptr)
 {
+}
+
+
+Entity_impl::Entity_impl()
+   :
+   m_id(m_nextEntityID++),
+   m_mesh(nullptr),
+   m_material(nullptr),
+   m_parent(nullptr),
+   m_renderable(nullptr)
+{
+}
+
+void Entity_impl::SetParent(Entity_impl& parent)
+{
+   m_parent = &parent;
+}
+
+std::vector<std::shared_ptr<Entity_impl>>& Entity_impl::GetChildren()
+{
+   return m_children;
 }
 
 void Entity_impl::SetMesh(Mesh& mesh)
@@ -97,18 +112,28 @@ const vec3& Entity_impl::GetScale() const
    return m_scale;
 }
 
-Entity& Entity_impl::AddEntity(Mesh* mesh, Material* material)
+void Entity_impl::MarkParentAsDirty()
 {
-   Entity& childNode = m_entityLib.AddEntity(&m_parent, mesh, material);
+   m_childEntityAdded = true;
 
-   m_childNodes.push_back(&childNode);
+   if (m_parent)
+   {
+      m_parent->MarkParentAsDirty();
+   }
+}
 
-   return childNode;
+void Entity_impl::Add(Entity& entity)
+{
+   entity.m_impl->SetParent(*this);
+
+   m_children.push_back(entity.m_impl);
+
+   MarkParentAsDirty();
 }
 
 void Entity_impl::UpdateTransform(const mat4& transform, const bool isParentDirty)
 {
-   bool childrenDirty = false;
+   bool isChildTransformDirty = false;
 
    if (m_isTransformDirty || isParentDirty)
    {
@@ -116,13 +141,13 @@ void Entity_impl::UpdateTransform(const mat4& transform, const bool isParentDirt
 
       m_transform = transform * m_localTransform;
 
-      childrenDirty = true;
+      isChildTransformDirty = true;
       m_isTransformDirty = false;
    }
 
-   for (auto& child : m_childNodes)
+   for (auto& child : m_children)
    {
-      child->m_impl->UpdateTransform(m_transform, childrenDirty);
+      child->UpdateTransform(m_transform, isChildTransformDirty);
    }
 }
 
@@ -142,14 +167,14 @@ void Entity_impl::UpdateLocalTransform()
    m_localTransform = scale(m_localTransform, m_scale);
 }
 
-Entity& Entity_impl::GetEntityAtIndex(unsigned int index)
+Entity Entity_impl::GetEntity(unsigned int index)
 {
-   if (index < 0 || index >= static_cast<int>(m_childNodes.size()))
+   if (index < 0 || index >= static_cast<int>(m_children.size()))
    {
       throw std::exception("No Entity at index.");
    }
 
-   return *m_childNodes[index];
+   return Entity(m_children[index]);
 }
 
 Mesh_impl* Entity_impl::GetMeshImpl()
@@ -162,7 +187,6 @@ Mesh_impl* Entity_impl::GetMeshImpl()
    return m_mesh->m_impl.get();
 }
 
-
 IRenderable* Entity_impl::GetRenderable()
 {
    return m_renderable;
@@ -171,4 +195,14 @@ IRenderable* Entity_impl::GetRenderable()
 void Entity_impl::SetRenderable(IRenderable* renderable)
 {
    m_renderable = renderable;
+}
+
+bool Entity_impl::ChildEntityAdded() const
+{
+   return m_childEntityAdded;
+}
+
+void Entity_impl::ResetChildEntityAdded()
+{
+   m_childEntityAdded = false;
 }

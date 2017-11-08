@@ -21,9 +21,9 @@ Terrain::Terrain(
 {
 }
 
-Terrain::Terrain(std::shared_ptr<Terrain_impl> impl)
+Terrain::Terrain(std::shared_ptr<Terrain_impl>& impl)
    :
-   m_impl(impl) //TODO: Need to provide a copy constructor?
+   m_impl(impl)
 {
 }
 

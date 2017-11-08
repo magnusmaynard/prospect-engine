@@ -7,7 +7,6 @@
 #include "Renderer/Renderables/RenderableEntity.h"
 #include "Renderer/Renderables/RenderableTerrain.h"
 #include "Renderer/Renderables/RenderableText.h"
-#include "Libraries/EntityLibrary.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -53,7 +52,7 @@ void Renderer::Render(double time, Scene_impl& scene)
 
    //Update
    UpdateGlobalUniformBuffers(scene);
-   UpdateRenderableEntities(scene.GetEntityLib());
+   UpdateRenderableEntity(scene.GetRootEntity());
    UpdateRenderableTerrain(scene);
    UpdateRenderableAtmosphere(scene);
 
@@ -86,23 +85,29 @@ void Renderer::Render(double time, Scene_impl& scene)
    }
 }
 
-void Renderer::UpdateRenderableEntities(EntityLibrary& entityLib)
+
+void Renderer::UpdateRenderableEntity(Entity_impl& entity)
 {
-   for (int i = 0; i < entityLib.Count(); ++i)
+   if (entity.ChildEntityAdded())
    {
-      Entity_impl& entity = *entityLib[i].m_impl;
-
-      if (entity.GetMesh() != nullptr && entity.GetMaterial() != nullptr)
+      if (entity.GetRenderable() == nullptr &&
+         entity.GetMesh() != nullptr &&
+         entity.GetMaterial() != nullptr)
       {
-         if(entity.GetRenderable() == nullptr)
-         {
-            VertexData& vertexData = GetVertexData(*entity.GetMeshImpl());
+         VertexData& vertexData = GetVertexData(*entity.GetMeshImpl());
 
-            m_renderables.push_back(std::make_unique<RenderableEntity>(m_globalUniformBuffers, entity, vertexData));
+         m_renderables.push_back(std::make_unique<RenderableEntity>(m_globalUniformBuffers, entity, vertexData));
 
-            entity.SetRenderable(m_renderables.back().get());
-         }
+         entity.SetRenderable(m_renderables.back().get());
       }
+
+      auto& children = entity.GetChildren();
+      for (auto& child : children)
+      {
+         UpdateRenderableEntity(*child.get());
+      }
+
+      entity.ResetChildEntityAdded();
    }
 }
 

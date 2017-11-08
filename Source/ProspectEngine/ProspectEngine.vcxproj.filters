@@ -78,9 +78,6 @@
     <ClInclude Include="Include\Entity.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="Libraries\EntityLibrary.h">
-      <Filter>Libraries</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Mesh_impl.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -222,9 +219,6 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\MaterialLibrary_impl.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="Libraries\EntityLibrary.cpp">
       <Filter>Libraries</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Mesh_impl.cpp">

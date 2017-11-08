@@ -20,11 +20,10 @@ namespace Prospect
    {
    public:
       void Add(Terrain& terrain);
-
       std::optional<Terrain> GetTerrain();
 
-      Entity& AddEntity(Mesh* mesh, Material* material);
-      Entity& GetEntity(const int index);
+      void Add(Entity& entity);
+      Entity GetEntity(const int index);
 
       const Camera& GetCamera() const;
       Camera& GetCamera();

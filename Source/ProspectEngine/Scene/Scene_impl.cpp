@@ -3,7 +3,6 @@
 #include "Scene/Scene_impl.h"
 
 #include "EngineDefines.h"
-#include "Scene/Entity_impl.h"
 #include "Scene/Terrain/Terrain_impl.h"
 
 using namespace Prospect;
@@ -14,7 +13,6 @@ Scene_impl::Scene_impl(Scene& parent)
    m_parent(parent),
    m_camera(DEFAULT_CAMERA_SIZE)
 {
-   m_rootEntity = &m_entityLib.AddEntity(nullptr, nullptr, nullptr);
 }
 
 void Scene_impl::Add(Terrain& terrain)
@@ -66,14 +64,14 @@ const Atmosphere* Scene_impl::GetAtmosphere() const
    return m_atmosphere.get();
 }
 
-Entity& Scene_impl::AddEntity(Mesh* mesh, Material* material)
+void Scene_impl::Add(Entity& entity)
 {
-   return m_rootEntity->AddEntity(mesh, material);
+   m_rootEntity.Add(entity);
 }
 
-Entity& Scene_impl::GetEntity(const int index)
+Entity Scene_impl::GetEntity(const int index)
 {
-   return m_rootEntity->GetEntity(index);
+   return m_rootEntity.GetEntity(index);
 }
 
 Atmosphere& Scene_impl::CreateAtmosphere()
@@ -86,7 +84,7 @@ Atmosphere& Scene_impl::CreateAtmosphere()
 void Scene_impl::Update(double time)
 {
    mat4 origin;
-   m_rootEntity->m_impl->UpdateTransform(origin, false);
+   m_rootEntity.UpdateTransform(origin, false);
 
    if (m_terrain)
    {
@@ -94,7 +92,7 @@ void Scene_impl::Update(double time)
    }
 }
 
-Entity* Scene_impl::GetRootEntity()
+Entity_impl& Scene_impl::GetRootEntity()
 {
    return m_rootEntity;
 }
@@ -127,9 +125,4 @@ const Terrain_impl* Scene_impl::GetTerrainImpl() const
    }
 
    return m_terrain.get();
-}
-
-EntityLibrary& Scene_impl::GetEntityLib()
-{
-   return m_entityLib;
 }

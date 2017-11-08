@@ -37,7 +37,6 @@
     <ClInclude Include="Include\Scene.h" />
     <ClInclude Include="Include\Terrain.h" />
     <ClInclude Include="Include\Utilities\IO.h" />
-    <ClInclude Include="Libraries\EntityLibrary.h" />
     <ClInclude Include="Libraries\MaterialLibrary_impl.h" />
     <ClInclude Include="Libraries\MeshLibrary_impl.h" />
     <ClInclude Include="ProspectEngine_pch.h" />
@@ -79,7 +78,6 @@
     <ClCompile Include="Containers\Bitmap.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Engine_impl.cpp" />
-    <ClCompile Include="Libraries\EntityLibrary.cpp" />
     <ClCompile Include="Libraries\MaterialLibrary.cpp" />
     <ClCompile Include="Libraries\MaterialLibrary_impl.cpp" />
     <ClCompile Include="Libraries\MeshLibrary.cpp" />

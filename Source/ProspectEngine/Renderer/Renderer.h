@@ -41,7 +41,8 @@ namespace Prospect
 
       void Initialize();
 
-      void UpdateRenderableEntities(EntityLibrary& entityLib);
+      void UpdateRenderableEntity(Entity_impl& entity);
+      void UpdateRenderableEntities(const Scene_impl& scene);
       void UpdateGlobalUniformBuffers(const Scene_impl& scene);
       void UpdateRenderableTerrain(const Scene_impl& scene);
       void UpdateRenderableAtmosphere(const Scene_impl& scene);

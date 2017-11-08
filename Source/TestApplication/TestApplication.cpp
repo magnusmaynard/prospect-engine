@@ -41,8 +41,6 @@ void TestApplication::OnStartup()
 
    m_scene.Add(terrain);
 
-   auto temp = m_scene.GetTerrain();
-
    //Light& sun = m_scene.AddLight(vec3(0, 0, 0), vec3(0, -1, 0));
 
    //Atmosphere atmosphere();
@@ -56,19 +54,19 @@ void TestApplication::OnStartup()
    //Light sun(vec3(0, 0, 0), vec3(0, -1, 0));
    //m_scene.Add(sun);
 
-   //Material& grass = m_materialLib.CreateMaterial(Color(0.1f, 0.6f, 0.1f));
-   //Material& matRed = m_materialLib.CreateMaterial(Color(1, 0.2f, 0.2f));
-   //Material& maGrey = m_materialLib.CreateMaterial(Color(0.5f, 0.5f, 0.5f));
+   Material& green = m_materialLib.CreateMaterial(Color(0.1f, 0.6f, 0.1f));
+   Mesh& plane = m_meshLib.CreatePlane(vec2(100, 100));
 
-   //Mesh& groundPlane = m_meshLib.CreatePlane(vec2(100, 100));
-   //Mesh& testPlane = m_meshLib.CreatePlane(vec2(10, 10));
+   Entity ground(plane, green);
+   ground.SetTranslation(vec3(0, 10, 0));
+   ground.SetScale(vec3(0.5, 0.5, 0.5));
 
-   //auto& ground = m_scene.AddEntity(&groundPlane, &grass);
-   //ground.SetRotation(vec3(0, 45, 0));
-   //ground.SetTranslation(vec3(0, 10, 0));
+   Entity ground2(plane, green);
 
-   //Entity& child = ground.AddEntity(&testPlane, &matRed);
-   //Entity& child2 = child.AddEntity(&testPlane, &maGrey);
+   ground2.SetTranslation(vec3(0, 20, 0));
+
+   m_scene.Add(ground);
+   ground.Add(ground2);
 }
 
 void TestApplication::OnUpdate(double timeElapsed)
@@ -115,9 +113,9 @@ void TestApplication::OnUpdate(double timeElapsed)
       m_playerMomentum *= 1.0 - m_playerFriction;
    }
 
-   //auto& e1 = m_scene.GetEntity(0).GetEntity(0);
-   //e1.SetTranslation(vec3(-5, 10, -20));
-   //e1.SetRotation(vec3(0, counter * 10.0, 0));
+   auto& e1 = m_scene.GetEntity(0).GetEntity(0);
+   e1.SetTranslation(vec3(-5, 10, -20));
+   e1.SetRotation(vec3(0, counter * 10.0, 0));
 
    //auto& e2 = m_scene.GetEntity(0).GetEntity(0).GetEntity(0);
    //e2.SetTranslation(vec3(-5, 10, -40));

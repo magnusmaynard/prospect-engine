@@ -23,12 +23,12 @@ std::optional<Terrain> Scene::GetTerrain()
    return m_impl->GetTerrain();
 }
 
-Entity& Scene::AddEntity(Mesh* mesh, Material* material)
+void Scene::Add(Entity& entity)
 {
-   return m_impl->AddEntity(mesh, material);
+   m_impl->Add(entity);
 }
 
-Entity& Scene::GetEntity(const int index)
+Entity Scene::GetEntity(const int index)
 {
    return m_impl->GetEntity(index);
 }

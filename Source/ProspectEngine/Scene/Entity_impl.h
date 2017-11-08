@@ -5,7 +5,6 @@
 #include "Include/Mesh.h"
 #include "Include/Material.h"
 #include "EngineDefines.h"
-#include "Libraries/EntityLibrary.h"
 
 namespace Prospect
 {
@@ -35,17 +34,15 @@ namespace Prospect
       void SetScale(const glm::vec3& scale);
       const glm::vec3& GetScale() const;
 
-      Entity& AddEntity(Mesh* mesh, Material* material);
-      Entity& GetEntityAtIndex(unsigned int index);
+      void Add(Entity& entity);
+      Entity GetEntity(unsigned int index);
 
       //Internal
-      Entity_impl(
-         Entity& parent,
-         EntityLibrary& entityLib,
-         unsigned int id,
-         Entity* parentNode,
-         Mesh* mesh,
-         Material* material);
+      Entity_impl();
+      Entity_impl(Mesh& mesh, Material& material);
+
+      void SetParent(Entity_impl& parent);
+      std::vector<std::shared_ptr<Entity_impl>>& GetChildren();
       
       void UpdateTransform(const glm::mat4& transform, const bool isParentDirty);
       glm::mat4& GetTransform();
@@ -55,23 +52,27 @@ namespace Prospect
       IRenderable* GetRenderable();
       void SetRenderable(IRenderable* renderable);
 
+      bool ChildEntityAdded() const;
+      void ResetChildEntityAdded();
+
    private:
+      void MarkParentAsDirty(); //TODO: Better name.
       void UpdateLocalTransform();
 
-      Entity& m_parent;
-      EntityLibrary& m_entityLib;
-
+      static unsigned long m_nextEntityID;
       unsigned long m_id;
+
       Mesh* m_mesh;
       Material* m_material;
 
-      Entity* m_parentNode;
-      std::deque<Entity*> m_childNodes;
+      Entity_impl* m_parent;
+      std::vector<std::shared_ptr<Entity_impl>> m_children;
 
       glm::vec3 m_translation = DEFAULT_TRANSLATION;
       glm::vec3 m_rotation = DEFAULT_ROTATION;
       glm::vec3 m_scale = DEFAULT_SCALE;
 
+      mutable bool m_childEntityAdded = true;
       mutable bool m_isTransformDirty = true;
       glm::mat4 m_localTransform;
       glm::mat4 m_transform;

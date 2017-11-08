@@ -10,6 +10,9 @@ namespace Prospect
    class Entity
    {
    public:
+      Entity(Mesh& mesh, Material& material);
+      Entity(std::shared_ptr<Entity_impl>& impl);
+
       ~Entity();
       Entity(const Entity& entity) = delete;
       Entity& operator=(const Entity& entity) = delete;
@@ -32,18 +35,18 @@ namespace Prospect
       void SetScale(const glm::vec3& scale);
       glm::vec3 GetScale() const;
 
-      Entity& AddEntity(Mesh* mesh, Material* material);
-      Entity& GetEntity(unsigned int index);
+      void Add(Entity& entity);
+      Entity GetEntity(unsigned int index);
 
    private:
-      Entity(
-         EntityLibrary& entityLib,
-         unsigned int id,
-         Entity* parent,
-         Mesh* mesh,
-         Material* material);
+      //Entity(
+      //   EntityLibrary& entityLib,
+      //   unsigned int id,
+      //   Entity* parent,
+      //   Mesh* mesh,
+      //   Material* material);
 
-      std::unique_ptr<Entity_impl> m_impl;
+      std::shared_ptr<Entity_impl> m_impl;
 
       friend class Renderer;
       friend class Scene_impl;

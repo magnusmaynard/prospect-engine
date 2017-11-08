@@ -6,14 +6,16 @@
 
 using namespace Prospect;
 
-Entity::Entity(
-   EntityLibrary& entityLib,
-   unsigned int id,
-   Entity* parent,
-   Mesh* mesh,
-   Material* material)
+Entity::Entity(Mesh& mesh, Material& material)
    :
-   m_impl(std::make_unique<Entity_impl>(*this, entityLib, id, parent, mesh, material))
+   m_impl(std::make_shared<Entity_impl>(mesh, material))
+{
+}
+
+
+Entity::Entity(std::shared_ptr<Entity_impl>& impl)
+   :
+   m_impl(impl)
 {
 }
 
@@ -52,7 +54,6 @@ const Material* Entity::GetMaterial() const
    return m_impl->GetMaterial();
 }
 
-
 void Entity::SetTranslation(const glm::vec3& translation)
 {
    m_impl->SetTranslation(translation);
@@ -83,12 +84,12 @@ glm::vec3 Entity::GetScale() const
    return m_impl->GetScale();
 }
 
-Entity& Entity::AddEntity(Mesh* mesh, Material* material)
+void Entity::Add(Entity& entity)
 {
-   return m_impl->AddEntity(mesh, material);
+   return m_impl->Add(entity);
 }
 
-Entity& Entity::GetEntity(unsigned int index)
+Entity Entity::GetEntity(unsigned int index)
 {
-   return m_impl->GetEntityAtIndex(index);
+   return m_impl->GetEntity(index);
 }

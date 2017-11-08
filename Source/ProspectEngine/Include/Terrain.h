@@ -16,7 +16,7 @@ namespace Prospect
          float maxHeight);
       ~Terrain();
 
-      Terrain(std::shared_ptr<Terrain_impl> impl);
+      Terrain(std::shared_ptr<Terrain_impl>& impl);
 
    private:
       std::shared_ptr<Terrain_impl> m_impl;
