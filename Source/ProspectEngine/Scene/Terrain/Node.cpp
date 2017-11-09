@@ -46,6 +46,43 @@ void Node::Update(const glm::vec3& cameraPosition, std::vector<Node*>& endNodes)
    }
 }
 
+//void Node::UpdateIfRequired(const glm::vec3& cameraPosition, std::vector<Node*>& endNodes)
+//{
+//   glm::vec3 normal = glm::vec3(0, 1, 0);
+//
+//   float distance = length(m_origin - cameraPosition);
+//
+//   int desiredLevel = CalculateLevel(cameraPosition);
+//
+//   if(m_level == desiredLevel)
+//   {
+//      //Add to end node.
+//   }
+//   else if(m_level < desiredLevel)
+//   {
+//      Divide();
+//   }
+//   else
+//
+//   if (m_level < MAX_LEVEL &&
+//      distance < m_size * DIVISION_THRESHOLD)
+//   {
+//      Divide();
+//
+//      for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
+//      {
+//         m_children[i]->Update(cameraPosition, endNodes);
+//      }
+//   }
+//   else
+//   {
+//      //Node is out of range.
+//      m_isParent = false;
+//      m_edgeScalingIsDirty = true;
+//      endNodes.push_back(this);
+//   }
+//}
+
 void Node::Divide()
 {
    m_isParent = true;

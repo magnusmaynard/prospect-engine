@@ -12,7 +12,8 @@
 #include "Utilities/IO.h"
 #include "Atmosphere.h"
 //#include "Lights/Light.h"
-#include "Terrain.h";
+#include "Terrain.h"
+#include <iostream>
 
 using namespace glm;
 using namespace Prospect;
@@ -36,6 +37,8 @@ void TestApplication::OnStartup()
 
    const Bitmap heightMap =
       IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\bagstone2.bmp");
+
+   std::cout << IO::GetExecutablePath() << std::endl;
 
    Terrain terrain(vec3(), heightMap, 800, 0, 50);
 

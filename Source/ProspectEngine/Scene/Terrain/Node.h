@@ -24,6 +24,7 @@ namespace Prospect
 
       //TODO:Make update function non recursive.
       void Update(const glm::vec3& cameraPosition, std::vector<Node*>& endNodes);
+      //void UpdateIfRequired(const glm::vec3& cameraPosition, std::vector<Node*>& endNodes);
 
       void UpdateEdgeScaling();
 

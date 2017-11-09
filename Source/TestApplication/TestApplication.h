@@ -33,9 +33,9 @@ private:
    MeshLibrary& m_meshLib;
    MaterialLibrary& m_materialLib;
 
-   const float m_playerThreshold = 0.01;
-   const float m_playerFriction = 0.25;
-   const float m_playerSpeed = 0.01;
+   const float m_playerThreshold = 0.01f;
+   const float m_playerFriction = 0.25f;
+   const float m_playerSpeed = 0.01f;
    glm::vec3 m_playerMomentum;
    bool m_playerLeft = false, m_playerRight = false, m_playerForward = false, m_playerBackward = false;
 };

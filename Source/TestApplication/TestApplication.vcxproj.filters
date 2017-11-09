@@ -7,7 +7,4 @@
   <ItemGroup>
     <ClInclude Include="TestApplication.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="HeightMap1.bmp" />
-  </ItemGroup>
 </Project>

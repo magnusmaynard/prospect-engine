@@ -28,21 +28,6 @@
             %(AdditionalLibraryDirectories);
          </AdditionalLibraryDirectories>
       </Link>
-      <PreBuildEvent>
-         <Command>
-            xcopy $(SolutionDir)..\Dependencies\glew-2.1.0\lib\Release\$(Platform) $(OutputPath) /y
-            xcopy $(SolutionDir)..\Dependencies\glfw-3.2.1\build\src\Release $(OutputPath) /y
-            xcopy $(SolutionDir)..\Dependencies\libnoise-1.0.0\bin $(OutputPath) /y
-            xcopy $(SolutionDir)..\Dependencies\freetype-2.8.1\objs\vc2010\$(Platform) $(OutputPath) /y
-         </Command>
-      </PreBuildEvent>
-      <PostBuildEvent>
-         <Command>
-            xcopy $(SolutionDir)\ProspectEngine\Resources\Fonts\* $(OutputPath)\Resources\Fonts\ /sy
-            xcopy $(SolutionDir)\ProspectEngine\Resources\Shaders\* $(OutputPath)\Resources\Shaders\ /sy
-            xcopy $(SolutionDir)\ProspectEngine\Resources\Textures\* $(OutputPath)\Resources\Textures\ /sy
-         </Command>
-      </PostBuildEvent>
    </ItemDefinitionGroup>
    <ItemGroup />
 </Project>
