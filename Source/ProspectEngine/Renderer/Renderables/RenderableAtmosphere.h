@@ -6,20 +6,20 @@
 
 namespace Prospect
 {
-   class Atmosphere;
+   class Atmosphere_impl;
    struct GlobalUniformBuffers;
 
    class RenderableAtmosphere : public IRenderable
    {
    public:
-      RenderableAtmosphere(const GlobalUniformBuffers& globalUniformBuffers, const Atmosphere& atmosphere);
+      RenderableAtmosphere(const GlobalUniformBuffers& globalUniformBuffers, const Atmosphere_impl& atmosphere);
       ~RenderableAtmosphere();
 
       void Render() override;
 
    private:
       UniformBuffer<AtmosphereUniforms> m_atmosphereUniformBuffer;
-      const Atmosphere& m_atmosphere;
+      const Atmosphere_impl& m_atmosphere;
 
       Shader& m_shader;
 

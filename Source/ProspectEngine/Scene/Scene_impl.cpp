@@ -2,7 +2,8 @@
 
 #include "Scene/Scene_impl.h"
 
-#include "EngineDefines.h"
+#include "Engine/EngineDefines.h"
+#include "Engine/Extensions.h"
 #include "Scene/Terrain/Terrain_impl.h"
 
 using namespace Prospect;
@@ -15,33 +16,34 @@ Scene_impl::Scene_impl(Scene& parent)
 {
 }
 
-void Scene_impl::Add(Terrain& terrain)
+std::optional<Atmosphere> Scene_impl::GetAtmosphere()
 {
-   m_terrain = terrain.m_impl;
+   return MakeOptionalImpl<Atmosphere>(m_atmosphere);
+}
+
+void Scene_impl::SetAtmosphere(Atmosphere& atmosphere)
+{
+   m_atmosphere = atmosphere.m_impl;
 }
 
 std::optional<Terrain> Scene_impl::GetTerrain()
 {
-   return m_terrain ? std::optional<Terrain>(m_terrain) : std::nullopt;
+   return MakeOptionalImpl<Terrain>(m_terrain);
 }
 
-Camera& Scene_impl::GetCamera()
+void Scene_impl::SetTerrain(Terrain& terrain)
 {
-   return m_camera;
+   m_terrain = terrain.m_impl;
 }
 
-const Camera& Scene_impl::GetCamera() const
+Entity Scene_impl::GetEntity(const int index)
 {
-   return m_camera;
+   return m_rootEntity.GetEntity(index);
 }
 
-Light& Scene_impl::AddLight(
-   const vec3& position,
-   const vec3& direction)
+void Scene_impl::AddEntity(Entity& entity)
 {
-   m_lights.push_back(Light(position, direction));
-
-   return m_lights.back();
+   m_rootEntity.Add(entity);
 }
 
 Light& Scene_impl::GetLight(const int index)
@@ -54,31 +56,18 @@ Light& Scene_impl::GetLight(const int index)
    return m_lights[index];
 }
 
-Atmosphere* Scene_impl::GetAtmosphere()
+Light& Scene_impl::AddLight(
+   const vec3& position,
+   const vec3& direction)
 {
-   return m_atmosphere.get();
+   m_lights.push_back(Light(position, direction));
+
+   return m_lights.back();
 }
 
-const Atmosphere* Scene_impl::GetAtmosphere() const
+Camera& Scene_impl::GetCamera()
 {
-   return m_atmosphere.get();
-}
-
-void Scene_impl::Add(Entity& entity)
-{
-   m_rootEntity.Add(entity);
-}
-
-Entity Scene_impl::GetEntity(const int index)
-{
-   return m_rootEntity.GetEntity(index);
-}
-
-Atmosphere& Scene_impl::CreateAtmosphere()
-{
-   m_atmosphere = std::make_unique<Atmosphere>();
-
-   return *m_atmosphere.get();
+   return m_camera;
 }
 
 void Scene_impl::Update(double time)
@@ -92,19 +81,19 @@ void Scene_impl::Update(double time)
    }
 }
 
-Entity_impl& Scene_impl::GetRootEntity()
+Entity_impl& Scene_impl::GetRootEntityImpl()
 {
    return m_rootEntity;
 }
 
-Camera_impl& Scene_impl::GetCameraImpl()
+Atmosphere_impl* Scene_impl::GetAtmosphereImpl()
 {
-   return *m_camera.m_impl;
+   return m_atmosphere.get();
 }
 
-const Camera_impl& Scene_impl::GetCameraImpl() const
+const Atmosphere_impl* Scene_impl::GetAtmosphereImpl() const
 {
-   return *m_camera.m_impl;
+   return m_atmosphere.get();
 }
 
 Terrain_impl* Scene_impl::GetTerrainImpl()
@@ -125,4 +114,14 @@ const Terrain_impl* Scene_impl::GetTerrainImpl() const
    }
 
    return m_terrain.get();
+}
+
+Camera_impl& Scene_impl::GetCameraImpl()
+{
+   return *m_camera.m_impl;
+}
+
+const Camera_impl& Scene_impl::GetCameraImpl() const
+{
+   return *m_camera.m_impl;
 }

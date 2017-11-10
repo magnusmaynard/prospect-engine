@@ -35,17 +35,10 @@ namespace Prospect
       void SetScale(const glm::vec3& scale);
       glm::vec3 GetScale() const;
 
-      void Add(Entity& entity);
+      void AddEntity(Entity& entity);
       Entity GetEntity(unsigned int index);
 
    private:
-      //Entity(
-      //   EntityLibrary& entityLib,
-      //   unsigned int id,
-      //   Entity* parent,
-      //   Mesh* mesh,
-      //   Material* material);
-
       std::shared_ptr<Entity_impl> m_impl;
 
       friend class Renderer;

@@ -1,6 +1,6 @@
 #include "ProspectEngine_pch.h"
 #include "Include/Lights/Light.h"
-#include "EngineDefines.h"
+#include "Engine/EngineDefines.h"
 
 using namespace Prospect;
 

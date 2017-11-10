@@ -35,24 +35,16 @@ void TestApplication::OnStartup()
 
    m_scene.GetCamera().LookAt(vec3(0, 10, 50), vec3(0, 0, 0));
 
-   const Bitmap heightMap =
-      IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\bagstone2.bmp");
-
-   std::cout << IO::GetExecutablePath() << std::endl;
+   const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\bagstone2.bmp");
 
    Terrain terrain(vec3(), heightMap, 800, 0, 50);
-
-   m_scene.Add(terrain);
+   m_scene.SetTerrain(terrain);
 
    //Light& sun = m_scene.AddLight(vec3(0, 0, 0), vec3(0, -1, 0));
 
-   //Atmosphere atmosphere();
-
-   //m_scene.Add(atmosphere);
-
-   //auto& atmosphere = m_scene.CreateAtmosphere();
-   //atmosphere.SetAltitude(1550);
-   //atmosphere.SetLightSource(sun);
+   Atmosphere atmosphere;
+   m_scene.SetAtmosphere(atmosphere);
+   atmosphere.SetAltitude(1550);
 
    //Light sun(vec3(0, 0, 0), vec3(0, -1, 0));
    //m_scene.Add(sun);
@@ -68,8 +60,8 @@ void TestApplication::OnStartup()
 
    ground2.SetTranslation(vec3(0, 20, 0));
 
-   m_scene.Add(ground);
-   ground.Add(ground2);
+   m_scene.AddEntity(ground);
+   ground.AddEntity(ground2);
 }
 
 void TestApplication::OnUpdate(double timeElapsed)

@@ -19,8 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EngineDefines.h" />
-    <ClInclude Include="Engine_impl.h" />
+    <ClInclude Include="Engine\EngineDefines.h" />
+    <ClInclude Include="Engine\Engine_impl.h" />
+    <ClInclude Include="Engine\Extensions.h" />
     <ClInclude Include="Include\Atmosphere.h" />
     <ClInclude Include="Include\Bitmap.h" />
     <ClInclude Include="Include\Camera.h" />
@@ -76,8 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Containers\Bitmap.cpp" />
-    <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Engine_impl.cpp" />
+    <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\Engine_impl.cpp" />
     <ClCompile Include="Libraries\MaterialLibrary.cpp" />
     <ClCompile Include="Libraries\MaterialLibrary_impl.cpp" />
     <ClCompile Include="Libraries\MeshLibrary.cpp" />

@@ -59,7 +59,7 @@ void Entity::SetTranslation(const glm::vec3& translation)
    m_impl->SetTranslation(translation);
 }
 
-glm::vec3 Entity::GetTranslation () const
+glm::vec3 Entity::GetTranslation() const
 {
    return m_impl->GetTranslation();
 }
@@ -84,7 +84,7 @@ glm::vec3 Entity::GetScale() const
    return m_impl->GetScale();
 }
 
-void Entity::Add(Entity& entity)
+void Entity::AddEntity(Entity& entity)
 {
    return m_impl->Add(entity);
 }

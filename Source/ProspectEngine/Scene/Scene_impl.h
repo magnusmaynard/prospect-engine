@@ -19,41 +19,41 @@ namespace Prospect
       Scene_impl(Scene& parent);
 
       //Public
-      void Add(Terrain& terrain);
-      std::optional<Terrain> GetTerrain();
+      std::optional<Atmosphere> GetAtmosphere();
+      void SetAtmosphere(Atmosphere& atmosphere);
 
-      void Add(Entity& entity);
+      std::optional<Terrain> GetTerrain();
+      void SetTerrain(Terrain& terrain);
+
+      void AddEntity(Entity& entity);
       Entity GetEntity(const int index);
 
-      Camera& GetCamera();
-      const Camera& GetCamera() const;
-
+      Light& GetLight(const int index);
       Light& AddLight(
          const glm::vec3& position,
          const glm::vec3& direction);
-      Light& GetLight(const int index);
 
-      Atmosphere* GetAtmosphere();
-      const Atmosphere* GetAtmosphere() const;
-
-      Atmosphere& CreateAtmosphere();
+      Camera& GetCamera();
 
       //Internal
       void Update(double time);
-      Entity_impl& GetRootEntity();
+      Entity_impl& GetRootEntityImpl();
 
-      Camera_impl& GetCameraImpl();
-      const Camera_impl& GetCameraImpl() const;
+      Atmosphere_impl* GetAtmosphereImpl();
+      const Atmosphere_impl* GetAtmosphereImpl() const;
 
       Terrain_impl* GetTerrainImpl();
       const Terrain_impl* GetTerrainImpl() const;
+
+      Camera_impl& GetCameraImpl();
+      const Camera_impl& GetCameraImpl() const;
 
    private:
       Scene& m_parent;
 
       Camera m_camera;
       std::shared_ptr<Terrain_impl> m_terrain;
-      std::unique_ptr<Atmosphere> m_atmosphere;
+      std::shared_ptr<Atmosphere_impl> m_atmosphere;
       std::deque<Light> m_lights;
 
       Entity_impl m_rootEntity;

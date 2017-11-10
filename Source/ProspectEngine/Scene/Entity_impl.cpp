@@ -2,7 +2,7 @@
 
 #include "Scene/Entity_impl.h"
 
-#include "EngineDefines.h"
+#include "Engine/EngineDefines.h"
 #include "Renderer/Renderables/IRenderable.h"
 
 using namespace Prospect;

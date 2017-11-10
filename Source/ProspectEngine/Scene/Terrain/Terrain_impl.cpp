@@ -2,6 +2,7 @@
 
 #include "Scene/Terrain/Terrain_impl.h"
 #include "Scene/Scene_impl.h"
+#include "Scene/Camera_impl.h"
 
 using namespace Prospect;
 
@@ -24,7 +25,7 @@ Terrain_impl::~Terrain_impl() = default;
 
 void Terrain_impl::Update(const Scene_impl& scene)
 {
-   auto& camera = scene.GetCamera();
+   auto& camera = scene.GetCameraImpl();
 
    m_quadTree.Update(camera.GetPosition());
 }

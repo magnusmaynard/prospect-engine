@@ -12,11 +12,22 @@ Atmosphere::Atmosphere()
 {
 }
 
+Atmosphere::Atmosphere(std::shared_ptr<Atmosphere_impl>& impl)
+   :
+   m_impl(impl)
+{
+}
+
 Atmosphere::~Atmosphere() = default;
 
-void Atmosphere::SetAltitude(float height)
+void Atmosphere::SetAltitude(const float height)
 {
    m_impl->SetAltitude(height);
+}
+
+const Light* Atmosphere::GetLightSource() const
+{
+   return m_impl->GetLightSource();
 }
 
 float Atmosphere::GetAltitude() const

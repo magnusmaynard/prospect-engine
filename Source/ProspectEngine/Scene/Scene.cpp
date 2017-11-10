@@ -13,24 +13,56 @@ Scene::Scene()
 
 Scene::~Scene() = default;
 
-void Scene::Add(Terrain& terrain)
-{
-   m_impl->Add(terrain);
-}
-
 std::optional<Terrain> Scene::GetTerrain()
 {
    return m_impl->GetTerrain();
 }
 
-void Scene::Add(Entity& entity)
+std::optional<const Terrain> Scene::GetTerrain() const
 {
-   m_impl->Add(entity);
+   return m_impl->GetTerrain();
+}
+
+void Scene::SetTerrain(Terrain& terrain)
+{
+   m_impl->SetTerrain(terrain);
+}
+
+std::optional<Atmosphere> Scene::GetAtmosphere()
+{
+   return m_impl->GetAtmosphere();
+}
+
+std::optional<const Atmosphere> Scene::GetAtmosphere() const
+{
+   return m_impl->GetAtmosphere();
+}
+
+void Scene::SetAtmosphere(Atmosphere& atmosphere)
+{
+   m_impl->SetAtmosphere(atmosphere);
 }
 
 Entity Scene::GetEntity(const int index)
 {
    return m_impl->GetEntity(index);
+}
+
+void Scene::AddEntity(Entity& entity)
+{
+   m_impl->AddEntity(entity);
+}
+
+Light& Scene::GetLight(const int index)
+{
+   return m_impl->GetLight(index);
+}
+
+Light& Scene::AddLight(
+   const glm::vec3& position,
+   const glm::vec3& direction)
+{
+   return m_impl->AddLight(position, direction);
 }
 
 const Camera& Scene::GetCamera() const
@@ -41,21 +73,4 @@ const Camera& Scene::GetCamera() const
 Camera& Scene::GetCamera()
 {
    return m_impl->GetCamera();
-}
-
-Light& Scene::AddLight(
-   const glm::vec3& position,
-   const glm::vec3& direction)
-{
-   return m_impl->AddLight(position, direction);
-}
-
-Light& Scene::GetLight(const int index)
-{
-   return m_impl->GetLight(index);
-}
-
-Atmosphere& Scene::CreateAtmosphere()
-{
-   return m_impl->CreateAtmosphere();
 }

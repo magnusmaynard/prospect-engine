@@ -52,7 +52,7 @@ void Renderer::Render(double time, Scene_impl& scene)
 
    //Update
    UpdateGlobalUniformBuffers(scene);
-   UpdateRenderableEntity(scene.GetRootEntity());
+   UpdateRenderableEntity(scene.GetRootEntityImpl());
    UpdateRenderableTerrain(scene);
    UpdateRenderableAtmosphere(scene);
 
@@ -157,8 +157,7 @@ void Renderer::UpdateRenderableAtmosphere(const Scene_impl& scene)
 {
    if (m_atmosphere == nullptr)
    {
-      const Atmosphere* atmosphere = scene.GetAtmosphere();
-      if (atmosphere)
+      if (auto atmosphere = scene.GetAtmosphereImpl())
       {
          m_atmosphere = std::make_unique<RenderableAtmosphere>(m_globalUniformBuffers, *atmosphere);
       }

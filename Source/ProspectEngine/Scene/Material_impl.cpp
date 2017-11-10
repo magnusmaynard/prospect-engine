@@ -1,7 +1,7 @@
 #include "ProspectEngine_pch.h"
 
 #include "Scene/Material_impl.h"
-#include "EngineDefines.h"
+#include "Engine/EngineDefines.h"
 
 using namespace Prospect;
 

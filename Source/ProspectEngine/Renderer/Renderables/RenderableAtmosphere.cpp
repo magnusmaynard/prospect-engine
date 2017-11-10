@@ -5,13 +5,13 @@
 #include "Renderer/Shaders/ShaderFactory.h"
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
 
-#include "Include/Atmosphere.h"
+#include "Scene/Atmosphere_impl.h"
 
 using namespace Prospect;
 
 RenderableAtmosphere::RenderableAtmosphere(
    const GlobalUniformBuffers& globalUniformBuffers,
-   const Atmosphere& atmosphere)
+   const Atmosphere_impl& atmosphere)
    :
    m_atmosphereUniformBuffer("AtmosphereUniforms"),
    m_atmosphere(atmosphere),

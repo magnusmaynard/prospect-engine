@@ -25,7 +25,6 @@
     <ClInclude Include="Renderer\Window.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Engine_impl.h" />
     <ClInclude Include="Include\Engine.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -74,7 +73,6 @@
     <ClInclude Include="Scene\Camera_impl.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="EngineDefines.h" />
     <ClInclude Include="Include\Entity.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -157,9 +155,17 @@
     <ClInclude Include="Scene\Terrain\Terrain_impl.h">
       <Filter>Scene\Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Engine_impl.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EngineDefines.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Extensions.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Renderer\Shaders\BaseShader.cpp">
       <Filter>Renderer\Shaders</Filter>
     </ClCompile>
@@ -184,7 +190,6 @@
     <ClCompile Include="Scene\Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine_impl.cpp" />
     <ClCompile Include="Scene\Scene_impl.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -282,6 +287,12 @@
     <ClCompile Include="Scene\Terrain\Terrain.cpp">
       <Filter>Scene\Terrain</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Engine_impl.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -334,6 +345,9 @@
     </Filter>
     <Filter Include="Include\Lights">
       <UniqueIdentifier>{dc9d4c83-5f8a-4102-bb30-a2ff10510e49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{1c5e798d-4a9e-457d-b502-f96f28791edb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

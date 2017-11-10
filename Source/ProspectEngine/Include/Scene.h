@@ -19,27 +19,28 @@ namespace Prospect
    class Scene
    {
    public:
-      void Add(Terrain& terrain);
       std::optional<Terrain> GetTerrain();
+      std::optional<const Terrain> GetTerrain() const;
+      void SetTerrain(Terrain& terrain);
 
-      void Add(Entity& entity);
+      std::optional<Atmosphere> GetAtmosphere();
+      std::optional<const Atmosphere> GetAtmosphere() const;
+      void SetAtmosphere(Atmosphere& atmosphere);
+
       Entity GetEntity(const int index);
+      void AddEntity(Entity& entity);
+
+      Light& GetLight(const int index);
+      Light& AddLight(const glm::vec3& position, const glm::vec3& direction);
 
       const Camera& GetCamera() const;
       Camera& GetCamera();
 
-      Light& AddLight(
-         const glm::vec3& position,
-         const glm::vec3& direction);
-      Light& GetLight(const int index);
-
-      Atmosphere& CreateAtmosphere();
-
    private:
-      std::unique_ptr<Scene_impl> m_impl;
-
       Scene();
       ~Scene();
+
+      std::unique_ptr<Scene_impl> m_impl;
 
       friend class Engine_impl;
    };
