@@ -12,7 +12,6 @@ Entity::Entity(Mesh& mesh, Material& material)
 {
 }
 
-
 Entity::Entity(std::shared_ptr<Entity_impl>& impl)
    :
    m_impl(impl)
@@ -86,10 +85,15 @@ glm::vec3 Entity::GetScale() const
 
 void Entity::AddEntity(Entity& entity)
 {
-   return m_impl->Add(entity);
+   return m_impl->AddEntity(entity);
 }
 
 Entity Entity::GetEntity(unsigned int index)
 {
    return m_impl->GetEntity(index);
+}
+
+int Entity::GetEntityCount() const
+{
+   return m_impl->GetEntityCount();
 }

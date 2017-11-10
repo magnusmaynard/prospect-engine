@@ -1,4 +1,7 @@
 #include "ProspectEngine_pch.h"
+
+#include "Scene/Lights/Light_impl.h"
+
 #include "Include/Lights/Light.h"
 #include "Engine/EngineDefines.h"
 
@@ -8,49 +11,52 @@ Light::Light(
    const glm::vec3& position,
    const glm::vec3& direction)
    :
-   m_position(position),
-   m_direction(direction),
-   m_brightness(DEFAULT_LIGHT_BRIGHTNESS),
-   m_color(DEFAULT_LIGHT_COLOR)
+   m_impl(std::make_shared<Light_impl>(position, direction))
 {
 }
 
-void Light::SetPosition(const glm::vec3& position)
+Light::Light(std::shared_ptr<Light_impl>& impl)
+   :
+   m_impl(impl)
 {
-   m_position = position;
+}
+
+void Light::SetPosition(const glm::vec3& value)
+{
+   m_impl->SetPosition(value);
 }
 
 glm::vec3 Light::GetPosition() const
 {
-   return m_position;
+   return m_impl->GetPosition();
 }
 
-void Light::SetDirection(const glm::vec3& direction)
+void Light::SetDirection(const glm::vec3& value)
 {
-   m_direction = direction;
+   m_impl->SetDirection(value);
 }
 
 glm::vec3 Light::GetDirection() const
 {
-   return m_direction;
+   return m_impl->GetDirection();
 }
 
-void Light::SetBrightness(const float brightness)
+void Light::SetBrightness(const float value)
 {
-   m_brightness = brightness;
+   m_impl->SetBrightness(value);
 }
 
 float Light::GetBrightness() const
 {
-   return m_brightness;
+   return m_impl->GetBrightness();
 }
 
-void Light::SetColor(const Color& color)
+void Light::SetColor(const Color& value)
 {
-   m_color = color;
+   m_impl->SetColor(value);
 }
 
 Color Light::GetColor() const
 {
-   return m_color;
+   return m_impl->GetColor();
 }

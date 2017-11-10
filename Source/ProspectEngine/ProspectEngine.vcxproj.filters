@@ -146,9 +146,6 @@
     <ClInclude Include="Include\Atmosphere.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Lights\Light.h">
-      <Filter>Include\Lights</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Terrain.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -163,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Extensions.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Lights\Light.h">
+      <Filter>Include\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Lights\Light_impl.h">
+      <Filter>Scene\Lights</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -278,9 +281,6 @@
     <ClCompile Include="Scene\Atmosphere.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Lights\Light.cpp">
-      <Filter>Scene\Lights</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Terrain\Terrain_impl.cpp">
       <Filter>Scene\Terrain</Filter>
     </ClCompile>
@@ -292,6 +292,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Engine_impl.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Lights\Light.cpp">
+      <Filter>Scene\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Lights\Light_impl.cpp">
+      <Filter>Scene\Lights</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

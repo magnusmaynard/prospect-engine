@@ -1,17 +1,14 @@
 #pragma once
+#include "Include/Color.h"
 
 namespace Prospect
 {
-   class Light_impl;
-   struct Color;
-
-   class Light
+   class Light_impl
    {
    public:
-      Light(
+      Light_impl(
          const glm::vec3& position,
          const glm::vec3& direction);
-      Light(std::shared_ptr<Light_impl>& impl);
 
       void SetPosition(const glm::vec3& value);
       glm::vec3 GetPosition() const;
@@ -26,8 +23,9 @@ namespace Prospect
       Color GetColor() const;
 
    private:
-      std::shared_ptr<Light_impl> m_impl;
-
-      friend class Scene_impl;
+      glm::vec3 m_position;
+      glm::vec3 m_direction;
+      float m_brightness;
+      Color m_color;
    };
 }

@@ -43,10 +43,15 @@ Entity Scene_impl::GetEntity(const int index)
 
 void Scene_impl::AddEntity(Entity& entity)
 {
-   m_rootEntity.Add(entity);
+   m_rootEntity.AddEntity(entity);
 }
 
-Light& Scene_impl::GetLight(const int index)
+int Scene_impl::GetEntityCount() const
+{
+   return m_rootEntity.GetEntityCount();
+}
+
+Light Scene_impl::GetLight(const int index)
 {
    if (index < 0 || index >= static_cast<int>(m_lights.size()))
    {
@@ -56,13 +61,14 @@ Light& Scene_impl::GetLight(const int index)
    return m_lights[index];
 }
 
-Light& Scene_impl::AddLight(
-   const vec3& position,
-   const vec3& direction)
+int Scene_impl::GetLightCount() const
 {
-   m_lights.push_back(Light(position, direction));
+   return m_lights.size();
+}
 
-   return m_lights.back();
+void Scene_impl::AddLight(Light& light)
+{
+   m_lights.push_back(light.m_impl);
 }
 
 Camera& Scene_impl::GetCamera()

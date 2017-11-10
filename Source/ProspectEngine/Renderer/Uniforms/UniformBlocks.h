@@ -40,7 +40,7 @@ namespace Prospect
          const glm::vec3& origin,
          const glm::ivec4& edges,
          const float size,
-         const float level)
+         const int level)
          :
          Origin(glm::vec4(origin, 0)),
          Edges(edges),

@@ -11,7 +11,7 @@
 #include "Bitmap.h"
 #include "Utilities/IO.h"
 #include "Atmosphere.h"
-//#include "Lights/Light.h"
+#include "Lights/Light.h"
 #include "Terrain.h"
 #include <iostream>
 
@@ -40,14 +40,13 @@ void TestApplication::OnStartup()
    Terrain terrain(vec3(), heightMap, 800, 0, 50);
    m_scene.SetTerrain(terrain);
 
-   //Light& sun = m_scene.AddLight(vec3(0, 0, 0), vec3(0, -1, 0));
+   Light sun(vec3(0, 0, 0), vec3(0, -1, 0));
+   m_scene.AddLight(sun);
 
    Atmosphere atmosphere;
    m_scene.SetAtmosphere(atmosphere);
    atmosphere.SetAltitude(1550);
 
-   //Light sun(vec3(0, 0, 0), vec3(0, -1, 0));
-   //m_scene.Add(sun);
 
    Material& green = m_materialLib.CreateMaterial(Color(0.1f, 0.6f, 0.1f));
    Mesh& plane = m_meshLib.CreatePlane(vec2(100, 100));
@@ -108,7 +107,7 @@ void TestApplication::OnUpdate(double timeElapsed)
       m_playerMomentum *= 1.0 - m_playerFriction;
    }
 
-   auto& e1 = m_scene.GetEntity(0).GetEntity(0);
+   auto e1 = m_scene.GetEntity(0).GetEntity(0);
    e1.SetTranslation(vec3(-5, 10, -20));
    e1.SetRotation(vec3(0, counter * 10.0, 0));
 

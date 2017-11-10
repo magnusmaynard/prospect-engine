@@ -26,12 +26,12 @@ namespace Prospect
       void SetTerrain(Terrain& terrain);
 
       void AddEntity(Entity& entity);
+      int GetEntityCount() const;
       Entity GetEntity(const int index);
 
-      Light& GetLight(const int index);
-      Light& AddLight(
-         const glm::vec3& position,
-         const glm::vec3& direction);
+      Light GetLight(const int index);
+      int GetLightCount() const;
+      void AddLight(Light& light);
 
       Camera& GetCamera();
 
@@ -54,7 +54,7 @@ namespace Prospect
       Camera m_camera;
       std::shared_ptr<Terrain_impl> m_terrain;
       std::shared_ptr<Atmosphere_impl> m_atmosphere;
-      std::deque<Light> m_lights;
+      std::deque<std::shared_ptr<Light_impl>> m_lights;
 
       Entity_impl m_rootEntity;
    };

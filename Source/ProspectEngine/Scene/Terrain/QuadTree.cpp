@@ -12,22 +12,6 @@ QuadTree::QuadTree(
 {
 }
 
-//void QuadTree::Update(const glm::vec3& cameraPosition)
-//{
-//   //m_endNodes.clear();
-//   //m_rootNode.Update(cameraPosition, m_endNodes);
-//
-//   for (auto& node : m_endNodes)
-//   {
-//      node->UpdateIfRequired(cameraPosition, m_endNodes);
-//   }
-//
-//   for (auto& node : m_endNodes)
-//   {
-//      node->UpdateEdgeScaling();
-//   }
-//}
-
 void QuadTree::Update(const glm::vec3& cameraPosition)
 {
    m_endNodes.clear();

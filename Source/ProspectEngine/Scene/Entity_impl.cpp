@@ -122,7 +122,7 @@ void Entity_impl::MarkParentAsDirty()
    }
 }
 
-void Entity_impl::Add(Entity& entity)
+void Entity_impl::AddEntity(Entity& entity)
 {
    entity.m_impl->SetParent(*this);
 
@@ -175,6 +175,11 @@ Entity Entity_impl::GetEntity(unsigned int index)
    }
 
    return Entity(m_children[index]);
+}
+
+int Entity_impl::GetEntityCount() const
+{
+   return m_children.size();
 }
 
 Mesh_impl* Entity_impl::GetMeshImpl()

@@ -37,6 +37,7 @@ namespace Prospect
 
       void AddEntity(Entity& entity);
       Entity GetEntity(unsigned int index);
+      int GetEntityCount() const;
 
    private:
       std::shared_ptr<Entity_impl> m_impl;

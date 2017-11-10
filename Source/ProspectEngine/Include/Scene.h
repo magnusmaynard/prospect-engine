@@ -28,10 +28,12 @@ namespace Prospect
       void SetAtmosphere(Atmosphere& atmosphere);
 
       Entity GetEntity(const int index);
+      int GetEntityCount() const;
       void AddEntity(Entity& entity);
 
-      Light& GetLight(const int index);
-      Light& AddLight(const glm::vec3& position, const glm::vec3& direction);
+      Light GetLight(const int index);
+      int GetLightCount();
+      void AddLight(Light& light);
 
       const Camera& GetCamera() const;
       Camera& GetCamera();
