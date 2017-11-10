@@ -61,6 +61,21 @@ Light Scene_impl::GetLight(const int index)
    return m_lights[index];
 }
 
+Light_impl* Scene_impl::GetLightImpl(const int index)
+{
+   return const_cast<Light_impl*>(static_cast<const Scene_impl*>(this)->GetLightImpl(index));
+}
+
+const Light_impl* Scene_impl::GetLightImpl(const int index) const
+{
+   if (index < 0 || index >= static_cast<int>(m_lights.size()))
+   {
+      throw std::exception("No Light at index.");
+   }
+
+   return m_lights[index].get();
+}
+
 int Scene_impl::GetLightCount() const
 {
    return m_lights.size();

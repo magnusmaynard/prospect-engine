@@ -16,9 +16,6 @@ namespace Prospect
       void SetDirection(const glm::vec3& value);
       glm::vec3 GetDirection() const;
 
-      void SetBrightness(const float value);
-      float GetBrightness() const;
-
       void SetColor(const Color& value);
       Color GetColor() const;
 

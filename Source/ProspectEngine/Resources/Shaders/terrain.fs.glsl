@@ -8,6 +8,7 @@ uniform float maxHeight;
 layout (std140) uniform DirectionalLightUniforms
 {
    vec4 Direction;
+   vec4 DiffuseColor;
 } light;
 
 layout (std140) uniform NodeUniforms //TODO: Automatic binding index.
@@ -37,13 +38,16 @@ void main()
 
    vec3 normal = vec3(cross(va, vb));
 
-   vec3 lightDirection = light.Direction.xyz;
-
-   float lighting = max(dot(normal, lightDirection), 0.0) * 1.8;
+   float power = max(dot(normal, light.Direction.xyz), 0.0) * 1.8;
+   vec3 lightingDiffuse = light.DiffuseColor.xyz;
 
    float height = texture(textureHeight, fs_in.textureCoord).r * 0.2;
-   vec3 diffuse = vec3(0.1 + height);
+
    vec3 ambient = vec3(0.05);
 
-   color = vec4(diffuse * lighting + ambient, 1.0);
+   vec3 materialDiffuse = vec3(0.1 + height);
+
+   vec3 diffuse = lightingDiffuse + materialDiffuse;
+
+   color = vec4(ambient + diffuse * power, 1.0);
 }

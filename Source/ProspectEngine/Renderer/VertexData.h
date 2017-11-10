@@ -28,6 +28,7 @@ namespace Prospect
       {
          BUFFER_VERTICES,
          BUFFER_INDICES,
+         BUFFER_NORMALS,
          BUFFER_COUNT,
       };
 

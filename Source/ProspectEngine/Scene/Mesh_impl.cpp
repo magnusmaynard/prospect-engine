@@ -18,12 +18,14 @@ Mesh_impl::Mesh_impl(
    Mesh& parent,
    unsigned long id,
    const std::vector<vec3>& vertices,
-   const std::vector<unsigned int>& indices)
+   const std::vector<unsigned int>& indices,
+   const std::vector<vec3>& normals)
    :
    m_parent(parent),
    m_id(id),
    m_vertices(vertices),
-   m_indices(indices)
+   m_indices(indices),
+   m_normals(normals)
 {
 }
 
@@ -45,6 +47,16 @@ const std::vector<unsigned int>& Mesh_impl::GetIndices() const
 std::vector<unsigned int>& Mesh_impl::GetIndices()
 {
    return m_indices;
+}
+
+const std::vector<glm::vec3>& Mesh_impl::GetNormals() const
+{
+   return m_normals;
+}
+
+std::vector<glm::vec3>& Mesh_impl::GetNormals()
+{
+   return m_normals;
 }
 
 bool Mesh_impl::IsDirty() const

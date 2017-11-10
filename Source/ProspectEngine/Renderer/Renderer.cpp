@@ -4,6 +4,7 @@
 #include "Scene/Mesh_impl.h"
 #include "Scene/Scene_impl.h"
 #include "Scene/Camera_impl.h"
+#include "Scene/Lights/Light_impl.h"
 #include "Renderer/Renderables/RenderableEntity.h"
 #include "Renderer/Renderables/RenderableTerrain.h"
 #include "Renderer/Renderables/RenderableText.h"
@@ -133,12 +134,8 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
       camera.GetSize()
    ));
 
-   static double counter = 0; //TODO: Making lighting configurable.
-   counter += 0.01;
-
-   m_globalUniformBuffers.DirectionalLight.Update(DirectionalLightUniforms(
-      normalize(vec3(0, sin(counter), cos(counter)))
-   ));
+   //TODO: Get all lights
+   m_globalUniformBuffers.DirectionalLight.Update(DirectionalLightUniforms(*scene.GetLightImpl(0)));
 }
 
 void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)

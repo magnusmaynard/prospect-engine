@@ -16,9 +16,10 @@ Mesh::Mesh(unsigned long id)
 Mesh::Mesh(
    unsigned long id,
    const std::vector<vec3>& vertices,
-   const std::vector<unsigned int>& indices)
+   const std::vector<unsigned int>& indices,
+   const std::vector<vec3>& normals)
    :
-   m_impl(std::make_unique<Mesh_impl>(*this, id, vertices, indices))
+   m_impl(std::make_unique<Mesh_impl>(*this, id, vertices, indices, normals))
 {
 }
 
@@ -44,6 +45,16 @@ const std::vector<unsigned int>& Mesh::GetIndices() const
 std::vector<unsigned int>& Mesh::GetIndices()
 {
    return m_impl->GetIndices();
+}
+
+const std::vector<glm::vec3>& Mesh::GetNormals() const
+{
+   return m_impl->GetNormals();
+}
+
+std::vector<glm::vec3>& Mesh::GetNormals()
+{
+   return m_impl->GetNormals();
 }
 
 unsigned long Mesh::GetID() const

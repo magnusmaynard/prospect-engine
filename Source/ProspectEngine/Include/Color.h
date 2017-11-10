@@ -13,6 +13,11 @@ namespace Prospect
       {
       }
 
+      glm::vec4 ToRGBA() const
+      {
+         return glm::vec4(R, G, B, A);
+      }
+
       float R;
       float G;
       float B;

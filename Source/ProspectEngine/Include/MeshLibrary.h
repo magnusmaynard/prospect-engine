@@ -14,6 +14,8 @@ namespace Prospect
       ~MeshLibrary();
 
       Mesh& CreatePlane(const glm::vec2& size);
+      Mesh& CreateCube(const glm::vec3& size);
+
       Mesh& GetMeshAtIndex(int index);
 
    private:

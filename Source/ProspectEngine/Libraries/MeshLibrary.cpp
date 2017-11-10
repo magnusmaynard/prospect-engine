@@ -19,6 +19,12 @@ Mesh& MeshLibrary::CreatePlane(const vec2& size)
 {
    return m_impl->CreatePlane(size);
 }
+
+Mesh& MeshLibrary::CreateCube(const glm::vec3& size)
+{
+   return m_impl->CreateCube(size);
+}
+
 Mesh& MeshLibrary::GetMeshAtIndex(int index)
 {
    return m_impl->GetMeshAtIndex(index);

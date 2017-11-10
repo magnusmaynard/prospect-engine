@@ -45,6 +45,9 @@ namespace Prospect
       Terrain_impl* GetTerrainImpl();
       const Terrain_impl* GetTerrainImpl() const;
 
+      Light_impl* GetLightImpl(const int index);
+      const Light_impl* GetLightImpl(const int index) const;
+
       Camera_impl& GetCameraImpl();
       const Camera_impl& GetCameraImpl() const;
 

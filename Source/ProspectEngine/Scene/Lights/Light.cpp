@@ -41,16 +41,6 @@ glm::vec3 Light::GetDirection() const
    return m_impl->GetDirection();
 }
 
-void Light::SetBrightness(const float value)
-{
-   m_impl->SetBrightness(value);
-}
-
-float Light::GetBrightness() const
-{
-   return m_impl->GetBrightness();
-}
-
 void Light::SetColor(const Color& value)
 {
    m_impl->SetColor(value);

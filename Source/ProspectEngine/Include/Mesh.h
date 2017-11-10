@@ -20,6 +20,8 @@ namespace Prospect
       std::vector<glm::vec3>& GetVertices();
       const std::vector<unsigned int>& GetIndices() const;
       std::vector<unsigned int>& GetIndices();
+      const std::vector<glm::vec3>& GetNormals() const;
+      std::vector<glm::vec3>& GetNormals();
 
       unsigned long GetID() const;
 
@@ -28,7 +30,8 @@ namespace Prospect
       Mesh(
          unsigned long id,
          const std::vector<glm::vec3>& vertices,
-         const std::vector<unsigned int>& indices);
+         const std::vector<unsigned int>& indices,
+         const std::vector<glm::vec3>& normals);
 
       std::unique_ptr<Mesh_impl> m_impl;
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "Scene/Lights/Light_impl.h"
 
 namespace Prospect
 {
@@ -61,14 +62,16 @@ namespace Prospect
       {
       }
 
-      DirectionalLightUniforms(
-         glm::vec3 direction)
+      DirectionalLightUniforms(const Light_impl& directionalLight)
          :
-         Direction(glm::vec4(direction, 0))
+         Direction(glm::vec4(normalize(directionalLight.GetDirection()), 0)),
+         DiffuseColor(directionalLight.GetColor().ToRGBA())
       {
       }
 
       glm::vec4 Direction;
+      glm::vec4 DiffuseColor;
+
    };
 
    struct AtmosphereUniforms

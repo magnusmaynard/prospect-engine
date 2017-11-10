@@ -15,6 +15,8 @@ namespace Prospect
       std::vector<glm::vec3>& GetVertices();
       const std::vector<unsigned int>& GetIndices() const;
       std::vector<unsigned int>& GetIndices();
+      const std::vector<glm::vec3>& GetNormals() const;
+      std::vector<glm::vec3>& GetNormals();
 
       //Internal
       Mesh_impl(
@@ -25,7 +27,8 @@ namespace Prospect
          Mesh& parent,
          unsigned long id,
          const std::vector<glm::vec3>& vertices,
-         const std::vector<unsigned int>& indices);
+         const std::vector<unsigned int>& indices,
+         const std::vector<glm::vec3>& normals);
 
       bool IsDirty() const;
       void SetIsDirty(bool value) const;
@@ -39,6 +42,7 @@ namespace Prospect
 
       std::vector<glm::vec3> m_vertices;
       std::vector<unsigned int> m_indices;
+      std::vector<glm::vec3> m_normals;
 
       mutable bool m_isDirty = true;
    };

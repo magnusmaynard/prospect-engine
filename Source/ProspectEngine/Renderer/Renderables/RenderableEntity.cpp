@@ -17,9 +17,10 @@ RenderableEntity::RenderableEntity(
    :
    m_entity(entity),
    m_vertexData(vertexData),
-   m_shader(ShaderFactory::CreateShader(Resources::SIMPLE_VERTEX_SHADER, Resources::SIMPLE_FRAGMENT_SHADER))
+   m_shader(ShaderFactory::CreateShader(Resources::BLINNPHONG_VERTEX_SHADER, Resources::BLINNPHONG_FRAGMENT_SHADER))
 {
    globalUniformBuffers.Camera.Bind(m_shader);
+   globalUniformBuffers.DirectionalLight.Bind(m_shader);
 }
 
 RenderableEntity::~RenderableEntity()
@@ -54,7 +55,6 @@ void RenderableEntity::BindTransform(const glm::mat4& transform)
 void RenderableEntity::BindMaterial(const Material& material)
 {
    auto& diffuse = material.GetDiffuse();
-   float diffuseRGBA[4] = { diffuse.R, diffuse.G, diffuse.B, diffuse.A };
 
-   glUniform4fv(3, 1, diffuseRGBA);
+   glUniform4fv(5, 1, &diffuse.ToRGBA()[0]);
 }

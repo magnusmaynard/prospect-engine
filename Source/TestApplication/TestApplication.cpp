@@ -41,26 +41,31 @@ void TestApplication::OnStartup()
    m_scene.SetTerrain(terrain);
 
    Light sun(vec3(0, 0, 0), vec3(0, -1, 0));
+   sun.SetColor(Color(0.5, 0.5, 0.5));
    m_scene.AddLight(sun);
 
    Atmosphere atmosphere;
    m_scene.SetAtmosphere(atmosphere);
    atmosphere.SetAltitude(1550);
-
+   atmosphere.SetLightSource(sun);
 
    Material& green = m_materialLib.CreateMaterial(Color(0.1f, 0.6f, 0.1f));
    Mesh& plane = m_meshLib.CreatePlane(vec2(100, 100));
 
    Entity ground(plane, green);
-   ground.SetTranslation(vec3(0, 10, 0));
+   ground.SetTranslation(vec3(0, 2, 0));
    ground.SetScale(vec3(0.5, 0.5, 0.5));
 
    Entity ground2(plane, green);
-
-   ground2.SetTranslation(vec3(0, 20, 0));
+   ground2.SetTranslation(vec3(0, 10, 0));
 
    m_scene.AddEntity(ground);
    ground.AddEntity(ground2);
+
+   Mesh& cube = m_meshLib.CreateCube(vec3(10, 10, 10));
+   Entity greenCube(cube, green);
+   greenCube.SetTranslation(vec3(0, 30, 0));
+   m_scene.AddEntity(greenCube);
 }
 
 void TestApplication::OnUpdate(double timeElapsed)
@@ -110,10 +115,6 @@ void TestApplication::OnUpdate(double timeElapsed)
    auto e1 = m_scene.GetEntity(0).GetEntity(0);
    e1.SetTranslation(vec3(-5, 10, -20));
    e1.SetRotation(vec3(0, counter * 10.0, 0));
-
-   //auto& e2 = m_scene.GetEntity(0).GetEntity(0).GetEntity(0);
-   //e2.SetTranslation(vec3(-5, 10, -40));
-   //e2.SetRotation(vec3(0, counter * 10.0, 0));
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
@@ -137,12 +138,14 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
       }
       case Key::D3:
       {
-         //m_scene.GetLight()[0].SetDirection();
+         auto light = m_scene.GetLight(0);
+         light.SetDirection(light.GetDirection() + vec3(1, 0, 0));
          break;
       }
       case Key::D4:
       {
-         //m_scene.GetLight()[0].SetDirection();
+         auto light = m_scene.GetLight(0);
+         light.SetDirection(light.GetDirection() - vec3(1, 0, 0));
          break;
       }
       case Key::W:

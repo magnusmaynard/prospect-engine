@@ -78,6 +78,34 @@ void VertexData::UpdateBuffers()
    glVertexArrayElementBuffer(
       m_VAO,
       m_buffers[BUFFER_INDICES]);
+
+
+   //Create normals buffer.
+   auto& normals = m_mesh.GetNormals();
+
+   glNamedBufferStorage(
+      m_buffers[BUFFER_NORMALS],
+      normals.size() * sizeof(glm::vec3),
+      &normals[0],
+      0);
+
+   glVertexArrayVertexBuffer(
+      m_VAO,
+      1,
+      m_buffers[BUFFER_NORMALS],
+      0,
+      sizeof(glm::vec3));
+
+   glVertexArrayAttribFormat(
+      m_VAO,
+      1,
+      3,
+      GL_FLOAT,
+      GL_FALSE, //TODO: true
+      0);
+
+   glVertexArrayAttribBinding(m_VAO, 1, 1);
+   glEnableVertexArrayAttrib(m_VAO, 1);
 }
 
 
