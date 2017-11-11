@@ -2,6 +2,8 @@
 #include "Renderer/Shaders/Shader.h"
 #include "Scene/Entity_impl.h"
 #include "Renderer/Renderables/IRenderable.h"
+#include "Renderer/Uniforms/UniformBlocks.h"
+#include "Renderer/Uniforms/UniformBuffer.h"
 
 namespace Prospect
 {
@@ -32,6 +34,7 @@ namespace Prospect
 
       Entity_impl& m_entity;
 
+      UniformBuffer<MaterialUniforms> m_materialUniformBuffer;
       VertexData& m_vertexData;
 
       Shader& m_shader;

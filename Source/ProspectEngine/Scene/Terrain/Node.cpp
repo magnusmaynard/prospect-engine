@@ -93,10 +93,10 @@ void Node::Divide()
 
    const glm::vec3 childOrigins[NUMBER_OF_CHILDREN] =
    {
-      m_origin + glm::vec3(-childSizeHalf, 0, childSizeHalf),
-      m_origin + glm::vec3(childSizeHalf, 0, childSizeHalf),
-      m_origin + glm::vec3(-childSizeHalf, 0, -childSizeHalf),
-      m_origin + glm::vec3(childSizeHalf, 0, -childSizeHalf)
+      m_origin + glm::vec3(+childSizeHalf, 0, +childSizeHalf),
+      m_origin + glm::vec3(-childSizeHalf, 0, +childSizeHalf),
+      m_origin + glm::vec3(+childSizeHalf, 0, -childSizeHalf),
+      m_origin + glm::vec3(-childSizeHalf, 0, -childSizeHalf)
    };
 
    for (int i = 0; i < NUMBER_OF_CHILDREN; i++)

@@ -16,7 +16,11 @@ namespace Prospect
    public:
       MaterialLibrary_impl(MaterialLibrary& parent);
 
-      Material CreateMaterial(const Color& color);
+      Material CreateMaterial(
+         const Color& diffuse,
+         const Color& ambient,
+         const Color& specular,
+         float specularPower);
 
       Material GetMaterialAtIndex(int index);
       int GetMaterialCount() const;

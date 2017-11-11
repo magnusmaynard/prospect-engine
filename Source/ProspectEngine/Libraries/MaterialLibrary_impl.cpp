@@ -14,11 +14,20 @@ MaterialLibrary_impl::MaterialLibrary_impl(MaterialLibrary& parent)
 {
 }
 
-Material MaterialLibrary_impl::CreateMaterial(const Color& color)
+Material MaterialLibrary_impl::CreateMaterial(
+   const Color& diffuse,
+   const Color& ambient,
+   const Color& specular,
+   float specularPower)
 {
    m_nextMaterialID++;
 
-   m_materials.emplace_back(std::make_shared<Material_impl>(m_nextMaterialID, color));
+   m_materials.emplace_back(std::make_shared<Material_impl>(
+      m_nextMaterialID,
+      diffuse,
+      ambient,
+      specular,
+      specularPower));
 
    return m_materials.back();
 }

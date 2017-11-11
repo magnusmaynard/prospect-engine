@@ -15,9 +15,6 @@ namespace Prospect
       unsigned long GetID() const;
 
    private:
-      Material(unsigned long id);
-      Material(unsigned long id, const Color& diffuse);
-
       std::shared_ptr<Material_impl> m_impl;
 
       friend class Entity_impl;

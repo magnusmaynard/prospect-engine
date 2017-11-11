@@ -14,6 +14,7 @@
 #include "Lights/Light.h"
 #include "Terrain.h"
 #include <iostream>
+#include <glm/gtx/rotate_vector.inl>
 
 using namespace glm;
 using namespace Prospect;
@@ -46,10 +47,10 @@ void TestApplication::OnStartup()
 
    Atmosphere atmosphere;
    m_scene.SetAtmosphere(atmosphere);
-   atmosphere.SetAltitude(1550);
+   atmosphere.SetAltitude(1501);
    atmosphere.SetLightSource(sun);
 
-   Material green = m_materialLib.CreateMaterial(Color(0.1f, 0.6f, 0.1f));
+   Material green = m_materialLib.CreateMaterial();
    Mesh plane = m_meshLib.CreatePlane(vec2(100, 100));
 
    Entity ground(plane, green);
@@ -115,6 +116,9 @@ void TestApplication::OnUpdate(double timeElapsed)
    auto e1 = m_scene.GetEntity(0).GetEntity(0);
    e1.SetTranslation(vec3(-5, 10, -20));
    e1.SetRotation(vec3(0, counter * 10.0, 0));
+
+   auto cube = m_scene.GetEntity(1);
+   cube.SetRotation(vec3(0, -counter * 5.0, 0));
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
@@ -139,13 +143,13 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
       case Key::D3:
       {
          auto light = m_scene.GetLight(0);
-         light.SetDirection(light.GetDirection() + vec3(1, 0, 0));
+         light.SetDirection(rotateX(light.GetDirection(), 0.1f));
          break;
       }
       case Key::D4:
       {
          auto light = m_scene.GetLight(0);
-         light.SetDirection(light.GetDirection() - vec3(1, 0, 0));
+         light.SetDirection(rotateX(light.GetDirection(), -0.1f));
          break;
       }
       case Key::W:

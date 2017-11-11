@@ -11,8 +11,6 @@ namespace Prospect
    static const int DEFAULT_HEIGHT = 400;
    static const unsigned long NULL_ID = 0;
 
-   static const Color DEFAULT_COLOR(1, 1, 0);
-
    static const glm::vec3 POS_X(1, 0, 0);
    static const glm::vec3 POS_Y(0, 1, 0);
    static const glm::vec3 POS_Z(0, 0, 1);

@@ -30,8 +30,8 @@ void Renderer::Initialize()
    glEnable(GL_BLEND);
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-   //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   glEnable(GL_CULL_FACE);
+   glFrontFace(GL_CCW);
 
    m_fpsText = std::make_unique<RenderableText>(
       m_globalUniformBuffers, "", ivec2(4, 0), 12);
@@ -127,12 +127,7 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
 {
    const Camera_impl& camera = scene.GetCameraImpl();
 
-   m_globalUniformBuffers.Camera.Update(CameraUniforms(
-      camera.GetProjectionMatrix(),
-      camera.GetViewMatrix(),
-      camera.GetPosition(),
-      camera.GetSize()
-   ));
+   m_globalUniformBuffers.Camera.Update(CameraUniforms(scene.GetCameraImpl()));
 
    //TODO: Get all lights
    m_globalUniformBuffers.DirectionalLight.Update(DirectionalLightUniforms(*scene.GetLightImpl(0)));

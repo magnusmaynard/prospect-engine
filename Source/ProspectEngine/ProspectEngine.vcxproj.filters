@@ -167,6 +167,9 @@
     <ClInclude Include="Scene\Lights\Light_impl.h">
       <Filter>Scene\Lights</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Defaults.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Shaders\BaseShader.cpp">

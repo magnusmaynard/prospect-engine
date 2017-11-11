@@ -1,5 +1,7 @@
 #pragma once
 #include "Scene/Lights/Light_impl.h"
+#include "Scene/Material_impl.h"
+#include "Scene/Camera_impl.h"
 
 namespace Prospect
 {
@@ -12,23 +14,59 @@ namespace Prospect
       {
       }
 
-      CameraUniforms(
-         const glm::mat4& projection,
-         const glm::mat4& view,
-         const glm::vec3 position,
-         const glm::vec2 screenSize)
+      CameraUniforms(const Camera_impl& camera)
          :
-         Projection(projection),
-         View(view),
-         Position(glm::vec4(position, 0)),
-         ScreenSize(screenSize)
+         Projection(camera.GetProjectionMatrix()),
+         View(camera.GetViewMatrix()),
+         ViewDirection(glm::vec4(camera.GetForward(), 0)),
+         Position(glm::vec4(camera.GetPosition(), 0)),
+         ScreenSize(camera.GetSize())
       {
       }
 
       glm::mat4 Projection;
       glm::mat4 View;
+      glm::vec4 ViewDirection;
       glm::vec4 Position;
       glm::vec2 ScreenSize;
+   };
+
+   struct DirectionalLightUniforms
+   {
+      DirectionalLightUniforms()
+      {
+      }
+
+      DirectionalLightUniforms(const Light_impl& directionalLight)
+         :
+         Direction(glm::vec4(normalize(directionalLight.GetDirection()), 0)),
+         DiffuseColor(directionalLight.GetColor().ToRGBA())
+      {
+      }
+
+      glm::vec4 Direction;
+      glm::vec4 DiffuseColor;
+   };
+
+   struct MaterialUniforms
+   {
+      MaterialUniforms()
+      {
+      }
+
+      MaterialUniforms(const Material_impl& material)
+         :
+         Diffuse(material.GetDiffuse().ToRGBA()),
+         Ambient(material.GetAmbient().ToRGBA()),
+         Specular(material.GetSpecular().ToRGBA()),
+         SpecularPower(material.GetSpecularPower())
+      {
+      }
+
+      glm::vec4 Diffuse;
+      glm::vec4 Ambient;
+      glm::vec4 Specular;
+      float SpecularPower = 0;
    };
 
    struct NodeUniforms
@@ -54,24 +92,6 @@ namespace Prospect
       glm::ivec4 Edges;
       float Size = 0;
       float Level = 0;
-   };
-
-   struct DirectionalLightUniforms
-   {
-      DirectionalLightUniforms()
-      {
-      }
-
-      DirectionalLightUniforms(const Light_impl& directionalLight)
-         :
-         Direction(glm::vec4(normalize(directionalLight.GetDirection()), 0)),
-         DiffuseColor(directionalLight.GetColor().ToRGBA())
-      {
-      }
-
-      glm::vec4 Direction;
-      glm::vec4 DiffuseColor;
-
    };
 
    struct AtmosphereUniforms

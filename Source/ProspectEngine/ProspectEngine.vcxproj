@@ -26,6 +26,7 @@
     <ClInclude Include="Include\Bitmap.h" />
     <ClInclude Include="Include\Camera.h" />
     <ClInclude Include="Include\Color.h" />
+    <ClInclude Include="Include\Defaults.h" />
     <ClInclude Include="Include\Engine.h" />
     <ClInclude Include="Include\Entity.h" />
     <ClInclude Include="Include\IApplication.h" />

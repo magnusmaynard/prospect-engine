@@ -6,19 +6,33 @@ layout (std140) uniform DirectionalLightUniforms
    vec4 DiffuseColor;
 } light;
 
-layout (location = 5) uniform vec4 diffuse;
+layout (std140) uniform MaterialUniforms
+{
+   vec4 Diffuse;
+   vec4 Ambient;
+   vec4 Specular;
+   float SpecularPower;
+} material;
 
 in VS_OUT
 {
-   vec3 Normal;
-} vs_in;
+   smooth vec3 N;
+   smooth vec3 L;
+   smooth vec3 V;
+} fs_in;
 
 out vec4 color;
 
 void main()
 {
-   float power = max(dot(vs_in.Normal, -light.Direction.xyz), 0.0) * 1.8;
+   vec3 N = normalize(fs_in.N);
+   vec3 L = normalize(fs_in.L);
+   vec3 V = normalize(fs_in.V);
+   vec3 H = normalize(L + V); //TODO: H?
 
-   color = vec4(diffuse.xyz * power, 1);
-   //color = vec4(light.Direction.xyz, 1);
+   vec3 ambient = material.Ambient.xyz;
+   vec3 diffuse = max(dot(N, L), 0.0) * material.Diffuse.xyz;
+   vec3 specular = vec3(0,0,0);// pow(max(dot(N, H), 0.0), material.SpecularPower * 1.0) * material.Specular.xyz;
+
+   color = vec4(ambient + specular + diffuse, 1.0);
 }

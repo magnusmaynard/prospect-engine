@@ -6,6 +6,7 @@ layout (std140) uniform CameraUniforms
 {
    mat4 Projection;
    mat4 View;
+   vec4 ViewDirection;
    vec4 Position;
    vec2 ScreenSize;
 } camera;
@@ -31,10 +32,10 @@ void main()
    float halfSize = node.Size * 0.5;
 
    const vec3 vertices[] = vec3[](
-      node.Origin.xyz + vec3(-halfSize, 0, halfSize),
-      node.Origin.xyz + vec3( halfSize, 0, halfSize),
-      node.Origin.xyz + vec3(-halfSize, 0, -halfSize),
-      node.Origin.xyz + vec3( halfSize, 0, -halfSize));
+      node.Origin.xyz + vec3(+halfSize, 0, +halfSize),
+      node.Origin.xyz + vec3(-halfSize, 0, +halfSize),
+      node.Origin.xyz + vec3(+halfSize, 0, -halfSize),
+      node.Origin.xyz + vec3(-halfSize, 0, -halfSize));
 
    const vec4 vertex = vec4(vertices[gl_VertexID], 1.0);
 

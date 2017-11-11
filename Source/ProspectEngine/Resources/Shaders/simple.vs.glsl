@@ -4,6 +4,7 @@ layout (std140, binding = 0) uniform CameraUniforms
 {
    mat4 Projection;
    mat4 View;
+   vec4 ViewDirection;
    vec4 Position;
    vec2 ScreenSize;
 } camera;

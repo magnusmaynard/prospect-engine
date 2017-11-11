@@ -38,7 +38,7 @@ void main()
 
    vec3 normal = vec3(cross(va, vb));
 
-   float power = max(dot(normal, light.Direction.xyz), 0.0) * 1.8;
+   float power = max(dot(normal, light.Direction.xyz), 0.0) * 0.5;
    vec3 lightingDiffuse = light.DiffuseColor.xyz;
 
    float height = texture(textureHeight, fs_in.textureCoord).r * 0.2;

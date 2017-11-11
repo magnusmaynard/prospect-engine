@@ -17,10 +17,12 @@ RenderableEntity::RenderableEntity(
    :
    m_entity(entity),
    m_vertexData(vertexData),
-   m_shader(ShaderFactory::CreateShader(Resources::BLINNPHONG_VERTEX_SHADER, Resources::BLINNPHONG_FRAGMENT_SHADER))
+   m_shader(ShaderFactory::CreateShader(Resources::BLINNPHONG_VERTEX_SHADER, Resources::BLINNPHONG_FRAGMENT_SHADER)),
+   m_materialUniformBuffer("MaterialUniforms") //TODO: make globals array of materials.
 {
    globalUniformBuffers.Camera.Bind(m_shader);
    globalUniformBuffers.DirectionalLight.Bind(m_shader);
+   m_materialUniformBuffer.Bind(m_shader);
 }
 
 RenderableEntity::~RenderableEntity()
@@ -31,8 +33,9 @@ RenderableEntity::~RenderableEntity()
 RenderableEntity::RenderableEntity(RenderableEntity&& other)
    :
    m_entity(other.m_entity),
+   m_vertexData(other.m_vertexData),
    m_shader(other.m_shader),
-   m_vertexData(other.m_vertexData)
+   m_materialUniformBuffer(other.m_materialUniformBuffer)
 {
 }
 
@@ -41,6 +44,11 @@ void RenderableEntity::Render()
    m_shader.Bind();
 
    BindTransform(m_entity.GetTransform());
+
+   if (auto* material = m_entity.GetMaterialImpl())
+   {
+      m_materialUniformBuffer.Update(MaterialUniforms(*material));
+   }
 
    BindMaterial(*m_entity.GetMaterial());
    
