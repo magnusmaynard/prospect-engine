@@ -7,19 +7,23 @@ using namespace Prospect;
 
 Material::Material(unsigned long id)
    :
-   m_impl(std::make_unique<Material_impl>(*this, id))
+   m_impl(std::make_shared<Material_impl>(id))
 {
 }
 
 Material::Material(unsigned long id, const Color& diffuse)
    :
-   m_impl(std::make_unique<Material_impl>(*this, id, diffuse))
+   m_impl(std::make_shared<Material_impl>(id, diffuse))
+{
+}
+
+Material::Material(std::shared_ptr<Material_impl>& impl)
+   :
+   m_impl(impl)
 {
 }
 
 Material::~Material() = default;
-Material::Material(Material&& other) = default;
-Material& Material::operator=(Material&& other) = default;
 
 const Color& Material::GetDiffuse() const
 {

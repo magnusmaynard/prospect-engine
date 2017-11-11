@@ -5,17 +5,15 @@
 
 using namespace Prospect;
 
-Material_impl::Material_impl(Material& parent, unsigned long id)
+Material_impl::Material_impl(unsigned long id)
    :
-   m_parent(parent),
    m_id(id),
    m_diffuse(DEFAULT_COLOR)
 {
 }
 
-Material_impl::Material_impl(Material& parent, unsigned long id, const Color& diffuse)
+Material_impl::Material_impl(unsigned long id, const Color& diffuse)
    :
-   m_parent(parent),
    m_id(id),
    m_diffuse(diffuse)
 {

@@ -9,7 +9,7 @@ using namespace glm;
 
 Mesh::Mesh(unsigned long id)
    :
-   m_impl(std::make_unique<Mesh_impl>(*this, id))
+   m_impl(std::make_unique<Mesh_impl>(id))
 {
 }
 
@@ -19,13 +19,17 @@ Mesh::Mesh(
    const std::vector<unsigned int>& indices,
    const std::vector<vec3>& normals)
    :
-   m_impl(std::make_unique<Mesh_impl>(*this, id, vertices, indices, normals))
+   m_impl(std::make_unique<Mesh_impl>(id, vertices, indices, normals))
+{
+}
+
+Mesh::Mesh(std::shared_ptr<Mesh_impl>& impl)
+   :
+   m_impl(impl)
 {
 }
 
 Mesh::~Mesh() = default;
-Mesh::Mesh(Mesh&& other) = default;
-Mesh& Mesh::operator=(Mesh&& other) = default;
 
 const std::vector<vec3>& Mesh::GetVertices() const
 {

@@ -33,22 +33,22 @@ void Entity::SetMaterial(Material& material)
    m_impl->SetMaterial(material);
 }
 
-Mesh* Entity::GetMesh()
+std::optional<Mesh> Entity::GetMesh()
 {
    return m_impl->GetMesh();
 }
 
-const Mesh* Entity::GetMesh() const
+std::optional<const Mesh> Entity::GetMesh() const
 {
    return m_impl->GetMesh();
 }
 
-Material* Entity::GetMaterial()
+std::optional<Material> Entity::GetMaterial()
 {
    return m_impl->GetMaterial();
 }
 
-const Material* Entity::GetMaterial() const
+std::optional<const Material> Entity::GetMaterial() const
 {
    return m_impl->GetMaterial();
 }

@@ -8,7 +8,7 @@ using namespace Prospect;
 
 Atmosphere::Atmosphere()
    :
-   m_impl(std::make_unique<Atmosphere_impl>(*this))
+   m_impl(std::make_unique<Atmosphere_impl>(*this)) //TODO:
 {
 }
 

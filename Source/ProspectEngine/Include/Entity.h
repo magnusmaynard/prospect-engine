@@ -22,11 +22,11 @@ namespace Prospect
       void SetMesh(Mesh& mesh);
       void SetMaterial(Material& material);
 
-      Mesh* GetMesh();
-      const Mesh* GetMesh() const;
+      std::optional<Mesh> GetMesh();
+      std::optional<const Mesh> GetMesh() const;
 
-      Material* GetMaterial();
-      const Material* GetMaterial() const;
+      std::optional<Material> GetMaterial();
+      std::optional<const Material> GetMaterial() const;
 
       void SetTranslation(const glm::vec3& translation);
       glm::vec3 GetTranslation() const;

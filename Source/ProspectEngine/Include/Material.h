@@ -9,21 +9,18 @@ namespace Prospect
    {
    public:
       ~Material();
-      Material(const Material& other) = delete;
-      Material& operator=(const Material& other) = delete;
-      Material(Material&& other);
-      Material& operator=(Material&& other);
+      Material(std::shared_ptr<Material_impl>& impl);
 
       const Color& GetDiffuse() const;
-
       unsigned long GetID() const;
 
    private:
       Material(unsigned long id);
       Material(unsigned long id, const Color& diffuse);
 
-      std::unique_ptr<Material_impl> m_impl;
+      std::shared_ptr<Material_impl> m_impl;
 
+      friend class Entity_impl;
       friend class MaterialLibrary_impl;
    };
 }

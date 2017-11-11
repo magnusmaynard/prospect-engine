@@ -92,8 +92,8 @@ void Renderer::UpdateRenderableEntity(Entity_impl& entity)
    if (entity.ChildEntityAdded())
    {
       if (entity.GetRenderable() == nullptr &&
-         entity.GetMesh() != nullptr &&
-         entity.GetMaterial() != nullptr)
+         entity.GetMeshImpl() != nullptr &&
+         entity.GetMaterialImpl() != nullptr)
       {
          VertexData& vertexData = GetVertexData(*entity.GetMeshImpl());
 

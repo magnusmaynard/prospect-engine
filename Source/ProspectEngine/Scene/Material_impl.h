@@ -13,11 +13,10 @@ namespace Prospect
       unsigned long GetID() const;
 
       //Internal
-      Material_impl(Material& parent, unsigned long id);
-      Material_impl(Material& parent, unsigned long id, const Color& diffuse);
+      Material_impl(unsigned long id);
+      Material_impl(unsigned long id, const Color& diffuse);
 
    private:
-      Material& m_parent;
       unsigned long m_id;
 
       Color m_diffuse;

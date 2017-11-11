@@ -16,12 +16,10 @@ namespace Prospect
    public:
       //Public
       void SetMesh(Mesh& mesh);
-      Mesh* GetMesh();
-      const Mesh* GetMesh() const;
+      std::optional<Mesh> GetMesh();
 
       void SetMaterial(Material& material);
-      Material* GetMaterial();
-      const Material* GetMaterial() const;
+      std::optional<Material> GetMaterial();
 
       unsigned long GetID() const;
 
@@ -49,6 +47,7 @@ namespace Prospect
       glm::mat4& GetTransform();
 
       Mesh_impl* GetMeshImpl();
+      Material_impl* GetMaterialImpl();
 
       IRenderable* GetRenderable();
       void SetRenderable(IRenderable* renderable);
@@ -63,8 +62,8 @@ namespace Prospect
       static unsigned long m_nextEntityID;
       unsigned long m_id;
 
-      Mesh* m_mesh;
-      Material* m_material;
+      std::shared_ptr<Mesh_impl> m_mesh;
+      std::shared_ptr<Material_impl> m_material;
 
       Entity_impl* m_parent;
       std::vector<std::shared_ptr<Entity_impl>> m_children;

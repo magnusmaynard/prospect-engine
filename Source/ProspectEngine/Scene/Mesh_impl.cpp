@@ -7,21 +7,18 @@
 using namespace Prospect;
 using namespace glm;
 
-Mesh_impl::Mesh_impl(Mesh& parent, unsigned long id)
+Mesh_impl::Mesh_impl(unsigned long id)
    :
-   m_parent(parent),
    m_id(id)
 {
 }
 
 Mesh_impl::Mesh_impl(
-   Mesh& parent,
    unsigned long id,
    const std::vector<vec3>& vertices,
    const std::vector<unsigned int>& indices,
    const std::vector<vec3>& normals)
    :
-   m_parent(parent),
    m_id(id),
    m_vertices(vertices),
    m_indices(indices),

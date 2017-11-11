@@ -15,13 +15,14 @@ namespace Prospect
    {
    public:
       MeshLibrary_impl(MeshLibrary& parent);
-      Mesh& CreatePlane(const glm::vec2& size);
-      Mesh& CreateCube(const glm::vec3& size);
+      Mesh CreatePlane(const glm::vec2& size);
+      Mesh CreateCube(const glm::vec3& size);
 
-      Mesh& GetMeshAtIndex(int index);
+      Mesh GetMeshAtIndex(int index);
+      int GetMeshCount() const;
 
    private:
-      Mesh& AddMesh(
+      Mesh AddMesh(
          const std::vector<glm::vec3>& vertices,
          const std::vector<unsigned int>& indices,
          const std::vector<glm::vec3>& normals);
@@ -29,6 +30,6 @@ namespace Prospect
       MeshLibrary& m_parent;
 
       unsigned long m_nextMeshID = NULL_ID;
-      std::deque<Mesh> m_meshes;
+      std::deque<std::shared_ptr<Mesh_impl>> m_meshes;
    };
 }

@@ -16,14 +16,15 @@ namespace Prospect
    public:
       MaterialLibrary_impl(MaterialLibrary& parent);
 
-      Material& CreateMaterial(const Color& color);
+      Material CreateMaterial(const Color& color);
 
-      Material& GetMaterialAtIndex(int index);
+      Material GetMaterialAtIndex(int index);
+      int GetMaterialCount() const;
 
    private:
       MaterialLibrary& m_parent;
 
       unsigned long m_nextMaterialID = NULL_ID;
-      std::deque<Material> m_materials;
+      std::deque<std::shared_ptr<Material_impl>> m_materials;
    };
 }

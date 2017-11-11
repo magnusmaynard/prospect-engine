@@ -15,17 +15,22 @@ MeshLibrary::MeshLibrary()
 
 MeshLibrary::~MeshLibrary() = default;
 
-Mesh& MeshLibrary::CreatePlane(const vec2& size)
+Mesh MeshLibrary::CreatePlane(const vec2& size)
 {
    return m_impl->CreatePlane(size);
 }
 
-Mesh& MeshLibrary::CreateCube(const glm::vec3& size)
+Mesh MeshLibrary::CreateCube(const glm::vec3& size)
 {
    return m_impl->CreateCube(size);
 }
 
-Mesh& MeshLibrary::GetMeshAtIndex(int index)
+Mesh MeshLibrary::GetMeshAtIndex(int index)
 {
    return m_impl->GetMeshAtIndex(index);
+}
+
+int MeshLibrary::GetMeshCount() const
+{
+   return m_impl->GetMeshCount();
 }

@@ -14,12 +14,17 @@ MaterialLibrary::MaterialLibrary()
 
 MaterialLibrary::~MaterialLibrary() = default;
 
-Material& MaterialLibrary::CreateMaterial(const Color& color)
+Material MaterialLibrary::CreateMaterial(const Color& color)
 {
    return m_impl->CreateMaterial(color);
 }
 
-Material& MaterialLibrary::GetMaterialAtIndex(int index)
+Material MaterialLibrary::GetMaterialAtIndex(int index)
 {
    return m_impl->GetMaterialAtIndex(index);
+}
+
+int MaterialLibrary::GetMaterialCount() const
+{
+   return m_impl->GetMaterialCount();
 }

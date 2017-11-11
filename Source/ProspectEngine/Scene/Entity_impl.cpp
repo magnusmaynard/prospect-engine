@@ -1,9 +1,11 @@
 #include "ProspectEngine_pch.h"
 
 #include "Scene/Entity_impl.h"
+#include "Scene/Material_impl.h"
 
 #include "Engine/EngineDefines.h"
 #include "Renderer/Renderables/IRenderable.h"
+#include "Engine/Extensions.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -13,13 +15,12 @@ unsigned long Entity_impl::m_nextEntityID = 0;
 Entity_impl::Entity_impl(Mesh& mesh, Material& material)
    :
    m_id(m_nextEntityID++),
-   m_mesh(&mesh),
-   m_material(&material),
+   m_mesh(mesh.m_impl),
+   m_material(material.m_impl),
    m_parent(nullptr),
    m_renderable(nullptr)
 {
 }
-
 
 Entity_impl::Entity_impl()
    :
@@ -43,32 +44,22 @@ std::vector<std::shared_ptr<Entity_impl>>& Entity_impl::GetChildren()
 
 void Entity_impl::SetMesh(Mesh& mesh)
 {
-   m_mesh = &mesh;
+   m_mesh = mesh.m_impl;
+}
+
+std::optional<Mesh> Entity_impl::GetMesh()
+{
+   return MakeOptionalImpl<Mesh>(m_mesh);
 }
 
 void Entity_impl::SetMaterial(Material& material)
 {
-   m_material = &material;
+   m_material = material.m_impl;
 }
 
-Mesh* Entity_impl::GetMesh()
+std::optional<Material> Entity_impl::GetMaterial()
 {
-   return m_mesh;
-}
-
-const Mesh* Entity_impl::GetMesh() const
-{
-   return m_mesh;
-}
-
-Material* Entity_impl::GetMaterial()
-{
-   return m_material;
-}
-
-const Material* Entity_impl::GetMaterial() const
-{
-   return m_material;
+   return MakeOptionalImpl<Material>(m_material);
 }
 
 unsigned long Entity_impl::GetID() const
@@ -184,12 +175,12 @@ int Entity_impl::GetEntityCount() const
 
 Mesh_impl* Entity_impl::GetMeshImpl()
 {
-   if (m_mesh == nullptr)
-   {
-      return nullptr;
-   }
+   return m_mesh.get();
+}
 
-   return m_mesh->m_impl.get();
+Material_impl* Entity_impl::GetMaterialImpl()
+{
+   return m_material.get();
 }
 
 IRenderable* Entity_impl::GetRenderable()

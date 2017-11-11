@@ -2,6 +2,8 @@
 
 #include "MeshLibrary_impl.h"
 
+#include "Scene/Mesh_impl.h"
+
 using namespace Prospect;
 using namespace glm;
 
@@ -10,7 +12,7 @@ MeshLibrary_impl::MeshLibrary_impl(MeshLibrary& parent)
 {
 }
 
-Mesh& MeshLibrary_impl::CreatePlane(const vec2& size)
+Mesh MeshLibrary_impl::CreatePlane(const vec2& size)
 {
    const vec2 halfSize = size * 0.5f;
 
@@ -39,7 +41,7 @@ Mesh& MeshLibrary_impl::CreatePlane(const vec2& size)
    return AddMesh(vertices, indices, normals);
 }
 
-Mesh& MeshLibrary_impl::CreateCube(const vec3& size)
+Mesh MeshLibrary_impl::CreateCube(const vec3& size)
 {
    const vec3 halfSize = size * 0.5f;
 
@@ -80,7 +82,7 @@ Mesh& MeshLibrary_impl::CreateCube(const vec3& size)
 }
 
 
-Mesh& MeshLibrary_impl::GetMeshAtIndex(int index)
+Mesh MeshLibrary_impl::GetMeshAtIndex(int index)
 {
    if (index < 0 || index >= static_cast<int>(m_meshes.size()))
    {
@@ -90,14 +92,19 @@ Mesh& MeshLibrary_impl::GetMeshAtIndex(int index)
    return m_meshes[index];
 }
 
-Mesh& MeshLibrary_impl::AddMesh(
+int MeshLibrary_impl::GetMeshCount() const
+{
+   return m_meshes.size();
+}
+
+Mesh MeshLibrary_impl::AddMesh(
    const std::vector<vec3>& vertices,
    const std::vector<unsigned int>& indices,
    const std::vector<vec3>& normals)
 {
    m_nextMeshID++;
 
-   m_meshes.emplace_back(Mesh(m_nextMeshID, vertices, indices, normals));
+   m_meshes.emplace_back(std::make_shared<Mesh_impl>(m_nextMeshID, vertices, indices, normals));
 
    return m_meshes.back();
 }

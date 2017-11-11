@@ -11,10 +11,7 @@ namespace Prospect
    {
    public:
       ~Mesh();
-      Mesh(const Mesh& other) = delete;
-      Mesh& operator=(const Mesh& other) = delete;
-      Mesh(Mesh&& other);
-      Mesh& operator=(Mesh&& other);
+      Mesh(std::shared_ptr<Mesh_impl>& impl);
 
       const std::vector<glm::vec3>& GetVertices() const;
       std::vector<glm::vec3>& GetVertices();
@@ -33,7 +30,7 @@ namespace Prospect
          const std::vector<unsigned int>& indices,
          const std::vector<glm::vec3>& normals);
 
-      std::unique_ptr<Mesh_impl> m_impl;
+      std::shared_ptr<Mesh_impl> m_impl;
 
       friend class Entity_impl;
       friend class MeshLibrary_impl;

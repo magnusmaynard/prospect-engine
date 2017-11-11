@@ -13,10 +13,11 @@ namespace Prospect
       MeshLibrary();
       ~MeshLibrary();
 
-      Mesh& CreatePlane(const glm::vec2& size);
-      Mesh& CreateCube(const glm::vec3& size);
+      Mesh CreatePlane(const glm::vec2& size);
+      Mesh CreateCube(const glm::vec3& size);
 
-      Mesh& GetMeshAtIndex(int index);
+      Mesh GetMeshAtIndex(int index);
+      int GetMeshCount() const;
 
    private:
       std::unique_ptr<MeshLibrary_impl> m_impl;

@@ -20,11 +20,9 @@ namespace Prospect
 
       //Internal
       Mesh_impl(
-         Mesh& parent,
          unsigned long id);
 
       Mesh_impl(
-         Mesh& parent,
          unsigned long id,
          const std::vector<glm::vec3>& vertices,
          const std::vector<unsigned int>& indices,
@@ -36,8 +34,6 @@ namespace Prospect
       unsigned long GetID() const;
 
    private:
-      Mesh& m_parent;
-
       unsigned long m_id = 0;
 
       std::vector<glm::vec3> m_vertices;

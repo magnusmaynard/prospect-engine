@@ -14,8 +14,9 @@ namespace Prospect
       MaterialLibrary();
       ~MaterialLibrary();
 
-      Material& CreateMaterial(const Color& color);
-      Material& GetMaterialAtIndex(int index);
+      Material CreateMaterial(const Color& color);
+      Material GetMaterialAtIndex(int index);
+      int GetMaterialCount() const;
 
    private:
       std::unique_ptr<MaterialLibrary_impl> m_impl;
