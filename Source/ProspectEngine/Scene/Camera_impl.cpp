@@ -151,7 +151,7 @@ mat4 Camera_impl::GetView() const
 
 mat4 Camera_impl::GetProjection() const
 {
-   if(m_isPespective)
+   if (m_isPespective)
    {
       return GetPerspectiveProjection();
    }

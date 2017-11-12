@@ -39,8 +39,8 @@ namespace Prospect
    private:
       void InitialiseFont(int size);
       void CreateBuffers();
-      void UpdateText();
-      void UpdateTransform();
+      void UpdateTextIfDirty();
+      void UpdateTransformIfDirty();
 
       static TextBounds GetTextBounds(const FT_Face face, const std::string& text);
       static glm::ivec2 NextPowerOf2(const glm::ivec2& value);
@@ -63,8 +63,6 @@ namespace Prospect
       };
 
       GLuint m_buffers[BUFFER_COUNT];
-
-      UniformBuffer<TextUniforms> m_textUniformBuffer;
 
       glm::mat4 m_transform;
       glm::ivec2 m_position;
