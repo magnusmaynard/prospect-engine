@@ -30,8 +30,8 @@ void Renderer::Initialize()
    glEnable(GL_BLEND);
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-   glEnable(GL_CULL_FACE);
-   glFrontFace(GL_CCW);
+   //glEnable(GL_CULL_FACE);
+   //glFrontFace(GL_CCW);
 
    m_fpsText = std::make_unique<RenderableText>(
       m_globalUniformBuffers, "", ivec2(4, 0), 12);
@@ -79,8 +79,6 @@ void Renderer::Render(double time, Scene_impl& scene)
    //HUD
    if (m_showFPS)
    {
-      m_fpsText->SetScreenSize(scene.GetCamera().GetSize()); //TODO: Pass ortho projection via GlobalUniformBuffer
-
       UpdateFPS(time);
       m_fpsText->Render();
    }

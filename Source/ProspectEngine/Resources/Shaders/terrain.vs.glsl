@@ -4,7 +4,8 @@ layout (location = 0) in vec3 point;
 
 layout (std140) uniform CameraUniforms
 {
-   mat4 Projection;
+   mat4 PerspectiveProjection;
+   mat4 OrthographicProjection;
    mat4 View;
    vec4 ViewDirection;
    vec4 Position;
@@ -41,5 +42,5 @@ void main()
 
    vs_out.textureCoord = vertex.xz / totalSize + vec2(0.5);
 
-   gl_Position = camera.Projection * camera.View * vertex;
+   gl_Position = camera.PerspectiveProjection * camera.View * vertex;
 }

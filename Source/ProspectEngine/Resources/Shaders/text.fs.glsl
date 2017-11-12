@@ -4,7 +4,6 @@ uniform sampler2D sampler;
 
 out vec4 color;
 
-
 in vec2 textureCoord;
 
 void main()

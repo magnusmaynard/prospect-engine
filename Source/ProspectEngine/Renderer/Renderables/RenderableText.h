@@ -7,6 +7,8 @@
 
 #include <glm/mat4x4.hpp>
 #include "Renderer/Renderables/IRenderable.h"
+#include "Renderer/Uniforms/UniformBuffer.h"
+#include "Renderer/Uniforms/UniformBlocks.h"
 
 namespace Prospect
 {
@@ -31,7 +33,6 @@ namespace Prospect
 
       void SetText(const std::string& text);
       void SetPosition(const glm::ivec2 position);
-      void SetScreenSize(const glm::ivec2& screenSize);
 
       void Render() override;
 
@@ -39,8 +40,7 @@ namespace Prospect
       void InitialiseFont(int size);
       void CreateBuffers();
       void UpdateText();
-      void UpdateProjectionMatrix();
-      void UpdateTransformMatrix();
+      void UpdateTransform();
 
       static TextBounds GetTextBounds(const FT_Face face, const std::string& text);
       static glm::ivec2 NextPowerOf2(const glm::ivec2& value);
@@ -64,13 +64,12 @@ namespace Prospect
 
       GLuint m_buffers[BUFFER_COUNT];
 
+      UniformBuffer<TextUniforms> m_textUniformBuffer;
+
       glm::mat4 m_transform;
-      glm::mat4 m_projection;
-      glm::ivec2 m_screenSize;
       glm::ivec2 m_position;
 
       mutable bool m_textIsDirty;
       mutable bool m_transformIsDirty;
-      mutable bool m_projectionIsDirty;
    };
 }

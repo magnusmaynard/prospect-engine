@@ -1,7 +1,19 @@
 ﻿#version 450
 
-layout (location = 0) uniform mat4 projection;
-layout (location = 2) uniform mat4 model;
+layout (std140) uniform CameraUniforms
+{
+   mat4 PerspectiveProjection;
+   mat4 OrthographicProjection;
+   mat4 View;
+   vec4 ViewDirection;
+   vec4 Position;
+   vec2 ScreenSize;
+} camera;
+
+layout (std140) uniform TextUniforms
+{
+   vec4 Model;
+} text;
 
 layout (location = 0) in vec2 position;
 layout (location = 1) in vec2 textureCoords;
@@ -12,5 +24,5 @@ void main()
 {
    textureCoord = textureCoords;
 
-   gl_Position = projection * model * vec4(position, 0, 1);
+   gl_Position = camera.OrthographicProjection * text.Model * vec4(position, 0, 1);
 }

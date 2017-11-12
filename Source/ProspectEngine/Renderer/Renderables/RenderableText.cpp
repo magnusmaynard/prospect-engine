@@ -26,9 +26,10 @@ RenderableText::RenderableText(
    m_position(position),
    m_textIsDirty(true),
    m_transformIsDirty(true),
-   m_projectionIsDirty(true)
+   m_textUniformBuffer("TextUniforms")
 {
-   //globalUniformBuffers.Camera.Bind(m_shader);
+   globalUniformBuffers.Camera.Bind(m_shader);
+   m_textUniformBuffer.Bind(m_shader);
 
    InitialiseFont(size);
 
@@ -148,36 +149,16 @@ void RenderableText::SetPosition(const ivec2 position)
    }
 }
 
-void RenderableText::SetScreenSize(const ivec2& screenSize)
-{
-   if (m_screenSize != screenSize)
-   {
-      m_screenSize = screenSize;
-
-      m_projectionIsDirty = true;
-   }
-}
-
 void RenderableText::Render()
 {
    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-   if(m_textIsDirty)
-   {
-      m_textIsDirty = false;
-
-      UpdateText();
-   }
-
-   UpdateProjectionMatrix();
-   UpdateTransformMatrix();
+   UpdateText();
+   UpdateTransform();
 
    m_shader.Bind();
    glBindVertexArray(m_VAO);
    glBindTexture(GL_TEXTURE_2D, m_texture);
-
-   glUniformMatrix4fv(0, 1, GL_FALSE, &m_projection[0][0]);
-   glUniformMatrix4fv(2, 1, GL_FALSE, &m_transform[0][0]);
 
    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
@@ -230,6 +211,13 @@ TextBounds RenderableText::GetTextBounds(const FT_Face face, const std::string& 
 
 void RenderableText::UpdateText()
 {
+   if (!m_textIsDirty)
+   {
+      return;
+   }
+
+   m_textIsDirty = false;
+
    FT_GlyphSlot glyph = m_face->glyph;
 
    TextBounds bounds = GetTextBounds(m_face, m_text);
@@ -261,13 +249,13 @@ void RenderableText::UpdateText()
    {
       FT_Load_Char(m_face, m_text[i], FT_LOAD_RENDER);
 
-      int width = glyph->bitmap.width;
-      int height = glyph->bitmap.rows;
-      int totalWidth = NextPowerOf2(width);
-      auto bitmap = glyph->bitmap;
+      const int width = glyph->bitmap.width;
+      const int height = glyph->bitmap.rows;
+      const int totalWidth = NextPowerOf2(width);
+      const auto bitmap = glyph->bitmap;
 
-      int verticalOffset = bounds.max.y - glyph->bitmap_top;
-      int horizontalOffset = glyph->bitmap_left;
+      const int verticalOffset = bounds.max.y - glyph->bitmap_top;
+      const int horizontalOffset = glyph->bitmap_left;
 
       std::vector<unsigned char> newBuffer(totalWidth * textureSize.y, 0);
 
@@ -292,25 +280,18 @@ void RenderableText::UpdateText()
    }
 }
 
-void RenderableText::UpdateProjectionMatrix()
+void RenderableText::UpdateTransform()
 {
-   if (m_projectionIsDirty)
+   if (!m_transformIsDirty)
    {
-      m_projectionIsDirty = false;
-
-      m_projection = ortho(
-         0.f, static_cast<float>(m_screenSize.x),
-         0.f, static_cast<float>(m_screenSize.y),
-         -1.f, 1.f);
+      return;
    }
-}
 
-void RenderableText::UpdateTransformMatrix()
-{
-   if (m_transformIsDirty)
-   {
-      m_transformIsDirty = false;
+   m_transformIsDirty = false;
 
-      m_transform = translate(mat4(), vec3(m_position.x, m_position.y, 0));
-   }
+   m_transform = translate(mat4(), vec3(m_position.x, m_position.y, 10));
+
+   m_textUniformBuffer.Update(TextUniforms{
+      m_transform
+   });
 }

@@ -2,7 +2,8 @@
 
 layout (std140, binding = 0) uniform CameraUniforms
 {
-   mat4 Projection;
+   mat4 PerspectiveProjection;
+   mat4 OrthographicProjection;
    mat4 View;
    vec4 ViewDirection;
    vec4 Position;
@@ -23,5 +24,5 @@ layout (location = 0) in vec3 point;
 
 void main()
 {
-   gl_Position = camera.Projection * camera.View * model * vec4(point, 1.0);
+   gl_Position = camera.PerspectiveProjection * camera.View * model * vec4(point, 1.0);
 }
