@@ -11,6 +11,7 @@
 #include "Resources/ResourceIO.h"
 
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
+#include "Engine/EngineDefines.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -25,10 +26,9 @@ RenderableText::RenderableText(
    m_text(text),
    m_position(position),
    m_textIsDirty(true),
-   m_transformIsDirty(true),
-   m_projectionIsDirty(true)
+   m_transformIsDirty(true)
 {
-   //globalUniformBuffers.Camera.Bind(m_shader);
+   globalUniformBuffers.Camera.Bind(m_shader);
 
    InitialiseFont(size);
 
@@ -115,10 +115,10 @@ void RenderableText::CreateBuffers()
 
    static const std::vector<vec2> textureCoords =
    {
-      vec2(0, 1),
       vec2(0, 0),
+      vec2(0, 1),
+      vec2(1, 0),
       vec2(1, 1),
-      vec2(1, 0)
    };
 
    glNamedBufferStorage(
@@ -148,36 +148,18 @@ void RenderableText::SetPosition(const ivec2 position)
    }
 }
 
-void RenderableText::SetScreenSize(const ivec2& screenSize)
-{
-   if (m_screenSize != screenSize)
-   {
-      m_screenSize = screenSize;
-
-      m_projectionIsDirty = true;
-   }
-}
-
 void RenderableText::Render()
 {
    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-   if(m_textIsDirty)
-   {
-      m_textIsDirty = false;
-
-      UpdateText();
-   }
-
-   UpdateProjectionMatrix();
-   UpdateTransformMatrix();
+   UpdateTextIfDirty();
+   UpdateTransformIfDirty();
 
    m_shader.Bind();
    glBindVertexArray(m_VAO);
    glBindTexture(GL_TEXTURE_2D, m_texture);
 
-   glUniformMatrix4fv(0, 1, GL_FALSE, &m_projection[0][0]);
-   glUniformMatrix4fv(2, 1, GL_FALSE, &m_transform[0][0]);
+   glUniformMatrix4fv(10, 1, GL_FALSE, &m_transform[0][0]);
 
    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
@@ -228,12 +210,19 @@ TextBounds RenderableText::GetTextBounds(const FT_Face face, const std::string& 
    return bounds;
 }
 
-void RenderableText::UpdateText()
+void RenderableText::UpdateTextIfDirty()
 {
-   FT_GlyphSlot glyph = m_face->glyph;
 
-   TextBounds bounds = GetTextBounds(m_face, m_text);
-   ivec2 textureSize = NextPowerOf2(bounds.size);
+   if (!m_textIsDirty)
+   {
+      return;
+   }
+
+   m_textIsDirty = false;
+
+   const FT_GlyphSlot glyph = m_face->glyph;
+   const TextBounds bounds = GetTextBounds(m_face, m_text);
+   const ivec2 textureSize = NextPowerOf2(bounds.size);
 
    glDeleteTextures(1, &m_texture);
    glCreateTextures(GL_TEXTURE_2D, 1, &m_texture);
@@ -244,10 +233,10 @@ void RenderableText::UpdateText()
 
    std::vector<vec2> positions =
    {
-      vec2(0, 0),
       vec2(0, textureSize.y),
+      vec2(0, 0),
+      vec2(textureSize.x, textureSize.y),
       vec2(textureSize.x, 0),
-      vec2(textureSize.x, textureSize.y)
    };
 
    glNamedBufferSubData(
@@ -261,13 +250,13 @@ void RenderableText::UpdateText()
    {
       FT_Load_Char(m_face, m_text[i], FT_LOAD_RENDER);
 
-      int width = glyph->bitmap.width;
-      int height = glyph->bitmap.rows;
-      int totalWidth = NextPowerOf2(width);
-      auto bitmap = glyph->bitmap;
+      const int width = glyph->bitmap.width;
+      const int height = glyph->bitmap.rows;
+      const int totalWidth = NextPowerOf2(width);
+      const auto bitmap = glyph->bitmap;
 
-      int verticalOffset = bounds.max.y - glyph->bitmap_top;
-      int horizontalOffset = glyph->bitmap_left;
+      const int verticalOffset = bounds.max.y - glyph->bitmap_top;
+      const int horizontalOffset = glyph->bitmap_left;
 
       std::vector<unsigned char> newBuffer(totalWidth * textureSize.y, 0);
 
@@ -292,25 +281,12 @@ void RenderableText::UpdateText()
    }
 }
 
-void RenderableText::UpdateProjectionMatrix()
-{
-   if (m_projectionIsDirty)
-   {
-      m_projectionIsDirty = false;
-
-      m_projection = ortho(
-         0.f, static_cast<float>(m_screenSize.x),
-         0.f, static_cast<float>(m_screenSize.y),
-         -1.f, 1.f);
-   }
-}
-
-void RenderableText::UpdateTransformMatrix()
+void RenderableText::UpdateTransformIfDirty()
 {
    if (m_transformIsDirty)
    {
       m_transformIsDirty = false;
 
-      m_transform = translate(mat4(), vec3(m_position.x, m_position.y, 0));
+      m_transform = translate(mat4(), vec3(m_position.x, m_position.y, -10));
    }
 }

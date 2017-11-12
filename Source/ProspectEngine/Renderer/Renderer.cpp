@@ -79,8 +79,6 @@ void Renderer::Render(double time, Scene_impl& scene)
    //HUD
    if (m_showFPS)
    {
-      m_fpsText->SetScreenSize(scene.GetCamera().GetSize()); //TODO: Pass ortho projection via GlobalUniformBuffer
-
       UpdateFPS(time);
       m_fpsText->Render();
    }

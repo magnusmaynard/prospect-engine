@@ -14,6 +14,7 @@ Camera_impl::Camera_impl(Camera& parent, const ivec2& size)
    m_forward(POS_Z),
    m_minAngle(DEFAULT_CAMERA_MIN_ANGLE),
    m_maxAngle(DEFAULT_CAMERA_MAX_ANGLE),
+   m_isPespective(true),
    m_viewIsDirty(true),
    m_projectionIsDirty(true)
 {
@@ -107,7 +108,7 @@ vec3 Camera_impl::GetLeft() const
    return cross(m_up, m_forward);
 }
 
-void Camera_impl::UpdateViewMatrix() const
+void Camera_impl::UpdateView() const
 {
    if (m_viewIsDirty)
    {
@@ -117,32 +118,57 @@ void Camera_impl::UpdateViewMatrix() const
    }
 }
 
-void Camera_impl::UpdateProjectionMatrix() const
+void Camera_impl::UpdateProjectionsIfDirty() const
 {
    if (m_projectionIsDirty)
    {
+      m_projectionIsDirty = false;
+
       float aspect = m_size.x / static_cast<float>(m_size.y);
 
-      m_projection = perspective(
+      m_perspectiveProjection = perspective(
          radians(DEFAULT_CAMERA_FOV),
          aspect,
          DEFAULT_CAMERA_NEAR,
          DEFAULT_CAMERA_FAR);
 
-      m_projectionIsDirty = false;
+      m_orthographicProjection = ortho(
+         0.f,
+         static_cast<float>(m_size.x),
+         0.f,
+         static_cast<float>(m_size.y),
+         DEFAULT_CAMERA_NEAR,
+         DEFAULT_CAMERA_FAR);
    }
 }
 
-mat4 Camera_impl::GetViewMatrix() const
+mat4 Camera_impl::GetView() const
 {
-   UpdateViewMatrix();
+   UpdateView();
 
    return m_view;
 }
 
-mat4 Camera_impl::GetProjectionMatrix() const
+mat4 Camera_impl::GetProjection() const
 {
-   UpdateProjectionMatrix();
+   if (m_isPespective)
+   {
+      return GetPerspectiveProjection();
+   }
 
-   return m_projection;
+   return GetOrthographicProjection();
+}
+
+mat4 Camera_impl::GetPerspectiveProjection() const
+{
+   UpdateProjectionsIfDirty();
+
+   return m_perspectiveProjection;
+}
+
+mat4 Camera_impl::GetOrthographicProjection() const
+{
+   UpdateProjectionsIfDirty();
+
+   return m_orthographicProjection;
 }

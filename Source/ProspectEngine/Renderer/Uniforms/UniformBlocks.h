@@ -16,15 +16,17 @@ namespace Prospect
 
       CameraUniforms(const Camera_impl& camera)
          :
-         Projection(camera.GetProjectionMatrix()),
-         View(camera.GetViewMatrix()),
+         PerspectiveProjection(camera.GetPerspectiveProjection()),
+         OrthographicProjection(camera.GetOrthographicProjection()),
+         View(camera.GetView()),
          ViewDirection(glm::vec4(camera.GetForward(), 0)),
          Position(glm::vec4(camera.GetPosition(), 0)),
          ScreenSize(camera.GetSize())
       {
       }
 
-      glm::mat4 Projection;
+      glm::mat4 PerspectiveProjection;
+      glm::mat4 OrthographicProjection;
       glm::mat4 View;
       glm::vec4 ViewDirection;
       glm::vec4 Position;
@@ -97,5 +99,10 @@ namespace Prospect
    struct AtmosphereUniforms
    {
       float Altitude;
+   };
+
+   struct TextUniforms
+   {
+      glm::mat4 Model;
    };
 }

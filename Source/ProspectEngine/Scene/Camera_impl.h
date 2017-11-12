@@ -27,14 +27,17 @@ namespace Prospect
 
       glm::ivec2 GetSize() const;
       void SetSize(const glm::ivec2& size);
+
       void Turn(const glm::vec2 delta);
 
-      glm::mat4 GetViewMatrix() const;
-      glm::mat4 GetProjectionMatrix() const;
+      glm::mat4 GetView() const;
+      glm::mat4 GetProjection() const;
+      glm::mat4 GetPerspectiveProjection() const;
+      glm::mat4 GetOrthographicProjection() const;
 
    private:
-      void UpdateViewMatrix() const;
-      void UpdateProjectionMatrix() const;
+      void UpdateView() const;
+      void UpdateProjectionsIfDirty() const;
 
       Camera& m_parent;
 
@@ -46,9 +49,13 @@ namespace Prospect
       float m_minAngle;
       float m_maxAngle;
 
+      bool m_isPespective;
+
       mutable bool m_viewIsDirty;
-      mutable bool m_projectionIsDirty;
-      mutable glm::mat4 m_projection;
       mutable glm::mat4 m_view;
+
+      mutable bool m_projectionIsDirty;
+      mutable glm::mat4 m_perspectiveProjection;
+      mutable glm::mat4 m_orthographicProjection;
    };
 }

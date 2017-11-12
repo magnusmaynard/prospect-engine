@@ -6,7 +6,8 @@
 //Global Uniforms
 layout (std140) uniform CameraUniforms
 {
-   mat4 Projection;
+   mat4 PerspectiveProjection;
+   mat4 OrthographicProjection;
    mat4 View;
    vec4 ViewDirection;
    vec4 Position;
@@ -60,7 +61,7 @@ vec3 RayFromCamera(const vec2 point)
 {
    vec2 position = vec2((2.0 * point) / camera.ScreenSize - 1.0); //Normalised
    vec4 rayClip = vec4(position, -1.0, 1.0);
-   vec4 rayEye = vec4((inverse(camera.Projection) * rayClip).xy, -1.0, 0.0);
+   vec4 rayEye = vec4((inverse(camera.PerspectiveProjection) * rayClip).xy, -1.0, 0.0);
    vec3 rayWorld = (inverse(camera.View) * rayEye).xyz;
 
    return normalize(rayWorld);
