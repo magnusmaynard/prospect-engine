@@ -27,6 +27,7 @@ namespace Prospect
       RenderableEntity& operator=(RenderableEntity&& other) = delete;
 
       void Render() override;
+      void MakeDirty() override;
 
    private:
       void BindTransform(const glm::mat4& transform);

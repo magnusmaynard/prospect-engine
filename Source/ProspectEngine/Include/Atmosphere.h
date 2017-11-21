@@ -12,11 +12,21 @@ namespace Prospect
       Atmosphere(std::shared_ptr<Atmosphere_impl>& impl);
       ~Atmosphere();
 
+      void SetSunDirection(const glm::vec3& value);
+      glm::vec3 GetSunDirection() const;
+
+      void SetInnerRadius(const float value);
+      float GetInnerRadius() const;
+
+      void SetOutterRadius(const float value);
+      float GetOutterRadius() const;
+
       void SetAltitude(float height);
       float GetAltitude() const;
 
-      void SetLightSource(const Light& lightSource);
-      const Light* GetLightSource() const;
+      //Height of average density of atmosphere.
+      void SetDensityScale(const float value);
+      float GetDensityScale() const;
 
    private:
       std::shared_ptr<Atmosphere_impl> m_impl;

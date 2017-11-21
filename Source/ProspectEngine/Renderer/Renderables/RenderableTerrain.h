@@ -9,6 +9,7 @@ namespace Prospect
 {
    struct GlobalUniformBuffers;
    class Scene_impl;
+   class IRenderable;
 
    class RenderableTerrain
    {

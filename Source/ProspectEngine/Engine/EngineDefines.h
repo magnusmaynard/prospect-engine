@@ -34,4 +34,8 @@ namespace Prospect
    static const float DEFAULT_LIGHT_BRIGHTNESS = 1.f;
 
    static const glm::vec3 DEFAULT_ATMOSPHERE_SUN_DIRECTION(1, 1, -1);
+   static const float DEFAULT_ATMOSPHERE_INNER_RADIUS = 1500.f;
+   static const float DEFAULT_ATMOSPHERE_OUTTER_RADIUS = 2000.f;
+   static const float DEFAULT_ATMOSPHERE_DENSITY_SCALE = 0.25f;
+   static const float DEFAULT_ATMOSPHERE_ALTITUDE = 1500.1f;
 }

@@ -14,15 +14,13 @@ layout (std140) uniform CameraUniforms
    vec2 ScreenSize;
 } camera;
 
-layout (std140) uniform DirectionalLightUniforms
-{
-   vec4 Direction;
-   vec4 DiffuseColor;
-} light;
-
 //Local Uniforms
 layout (std140) uniform AtmosphereUniforms
 {
+   vec4 SunDirection;
+   float InnerRadius;
+   float OutterRadius;
+   float DensityScale;
    float Altitude;
 } atmosphere;
 
@@ -31,11 +29,8 @@ out vec4 color;
 
 //Configuration
 const vec3 EARTH_POSITION = vec3(0, 0, 0);
-const float EARTH_OUTTER_RADIUS = 2000.0;
-const float EARTH_INNER_RADIUS = 1500.0;
-const float MAX_HEIGHT = EARTH_OUTTER_RADIUS - EARTH_INNER_RADIUS; //Thickness of atmosphere.
-const float SCALE_HEIGHT = 0.25; //Height of average density of atmosphere.
-const float SCALE = 1.0 / (EARTH_OUTTER_RADIUS - EARTH_INNER_RADIUS);
+const float MAX_HEIGHT = atmosphere.OutterRadius - atmosphere.InnerRadius; //Thickness of atmosphere.
+const float SCALE = 1.0 / (atmosphere.OutterRadius - atmosphere.InnerRadius);
 
 const int IN_SCATTER_SAMPLES = 10;
 const float IN_SCATTER_SAMPLES_F = IN_SCATTER_SAMPLES;
@@ -99,8 +94,8 @@ vec2 RaySphereIntersection(
 //TODO: Light does not seem to go around earth, maybe intersection are clipping the inner sphere.
 bool RayEarthIntersections(const vec3 position, const vec3 ray, out vec2 nearFar) // out vec3 far
 {
-   vec2 outterNearFar = RaySphereIntersection(position, ray, EARTH_POSITION, EARTH_OUTTER_RADIUS);
-   vec2 innerNearFar = RaySphereIntersection(position, ray, EARTH_POSITION, EARTH_INNER_RADIUS);
+   vec2 outterNearFar = RaySphereIntersection(position, ray, EARTH_POSITION, atmosphere.OutterRadius);
+   vec2 innerNearFar = RaySphereIntersection(position, ray, EARTH_POSITION, atmosphere.InnerRadius);
 
    if(outterNearFar.y == 0)//No intersections.
    {
@@ -139,8 +134,8 @@ float MiePhase(float g1, float g2, float cos1, float cos2)
 //Get density of a given sample point.
 float Density(vec3 samplePoint)
 {
-   float sampleHeight = (length(EARTH_POSITION - samplePoint) - EARTH_INNER_RADIUS) / MAX_HEIGHT;
-   return exp(-sampleHeight / SCALE_HEIGHT);
+   float sampleHeight = (length(EARTH_POSITION - samplePoint) - atmosphere.InnerRadius) / MAX_HEIGHT;
+   return exp(-sampleHeight / atmosphere.DensityScale);
 }
 
 //Average atmospheric density between two intersection points.
@@ -173,8 +168,8 @@ vec3 InScattering(vec3 ray, vec3 near, vec3 far)
    for(int i = 0; i < IN_SCATTER_SAMPLES; i++)
    {
       //Out scattering to sun.
-      vec3 sunRay = -light.Direction.xyz;
-      vec2 sunNearFar = RaySphereIntersection(samplePoint, sunRay, EARTH_POSITION, EARTH_OUTTER_RADIUS);
+      vec3 sunRay = -atmosphere.SunDirection.xyz;
+      vec2 sunNearFar = RaySphereIntersection(samplePoint, sunRay, EARTH_POSITION, atmosphere.OutterRadius);
 
       vec3 farPoint = samplePoint + (sunRay * sunNearFar.y);
       float sunOutScattering = OutScattering(samplePoint, farPoint);
@@ -190,7 +185,7 @@ vec3 InScattering(vec3 ray, vec3 near, vec3 far)
 
    totalScattering = totalScattering * length(increment) * SCALE;
 
-   float c1 = dot(ray, light.Direction.xyz);
+   float c1 = dot(ray, atmosphere.SunDirection.xyz);
    float c2 = c1 * c1;
 
    vec3 rayleigh = I_SUN * K_RAYLEIGH * INVERSE_WAVELENGTH * RayleighPhase(c2) * totalScattering;

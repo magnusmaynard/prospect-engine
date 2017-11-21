@@ -35,6 +35,7 @@ namespace Prospect
       void SetPosition(const glm::ivec2 position);
 
       void Render() override;
+      void MakeDirty() override;
 
    private:
       void InitialiseFont(int size);

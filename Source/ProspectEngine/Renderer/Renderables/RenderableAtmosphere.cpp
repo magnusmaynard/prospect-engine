@@ -14,6 +14,7 @@ RenderableAtmosphere::RenderableAtmosphere(
    const GlobalUniformBuffers& globalUniformBuffers,
    const Atmosphere_impl& atmosphere)
    :
+   m_isDirty(true),
    m_atmosphereShader(ShaderFactory::CreateShader(
       Resources::ATMOSPHERE_VERTEX_SHADER,
       Resources::ATMOSPHERE_FRAGMENT_SHADER)),
@@ -23,24 +24,19 @@ RenderableAtmosphere::RenderableAtmosphere(
    m_atmosphereUniformBuffer("AtmosphereUniforms"),
    m_atmosphere(atmosphere),
    m_sunUniformBuffer("SunUniforms"),
-   m_sunColor(1, 0, 0),
-   m_sunRadius(20)
+   m_sunColor(1, 1, 1), //TODO:
+   m_sunRadius(100),
+   m_sunDistance(8000)
 {
    //Atmosphere
    globalUniformBuffers.Camera.Bind(m_atmosphereShader);
-   globalUniformBuffers.DirectionalLight.Bind(m_atmosphereShader);
-
    m_atmosphereUniformBuffer.Bind(m_atmosphereShader);
-   m_atmosphereUniformBuffer.Update({
-      m_atmosphere.GetAltitude()
-   });
 
    //Sun
    globalUniformBuffers.Camera.Bind(m_sunShader);
    m_sunUniformBuffer.Bind(m_sunShader);
 
    CreateSun();
-   UpdateSunTranslation();
 }
 
 RenderableAtmosphere::~RenderableAtmosphere()
@@ -96,25 +92,40 @@ void RenderableAtmosphere::CreateSun()
 }
 
 
-void RenderableAtmosphere::UpdateSunTranslation()
+void RenderableAtmosphere::UpdateUniformsIfDirty()
 {
-   const float distance = 1000;
-   const vec3 direction = normalize(vec3(0, 1, -1));//m_atmosphere.GetSunDirection();
-   m_sunTranslation = translate(direction * distance);
-   m_sunUniformBuffer.Update({ m_sunTranslation });
+   if (m_isDirty)
+   {
+      m_isDirty = false;
+
+      //Sun
+      const vec3 direction = normalize(-m_atmosphere.GetSunDirection());
+      m_sunTranslation = translate(direction * m_sunDistance);
+      m_sunUniformBuffer.Update({ m_sunTranslation });
+
+      //Atmosphere
+      m_atmosphereUniformBuffer.Update(m_atmosphere);
+   }
 }
 
 void RenderableAtmosphere::Render()
 {
+   UpdateUniformsIfDirty();
+
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
 
+   //Sun
    m_sunShader.Bind();
    glBindVertexArray(m_sunVAO);
-
-
    glUniform3fv(4, 1, &m_sunColor[0]);
    glDrawArrays(GL_TRIANGLE_FAN, 0, m_sunPoints.size());
 
+   //Atmosphere
    m_atmosphereShader.Bind();
    glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+void RenderableAtmosphere::MakeDirty()
+{
+   m_isDirty = true;
 }

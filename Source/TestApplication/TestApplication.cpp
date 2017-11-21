@@ -41,14 +41,13 @@ void TestApplication::OnStartup()
    Terrain terrain(vec3(), heightMap, 800, 0, 50);
    m_scene.SetTerrain(terrain);
 
-   Light sun(vec3(0, 0, 0), vec3(0, -1, 0));
-   sun.SetColor(Color(0.5, 0.5, 0.5));
-   m_scene.AddLight(sun);
+   //Light sun(vec3(0, 0, 0), vec3(0, -1, 0));
+   //sun.SetColor(Color(0.5, 0.5, 0.5));
+   //m_scene.AddLight(sun);
 
    Atmosphere atmosphere;
    m_scene.SetAtmosphere(atmosphere);
    atmosphere.SetAltitude(1501);
-   atmosphere.SetLightSource(sun);
 
    Material green = m_materialLib.CreateMaterial();
    Mesh plane = m_meshLib.CreatePlane(vec2(100, 100));
@@ -142,14 +141,18 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
       }
       case Key::D3:
       {
-         auto light = m_scene.GetLight(0);
-         light.SetDirection(rotateX(light.GetDirection(), 0.1f));
+         if (auto atmosphere = m_scene.GetAtmosphere())
+         {
+            atmosphere->SetSunDirection(rotateX(atmosphere->GetSunDirection(), 0.1f));
+         }
          break;
       }
       case Key::D4:
       {
-         auto light = m_scene.GetLight(0);
-         light.SetDirection(rotateX(light.GetDirection(), -0.1f));
+         if (auto atmosphere = m_scene.GetAtmosphere())
+         {
+            atmosphere->SetSunDirection(rotateX(atmosphere->GetSunDirection(), -0.1f));
+         }
          break;
       }
       case Key::W:

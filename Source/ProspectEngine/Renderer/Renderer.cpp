@@ -62,25 +62,25 @@ void Renderer::Render(double time, Scene_impl& scene)
       m_atmosphere->Render();
    }
 
-   //ClearDepthBuffer();
+   ClearDepthBuffer();
 
-   ////Foreground
-   //for (auto& renderable : m_renderables)
-   //{
-   //   renderable->Render();
-   //}
+   //Foreground
+   for (auto& renderable : m_renderables)
+   {
+      renderable->Render();
+   }
 
-   //if (m_terrain)
-   //{
-   //   m_terrain->Render();
-   //}
+   if (m_terrain)
+   {
+      m_terrain->Render();
+   }
 
-   ////HUD
-   //if (m_showFPS)
-   //{
-   //   UpdateFPS(time);
-   //   m_fpsText->Render();
-   //}
+   //HUD
+   if (m_showFPS)
+   {
+      UpdateFPS(time);
+      m_fpsText->Render();
+   }
 }
 
 
@@ -127,7 +127,7 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
    m_globalUniformBuffers.Camera.Update(CameraUniforms(scene.GetCameraImpl()));
 
    //TODO: Get all lights
-   m_globalUniformBuffers.DirectionalLight.Update(DirectionalLightUniforms(*scene.GetLightImpl(0)));
+   //m_globalUniformBuffers.DirectionalLight.Update(DirectionalLightUniforms(*scene.GetLightImpl(0)));
 }
 
 void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)
@@ -146,9 +146,11 @@ void Renderer::UpdateRenderableAtmosphere(const Scene_impl& scene)
 {
    if (m_atmosphere == nullptr)
    {
-      if (auto atmosphere = scene.GetAtmosphereImpl())
+      if (const auto atmosphere = scene.GetAtmosphereImpl())
       {
          m_atmosphere = std::make_unique<RenderableAtmosphere>(m_globalUniformBuffers, *atmosphere);
+
+         atmosphere->SetRenderable(m_atmosphere.get());
       }
    }
 }

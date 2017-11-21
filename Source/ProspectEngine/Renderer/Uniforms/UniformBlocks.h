@@ -2,6 +2,7 @@
 #include "Scene/Lights/Light_impl.h"
 #include "Scene/Material_impl.h"
 #include "Scene/Camera_impl.h"
+#include "Scene/Atmosphere_impl.h"
 
 namespace Prospect
 {
@@ -98,6 +99,24 @@ namespace Prospect
 
    struct AtmosphereUniforms
    {
+      AtmosphereUniforms()
+      {
+      }
+
+      AtmosphereUniforms(const Atmosphere_impl& atmosphere)
+         :
+         SunDirection(glm::vec4(normalize(atmosphere.GetSunDirection()), 0)),
+         InnerRadius(atmosphere.GetInnerRadius()),
+         OutterRadius(atmosphere.GetOutterRadius()),
+         DensityScale(atmosphere.GetDensityScale()),
+         Altitude(atmosphere.GetAltitude())
+      {
+      }
+
+      glm::vec4 SunDirection;
+      float InnerRadius;
+      float OutterRadius;
+      float DensityScale;
       float Altitude;
    };
 

@@ -16,10 +16,13 @@ namespace Prospect
       ~RenderableAtmosphere();
 
       void Render() override;
+      void MakeDirty() override;
 
    private:
       void CreateSun();
-      void UpdateSunTranslation();
+      void UpdateUniformsIfDirty();
+
+      mutable bool m_isDirty;
 
       Shader& m_atmosphereShader;
       UniformBuffer<AtmosphereUniforms> m_atmosphereUniformBuffer;
@@ -33,6 +36,7 @@ namespace Prospect
       std::vector<glm::vec3> m_sunPoints;
       glm::vec3 m_sunColor;
       float m_sunRadius;
+      float m_sunDistance;
 
    };
 }

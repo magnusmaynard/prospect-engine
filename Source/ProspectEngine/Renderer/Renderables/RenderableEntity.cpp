@@ -57,6 +57,11 @@ void RenderableEntity::Render()
    m_vertexData.Render();
 }
 
+void RenderableEntity::MakeDirty()
+{
+   //TODO: Implement.
+}
+
 void RenderableEntity::BindTransform(const glm::mat4& transform)
 {
    glUniformMatrix4fv(2, 1, GL_FALSE, &transform[0][0]);

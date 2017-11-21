@@ -166,6 +166,11 @@ void RenderableText::Render()
    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
+void RenderableText::MakeDirty()
+{
+   //TODO: Implement.
+}
+
 ivec2 RenderableText::NextPowerOf2(const ivec2& value)
 {
    return ivec2(NextPowerOf2(value.x), NextPowerOf2(value.y));
@@ -214,7 +219,6 @@ TextBounds RenderableText::GetTextBounds(const FT_Face face, const std::string& 
 
 void RenderableText::UpdateTextIfDirty()
 {
-
    if (!m_textIsDirty)
    {
       return;
