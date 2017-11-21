@@ -28,7 +28,6 @@ void Renderer::Initialize()
    glDepthFunc(GL_LESS);
 
    glEnable(GL_BLEND);
-   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
    //glEnable(GL_CULL_FACE);
    //glFrontFace(GL_CCW);
@@ -63,25 +62,25 @@ void Renderer::Render(double time, Scene_impl& scene)
       m_atmosphere->Render();
    }
 
-   ClearDepthBuffer();
+   //ClearDepthBuffer();
 
-   //Foreground
-   for (auto& renderable : m_renderables)
-   {
-      renderable->Render();
-   }
+   ////Foreground
+   //for (auto& renderable : m_renderables)
+   //{
+   //   renderable->Render();
+   //}
 
-   if (m_terrain)
-   {
-      m_terrain->Render();
-   }
+   //if (m_terrain)
+   //{
+   //   m_terrain->Render();
+   //}
 
-   //HUD
-   if (m_showFPS)
-   {
-      UpdateFPS(time);
-      m_fpsText->Render();
-   }
+   ////HUD
+   //if (m_showFPS)
+   //{
+   //   UpdateFPS(time);
+   //   m_fpsText->Render();
+   //}
 }
 
 

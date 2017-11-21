@@ -24,6 +24,9 @@ namespace Prospect
       //MaxRadius
       //HeightOfAverageDensity
 
+      void SetSunDirection(const glm::vec3& value); //TODO: use zenith/time of day
+      glm::vec3 GetSunDirection() const;
+
    private:
       Atmosphere& m_parent;
       IRenderable* m_renderable;
@@ -31,5 +34,6 @@ namespace Prospect
 
       float m_altitude;
       const Light* m_lightSource;
+      glm::vec3 m_sunDirection;
    };
 }

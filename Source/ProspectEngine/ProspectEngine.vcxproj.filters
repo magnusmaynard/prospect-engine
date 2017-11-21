@@ -396,6 +396,12 @@
     <None Include="Resources\Shaders\BlinnPhong.vs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
+    <None Include="Resources\Shaders\sun.fs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\sun.vs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\arial.ttf">

@@ -86,7 +86,7 @@ namespace Prospect
          Origin(glm::vec4(origin, 0)),
          Edges(edges),
          Size(size),
-         Level(level)
+         Level(static_cast<float>(level))
       {
       }
 
@@ -99,6 +99,16 @@ namespace Prospect
    struct AtmosphereUniforms
    {
       float Altitude;
+   };
+
+   struct ModelUniforms
+   {
+      glm::mat4 Model;
+   };
+
+   struct SunUniforms
+   {
+      glm::mat4 Model;
    };
 
    struct TextUniforms

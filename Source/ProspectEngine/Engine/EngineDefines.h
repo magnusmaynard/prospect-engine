@@ -32,4 +32,6 @@ namespace Prospect
 
    static const Color DEFAULT_LIGHT_COLOR(1, 1, 1);
    static const float DEFAULT_LIGHT_BRIGHTNESS = 1.f;
+
+   static const glm::vec3 DEFAULT_ATMOSPHERE_SUN_DIRECTION(1, 1, -1);
 }

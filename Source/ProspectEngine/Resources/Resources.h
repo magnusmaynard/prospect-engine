@@ -15,6 +15,8 @@ namespace Resources
    static const std::string TERRAIN_FRAGMENT_SHADER = "Shaders/terrain.fs.glsl";
    static const std::string ATMOSPHERE_VERTEX_SHADER = "Shaders/atmosphere.vs.glsl";
    static const std::string ATMOSPHERE_FRAGMENT_SHADER = "Shaders/atmosphere.fs.glsl";
+   static const std::string SUN_VERTEX_SHADER = "Shaders/sun.vs.glsl";
+   static const std::string SUN_FRAGMENT_SHADER = "Shaders/sun.fs.glsl";
 
    static const std::string TERRAIN_MAP_BITMAP = "Textures/terrain1.bmp";
 

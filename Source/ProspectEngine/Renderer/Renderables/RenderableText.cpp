@@ -150,6 +150,8 @@ void RenderableText::SetPosition(const ivec2 position)
 
 void RenderableText::Render()
 {
+   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
    UpdateTextIfDirty();

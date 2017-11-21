@@ -18,12 +18,21 @@ namespace Prospect
       void Render() override;
 
    private:
+      void CreateSun();
+      void UpdateSunTranslation();
+
+      Shader& m_atmosphereShader;
       UniformBuffer<AtmosphereUniforms> m_atmosphereUniformBuffer;
       const Atmosphere_impl& m_atmosphere;
 
-      Shader& m_shader;
-
-      glm::vec3 m_eyePosition;
+      glm::mat4 m_sunTranslation;
+      Shader& m_sunShader;
+      UniformBuffer<SunUniforms> m_sunUniformBuffer;
+      GLuint m_sunBuffer;
+      GLuint m_sunVAO;
+      std::vector<glm::vec3> m_sunPoints;
+      glm::vec3 m_sunColor;
+      float m_sunRadius;
 
    };
 }

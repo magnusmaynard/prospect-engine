@@ -49,6 +49,8 @@ RenderableTerrain::~RenderableTerrain()
 
 void RenderableTerrain::Render()
 {
+   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
    //Bind.
    m_shader.Bind();
 
