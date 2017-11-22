@@ -51,6 +51,11 @@ namespace Prospect
       glm::vec4 DiffuseColor;
    };
 
+   //struct LightsUniforms
+   //{
+   //   DirectionalLightUniforms Lights[10];
+   //};
+
    struct MaterialUniforms
    {
       MaterialUniforms()

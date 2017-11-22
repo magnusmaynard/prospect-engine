@@ -29,9 +29,9 @@ namespace Prospect
       int GetEntityCount() const;
       Entity GetEntity(const int index);
 
-      Light GetLight(const int index);
-      int GetLightCount() const;
-      void AddLight(Light& light);
+      //Light GetLight(const int index);
+      //int GetLightCount() const;
+      //void AddLight(Light& light);
 
       Camera& GetCamera();
 
@@ -45,9 +45,6 @@ namespace Prospect
       Terrain_impl* GetTerrainImpl();
       const Terrain_impl* GetTerrainImpl() const;
 
-      Light_impl* GetLightImpl(const int index);
-      const Light_impl* GetLightImpl(const int index) const;
-
       Camera_impl& GetCameraImpl();
       const Camera_impl& GetCameraImpl() const;
 
@@ -57,7 +54,7 @@ namespace Prospect
       Camera m_camera;
       std::shared_ptr<Terrain_impl> m_terrain;
       std::shared_ptr<Atmosphere_impl> m_atmosphere;
-      std::deque<std::shared_ptr<Light_impl>> m_lights;
+      //std::deque<std::shared_ptr<Light_impl>> m_lights;
 
       Entity_impl m_rootEntity;
    };

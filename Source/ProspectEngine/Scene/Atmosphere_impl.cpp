@@ -6,12 +6,13 @@
 #include "Renderer/Renderables/IRenderable.h"
 
 using namespace Prospect;
+using namespace glm;
 
 Atmosphere_impl::Atmosphere_impl()
    :
    m_renderable(nullptr),
+   m_light(vec3(), DEFAULT_ATMOSPHERE_LIGHT_DIRECTION),
    m_altitude(DEFAULT_ATMOSPHERE_ALTITUDE),
-   m_sunDirection(DEFAULT_ATMOSPHERE_SUN_DIRECTION),
    m_innerRadius(DEFAULT_ATMOSPHERE_INNER_RADIUS),
    m_outterRadius(DEFAULT_ATMOSPHERE_OUTTER_RADIUS),
    m_densityScale(DEFAULT_ATMOSPHERE_DENSITY_SCALE)
@@ -22,15 +23,15 @@ Atmosphere_impl::~Atmosphere_impl()
 {
 }
 
-void Atmosphere_impl::SetSunDirection(const glm::vec3& value)
+void Atmosphere_impl::SetSunDirection(const vec3& value)
 {
-   m_sunDirection = value;
+   m_light.SetDirection(value);
    MakeDirty();
 }
 
-glm::vec3 Atmosphere_impl::GetSunDirection() const
+vec3 Atmosphere_impl::GetSunDirection() const
 {
-   return m_sunDirection;
+   return m_light.GetDirection();
 }
 
 void Atmosphere_impl::SetInnerRadius(const float value)
@@ -80,6 +81,16 @@ float Atmosphere_impl::GetDensityScale() const
 void Atmosphere_impl::SetRenderable(IRenderable* value) const
 {
    m_renderable = value;
+}
+
+Light_impl& Atmosphere_impl::GetLightImpl()
+{
+   return m_light;
+}
+
+const Light_impl& Atmosphere_impl::GetLightImpl() const
+{
+   return m_light;
 }
 
 void Atmosphere_impl::MakeDirty() const

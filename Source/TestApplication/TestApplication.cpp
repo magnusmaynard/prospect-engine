@@ -91,6 +91,14 @@ void TestApplication::OnUpdate(double timeElapsed)
    {
       playerDirection -= m_scene.GetCamera().GetLeft();
    }
+   if (m_playerUp)
+   {
+      playerDirection += m_scene.GetCamera().GetUp();
+   }
+   if (m_playerDown)
+   {
+      playerDirection -= m_scene.GetCamera().GetUp();
+   }
 
    if (length(playerDirection) > m_playerThreshold)
    {
@@ -175,6 +183,16 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
          m_playerRight = true;
          break;
       }
+      case Key::C:
+      {
+         m_playerDown = true;
+         break;
+      }
+      case Key::Space:
+      {
+         m_playerUp = true;
+         break;
+      }
       default:
       {
          break;
@@ -204,6 +222,16 @@ void TestApplication::OnKeyUp(const Key& key, const KeyModifier& modifier)
       case Key::D:
       {
          m_playerRight = false;
+         break;
+      }
+      case Key::C:
+      {
+         m_playerDown = false;
+         break;
+      }
+      case Key::Space:
+      {
+         m_playerUp = false;
          break;
       }
       default:

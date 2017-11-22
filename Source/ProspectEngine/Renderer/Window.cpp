@@ -229,6 +229,10 @@ Key Window::ConvertGLFWKey(int glfwKey)
          return Key::A;
       case(GLFW_KEY_D):
          return Key::D;
+      case(GLFW_KEY_C):
+         return Key::C;
+      case(GLFW_KEY_SPACE):
+         return Key::Space;
       case(GLFW_KEY_ESCAPE):
          return Key::Escape;
       default:

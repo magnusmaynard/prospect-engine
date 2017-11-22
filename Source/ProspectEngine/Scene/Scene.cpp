@@ -58,20 +58,20 @@ void Scene::AddEntity(Entity& entity)
    m_impl->AddEntity(entity);
 }
 
-Light Scene::GetLight(const int index)
-{
-   return m_impl->GetLight(index);
-}
+//Light Scene::GetLight(const int index)
+//{
+//   return m_impl->GetLight(index);
+//}
 
-int Scene::GetLightCount()
-{
-   return m_impl->GetLightCount();
-}
-
-void Scene::AddLight(Light& light)
-{
-   m_impl->AddLight(light);
-}
+//int Scene::GetLightCount()
+//{
+//   return m_impl->GetLightCount();
+//}
+//
+//void Scene::AddLight(Light& light)
+//{
+//   m_impl->AddLight(light);
+//}
 
 const Camera& Scene::GetCamera() const
 {

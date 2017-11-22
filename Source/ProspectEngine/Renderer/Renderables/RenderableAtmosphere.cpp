@@ -50,7 +50,7 @@ void RenderableAtmosphere::CreateSun()
    //Creates a fan of points around a central vertex.
    const int segments = 24;
    const vec3 origin;
-   const float increment = pi<float>() * 2.f / segments;
+   const float decrement = pi<float>() * 2.f / segments;
 
    m_sunPoints.clear();
    m_sunPoints.reserve(segments + 2);
@@ -59,8 +59,8 @@ void RenderableAtmosphere::CreateSun()
    float angle = 0;
    for (int i = 0; i <= segments; i++)
    {
-      m_sunPoints.push_back(vec3(sin(angle) * m_sunRadius, cos(angle) * m_sunRadius, -0.2));
-      angle += increment;
+      m_sunPoints.push_back(vec3(sin(angle) * m_sunRadius, cos(angle) * m_sunRadius, 0));
+      angle -= decrement;
    }
 
    glCreateBuffers(1, &m_sunBuffer);

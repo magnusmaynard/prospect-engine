@@ -5,6 +5,7 @@
 #include "Engine/EngineDefines.h"
 #include "Engine/Extensions.h"
 #include "Scene/Terrain/Terrain_impl.h"
+#include "Scene/Lights/Light_impl.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -51,40 +52,40 @@ int Scene_impl::GetEntityCount() const
    return m_rootEntity.GetEntityCount();
 }
 
-Light Scene_impl::GetLight(const int index)
-{
-   if (index < 0 || index >= static_cast<int>(m_lights.size()))
-   {
-      throw std::exception("No Light at index.");
-   }
-
-   return m_lights[index];
-}
-
-Light_impl* Scene_impl::GetLightImpl(const int index)
-{
-   return const_cast<Light_impl*>(static_cast<const Scene_impl*>(this)->GetLightImpl(index));
-}
-
-const Light_impl* Scene_impl::GetLightImpl(const int index) const
-{
-   if (index < 0 || index >= static_cast<int>(m_lights.size()))
-   {
-      throw std::exception("No Light at index.");
-   }
-
-   return m_lights[index].get();
-}
-
-int Scene_impl::GetLightCount() const
-{
-   return m_lights.size();
-}
-
-void Scene_impl::AddLight(Light& light)
-{
-   m_lights.push_back(light.m_impl);
-}
+//Light Scene_impl::GetLight(const int index)
+//{
+//   if (index < 0 || index >= static_cast<int>(m_lights.size()))
+//   {
+//      throw std::exception("No Light at index.");
+//   }
+//
+//   return m_lights[index];
+//}
+//
+//Light_impl* Scene_impl::GetLightImpl(const int index)
+//{
+//   return const_cast<Light_impl*>(static_cast<const Scene_impl*>(this)->GetLightImpl(index));
+//}
+//
+//const Light_impl* Scene_impl::GetLightImpl(const int index) const
+//{
+//   if (index < 0 || index >= static_cast<int>(m_lights.size()))
+//   {
+//      throw std::exception("No Light at index.");
+//   }
+//
+//   return m_lights[index].get();
+//}
+//
+//int Scene_impl::GetLightCount() const
+//{
+//   return m_lights.size();
+//}
+//
+//void Scene_impl::AddLight(Light& light)
+//{
+//   m_lights.push_back(light.m_impl);
+//}
 
 Camera& Scene_impl::GetCamera()
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include "Include/Atmosphere.h"
+#include "Lights/Light_impl.h"
 
 namespace Prospect
 {
@@ -33,11 +34,15 @@ namespace Prospect
 
       //Internal
       void SetRenderable(IRenderable* value) const;
+      Light_impl& GetLightImpl();
+      const Light_impl& GetLightImpl() const;
 
    private:
       void MakeDirty() const;
 
       mutable IRenderable* m_renderable;
+
+      Light_impl m_light;
 
       float m_altitude;
       glm::vec3 m_sunDirection;

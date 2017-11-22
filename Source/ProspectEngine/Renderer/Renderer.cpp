@@ -29,8 +29,8 @@ void Renderer::Initialize()
 
    glEnable(GL_BLEND);
 
-   //glEnable(GL_CULL_FACE);
-   //glFrontFace(GL_CCW);
+   glEnable(GL_CULL_FACE);
+   glFrontFace(GL_CCW);
 
    m_fpsText = std::make_unique<RenderableText>(
       m_globalUniformBuffers, "", ivec2(4, 0), 12);
@@ -126,8 +126,10 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
 
    m_globalUniformBuffers.Camera.Update(CameraUniforms(scene.GetCameraImpl()));
 
+   const Light_impl& atmosphereLight = scene.GetAtmosphereImpl()->GetLightImpl();
+
    //TODO: Get all lights
-   //m_globalUniformBuffers.DirectionalLight.Update(DirectionalLightUniforms(*scene.GetLightImpl(0)));
+   m_globalUniformBuffers.DirectionalLight.Update(DirectionalLightUniforms(atmosphereLight));
 }
 
 void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)

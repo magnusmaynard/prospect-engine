@@ -19,6 +19,8 @@ namespace Prospect
       S,
       A,
       D,
+      C,
+      Space,
       Escape,
    };
 
