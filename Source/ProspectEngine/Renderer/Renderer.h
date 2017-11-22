@@ -6,7 +6,7 @@
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
 #include "Renderer/Renderables/RenderableTerrain.h"
 #include "Renderer/Renderables/RenderableText.h"
-#include "Renderer/Renderables/RenderableAtmosphere.h"
+#include "Renderer/Renderables/Atmosphere/RenderableAtmosphere.h"
 
 namespace Prospect
 {

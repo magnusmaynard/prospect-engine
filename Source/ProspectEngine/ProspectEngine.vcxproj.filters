@@ -125,9 +125,6 @@
     <ClInclude Include="Renderer\Renderables\RenderableText.h">
       <Filter>Renderer\Renderables</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderables\RenderableAtmosphere.h">
-      <Filter>Renderer\Renderables</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Renderables\IRenderable.h">
       <Filter>Renderer\Renderables</Filter>
     </ClInclude>
@@ -169,6 +166,15 @@
     </ClInclude>
     <ClInclude Include="Include\Defaults.h">
       <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.h">
+      <Filter>Renderer\Renderables\Atmosphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableSun.h">
+      <Filter>Renderer\Renderables\Atmosphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableScattering.h">
+      <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -269,9 +275,6 @@
     <ClCompile Include="Renderer\Renderables\RenderableText.cpp">
       <Filter>Renderer\Renderables</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Renderables\RenderableAtmosphere.cpp">
-      <Filter>Renderer\Renderables</Filter>
-    </ClCompile>
     <ClCompile Include="Resources\ResourceIO.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
@@ -301,6 +304,15 @@
     </ClCompile>
     <ClCompile Include="Scene\Lights\Light_impl.cpp">
       <Filter>Scene\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.cpp">
+      <Filter>Renderer\Renderables\Atmosphere</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableSun.cpp">
+      <Filter>Renderer\Renderables\Atmosphere</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableScattering.cpp">
+      <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -357,6 +369,9 @@
     </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{1c5e798d-4a9e-457d-b502-f96f28791edb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Renderables\Atmosphere">
+      <UniqueIdentifier>{8bfc8771-6ae7-4564-b696-90ae2c969eb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
