@@ -170,10 +170,13 @@
     <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.h">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableSun.h">
+    <ClInclude Include="Renderer\Renderables\Atmosphere\Clouds.h">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableScattering.h">
+    <ClInclude Include="Renderer\Renderables\Atmosphere\Sun.h">
+      <Filter>Renderer\Renderables\Atmosphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\Atmosphere\Scattering.h">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClInclude>
   </ItemGroup>
@@ -308,10 +311,13 @@
     <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.cpp">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableSun.cpp">
+    <ClCompile Include="Renderer\Renderables\Atmosphere\Clouds.cpp">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableScattering.cpp">
+    <ClCompile Include="Renderer\Renderables\Atmosphere\Sun.cpp">
+      <Filter>Renderer\Renderables\Atmosphere</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\Atmosphere\Scattering.cpp">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClCompile>
   </ItemGroup>
@@ -387,12 +393,6 @@
     <None Include="Resources\Shaders\terrain.vs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\atmosphere.fs.glsl">
-      <Filter>Resources\Shaders</Filter>
-    </None>
-    <None Include="Resources\Shaders\atmosphere.vs.glsl">
-      <Filter>Resources\Shaders</Filter>
-    </None>
     <None Include="Resources\Shaders\simple.vs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
@@ -405,16 +405,28 @@
     <None Include="Resources\Shaders\text.vs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\BlinnPhong.fs.glsl">
-      <Filter>Resources\Shaders</Filter>
-    </None>
-    <None Include="Resources\Shaders\BlinnPhong.vs.glsl">
-      <Filter>Resources\Shaders</Filter>
-    </None>
     <None Include="Resources\Shaders\sun.fs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\sun.vs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\scattering.vs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\scattering.fs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\blinnphong.vs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\blinnphong.fs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\clouds.fs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\clouds.vs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
   </ItemGroup>

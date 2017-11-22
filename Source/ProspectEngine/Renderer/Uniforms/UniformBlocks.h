@@ -102,13 +102,13 @@ namespace Prospect
       float Level = 0;
    };
 
-   struct AtmosphereUniforms
+   struct ScatteringUniforms
    {
-      AtmosphereUniforms()
+      ScatteringUniforms()
       {
       }
 
-      AtmosphereUniforms(const Atmosphere_impl& atmosphere)
+      ScatteringUniforms(const Atmosphere_impl& atmosphere)
          :
          SunDirection(glm::vec4(normalize(atmosphere.GetSunDirection()), 0)),
          InnerRadius(atmosphere.GetInnerRadius()),

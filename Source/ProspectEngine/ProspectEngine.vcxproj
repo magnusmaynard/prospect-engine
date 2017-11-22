@@ -43,9 +43,10 @@
     <ClInclude Include="Libraries\MeshLibrary_impl.h" />
     <ClInclude Include="ProspectEngine_pch.h" />
     <ClInclude Include="Renderer\PolygonMode.h" />
+    <ClInclude Include="Renderer\Renderables\Atmosphere\Clouds.h" />
     <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.h" />
-    <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableSun.h" />
-    <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableScattering.h" />
+    <ClInclude Include="Renderer\Renderables\Atmosphere\Sun.h" />
+    <ClInclude Include="Renderer\Renderables\Atmosphere\Scattering.h" />
     <ClInclude Include="Renderer\Renderables\IRenderable.h" />
     <ClInclude Include="Renderer\Renderables\RenderableEntity.h" />
     <ClInclude Include="Renderer\Renderables\RenderableTerrain.h" />
@@ -91,9 +92,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Renderer\Renderables\Atmosphere\Clouds.cpp" />
     <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.cpp" />
-    <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableScattering.cpp" />
-    <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableSun.cpp" />
+    <ClCompile Include="Renderer\Renderables\Atmosphere\Scattering.cpp" />
+    <ClCompile Include="Renderer\Renderables\Atmosphere\Sun.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableEntity.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableTerrain.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableText.cpp" />
@@ -131,17 +133,12 @@
     <ClCompile Include="Utilities\IO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\atmosphere.fs.glsl">
-      <DeploymentContent>false</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
-    </None>
-    <None Include="Resources\Shaders\atmosphere.vs.glsl">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
-    </None>
-    <None Include="Resources\Shaders\BlinnPhong.fs.glsl" />
-    <None Include="Resources\Shaders\BlinnPhong.vs.glsl" />
+    <None Include="Resources\Shaders\blinnphong.fs.glsl" />
+    <None Include="Resources\Shaders\blinnphong.vs.glsl" />
+    <None Include="Resources\Shaders\clouds.fs.glsl" />
+    <None Include="Resources\Shaders\clouds.vs.glsl" />
+    <None Include="Resources\Shaders\scattering.fs.glsl" />
+    <None Include="Resources\Shaders\scattering.vs.glsl" />
     <None Include="Resources\Shaders\simple.fs.glsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>

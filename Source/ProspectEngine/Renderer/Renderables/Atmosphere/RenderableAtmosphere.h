@@ -1,10 +1,10 @@
 #pragma once
-#include "Renderer/Shaders/Shader.h"
+
 #include "Renderer/Uniforms/UniformBlocks.h"
-#include "Renderer/Uniforms/UniformBuffer.h"
 #include "Renderer/Renderables/IRenderable.h"
-#include "Renderer/Renderables/Atmosphere/RenderableSun.h"
-#include "Renderer/Renderables/Atmosphere/RenderableScattering.h"
+#include "Renderer/Renderables/Atmosphere/Sun.h"
+#include "Renderer/Renderables/Atmosphere/Scattering.h"
+#include "Renderer/Renderables/Atmosphere/Clouds.h"
 
 namespace Prospect
 {
@@ -26,7 +26,9 @@ namespace Prospect
       mutable bool m_isDirty;
 
       const Atmosphere_impl& m_atmosphere;
-      RenderableScattering m_scattering;
-      RenderableSun m_sun;
+
+      Scattering m_scattering;
+      Sun m_sun;
+      Clouds m_clouds;
    };
 }

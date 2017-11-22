@@ -17,7 +17,8 @@ RenderableAtmosphere::RenderableAtmosphere(
    m_isDirty(true),
    m_atmosphere(atmosphere),
    m_scattering(globalUniformBuffers),
-   m_sun(globalUniformBuffers)
+   m_sun(globalUniformBuffers),
+   m_clouds(globalUniformBuffers)
 {
 }
 
@@ -33,6 +34,7 @@ void RenderableAtmosphere::UpdateUniformsIfDirty()
 
       m_sun.UpdateUniforms(m_atmosphere);
       m_scattering.UpdateUniforms(m_atmosphere);
+      m_clouds.UpdateUniforms(m_atmosphere);
    }
 }
 
@@ -44,6 +46,7 @@ void RenderableAtmosphere::Render()
 
    m_sun.Render();
    m_scattering.Render();
+   m_clouds.Render();
 }
 
 void RenderableAtmosphere::MakeDirty()
