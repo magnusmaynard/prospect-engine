@@ -228,7 +228,7 @@ void main()
 
       if(depth < 1.0)
       {
-         nearFar.y = depth * 5000; //TODO: Calculate correct amount.
+         nearFar.y = depth * 3000; //TODO: Remove magic number, calculate the correct amount.
       }
 
       vec3 near = eyePosition + (ray * nearFar.x);

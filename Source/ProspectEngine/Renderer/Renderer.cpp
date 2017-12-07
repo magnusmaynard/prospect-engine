@@ -8,7 +8,6 @@
 #include "Renderer/Renderables/RenderableEntity.h"
 #include "Renderer/Renderables/RenderableTerrain.h"
 #include "Renderer/Renderables/RenderableText.h"
-#include "ErrorHandler.h"
 
 using namespace Prospect;
 using namespace glm;
