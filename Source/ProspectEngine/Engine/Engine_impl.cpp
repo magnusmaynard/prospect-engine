@@ -108,6 +108,8 @@ Scene_impl& Engine_impl::GetSceneImpl()
 void Engine_impl::OnResize(const ivec2& size)
 {
    m_scene.m_impl->GetCameraImpl().SetSize(size);
+
+   m_renderer.Resize(size);
 }
 
 void Engine_impl::OnKeyDown(const Key& key, const KeyModifier& modifier)

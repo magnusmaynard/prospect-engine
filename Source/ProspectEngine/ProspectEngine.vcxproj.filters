@@ -179,6 +179,9 @@
     <ClInclude Include="Renderer\Renderables\Atmosphere\Scattering.h">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Textures\DepthTexture.h">
+      <Filter>Renderer\Textures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Shaders\BaseShader.cpp">
@@ -320,6 +323,9 @@
     <ClCompile Include="Renderer\Renderables\Atmosphere\Scattering.cpp">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\Textures\DepthTexture.cpp">
+      <Filter>Renderer\Textures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -378,6 +384,9 @@
     </Filter>
     <Filter Include="Renderer\Renderables\Atmosphere">
       <UniqueIdentifier>{8bfc8771-6ae7-4564-b696-90ae2c969eb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Textures">
+      <UniqueIdentifier>{82cde331-469e-4b4b-9cef-0b66bf4493e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,10 @@ namespace Prospect
    public:
       MaterialLibrary_impl(MaterialLibrary& parent);
 
+      Material CreateMaterial();
+
+      Material CreateMaterial(const Color& color);
+
       Material CreateMaterial(
          const Color& diffuse,
          const Color& ambient,

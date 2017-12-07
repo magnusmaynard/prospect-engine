@@ -8,6 +8,7 @@
 #include "Renderer/Renderables/RenderableEntity.h"
 #include "Renderer/Renderables/RenderableTerrain.h"
 #include "Renderer/Renderables/RenderableText.h"
+#include "ErrorHandler.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -24,6 +25,10 @@ Renderer::Renderer()
 
 void Renderer::Initialize()
 {
+#ifdef _DEBUG
+   glEnable(GL_DEBUG_OUTPUT);
+#endif
+
    glEnable(GL_DEPTH_TEST);
    glDepthFunc(GL_LESS);
 
@@ -56,15 +61,7 @@ void Renderer::Render(double time, Scene_impl& scene)
    UpdateRenderableTerrain(scene);
    UpdateRenderableAtmosphere(scene);
 
-   //Background
-   if (m_atmosphere)
-   {
-      m_atmosphere->Render();
-   }
-
-   ClearDepthBuffer();
-
-   //Foreground
+   //Scene
    for (auto& renderable : m_renderables)
    {
       renderable->Render();
@@ -75,12 +72,24 @@ void Renderer::Render(double time, Scene_impl& scene)
       m_terrain->Render();
    }
 
+   //Atmosphere
+   m_depthTexture.Update();
+
+   if (m_atmosphere)
+   {
+      m_atmosphere->Render();
+   }
+
+   ClearDepthBuffer();
+
    //HUD
    if (m_showFPS)
    {
       UpdateFPS(time);
       m_fpsText->Render();
    }
+
+   ReportErrors();
 }
 
 
@@ -150,7 +159,7 @@ void Renderer::UpdateRenderableAtmosphere(const Scene_impl& scene)
    {
       if (const auto atmosphere = scene.GetAtmosphereImpl())
       {
-         m_atmosphere = std::make_unique<RenderableAtmosphere>(m_globalUniformBuffers, *atmosphere);
+         m_atmosphere = std::make_unique<RenderableAtmosphere>(m_globalUniformBuffers, m_depthTexture, *atmosphere);
 
          atmosphere->SetRenderable(m_atmosphere.get());
       }
@@ -179,6 +188,11 @@ void Renderer::ShowWireframe(bool showWireframe)
    m_showWireframe = showWireframe;
 }
 
+void Renderer::Resize(const glm::ivec2& size)
+{
+   m_depthTexture.Resize(size);
+}
+
 void Renderer::UpdateFPS(double time)
 {
    static const double FPS_INTERVAL = 1000.0;
@@ -195,3 +209,15 @@ void Renderer::UpdateFPS(double time)
       m_previousTime = time;
    }
 }
+
+void Renderer::ReportErrors() const
+{
+#ifdef _DEBUG
+   GLenum error;
+   while ((error = glGetError()) != GL_NO_ERROR)
+   {
+      std::cerr << "Error: 0x" << std::hex << error << std::endl;
+   };
+#endif
+}
+

@@ -34,11 +34,11 @@ void TestApplication::OnStartup()
    m_engine.SetTitle("Test Application");
    m_engine.ShowFPS(true);
 
-   m_scene.GetCamera().LookAt(vec3(0, 10, 50), vec3(0, 0, 0));
+   m_scene.GetCamera().LookAt(vec3(0, 40, 80), vec3(0, 10, 0));
 
-   const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\bagstone2.bmp");
+   const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\noise.bmp");
 
-   Terrain terrain(vec3(), heightMap, 800, 0, 50);
+   Terrain terrain(vec3(), heightMap, 800, 0, 100);
    m_scene.SetTerrain(terrain);
 
    //Light sun(vec3(0, 0, 0), vec3(0, -1, 0));
@@ -47,20 +47,21 @@ void TestApplication::OnStartup()
 
    Atmosphere atmosphere;
    m_scene.SetAtmosphere(atmosphere);
-   atmosphere.SetAltitude(1501);
+   atmosphere.SetAltitude(1510);
 
-   Material green = m_materialLib.CreateMaterial();
-   Mesh plane = m_meshLib.CreatePlane(vec2(100, 100));
+   Material green = m_materialLib.CreateMaterial(Color(0.1, 0.7, 0.1));
+   Material red = m_materialLib.CreateMaterial(Color(0.7, 0.1, 0.1));
+   Mesh plane = m_meshLib.CreatePlane(vec2(20, 20));
 
    Entity ground(plane, green);
-   ground.SetTranslation(vec3(0, 2, 0));
-   ground.SetScale(vec3(0.5, 0.5, 0.5));
-
-   Entity ground2(plane, green);
-   ground2.SetTranslation(vec3(0, 10, 0));
-
+   ground.SetTranslation(vec3(0, 20, 0));
    m_scene.AddEntity(ground);
+
+   Entity ground2(plane, red);
+   ground2.SetTranslation(vec3(60, 0, 0));
+   ground2.SetScale(vec3(0.4, 0.4, 0.4));
    ground.AddEntity(ground2);
+
 
    Mesh cube = m_meshLib.CreateCube(vec3(10, 10, 10));
    Entity greenCube(cube, green);
@@ -68,7 +69,7 @@ void TestApplication::OnStartup()
    m_scene.AddEntity(greenCube);
 }
 
-void TestApplication::OnUpdate(double timeElapsed)
+void TestApplication::OnUpdate(const double timeElapsed)
 {
    static float counter = 0;
    counter += 0.1f;
@@ -120,12 +121,14 @@ void TestApplication::OnUpdate(double timeElapsed)
       m_playerMomentum *= 1.0 - m_playerFriction;
    }
 
-   auto e1 = m_scene.GetEntity(0).GetEntity(0);
-   e1.SetTranslation(vec3(-5, 10, -20));
+   auto e0 = m_scene.GetEntity(0);
+   e0.SetRotation(vec3(0, counter * 20.0, 0));   
+   
+   auto e1 = e0.GetEntity(0);
    e1.SetRotation(vec3(0, counter * 10.0, 0));
 
    auto cube = m_scene.GetEntity(1);
-   cube.SetRotation(vec3(0, -counter * 5.0, 0));
+   cube.SetRotation(vec3(counter * 8.0, -counter * 5.0, counter * 3.0));
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)

@@ -4,6 +4,7 @@ layout (std140) uniform DirectionalLightUniforms
 {
    vec4 Direction;
    vec4 DiffuseColor;
+   float Brightness;
 } light;
 
 

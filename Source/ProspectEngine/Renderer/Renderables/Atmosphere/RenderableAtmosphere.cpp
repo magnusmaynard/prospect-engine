@@ -1,24 +1,27 @@
 #include "ProspectEngine_pch.h"
 
 #include "RenderableAtmosphere.h"
+
+#include "Scene/Atmosphere_impl.h"
+
 #include "Resources/Resources.h"
 #include "Renderer/Shaders/ShaderFactory.h"
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
-
-#include "Scene/Atmosphere_impl.h"
+#include "Renderer/Textures/DepthTexture.h"
 
 using namespace Prospect;
 using namespace glm;
 
 RenderableAtmosphere::RenderableAtmosphere(
    const GlobalUniformBuffers& globalUniformBuffers,
+   const DepthTexture& depthTexture,
    const Atmosphere_impl& atmosphere)
    :
-   m_isDirty(true),
-   m_atmosphere(atmosphere),
-   m_scattering(globalUniformBuffers),
+   m_scattering(globalUniformBuffers, depthTexture),
    m_sun(globalUniformBuffers),
-   m_clouds(globalUniformBuffers)
+   //m_clouds(globalUniformBuffers)
+   m_atmosphere(atmosphere),
+   m_isDirty(true)
 {
 }
 
@@ -34,7 +37,7 @@ void RenderableAtmosphere::UpdateUniformsIfDirty()
 
       m_sun.UpdateUniforms(m_atmosphere);
       m_scattering.UpdateUniforms(m_atmosphere);
-      m_clouds.UpdateUniforms(m_atmosphere);
+      //m_clouds.UpdateUniforms(m_atmosphere);
    }
 }
 
@@ -46,7 +49,7 @@ void RenderableAtmosphere::Render()
 
    m_sun.Render();
    m_scattering.Render();
-   m_clouds.Render();
+   //m_clouds.Render();
 }
 
 void RenderableAtmosphere::MakeDirty()

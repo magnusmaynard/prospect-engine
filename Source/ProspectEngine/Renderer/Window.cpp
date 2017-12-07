@@ -33,6 +33,10 @@ void Window::Open()
    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
    glfwWindowHint(GLFW_SAMPLES, 4); //4x Multisampling
 
+#ifdef _DEBUG
+      glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+#endif
+
    m_window = glfwCreateWindow(m_size.x, m_size.y, DEFAULT_TITLE.c_str(), nullptr, nullptr);
    if (!m_window)
    {

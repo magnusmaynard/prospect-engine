@@ -26,6 +26,11 @@ Atmosphere_impl::~Atmosphere_impl()
 void Atmosphere_impl::SetSunDirection(const vec3& value)
 {
    m_light.SetDirection(value);
+
+   const vec3 down(0, -1, 0);
+   const float brightness = dot(value, down);
+   m_light.SetBrightness(brightness);
+
    MakeDirty();
 }
 

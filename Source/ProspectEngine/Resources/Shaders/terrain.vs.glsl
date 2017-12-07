@@ -29,7 +29,6 @@ out VS_OUT
 
 void main()
 {
-   //float halfSize = node.Size * 0.5;
    float halfSize = node.Size * 0.5;
 
    const vec3 vertices[] = vec3[](
@@ -42,5 +41,5 @@ void main()
 
    vs_out.textureCoord = vertex.xz / totalSize + vec2(0.5);
 
-   gl_Position = camera.PerspectiveProjection * camera.View * vertex;
+   gl_Position = vertex;
 }

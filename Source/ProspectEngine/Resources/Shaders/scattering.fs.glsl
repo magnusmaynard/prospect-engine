@@ -3,6 +3,13 @@
 //Renders skydome from space.
 //http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter16.html
 
+layout (binding = 0) uniform sampler2D depthTexture;
+
+in VS_OUT
+{
+   vec2 textureCoords;
+} fs_in;
+
 //Global Uniforms
 layout (std140) uniform CameraUniforms
 {
@@ -193,6 +200,16 @@ vec3 InScattering(vec3 ray, vec3 near, vec3 far)
    return rayleigh + mie;
 }
 
+float GetLinearDepth()
+{
+   vec2 uv = fs_in.textureCoords;
+   float zNear = 0.01;    // TODO: Replace by the zNear of your perspective projection
+   float zFar  = 10000.0; // TODO: Replace by the zFar  of your perspective projection
+   float depth = texture2D(depthTexture, uv).x;
+
+   return (2.0 * zNear) / (zFar + zNear - depth * (zFar - zNear));
+}
+
 void main()
 {
    vec3 eyePosition = vec3(0, scattering.Altitude, 0);
@@ -205,6 +222,15 @@ void main()
 
    if(hasIntersected)
    {
+      float depth = GetLinearDepth();
+
+      color = vec4(depth, 0, 0, 1);
+
+      if(depth < 1.0)
+      {
+         nearFar.y = depth * 5000; //TODO: Calculate correct amount.
+      }
+
       vec3 near = eyePosition + (ray * nearFar.x);
       vec3 far = eyePosition + (ray * nearFar.y);
 

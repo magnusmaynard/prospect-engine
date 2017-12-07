@@ -6,13 +6,16 @@
 
 namespace Prospect
 {
+   class DepthTexture;
    class Atmosphere_impl;
    struct GlobalUniformBuffers;
 
    class Scattering
    {
    public:
-      Scattering(const GlobalUniformBuffers& globalUniformBuffers);
+      Scattering(
+         const GlobalUniformBuffers& globalUniformBuffers,
+         const DepthTexture& depthTexture);
       ~Scattering();
 
       void Render();
@@ -21,5 +24,7 @@ namespace Prospect
    private:
       Shader& m_shader;
       UniformBuffer<ScatteringUniforms> m_uniformBuffer;
+
+      const DepthTexture& m_depthTexture;
    };
 }

@@ -7,6 +7,7 @@
 #include "Renderer/Renderables/RenderableTerrain.h"
 #include "Renderer/Renderables/RenderableText.h"
 #include "Renderer/Renderables/Atmosphere/RenderableAtmosphere.h"
+#include "Renderer/Textures/DepthTexture.h"
 
 namespace Prospect
 {
@@ -24,6 +25,7 @@ namespace Prospect
 
       void ShowFPS(bool showFPS);
       void ShowWireframe(bool showWireframe);
+      void Resize(const glm::ivec2& size);
 
    private:
       std::deque<std::unique_ptr<IRenderable>> m_renderables;
@@ -53,5 +55,8 @@ namespace Prospect
 
       void Clear();
       void ClearDepthBuffer();
+      void ReportErrors() const;
+
+      DepthTexture m_depthTexture;
    };
 }

@@ -43,12 +43,14 @@ namespace Prospect
       DirectionalLightUniforms(const Light_impl& directionalLight)
          :
          Direction(glm::vec4(normalize(directionalLight.GetDirection()), 0)),
-         DiffuseColor(directionalLight.GetColor().ToRGBA())
+         DiffuseColor(directionalLight.GetColor().ToRGBA()),
+         Brightness(directionalLight.GetBrightness())
       {
       }
 
       glm::vec4 Direction;
       glm::vec4 DiffuseColor;
+      float Brightness;
    };
 
    //struct LightsUniforms

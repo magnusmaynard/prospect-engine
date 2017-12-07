@@ -14,16 +14,26 @@ MaterialLibrary::MaterialLibrary()
 
 MaterialLibrary::~MaterialLibrary() = default;
 
+Material MaterialLibrary::CreateMaterial()
+{
+   return m_impl->CreateMaterial();
+}
+
+Material MaterialLibrary::CreateMaterial(const Color& diffuse)
+{
+   return m_impl->CreateMaterial(diffuse);
+}
+
 Material MaterialLibrary::CreateMaterial(
    const Color& diffuse,
    const Color& ambient,
    const Color& specular,
-   float specularPower)
+   const float specularPower)
 {
    return m_impl->CreateMaterial(diffuse, ambient, specular, specularPower);
 }
 
-Material MaterialLibrary::GetMaterialAtIndex(int index)
+Material MaterialLibrary::GetMaterialAtIndex(const int index)
 {
    return m_impl->GetMaterialAtIndex(index);
 }

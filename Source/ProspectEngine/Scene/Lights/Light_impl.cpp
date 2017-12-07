@@ -46,3 +46,13 @@ Color Light_impl::GetColor() const
 {
    return m_color;
 }
+
+void Light_impl::SetBrightness(const float value)
+{
+   m_brightness = value;
+}
+
+float Light_impl::GetBrightness() const
+{
+   return m_brightness;
+}

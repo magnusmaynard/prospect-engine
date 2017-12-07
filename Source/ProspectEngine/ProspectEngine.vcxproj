@@ -61,6 +61,7 @@
     <ClInclude Include="Renderer\Shaders\TessControlShader.h" />
     <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h" />
     <ClInclude Include="Renderer\Shaders\VertexShader.h" />
+    <ClInclude Include="Renderer\Textures\DepthTexture.h" />
     <ClInclude Include="Renderer\Uniforms\GlobalUniformBuffers.h" />
     <ClInclude Include="Renderer\Uniforms\UniformBuffer.h" />
     <ClInclude Include="Renderer\Uniforms\UniformBlocks.h" />
@@ -108,6 +109,7 @@
     <ClCompile Include="Renderer\Shaders\TessControlShader.cpp" />
     <ClCompile Include="Renderer\Shaders\TessEvaluationShader.cpp" />
     <ClCompile Include="Renderer\Shaders\VertexShader.cpp" />
+    <ClCompile Include="Renderer\Textures\DepthTexture.cpp" />
     <ClCompile Include="Renderer\Uniforms\UniformBufferCounter.cpp" />
     <ClCompile Include="Renderer\VertexData.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />
@@ -133,45 +135,85 @@
     <ClCompile Include="Utilities\IO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\blinnphong.fs.glsl" />
-    <None Include="Resources\Shaders\blinnphong.vs.glsl" />
-    <None Include="Resources\Shaders\clouds.fs.glsl" />
-    <None Include="Resources\Shaders\clouds.vs.glsl" />
-    <None Include="Resources\Shaders\scattering.fs.glsl" />
-    <None Include="Resources\Shaders\scattering.vs.glsl" />
+    <None Include="Resources\Shaders\blinnphong.fs.glsl">
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Resources\Shaders\blinnphong.vs.glsl">
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Resources\Shaders\clouds.fs.glsl">
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Resources\Shaders\clouds.vs.glsl">
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Resources\Shaders\scattering.fs.glsl">
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Resources\Shaders\scattering.vs.glsl">
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
+    </None>
     <None Include="Resources\Shaders\simple.fs.glsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
     </None>
     <None Include="Resources\Shaders\simple.vs.glsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
     </None>
-    <None Include="Resources\Shaders\sun.fs.glsl" />
-    <None Include="Resources\Shaders\sun.vs.glsl" />
+    <None Include="Resources\Shaders\sun.fs.glsl">
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Resources\Shaders\sun.vs.glsl">
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
+    </None>
     <None Include="Resources\Shaders\terrain.fs.glsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
     </None>
     <None Include="Resources\Shaders\terrain.tcs.glsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
     </None>
     <None Include="Resources\Shaders\terrain.tes.glsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
     </None>
     <None Include="Resources\Shaders\terrain.vs.glsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
     </None>
     <None Include="Resources\Shaders\text.fs.glsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
     </None>
     <None Include="Resources\Shaders\text.vs.glsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +277,14 @@
     <OutDir>$(SolutionDir)..\Binaries\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildAfterTargets>
+    </CustomBuildAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuildAfterTargets>
+    </CustomBuildAfterTargets>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -253,11 +303,17 @@ xcopy $(SolutionDir)\ProspectEngine\Resources\Shaders\* $(OutputPath)\Resources\
 xcopy $(SolutionDir)\ProspectEngine\Resources\Textures\* $(OutputPath)\Resources\Textures\ /sy</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy $(SolutionDir)..\Dependencies\glew-2.1.0\lib\Release\$(Platform) $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependencies\glfw-3.2.1\build\src\Release $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependencies\libnoise-1.0.0\bin $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependencies\freetype-2.8.1\objs\vc2010\$(Platform) $(OutputPath) /y</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Message>
+      </Message>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -285,16 +341,22 @@ xcopy $(SolutionDir)..\Dependencies\freetype-2.8.1\objs\vc2010\$(Platform) $(Out
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy $(SolutionDir)..\Dependencies\glew-2.1.0\lib\Release\$(Platform) $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependencies\glfw-3.2.1\build\src\Release $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependencies\libnoise-1.0.0\bin $(OutputPath) /y
-xcopy $(SolutionDir)..\Dependencies\freetype-2.8.1\objs\vc2010\$(Platform) $(OutputPath) /y</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy $(SolutionDir)\ProspectEngine\Resources\Fonts\* $(OutputPath)\Resources\Fonts\ /sy
 xcopy $(SolutionDir)\ProspectEngine\Resources\Shaders\* $(OutputPath)\Resources\Shaders\ /sy
 xcopy $(SolutionDir)\ProspectEngine\Resources\Textures\* $(OutputPath)\Resources\Textures\ /sy</Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Message>
+      </Message>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

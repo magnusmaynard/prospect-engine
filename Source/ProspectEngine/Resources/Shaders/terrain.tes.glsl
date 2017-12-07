@@ -6,6 +6,17 @@ layout (binding = 0) uniform sampler2D textureHeight;
 
 uniform float maxHeight;
 
+layout (std140) uniform CameraUniforms
+{
+   mat4 PerspectiveProjection;
+   mat4 OrthographicProjection;
+   mat4 View;
+   vec4 ViewDirection;
+   vec4 Position;
+   vec2 ScreenSize;
+} camera;
+
+
 in TCS_OUT
 {
    vec2 textureCoord;
@@ -31,5 +42,6 @@ void main()
 
    p.y += texture(textureHeight, tc).r * maxHeight;
 
-   gl_Position = p;
+   //ModelView transforms must be applied after height map offset (i.e. Not in the VertexShader).
+   gl_Position = camera.PerspectiveProjection * camera.View * p;
 }

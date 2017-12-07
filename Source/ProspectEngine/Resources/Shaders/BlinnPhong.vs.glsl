@@ -14,6 +14,7 @@ layout (std140) uniform DirectionalLightUniforms
 {
    vec4 Direction;
    vec4 DiffuseColor;
+   float Brightness;
 } light;
 
 layout (location = 2) uniform mat4 model;

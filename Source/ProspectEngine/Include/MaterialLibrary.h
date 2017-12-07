@@ -15,11 +15,16 @@ namespace Prospect
       MaterialLibrary();
       ~MaterialLibrary();
 
+      Material CreateMaterial();
+
       Material CreateMaterial(
-         const Color& diffuse = DEFAULT_MATERIAL_DIFFUSE,
-         const Color& ambient = DEFAULT_MATERIAL_AMBIENT,
-         const Color& specular = DEFAULT_MATERIAL_SPECULAR,
-         float specularPower = DEFAULT_MATERIAL_SPECULAR_POWER);
+         const Color& diffuse);
+
+      Material CreateMaterial(
+         const Color& diffuse,
+         const Color& ambient,
+         const Color& specular,
+         float specularPower);
 
       Material GetMaterialAtIndex(int index);
       int GetMaterialCount() const;

@@ -38,4 +38,9 @@ namespace Prospect
    static const float DEFAULT_ATMOSPHERE_DENSITY_SCALE = 0.25f;
    static const float DEFAULT_ATMOSPHERE_ALTITUDE = 1500.1f;
    static const glm::vec3 DEFAULT_ATMOSPHERE_LIGHT_DIRECTION = glm::vec3(0, -1, 0);
+
+   static const Color DEFAULT_MATERIAL_DIFFUSE(0.15f, 0.53f, 0.86f);
+   static const Color DEFAULT_MATERIAL_AMBIENT(0.05f, 0.05f, 0.05f);
+   static const Color DEFAULT_MATERIAL_SPECULAR(0.3f, 0.3f, 0.3f);
+   static const float DEFAULT_MATERIAL_SPECULAR_POWER = 0.3f;
 }

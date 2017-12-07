@@ -8,13 +8,17 @@
 
 namespace Prospect
 {
+   class DepthTexture;
    class Atmosphere_impl;
    struct GlobalUniformBuffers;
 
    class RenderableAtmosphere : public IRenderable
    {
    public:
-      RenderableAtmosphere(const GlobalUniformBuffers& globalUniformBuffers, const Atmosphere_impl& atmosphere);
+      RenderableAtmosphere(
+         const GlobalUniformBuffers& globalUniformBuffers,
+         const DepthTexture& depthTexture,
+         const Atmosphere_impl& atmosphere);
       ~RenderableAtmosphere();
 
       void Render() override;
@@ -23,12 +27,12 @@ namespace Prospect
    private:
       void UpdateUniformsIfDirty();
 
-      mutable bool m_isDirty;
-
       const Atmosphere_impl& m_atmosphere;
 
       Scattering m_scattering;
       Sun m_sun;
-      Clouds m_clouds;
+      //Clouds m_clouds;
+
+      mutable bool m_isDirty;
    };
 }
