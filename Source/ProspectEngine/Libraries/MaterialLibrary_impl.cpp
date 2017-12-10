@@ -10,7 +10,8 @@ using namespace Prospect;
 
 MaterialLibrary_impl::MaterialLibrary_impl(MaterialLibrary& parent)
    :
-   m_parent(parent)
+   m_parent(parent),
+   m_nextMaterialID(0)
 {
 }
 
@@ -38,8 +39,6 @@ Material MaterialLibrary_impl::CreateMaterial(
    const Color& specular,
    float specularPower)
 {
-   m_nextMaterialID++;
-
    m_materials.emplace_back(std::make_shared<Material_impl>(
       m_nextMaterialID,
       diffuse,
@@ -47,10 +46,12 @@ Material MaterialLibrary_impl::CreateMaterial(
       specular,
       specularPower));
 
+   m_nextMaterialID++;
+
    return m_materials.back();
 }
 
-Material MaterialLibrary_impl::GetMaterialAtIndex(int index)
+Material MaterialLibrary_impl::GetMaterial(const int index)
 {
    if (index < 0 || index >= static_cast<int>(m_materials.size()))
    {
@@ -58,6 +59,16 @@ Material MaterialLibrary_impl::GetMaterialAtIndex(int index)
    }
 
    return m_materials[index];
+}
+
+const Material_impl& MaterialLibrary_impl::GetMaterialImpl(const int index) const
+{
+   if (index < 0 || index >= static_cast<int>(m_materials.size()))
+   {
+      throw std::exception("No Material at index.");
+   }
+
+   return *m_materials[index].get();
 }
 
 int MaterialLibrary_impl::GetMaterialCount() const

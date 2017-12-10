@@ -47,13 +47,13 @@ void TestApplication::OnStartup()
 
    Atmosphere atmosphere;
    m_scene.SetAtmosphere(atmosphere);
-   atmosphere.SetAltitude(1510);
+   atmosphere.SetAltitude(1505);
 
-   Material green = m_materialLib.CreateMaterial(Color(0.1, 0.7, 0.1));
-   Material red = m_materialLib.CreateMaterial(Color(0.7, 0.1, 0.1));
+   Material blue = m_materialLib.CreateMaterial(Color::Blue());
+   Material red = m_materialLib.CreateMaterial(Color::Red());
    Mesh plane = m_meshLib.CreatePlane(vec2(20, 20));
 
-   Entity ground(plane, green);
+   Entity ground(plane, blue);
    ground.SetTranslation(vec3(0, 20, 0));
    m_scene.AddEntity(ground);
 
@@ -62,9 +62,8 @@ void TestApplication::OnStartup()
    ground2.SetScale(vec3(0.4, 0.4, 0.4));
    ground.AddEntity(ground2);
 
-
    Mesh cube = m_meshLib.CreateCube(vec3(10, 10, 10));
-   Entity greenCube(cube, green);
+   Entity greenCube(cube, red);
    greenCube.SetTranslation(vec3(0, 30, 0));
    m_scene.AddEntity(greenCube);
 }

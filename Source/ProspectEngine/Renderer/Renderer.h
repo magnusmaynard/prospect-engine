@@ -19,7 +19,7 @@ namespace Prospect
    class Renderer
    {
    public:
-      Renderer();
+      Renderer(const MaterialLibrary_impl& materialLibrary);
 
       void Render(double time, Scene_impl& scene);
 
@@ -41,6 +41,10 @@ namespace Prospect
       unsigned int m_frameCount;
       double m_previousTime;
 
+      DepthTexture m_depthTexture;
+
+      const MaterialLibrary_impl& m_materialLibrary;
+
       void Initialize();
 
       void UpdateRenderableEntity(Entity_impl& entity);
@@ -55,8 +59,5 @@ namespace Prospect
 
       void Clear();
       void ClearDepthBuffer();
-      void ReportErrors() const;
-
-      DepthTexture m_depthTexture;
    };
 }

@@ -8,7 +8,9 @@ using namespace Prospect;
 using namespace glm;
 
 MeshLibrary_impl::MeshLibrary_impl(MeshLibrary& parent)
-   : m_parent(parent)
+   :
+   m_parent(parent),
+   m_nextMeshID(0)
 {
 }
 
@@ -159,9 +161,9 @@ Mesh MeshLibrary_impl::AddMesh(
    const std::vector<unsigned int>& indices,
    const std::vector<vec3>& normals)
 {
-   m_nextMeshID++;
-
    m_meshes.emplace_back(std::make_shared<Mesh_impl>(m_nextMeshID, vertices, indices, normals));
+
+   m_nextMeshID++;
 
    return m_meshes.back();
 }

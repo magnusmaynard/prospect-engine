@@ -1,10 +1,18 @@
 #include "ProspectEngine_pch.h"
 
 #include "ShaderFactory.h"
+#include "Resources/Resources.h"
 
 using namespace Prospect;
 
 std::deque<Shader> ShaderFactory::m_shaders;
+
+Shader& ShaderFactory::CreateBlinnPhongShader()
+{
+   return CreateShader(
+      Resources::BLINNPHONG_VERTEX_SHADER,
+      Resources::BLINNPHONG_FRAGMENT_SHADER);
+}
 
 Shader& ShaderFactory::CreateShader(
    const std::string& vertexShader,

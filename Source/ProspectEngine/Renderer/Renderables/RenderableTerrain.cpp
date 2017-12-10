@@ -10,6 +10,7 @@
 #include "Renderer/Shaders/Shader.h"
 #include "Resources/ResourceIO.h"
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
+#include "Renderer/Debugger/Debug.h"
 
 using namespace Prospect;
 using namespace noise;
@@ -96,7 +97,7 @@ void RenderableTerrain::ConstructHeightMapTexture()
    glTextureParameteri(m_texture, GL_TEXTURE_BASE_LEVEL, 0);
    glTextureParameteri(m_texture, GL_TEXTURE_MAX_LEVEL, 4);
    glTextureParameteri(m_texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-   glTextureParameteri(m_texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+   glTextureParameteri(m_texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
    glGenerateTextureMipmap(m_texture);
 

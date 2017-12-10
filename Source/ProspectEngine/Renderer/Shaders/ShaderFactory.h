@@ -7,6 +7,8 @@ namespace Prospect
    class ShaderFactory
    {
    public:
+      static Shader& CreateBlinnPhongShader();
+
       static Shader& CreateShader(
          const std::string& vertexShader,
          const std::string& fragmentShader);

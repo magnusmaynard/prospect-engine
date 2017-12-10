@@ -3,6 +3,8 @@
 #include "Scene/Material_impl.h"
 #include "Scene/Camera_impl.h"
 #include "Scene/Atmosphere_impl.h"
+#include "Engine/EngineDefines.h"
+#include "Libraries/MaterialLibrary_impl.h"
 
 namespace Prospect
 {
@@ -58,25 +60,40 @@ namespace Prospect
    //   DirectionalLightUniforms Lights[10];
    //};
 
-   struct MaterialUniforms
+   struct MaterialsUniforms
    {
-      MaterialUniforms()
+      struct MaterialUniforms
+      {
+         MaterialUniforms()
+         {
+         }
+
+         MaterialUniforms(const Material_impl& material)
+            :
+            Diffuse(material.GetDiffuse().ToRGBA()),
+            Ambient(material.GetAmbient().ToRGBA()),
+            SpecularAndPower(material.GetSpecular().ToRGB(), material.GetSpecularPower())
+         {
+         }
+
+         glm::vec4 Diffuse;
+         glm::vec4 Ambient;
+         glm::vec4 SpecularAndPower;
+      };
+
+      MaterialsUniforms()
       {
       }
 
-      MaterialUniforms(const Material_impl& material)
-         :
-         Diffuse(material.GetDiffuse().ToRGBA()),
-         Ambient(material.GetAmbient().ToRGBA()),
-         Specular(material.GetSpecular().ToRGBA()),
-         SpecularPower(material.GetSpecularPower())
+      MaterialsUniforms(const MaterialLibrary_impl& materials)
       {
+         for(int i = 0; i < materials.GetMaterialCount(); i++)
+         {
+            Materials[i] = MaterialUniforms(materials.GetMaterialImpl(i));
+         }
       }
 
-      glm::vec4 Diffuse;
-      glm::vec4 Ambient;
-      glm::vec4 Specular;
-      float SpecularPower = 0;
+      MaterialUniforms Materials[MAX_MATERIALS];
    };
 
    struct NodeUniforms

@@ -26,10 +26,15 @@ namespace Prospect
          const Color& specular,
          float specularPower);
 
-      Material GetMaterialAtIndex(int index);
+      Material GetMaterial(int index);
       int GetMaterialCount() const;
 
    private:
+      //TODO: Remove this, by using shared_ptr.
+      MaterialLibrary_impl& GetImpl();
+
       std::unique_ptr<MaterialLibrary_impl> m_impl;
+
+      friend class Engine_impl;
    };
 }

@@ -8,16 +8,19 @@
 #include "Renderer/Renderables/RenderableEntity.h"
 #include "Renderer/Renderables/RenderableTerrain.h"
 #include "Renderer/Renderables/RenderableText.h"
+#include "Renderer/Debugger/Debug.h"
+#include "Libraries/MaterialLibrary_impl.h"
 
 using namespace Prospect;
 using namespace glm;
 
-Renderer::Renderer()
+Renderer::Renderer(const MaterialLibrary_impl& materialLibrary)
    :
    m_frameCount(0),
    m_previousTime(0),
    m_showFPS(false),
-   m_showWireframe(false)
+   m_showWireframe(false),
+   m_materialLibrary(materialLibrary)
 {
    Initialize();
 }
@@ -88,7 +91,7 @@ void Renderer::Render(double time, Scene_impl& scene)
       m_fpsText->Render();
    }
 
-   ReportErrors();
+   Debug::CheckErrors();
 }
 
 
@@ -133,6 +136,8 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
    const Camera_impl& camera = scene.GetCameraImpl();
 
    m_globalUniformBuffers.Camera.Update(CameraUniforms(scene.GetCameraImpl()));
+
+   m_globalUniformBuffers.Materials.Update(MaterialsUniforms(m_materialLibrary));
 
    const Light_impl& atmosphereLight = scene.GetAtmosphereImpl()->GetLightImpl();
 
@@ -207,16 +212,5 @@ void Renderer::UpdateFPS(double time)
       m_frameCount = 0;
       m_previousTime = time;
    }
-}
-
-void Renderer::ReportErrors() const
-{
-#ifdef _DEBUG
-   GLenum error;
-   while ((error = glGetError()) != GL_NO_ERROR)
-   {
-      std::cerr << "Error: 0x" << std::hex << error << std::endl;
-   };
-#endif
 }
 

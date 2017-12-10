@@ -29,7 +29,7 @@ namespace Prospect
 
       MeshLibrary& m_parent;
 
-      unsigned long m_nextMeshID = NULL_ID;
+      unsigned long m_nextMeshID;
       std::deque<std::shared_ptr<Mesh_impl>> m_meshes;
    };
 }

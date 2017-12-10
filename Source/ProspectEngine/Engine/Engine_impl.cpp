@@ -18,6 +18,7 @@ Engine_impl::Engine_impl(
    m_parent(parent),
    m_application(application),
    m_window(*this, ivec2(width, height)),
+   m_renderer(m_materialLibrary.GetImpl()),
    m_isCameraControlsEnabled(true),
    m_lastUpdateTime(0)
 {

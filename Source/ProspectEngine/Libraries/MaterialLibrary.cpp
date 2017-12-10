@@ -33,12 +33,17 @@ Material MaterialLibrary::CreateMaterial(
    return m_impl->CreateMaterial(diffuse, ambient, specular, specularPower);
 }
 
-Material MaterialLibrary::GetMaterialAtIndex(const int index)
+Material MaterialLibrary::GetMaterial(const int index)
 {
-   return m_impl->GetMaterialAtIndex(index);
+   return m_impl->GetMaterial(index);
 }
 
 int MaterialLibrary::GetMaterialCount() const
 {
    return m_impl->GetMaterialCount();
+}
+
+MaterialLibrary_impl& MaterialLibrary::GetImpl()
+{
+   return *m_impl.get();
 }

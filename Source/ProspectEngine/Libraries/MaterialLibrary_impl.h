@@ -14,6 +14,7 @@ namespace Prospect
    class MaterialLibrary_impl
    {
    public:
+      //Public
       MaterialLibrary_impl(MaterialLibrary& parent);
 
       Material CreateMaterial();
@@ -26,13 +27,16 @@ namespace Prospect
          const Color& specular,
          float specularPower);
 
-      Material GetMaterialAtIndex(int index);
+      Material GetMaterial(int index);
       int GetMaterialCount() const;
+
+      //Internal
+      const Material_impl& GetMaterialImpl(int index) const;
 
    private:
       MaterialLibrary& m_parent;
 
-      unsigned long m_nextMaterialID = NULL_ID;
+      unsigned long m_nextMaterialID;
       std::deque<std::shared_ptr<Material_impl>> m_materials;
    };
 }

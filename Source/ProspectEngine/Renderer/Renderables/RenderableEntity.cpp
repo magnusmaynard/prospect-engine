@@ -17,12 +17,11 @@ RenderableEntity::RenderableEntity(
    :
    m_entity(entity),
    m_vertexData(vertexData),
-   m_shader(ShaderFactory::CreateShader(Resources::BLINNPHONG_VERTEX_SHADER, Resources::BLINNPHONG_FRAGMENT_SHADER)),
-   m_materialUniformBuffer("MaterialUniforms") //TODO: make globals array of materials.
+   m_shader(ShaderFactory::CreateBlinnPhongShader())
 {
    globalUniformBuffers.Camera.Bind(m_shader);
    globalUniformBuffers.DirectionalLight.Bind(m_shader);
-   m_materialUniformBuffer.Bind(m_shader);
+   globalUniformBuffers.Materials.Bind(m_shader);
 }
 
 RenderableEntity::~RenderableEntity()
@@ -34,8 +33,7 @@ RenderableEntity::RenderableEntity(RenderableEntity&& other)
    :
    m_entity(other.m_entity),
    m_vertexData(other.m_vertexData),
-   m_shader(other.m_shader),
-   m_materialUniformBuffer(other.m_materialUniformBuffer)
+   m_shader(other.m_shader)
 {
 }
 
@@ -47,12 +45,7 @@ void RenderableEntity::Render()
 
    BindTransform(m_entity.GetTransform());
 
-   if (auto* material = m_entity.GetMaterialImpl())
-   {
-      m_materialUniformBuffer.Update(MaterialUniforms(*material));
-   }
-
-   BindMaterial(*m_entity.GetMaterial());
+   BindMaterial(*m_entity.GetMaterialImpl());
    
    m_vertexData.Render();
 }
@@ -67,9 +60,7 @@ void RenderableEntity::BindTransform(const glm::mat4& transform)
    glUniformMatrix4fv(2, 1, GL_FALSE, &transform[0][0]);
 }
 
-void RenderableEntity::BindMaterial(const Material& material)
+void RenderableEntity::BindMaterial(const Material_impl& material)
 {
-   auto& diffuse = material.GetDiffuse();
-
-   glUniform4fv(5, 1, &diffuse.ToRGBA()[0]);
+   glUniform1i(100, material.GetID());
 }

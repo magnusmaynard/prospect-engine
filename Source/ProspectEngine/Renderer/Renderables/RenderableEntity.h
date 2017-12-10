@@ -31,11 +31,10 @@ namespace Prospect
 
    private:
       void BindTransform(const glm::mat4& transform);
-      void BindMaterial(const Material& material);
+      void BindMaterial(const Material_impl& material);
 
       Entity_impl& m_entity;
 
-      UniformBuffer<MaterialUniforms> m_materialUniformBuffer;
       VertexData& m_vertexData;
 
       Shader& m_shader;

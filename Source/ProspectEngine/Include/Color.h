@@ -4,18 +4,55 @@ namespace Prospect
 {
    struct Color
    {
-      Color(float r, float g, float b, float a = 1.0)
+#pragma region Presets
+      static Color White()
+      {
+         return { 0.8f, 0.8f, 0.8f };
+      }
+
+      static Color Gray()
+      {
+         return { 0.5f, 0.5f, 0.5f };
+      }
+
+      static Color Black()
+      {
+         return { 0.1f, 0.1f, 0.1f };
+      }
+
+      static Color Red()
+      {
+         return { 0.8f, 0.1f, 0.1f };
+      }
+
+      static Color Green()
+      {
+         return { 0.1f, 0.8f, 0.1f };
+      }
+
+      static Color Blue()
+      {
+         return { 0.1f, 0.1f, 0.8f };
+      }
+#pragma endregion
+
+      Color(const float r, const float g, const float b)
          :
          R(r),
          G(g),
          B(b),
-         A(a)
+         A(1.0)
       {
       }
 
       glm::vec4 ToRGBA() const
       {
-         return glm::vec4(R, G, B, A);
+         return { R, G, B, A };
+      }
+
+      glm::vec3 ToRGB() const
+      {
+         return { R, G, B };
       }
 
       float R;
