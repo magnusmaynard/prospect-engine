@@ -31,6 +31,13 @@ namespace Prospect
    private:
       bool AreEqual(BaseShader* lhs, BaseShader* rhs) const;
 
+      static bool Shader::CompileAndAttachShader(
+         const GLuint program,
+         const std::unique_ptr<BaseShader>& shader);
+
+      static bool LinkProgram(const GLuint program);
+      static bool ValidateProgram(const GLuint program);
+
       GLuint m_program;
 
       std::unique_ptr<BaseShader> m_vertexShader;
@@ -38,11 +45,5 @@ namespace Prospect
       std::unique_ptr<BaseShader> m_tessEvaluationShader;
       std::unique_ptr<BaseShader> m_geometryShader;
       std::unique_ptr<BaseShader> m_fragmentShader;
-
-      static bool Shader::CompileAndAttachShader(
-         const GLuint program,
-         const std::unique_ptr<BaseShader>& shader);
-
-      static bool LinkProgram(const GLuint& program);
    };
 }

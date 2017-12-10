@@ -94,7 +94,7 @@ Camera& Scene_impl::GetCamera()
 
 void Scene_impl::Update(double time)
 {
-   mat4 origin;
+   const mat4 origin;
    m_rootEntity.UpdateTransform(origin, false);
 
    if (m_terrain)

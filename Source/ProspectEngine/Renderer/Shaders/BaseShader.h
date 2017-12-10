@@ -15,6 +15,8 @@ namespace Prospect
       std::string GetName() const;
 
    private:
+      bool ValidateShader() const;
+
       const std::string m_fileName;
       const GLenum m_type;
 

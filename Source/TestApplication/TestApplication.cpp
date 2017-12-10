@@ -121,7 +121,7 @@ void TestApplication::OnUpdate(const double timeElapsed)
    }
 
    auto e0 = m_scene.GetEntity(0);
-   e0.SetRotation(vec3(0, counter * 20.0, 0));   
+   e0.SetRotation(vec3(0, counter * 20.0, 0));
    
    auto e1 = e0.GetEntity(0);
    e1.SetRotation(vec3(0, counter * 10.0, 0));

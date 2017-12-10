@@ -24,6 +24,13 @@ std::string IO::GetExecutablePath()
 std::string IO::ReadText(const std::string& filePath)
 {
    std::ifstream sourceFile(filePath);
+
+   if (!sourceFile)
+   {
+      std::cerr << "Error: Unable to read file at path: " << filePath << std::endl;
+      return "";
+   }
+
    std::stringstream sourceStream;
    sourceStream << sourceFile.rdbuf();
 
@@ -37,7 +44,7 @@ Bitmap IO::ReadBitmap(const std::string& filePath)
    int channels = 0;
    float* rawData = stbi_loadf(filePath.c_str(), &width, &height, &channels, 1);
 
-   std::vector<float> data(rawData, rawData + width * height);
+   const std::vector<float> data(rawData, rawData + width * height);
 
    return Bitmap(width, height, channels, data);
 }

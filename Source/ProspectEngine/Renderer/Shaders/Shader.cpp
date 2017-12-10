@@ -84,6 +84,33 @@ bool Shader::AreEqual(BaseShader* lhs, BaseShader* rhs) const
    return lhs == rhs;
 }
 
+bool Shader::ValidateProgram(const GLuint program)
+{
+   //Get error.
+   GLint success = 0;
+   glGetProgramiv(program, GL_LINK_STATUS, &success);
+
+   if (success == GL_FALSE)
+   {
+      GLint logLength;
+      glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
+
+      std::vector<GLchar> logText(logLength);
+      glGetProgramInfoLog(program, logLength, &logLength, &logText[0]);
+
+      std::cerr << "Error: Failed to link program: ";
+      for (auto c : logText)
+      {
+         std::cerr << c;
+      }
+      std::cerr << std::endl;
+
+      return false;
+   }
+
+   return true;
+}
+
 void Shader::AddVertexShader(const std::string& fileName)
 {
    m_vertexShader = std::make_unique<VertexShader>(fileName);
@@ -113,14 +140,17 @@ bool Shader::CompileAndAttachShader(
    const GLuint program,
    const std::unique_ptr<BaseShader>& shader)
 {
-   if (shader != nullptr)
+   if (shader)
    {
-      if(shader->Compile() == false)
+      if(shader->Compile())
       {
+         glAttachShader(program, shader->GetID());
+      }
+      else
+      {
+         //Failed to compile.
          return false;
       }
-      glAttachShader(program, shader->GetID());
-
    }
    return true; //No error has occured, just a null shader.
 }
@@ -147,35 +177,11 @@ bool Shader::Compile()
    return success;
 }
 
-bool Shader::LinkProgram(const GLuint& program)
+bool Shader::LinkProgram(const GLuint program)
 {
-   //Link program.
    glLinkProgram(program);
 
-   //Get error.
-   GLint success = 0;
-   glGetProgramiv(program, GL_LINK_STATUS, &success);
-
-   //Log error.
-   if (success == GL_FALSE)
-   {
-      GLint logLength;
-      glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
-
-      std::vector<GLchar> logText(logLength);
-      glGetProgramInfoLog(program, logLength, &logLength, &logText[0]);
-
-      std::cout << "Error linking program. : ";
-      for (auto c : logText)
-      {
-         std::cout << c;
-      }
-      std::cout << std::endl;
-
-      return false;
-   }
-
-   return true;
+   return ValidateProgram(program);
 }
 
 void Shader::Bind() const

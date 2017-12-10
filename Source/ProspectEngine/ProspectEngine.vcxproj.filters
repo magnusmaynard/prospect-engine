@@ -182,9 +182,6 @@
     <ClInclude Include="Renderer\Textures\DepthTexture.h">
       <Filter>Renderer\Textures</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ColorPresets.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Debugger\Debug.h">
       <Filter>Renderer\Debugger</Filter>
     </ClInclude>

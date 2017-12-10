@@ -25,10 +25,7 @@ void Node::Update(const glm::vec3& cameraPosition, std::vector<Node*>& endNodes)
 {
    glm::vec3 normal = glm::vec3(0, 1, 0);
 
-   float distance = length(m_origin - cameraPosition);
-
-   if (m_level < MAX_LEVEL &&
-      distance < m_size * DIVISION_THRESHOLD)
+   if (RequiresDivide(cameraPosition))
    {
       Divide();
 
@@ -42,46 +39,11 @@ void Node::Update(const glm::vec3& cameraPosition, std::vector<Node*>& endNodes)
       //Node is out of range.
       m_isParent = false;
       m_edgeScalingIsDirty = true;
+
+      //Update the closest end Node to the camera.
       endNodes.push_back(this);
    }
 }
-
-//void Node::UpdateIfRequired(const glm::vec3& cameraPosition, std::vector<Node*>& endNodes)
-//{
-//   glm::vec3 normal = glm::vec3(0, 1, 0);
-//
-//   float distance = length(m_origin - cameraPosition);
-//
-//   int desiredLevel = CalculateLevel(cameraPosition);
-//
-//   if(m_level == desiredLevel)
-//   {
-//      //Add to end node.
-//   }
-//   else if(m_level < desiredLevel)
-//   {
-//      Divide();
-//   }
-//   else
-//
-//   if (m_level < MAX_LEVEL &&
-//      distance < m_size * DIVISION_THRESHOLD)
-//   {
-//      Divide();
-//
-//      for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
-//      {
-//         m_children[i]->Update(cameraPosition, endNodes);
-//      }
-//   }
-//   else
-//   {
-//      //Node is out of range.
-//      m_isParent = false;
-//      m_edgeScalingIsDirty = true;
-//      endNodes.push_back(this);
-//   }
-//}
 
 void Node::Divide()
 {
@@ -133,12 +95,36 @@ void Node::UpdateEdgeScaling()
    }
 }
 
+bool Node::IsLODInvalid(const glm::vec3& position) const
+{
+   return RequiresDivide(position) || RequiresMerge(position);
+}
+
+float Node::DistanceTo(const glm::vec3 position) const
+{
+   return length(m_origin - position);
+}
+
+bool Node::RequiresDivide(const glm::vec3& position) const
+{
+   const float distance = length(m_origin - position);
+
+   return m_level < MAX_LEVEL && distance < m_size * DIVISION_THRESHOLD;
+}
+
+bool Node::RequiresMerge(const glm::vec3& position) const
+{
+   const float distance = length(m_origin - position);
+
+   return m_level > 0 && distance > m_size * 2.0 * DIVISION_THRESHOLD;
+}
+
 Node* Node::FindNeighbour(const Direction& direction)
 {
    Node* node = this;
    bool foundCommonNode = false;
    int currentIndex = 0;
-   int m_indices[NUMBER_OF_LEVELS];
+   int indices[NUMBER_OF_LEVELS];
 
    //Look for nearest common parent between current node and neighbour.
    while (foundCommonNode == false)
@@ -227,7 +213,7 @@ Node* Node::FindNeighbour(const Direction& direction)
          break;
       }
 
-      m_indices[currentIndex] = newIndex;
+      indices[currentIndex] = newIndex;
       currentIndex++;
 
       node = node->m_parent;
@@ -239,13 +225,13 @@ Node* Node::FindNeighbour(const Direction& direction)
       }
    }
 
-   //Go down m_indices from common parent to find child, which is the neigbour to the current node.
+   //Go down indices from common parent to find child, which is the neigbour to the current node.
    Node* neighbour = node;
    while (neighbour->m_isParent && currentIndex > 0)
    {
       currentIndex--;
 
-      auto index = m_indices[currentIndex];
+      auto index = indices[currentIndex];
       neighbour = neighbour->m_children[index].get();
    }
 

@@ -33,6 +33,12 @@ bool BaseShader::Compile()
    //Read from file.
    auto data = ResourceIO::ReadText(m_fileName);
 
+   if(data.length() == 0)
+   {
+      std::cerr << "Error: Failed to load shader: " << m_fileName << std::endl;
+      return false;
+   }
+
    const GLchar* sourceChars = data.c_str();
    const GLint sourceLength = static_cast<GLint>(data.length());
 
@@ -42,6 +48,11 @@ bool BaseShader::Compile()
    glCompileShader(m_id);
 
    //Validate.
+   return ValidateShader();
+}
+
+bool BaseShader::ValidateShader() const
+{
    GLint success = 0;
    glGetShaderiv(m_id, GL_COMPILE_STATUS, &success);
 
@@ -54,12 +65,12 @@ bool BaseShader::Compile()
       std::vector<GLchar> logText(logLength);
       glGetShaderInfoLog(m_id, logLength, &logLength, &logText[0]);
 
-      std::cout << "Error compiling shader : " << m_fileName << " : ";
+      std::cerr << "Error: Failed to compile shader: " << m_fileName << " : ";
       for (auto c : logText)
       {
-         std::cout << c;
+         std::cerr << c;
       }
-      std::cout << std::endl;
+      std::cerr << std::endl;
 
       return false;
    }
