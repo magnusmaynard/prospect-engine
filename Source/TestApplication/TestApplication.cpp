@@ -34,7 +34,7 @@ void TestApplication::OnStartup()
    m_engine.SetTitle("Test Application");
    m_engine.ShowFPS(true);
 
-   m_scene.GetCamera().LookAt(vec3(0, 40, 80), vec3(0, 10, 0));
+   m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
 
    const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\noise.bmp");
 
@@ -49,22 +49,22 @@ void TestApplication::OnStartup()
    m_scene.SetAtmosphere(atmosphere);
    atmosphere.SetAltitude(1505);
 
-   Material blue = m_materialLib.CreateMaterial(Color::Blue());
+   Material blue = m_materialLib.CreateMaterial({0.1f, 0.8f, 0.1f}, {0.1f, 0.1f, 0.1f}, { 1, 1, 1}, 100);
    Material red = m_materialLib.CreateMaterial(Color::Red());
-   Mesh plane = m_meshLib.CreatePlane(vec2(20, 20));
+   Mesh plane = m_meshLib.CreatePlane({ 20, 20 }, { 10, 10 });
 
    Entity ground(plane, blue);
-   ground.SetTranslation(vec3(0, 20, 0));
+   ground.SetTranslation({ 0, 20, 0 });
    m_scene.AddEntity(ground);
 
    Entity ground2(plane, red);
-   ground2.SetTranslation(vec3(60, 0, 0));
-   ground2.SetScale(vec3(0.4, 0.4, 0.4));
+   ground2.SetTranslation({ 60, 0, 0 });
+   ground2.SetScale({ 0.4, 0.4, 0.4 });
    ground.AddEntity(ground2);
 
-   Mesh cube = m_meshLib.CreateCube(vec3(10, 10, 10));
+   Mesh cube = m_meshLib.CreateCube({ 10, 10, 10 });
    Entity greenCube(cube, red);
-   greenCube.SetTranslation(vec3(0, 30, 0));
+   greenCube.SetTranslation({ 0, 30, 0 });
    m_scene.AddEntity(greenCube);
 }
 
@@ -121,13 +121,13 @@ void TestApplication::OnUpdate(const double timeElapsed)
    }
 
    auto e0 = m_scene.GetEntity(0);
-   e0.SetRotation(vec3(0, counter * 20.0, 0));
+   e0.SetRotation({ 0, counter * 20.0, 0 });
    
    auto e1 = e0.GetEntity(0);
-   e1.SetRotation(vec3(0, counter * 10.0, 0));
+   e1.SetRotation({ 0, counter * 10.0, 0 });
 
    auto cube = m_scene.GetEntity(1);
-   cube.SetRotation(vec3(counter * 8.0, -counter * 5.0, counter * 3.0));
+   cube.SetRotation({ counter * 8.0, -counter * 5.0, counter * 3.0 });
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)

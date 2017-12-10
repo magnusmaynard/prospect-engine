@@ -15,7 +15,7 @@ namespace Prospect
    {
    public:
       MeshLibrary_impl(MeshLibrary& parent);
-      Mesh CreatePlane(const glm::vec2& size);
+      Mesh CreatePlane(const glm::vec2& size, const glm::ivec2& sections);
       Mesh CreateCube(const glm::vec3& size);
 
       Mesh GetMeshAtIndex(int index);

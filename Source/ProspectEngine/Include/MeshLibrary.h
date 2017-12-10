@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include "Defaults.h"
 
 namespace Prospect
 {
@@ -13,7 +14,10 @@ namespace Prospect
       MeshLibrary();
       ~MeshLibrary();
 
-      Mesh CreatePlane(const glm::vec2& size);
+      Mesh CreatePlane(
+         const glm::vec2& size,
+         const glm::ivec2& sections = DEFAULT_PLANE_SECTIONS);
+
       Mesh CreateCube(const glm::vec3& size);
 
       Mesh GetMeshAtIndex(int index);

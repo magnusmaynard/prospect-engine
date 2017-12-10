@@ -14,31 +14,45 @@ MeshLibrary_impl::MeshLibrary_impl(MeshLibrary& parent)
 {
 }
 
-Mesh MeshLibrary_impl::CreatePlane(const vec2& size)
+Mesh MeshLibrary_impl::CreatePlane(const vec2& size, const ivec2& sections)
 {
-   const vec2 halfSize = size * 0.5f;
+   std::vector<vec3> vertices;
+   std::vector<unsigned int> indices;
+   std::vector<vec3> normals;
 
-   const std::vector<vec3> vertices
-   {
-      vec3(-halfSize.x, 0, -halfSize.y),
-      vec3(-halfSize.x, 0, halfSize.y),
-      vec3(halfSize.x, 0, halfSize.y),
-      vec3(halfSize.x, 0, -halfSize.y),
-   };
+   static const int VERTICES_PER_SECTION = 4;
+   static const int INDICES_PER_SECTION = 6;
 
-   static const std::vector<unsigned int> indices =
-   {
-      0, 1, 2,
-      0, 2, 3,
-   };
+   const vec3 origin(0, 0, 0);
+   const vec3 offset = origin - vec3(size.x, 0, size.y) * 0.5f;
+   const vec2 sectionSize(size.x / sections.x, size.y / sections.y);
 
-   static const std::vector<vec3> normals =
+   vertices.reserve(sections.x * sections.y * VERTICES_PER_SECTION);
+   vertices.reserve(sections.x * sections.y * INDICES_PER_SECTION);
+
+   for(int y = 0; y < sections.y; y++)
    {
-      vec3(0, 1, 0),
-      vec3(0, 1, 0),
-      vec3(0, 1, 0),
-      vec3(0, 1, 0),
-   };
+      for (int x = 0; x < sections.x; x++)
+      {
+         //Verticies
+         vertices.push_back({ offset.x + sectionSize.x * (x + 0), offset.y, offset.z + sectionSize.y * (y + 0) });
+         vertices.push_back({ offset.x + sectionSize.x * (x + 0), offset.y, offset.z + sectionSize.y * (y + 1) });
+         vertices.push_back({ offset.x + sectionSize.x * (x + 1), offset.y, offset.z + sectionSize.y * (y + 1) });
+         vertices.push_back({ offset.x + sectionSize.x * (x + 1), offset.y, offset.z + sectionSize.y * (y + 0) });
+
+         //Indices
+         const int baseIndex = x * VERTICES_PER_SECTION + y * sections.x * VERTICES_PER_SECTION;
+         indices.push_back(baseIndex + 0);
+         indices.push_back(baseIndex + 1);
+         indices.push_back(baseIndex + 2);
+         indices.push_back(baseIndex + 0);
+         indices.push_back(baseIndex + 2);
+         indices.push_back(baseIndex + 3);
+      }
+   }
+
+   //Normals
+   normals.resize(vertices.size(), { 0, 1, 0 });
 
    return AddMesh(vertices, indices, normals);
 }

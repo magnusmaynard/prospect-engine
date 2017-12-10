@@ -15,9 +15,9 @@ MeshLibrary::MeshLibrary()
 
 MeshLibrary::~MeshLibrary() = default;
 
-Mesh MeshLibrary::CreatePlane(const vec2& size)
+Mesh MeshLibrary::CreatePlane(const vec2& size, const ivec2& sections)
 {
-   return m_impl->CreatePlane(size);
+   return m_impl->CreatePlane(size, sections);
 }
 
 Mesh MeshLibrary::CreateCube(const glm::vec3& size)

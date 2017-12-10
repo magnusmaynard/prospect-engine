@@ -4,7 +4,7 @@ layout (std140) uniform DirectionalLightUniforms
 {
    vec4 Direction;
    vec4 DiffuseColor;
-   float Brightness;
+   vec4 Brightness;
 } light;
 
 struct Material
@@ -30,6 +30,7 @@ in VS_OUT
 
 out vec4 color;
 
+//TODO: Currently just uses Phong, make Blinn-phong.
 void main()
 {
    Material material = materials.Materials[MaterialID];
@@ -37,13 +38,16 @@ void main()
    vec3 N = normalize(fs_in.N);
    vec3 L = normalize(fs_in.L);
    vec3 V = normalize(fs_in.V);
-   vec3 H = normalize(L + V); //TODO: H?
+
+   vec3 R = reflect(-L, N);
    
    vec3 ambient = material.Ambient.xyz;
-   vec3 diffuse = max(dot(N, L), 0.0) * material.Diffuse.xyz * light.Brightness;
+   vec3 diffuseAlbedo = material.Diffuse.xyz;
+   vec3 diffuse = max(dot(N, L), 0.0) * diffuseAlbedo * light.Brightness.x;
 
+   vec3 specularAlbedo =  material.SpecularAndPower.xyz;
    float specularPower = material.SpecularAndPower.w;
-   vec3 specular = vec3(0, 0, 0);// pow(max(dot(N, H), 0.0), specularPower * 1.0) * material.SpecularAndPower.xyz;
+   vec3 specular = pow(max(dot(R, V), 0.0), specularPower) * specularAlbedo;
 
-   color = vec4(ambient + specular + diffuse, 1.0);
+   color = vec4(ambient + diffuse + specular, 1.0);
 }

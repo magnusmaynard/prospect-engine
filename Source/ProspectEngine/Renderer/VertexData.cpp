@@ -123,5 +123,6 @@ void VertexData::Render()
       }
 
       glDrawElements(GL_TRIANGLES, m_mesh.GetIndices().size(), GL_UNSIGNED_INT, 0);
+      //glDrawArrays(GL_POINTS, 0, m_mesh.GetVertices().size());//TODO: debug
    }
 }
