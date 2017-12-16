@@ -1,12 +1,12 @@
 #pragma once
-#include "Renderer/Shaders/Shader.h"
+#include "Renderer/Pipeline/Shaders/Shader.h"
 #include "Scene/Entity_impl.h"
 #include "Renderer/Renderables/IRenderable.h"
-#include "Renderer/Uniforms/UniformBlocks.h"
-#include "Renderer/Uniforms/UniformBuffer.h"
+#include "Renderer/Pipeline/Shaders/BlinnShader.h"
 
 namespace Prospect
 {
+   class ShaderLibrary;
    struct GlobalUniformBuffers;
    class Camera_impl;
    class Scene_impl;
@@ -16,7 +16,7 @@ namespace Prospect
    {
    public:
       RenderableEntity(
-         const GlobalUniformBuffers& globalUniformBuffers,
+         ShaderLibrary& shaderLibrary,
          Entity_impl& entity,
          VertexData& vertexData);
       ~RenderableEntity();
@@ -30,13 +30,9 @@ namespace Prospect
       void MakeDirty() override;
 
    private:
-      void BindTransform(const glm::mat4& transform);
-      void BindMaterial(const Material_impl& material);
-
       Entity_impl& m_entity;
 
       VertexData& m_vertexData;
-
-      Shader& m_shader;
+      BlinnShader& m_shader;
    };
 }

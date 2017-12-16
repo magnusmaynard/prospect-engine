@@ -4,24 +4,20 @@
 
 #include "Scene/Scene_impl.h"
 #include "Renderer/VertexData.h"
-#include "Renderer/Shaders/ShaderFactory.h"
-#include "Renderer/Uniforms/GlobalUniformBuffers.h"
 #include "Resources/Resources.h"
+#include "Renderer/Pipeline/Shaders/BlinnShader.h"
+#include "Renderer/Pipeline/ShaderLibrary.h"
 
 using namespace Prospect;
-
 RenderableEntity::RenderableEntity(
-   const GlobalUniformBuffers& globalUniformBuffers,
+   ShaderLibrary& shaderLibrary,
    Entity_impl& entity,
    VertexData& vertexData)
    :
    m_entity(entity),
    m_vertexData(vertexData),
-   m_shader(ShaderFactory::CreateBlinnPhongShader())
+   m_shader(shaderLibrary.GetBlinnShader())
 {
-   globalUniformBuffers.Camera.Bind(m_shader);
-   globalUniformBuffers.DirectionalLight.Bind(m_shader);
-   globalUniformBuffers.Materials.Bind(m_shader);
 }
 
 RenderableEntity::~RenderableEntity()
@@ -43,9 +39,7 @@ void RenderableEntity::Render()
 
    m_shader.Bind();
 
-   BindTransform(m_entity.GetTransform());
-
-   BindMaterial(*m_entity.GetMaterialImpl());
+   m_shader.Update(EntityUniforms(m_entity));
    
    m_vertexData.Render();
 }
@@ -53,14 +47,4 @@ void RenderableEntity::Render()
 void RenderableEntity::MakeDirty()
 {
    //TODO: Implement.
-}
-
-void RenderableEntity::BindTransform(const glm::mat4& transform)
-{
-   glUniformMatrix4fv(2, 1, GL_FALSE, &transform[0][0]);
-}
-
-void RenderableEntity::BindMaterial(const Material_impl& material)
-{
-   glUniform1i(100, material.GetID());
 }

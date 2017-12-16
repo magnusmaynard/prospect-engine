@@ -1,26 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Renderer\Shaders\BaseShader.h">
-      <Filter>Renderer\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Shaders\FragmentShader.h">
-      <Filter>Renderer\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Shaders\GeometryShader.h">
-      <Filter>Renderer\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="Include\IApplication.h">
       <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h">
-      <Filter>Renderer\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Shaders\TessControlShader.h">
-      <Filter>Renderer\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Shaders\VertexShader.h">
-      <Filter>Renderer\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\Window.h">
       <Filter>Renderer</Filter>
@@ -90,12 +72,6 @@
     </ClInclude>
     <ClInclude Include="Renderer\VertexData.h">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Shaders\ShaderFactory.h">
-      <Filter>Renderer\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Shaders\Shader.h">
-      <Filter>Renderer\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="ProspectEngine_pch.h" />
     <ClInclude Include="Resources\Resources.h">
@@ -170,9 +146,6 @@
     <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.h">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderables\Atmosphere\Clouds.h">
-      <Filter>Renderer\Renderables\Atmosphere</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Renderables\Atmosphere\Sun.h">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClInclude>
@@ -185,26 +158,47 @@
     <ClInclude Include="Renderer\Debugger\Debug.h">
       <Filter>Renderer\Debugger</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\Shader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\ShaderStage.h">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.h">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\GeometryShaderStage.h">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\TessControlShaderStage.h">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\TessEvaluationShaderStage.h">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.h">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\BlinnShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\ShaderLibrary.h">
+      <Filter>Renderer\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\TextShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\TerrainShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\SunShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\ScatteringShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Renderer\Shaders\BaseShader.cpp">
-      <Filter>Renderer\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Shaders\FragmentShader.cpp">
-      <Filter>Renderer\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Shaders\GeometryShader.cpp">
-      <Filter>Renderer\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Shaders\TessControlShader.cpp">
-      <Filter>Renderer\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Shaders\TessEvaluationShader.cpp">
-      <Filter>Renderer\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Shaders\VertexShader.cpp">
-      <Filter>Renderer\Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Window.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
@@ -259,12 +253,6 @@
     <ClCompile Include="Renderer\VertexData.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Shaders\ShaderFactory.cpp">
-      <Filter>Renderer\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Shaders\Shader.cpp">
-      <Filter>Renderer\Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="ProspectEngine_pch.cpp" />
     <ClCompile Include="Containers\Bitmap.cpp">
       <Filter>Containers</Filter>
@@ -317,9 +305,6 @@
     <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.cpp">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Renderables\Atmosphere\Clouds.cpp">
-      <Filter>Renderer\Renderables\Atmosphere</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Renderables\Atmosphere\Sun.cpp">
       <Filter>Renderer\Renderables\Atmosphere</Filter>
     </ClCompile>
@@ -332,6 +317,30 @@
     <ClCompile Include="Renderer\Debugger\Debug.cpp">
       <Filter>Renderer\Debugger</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\Shaders\Shader.cpp">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\ShaderStage.cpp">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.cpp">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\GeometryShaderStage.cpp">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\TessControlShaderStage.cpp">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\TessEvaluationShaderStage.cpp">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.cpp">
+      <Filter>Renderer\Pipeline\ShaderStages</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\ShaderLibrary.cpp">
+      <Filter>Renderer\Pipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -342,9 +351,6 @@
     </Filter>
     <Filter Include="Include">
       <UniqueIdentifier>{37dfec71-f162-4ad7-824a-540a0f27257e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer\Shaders">
-      <UniqueIdentifier>{cc72e1be-5208-40ac-b576-94ee0703df0c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{62459996-0a44-4ee6-99e6-2eb16e579061}</UniqueIdentifier>
@@ -396,6 +402,15 @@
     </Filter>
     <Filter Include="Renderer\Debugger">
       <UniqueIdentifier>{5104fc6c-9452-4a72-8d6d-9e8f3bca9e2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Pipeline">
+      <UniqueIdentifier>{cc72e1be-5208-40ac-b576-94ee0703df0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Pipeline\Shaders">
+      <UniqueIdentifier>{4a9f3ebd-38e8-4845-9aff-6cd9013c31a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Pipeline\ShaderStages">
+      <UniqueIdentifier>{08ca62fc-214d-4b22-ab15-433cb347dc7b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

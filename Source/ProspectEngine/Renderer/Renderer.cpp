@@ -20,6 +20,7 @@ Renderer::Renderer(const MaterialLibrary_impl& materialLibrary)
    m_previousTime(0),
    m_showFPS(false),
    m_showWireframe(false),
+   m_shaderLibrary(m_globalUniformBuffers),
    m_materialLibrary(materialLibrary)
 {
    Initialize();
@@ -39,8 +40,7 @@ void Renderer::Initialize()
    glEnable(GL_CULL_FACE);
    glFrontFace(GL_CCW);
 
-   m_fpsText = std::make_unique<RenderableText>(
-      m_globalUniformBuffers, "", ivec2(4, 0), 12);
+   m_fpsText = std::make_unique<RenderableText>(m_shaderLibrary, "", ivec2(4, 0), 12);
 }
 
 void Renderer::Render(double time, Scene_impl& scene)
@@ -105,7 +105,7 @@ void Renderer::UpdateRenderableEntity(Entity_impl& entity)
       {
          VertexData& vertexData = GetVertexData(*entity.GetMeshImpl());
 
-         m_renderables.push_back(std::make_unique<RenderableEntity>(m_globalUniformBuffers, entity, vertexData));
+         m_renderables.push_back(std::make_unique<RenderableEntity>(m_shaderLibrary, entity, vertexData));
 
          entity.SetRenderable(m_renderables.back().get());
       }
@@ -152,7 +152,7 @@ void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)
       const Terrain_impl* terrain = scene.GetTerrainImpl();
       if (terrain)
       {
-         m_terrain = std::make_unique<RenderableTerrain>(m_globalUniformBuffers, *terrain);
+         m_terrain = std::make_unique<RenderableTerrain>(m_shaderLibrary, *terrain);
       }
    }
 }
@@ -163,7 +163,7 @@ void Renderer::UpdateRenderableAtmosphere(const Scene_impl& scene)
    {
       if (const auto atmosphere = scene.GetAtmosphereImpl())
       {
-         m_atmosphere = std::make_unique<RenderableAtmosphere>(m_globalUniformBuffers, m_depthTexture, *atmosphere);
+         m_atmosphere = std::make_unique<RenderableAtmosphere>(m_shaderLibrary, m_depthTexture, *atmosphere);
 
          atmosphere->SetRenderable(m_atmosphere.get());
       }

@@ -43,11 +43,15 @@ namespace Prospect
       void SetParent(Entity_impl& parent);
       std::vector<std::shared_ptr<Entity_impl>>& GetChildren();
       
-      void UpdateTransform(const glm::mat4& transform, const bool isParentDirty);
-      glm::mat4& GetTransform();
+      void UpdateTransformMatrix(const glm::mat4& transform, const bool isParentDirty);
+      glm::mat4 GetTransformMatrix() const;
+
+      glm::mat4 GetNormalMatrix() const;
 
       Mesh_impl* GetMeshImpl();
       Material_impl* GetMaterialImpl();
+
+      int GetMaterialID() const;
 
       IRenderable* GetRenderable();
       void SetRenderable(IRenderable* renderable);
@@ -75,7 +79,8 @@ namespace Prospect
       mutable bool m_childEntityAdded = true;
       mutable bool m_isTransformDirty = true;
       glm::mat4 m_localTransform;
-      glm::mat4 m_transform;
+      glm::mat4 m_transformMatrix;
+      glm::mat4 m_normalMatrix;
 
       IRenderable* m_renderable;
    };

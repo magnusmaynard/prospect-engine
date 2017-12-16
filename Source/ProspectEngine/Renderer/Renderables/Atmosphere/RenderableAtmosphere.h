@@ -4,7 +4,6 @@
 #include "Renderer/Renderables/IRenderable.h"
 #include "Renderer/Renderables/Atmosphere/Sun.h"
 #include "Renderer/Renderables/Atmosphere/Scattering.h"
-#include "Renderer/Renderables/Atmosphere/Clouds.h"
 
 namespace Prospect
 {
@@ -16,7 +15,7 @@ namespace Prospect
    {
    public:
       RenderableAtmosphere(
-         const GlobalUniformBuffers& globalUniformBuffers,
+         ShaderLibrary& shaderLibrary,
          const DepthTexture& depthTexture,
          const Atmosphere_impl& atmosphere);
       ~RenderableAtmosphere();

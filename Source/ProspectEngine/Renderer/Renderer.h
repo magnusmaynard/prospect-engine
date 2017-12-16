@@ -2,7 +2,7 @@
 
 #include "Renderer/Renderables/RenderableEntity.h"
 #include "Renderer/VertexData.h"
-#include "Renderer/Shaders/ShaderFactory.h"
+#include "Renderer/Pipeline/ShaderLibrary.h"
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
 #include "Renderer/Renderables/RenderableTerrain.h"
 #include "Renderer/Renderables/RenderableText.h"
@@ -43,6 +43,7 @@ namespace Prospect
 
       DepthTexture m_depthTexture;
 
+      ShaderLibrary m_shaderLibrary;
       const MaterialLibrary_impl& m_materialLibrary;
 
       void Initialize();

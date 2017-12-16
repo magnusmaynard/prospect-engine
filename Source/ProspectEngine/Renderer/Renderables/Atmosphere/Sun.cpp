@@ -1,28 +1,21 @@
 #include "ProspectEngine_pch.h"
 
 #include "Sun.h"
-#include "Resources/Resources.h"
-#include "Renderer/Shaders/ShaderFactory.h"
-#include "Renderer/Uniforms/GlobalUniformBuffers.h"
 
+#include "Renderer/Pipeline/ShaderLibrary.h"
+#include "Renderer/Uniforms/GlobalUniformBuffers.h"
 #include "Scene/Atmosphere_impl.h"
 
 using namespace Prospect;
 using namespace glm;
 
-Sun::Sun(const GlobalUniformBuffers& globalUniformBuffers)
+Sun::Sun(ShaderLibrary& shaderLibrary)
    :
-   m_shader(ShaderFactory::CreateShader(
-      Resources::SUN_VERTEX_SHADER,
-      Resources::SUN_FRAGMENT_SHADER)),
-   m_uniformBuffer("SunUniforms"),
+   m_shader(shaderLibrary.GetSunShader()),
    m_color(1, 1, 1), //TODO:
    m_radius(100),
    m_distance(8000)
 {
-   globalUniformBuffers.Camera.Bind(m_shader);
-   m_uniformBuffer.Bind(m_shader);
-
    CreateSun();
 }
 
@@ -83,7 +76,8 @@ void Sun::UpdateUniforms(const Atmosphere_impl& atmosphere)
 {
    vec3 toSun = -normalize(atmosphere.GetSunDirection());
    m_translation = translate(toSun * m_distance);
-   m_uniformBuffer.Update({ m_translation });
+
+   m_shader.Update({ m_translation });
 }
 
 void Sun::Render()

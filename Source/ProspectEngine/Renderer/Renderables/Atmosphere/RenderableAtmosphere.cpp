@@ -3,23 +3,20 @@
 #include "RenderableAtmosphere.h"
 
 #include "Scene/Atmosphere_impl.h"
-
 #include "Resources/Resources.h"
-#include "Renderer/Shaders/ShaderFactory.h"
-#include "Renderer/Uniforms/GlobalUniformBuffers.h"
 #include "Renderer/Textures/DepthTexture.h"
 
 using namespace Prospect;
 using namespace glm;
 
 RenderableAtmosphere::RenderableAtmosphere(
-   const GlobalUniformBuffers& globalUniformBuffers,
+   ShaderLibrary& shaderLibrary,
    const DepthTexture& depthTexture,
    const Atmosphere_impl& atmosphere)
    :
-   m_scattering(globalUniformBuffers, depthTexture),
-   m_sun(globalUniformBuffers),
-   //m_clouds(globalUniformBuffers)
+   m_scattering(shaderLibrary, depthTexture),
+   m_sun(shaderLibrary),
+   //m_clouds(shaderLibrary)
    m_atmosphere(atmosphere),
    m_isDirty(true)
 {

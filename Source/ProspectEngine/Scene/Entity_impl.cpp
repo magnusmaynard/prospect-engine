@@ -122,7 +122,7 @@ void Entity_impl::AddEntity(Entity& entity)
    MarkParentAsDirty();
 }
 
-void Entity_impl::UpdateTransform(const mat4& transform, const bool isParentDirty)
+void Entity_impl::UpdateTransformMatrix(const mat4& transform, const bool isParentDirty)
 {
    bool isChildTransformDirty = false;
 
@@ -130,7 +130,8 @@ void Entity_impl::UpdateTransform(const mat4& transform, const bool isParentDirt
    {
       UpdateLocalTransform();
 
-      m_transform = transform * m_localTransform;
+      m_transformMatrix = transform * m_localTransform;
+      m_normalMatrix = transpose(inverse(m_transformMatrix));
 
       isChildTransformDirty = true;
       m_isTransformDirty = false;
@@ -138,13 +139,18 @@ void Entity_impl::UpdateTransform(const mat4& transform, const bool isParentDirt
 
    for (auto& child : m_children)
    {
-      child->UpdateTransform(m_transform, isChildTransformDirty);
+      child->UpdateTransformMatrix(m_transformMatrix, isChildTransformDirty);
    }
 }
 
-mat4& Entity_impl::GetTransform()
+mat4 Entity_impl::GetTransformMatrix() const
 {
-   return m_transform;
+   return m_transformMatrix;
+}
+
+glm::mat4 Entity_impl::GetNormalMatrix() const
+{
+   return m_normalMatrix;
 }
 
 void Entity_impl::UpdateLocalTransform()
@@ -158,7 +164,7 @@ void Entity_impl::UpdateLocalTransform()
    m_localTransform = scale(m_localTransform, m_scale);
 }
 
-Entity Entity_impl::GetEntity(unsigned int index)
+Entity Entity_impl::GetEntity(const unsigned int index)
 {
    if (index < 0 || index >= static_cast<int>(m_children.size()))
    {
@@ -181,6 +187,11 @@ Mesh_impl* Entity_impl::GetMeshImpl()
 Material_impl* Entity_impl::GetMaterialImpl()
 {
    return m_material.get();
+}
+
+int Entity_impl::GetMaterialID() const
+{
+   return m_material->GetID();
 }
 
 IRenderable* Entity_impl::GetRenderable()

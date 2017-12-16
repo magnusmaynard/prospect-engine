@@ -6,36 +6,33 @@
 #include FT_FREETYPE_H
 
 #include "Resources/Resources.h"
-#include "Renderer/Shaders/ShaderFactory.h"
 #include "Resources/Resources.h"
 #include "Resources/ResourceIO.h"
 
-#include "Renderer/Uniforms/GlobalUniformBuffers.h"
+#include "Renderer/Pipeline/ShaderLibrary.h"
 #include "Engine/EngineDefines.h"
 
 using namespace Prospect;
 using namespace glm;
 
 RenderableText::RenderableText(
-   const GlobalUniformBuffers& globalUniformBuffers,
+   ShaderLibrary& shaderLibrary,
    const std::string& text,
    const glm::ivec2& position,
-   int size)
+   const int size)
    :
-   m_shader(ShaderFactory::CreateShader(Resources::TEXT_VERTEX_SHADER, Resources::TEXT_FRAGMENT_SHADER)),
+   m_shader(shaderLibrary.GetTextShader()),
    m_text(text),
    m_position(position),
    m_textIsDirty(true),
    m_transformIsDirty(true)
 {
-   globalUniformBuffers.Camera.Bind(m_shader);
-
    InitialiseFont(size);
 
    CreateBuffers();
 }
 
-void RenderableText::InitialiseFont(int size)
+void RenderableText::InitialiseFont(const int size)
 {
    auto error = FT_Init_FreeType(&m_library);
    if (error)

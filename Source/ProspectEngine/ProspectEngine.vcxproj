@@ -43,8 +43,20 @@
     <ClInclude Include="Libraries\MeshLibrary_impl.h" />
     <ClInclude Include="ProspectEngine_pch.h" />
     <ClInclude Include="Renderer\Debugger\Debug.h" />
+    <ClInclude Include="Renderer\Pipeline\ShaderLibrary.h" />
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\ShaderStage.h" />
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.h" />
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\GeometryShaderStage.h" />
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\TessControlShaderStage.h" />
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\TessEvaluationShaderStage.h" />
+    <ClInclude Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\ScatteringShader.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\SunShader.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\BlinnShader.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\Shader.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\TerrainShader.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\TextShader.h" />
     <ClInclude Include="Renderer\PolygonMode.h" />
-    <ClInclude Include="Renderer\Renderables\Atmosphere\Clouds.h" />
     <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.h" />
     <ClInclude Include="Renderer\Renderables\Atmosphere\Sun.h" />
     <ClInclude Include="Renderer\Renderables\Atmosphere\Scattering.h" />
@@ -54,14 +66,6 @@
     <ClInclude Include="Renderer\Renderables\RenderableText.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\RendererDefines.h" />
-    <ClInclude Include="Renderer\Shaders\BaseShader.h" />
-    <ClInclude Include="Renderer\Shaders\FragmentShader.h" />
-    <ClInclude Include="Renderer\Shaders\GeometryShader.h" />
-    <ClInclude Include="Renderer\Shaders\ShaderFactory.h" />
-    <ClInclude Include="Renderer\Shaders\Shader.h" />
-    <ClInclude Include="Renderer\Shaders\TessControlShader.h" />
-    <ClInclude Include="Renderer\Shaders\TessEvaluationShader.h" />
-    <ClInclude Include="Renderer\Shaders\VertexShader.h" />
     <ClInclude Include="Renderer\Textures\DepthTexture.h" />
     <ClInclude Include="Renderer\Uniforms\GlobalUniformBuffers.h" />
     <ClInclude Include="Renderer\Uniforms\UniformBuffer.h" />
@@ -95,7 +99,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Renderer\Debugger\Debug.cpp" />
-    <ClCompile Include="Renderer\Renderables\Atmosphere\Clouds.cpp" />
+    <ClCompile Include="Renderer\Pipeline\ShaderLibrary.cpp" />
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\ShaderStage.cpp" />
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.cpp" />
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\GeometryShaderStage.cpp" />
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\TessControlShaderStage.cpp" />
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\TessEvaluationShaderStage.cpp" />
+    <ClCompile Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.cpp" />
+    <ClCompile Include="Renderer\Pipeline\Shaders\Shader.cpp" />
     <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.cpp" />
     <ClCompile Include="Renderer\Renderables\Atmosphere\Scattering.cpp" />
     <ClCompile Include="Renderer\Renderables\Atmosphere\Sun.cpp" />
@@ -103,14 +114,6 @@
     <ClCompile Include="Renderer\Renderables\RenderableTerrain.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableText.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
-    <ClCompile Include="Renderer\Shaders\BaseShader.cpp" />
-    <ClCompile Include="Renderer\Shaders\FragmentShader.cpp" />
-    <ClCompile Include="Renderer\Shaders\GeometryShader.cpp" />
-    <ClCompile Include="Renderer\Shaders\ShaderFactory.cpp" />
-    <ClCompile Include="Renderer\Shaders\Shader.cpp" />
-    <ClCompile Include="Renderer\Shaders\TessControlShader.cpp" />
-    <ClCompile Include="Renderer\Shaders\TessEvaluationShader.cpp" />
-    <ClCompile Include="Renderer\Shaders\VertexShader.cpp" />
     <ClCompile Include="Renderer\Textures\DepthTexture.cpp" />
     <ClCompile Include="Renderer\Uniforms\UniformBufferCounter.cpp" />
     <ClCompile Include="Renderer\VertexData.cpp" />

@@ -3,6 +3,7 @@
 #include "Scene/Material_impl.h"
 #include "Scene/Camera_impl.h"
 #include "Scene/Atmosphere_impl.h"
+#include "Scene/Entity_impl.h"
 #include "Engine/EngineDefines.h"
 #include "Libraries/MaterialLibrary_impl.h"
 
@@ -144,9 +145,19 @@ namespace Prospect
       float Altitude;
    };
 
-   struct ModelUniforms
+   struct EntityUniforms
    {
+      EntityUniforms(const Entity_impl& entity)
+         :
+         Model(entity.GetTransformMatrix()),
+         //Normal(entity.GetNormalMatrix()),
+         MaterialID(entity.GetMaterialID(), 0, 0, 0)
+      {
+      }
+
       glm::mat4 Model;
+      //glm::mat4 Normal;
+      glm::vec4 MaterialID;
    };
 
    struct SunUniforms

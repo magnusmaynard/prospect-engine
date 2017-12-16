@@ -3,35 +3,20 @@
 #include "Renderer/Renderables/RenderableTerrain.h"
 #include <noise/noise.h>
 
-#include "Resources/Resources.h"
-#include "Scene/Scene_impl.h"
-#include "Include/Camera.h"
-#include "Renderer/Shaders/ShaderFactory.h"
-#include "Renderer/Shaders/Shader.h"
-#include "Resources/ResourceIO.h"
-#include "Renderer/Uniforms/GlobalUniformBuffers.h"
-#include "Renderer/Debugger/Debug.h"
+#include "Renderer/Pipeline/ShaderLibrary.h"
+#include "Renderer/Pipeline/Shaders/Shader.h"
 
 using namespace Prospect;
 using namespace noise;
 using namespace glm;
 
 RenderableTerrain::RenderableTerrain(
-   const GlobalUniformBuffers& globalUniformBuffers,
+   ShaderLibrary& shaderLibrary,
    const Terrain_impl& terrain)
    :
    m_terrain(terrain),
-   m_shader(ShaderFactory::CreateShader(
-      Resources::TERRAIN_VERTEX_SHADER,
-      Resources::TERRAIN_TESSCONTROL_SHADER,
-      Resources::TERRAIN_TESSEVALUATION_SHADER,
-      Resources::TERRAIN_FRAGMENT_SHADER)),
-   m_nodeUniformBuffer("NodeUniforms")
+   m_shader(shaderLibrary.GetTerrainShader())
 {
-   globalUniformBuffers.Camera.Bind(m_shader);
-   globalUniformBuffers.DirectionalLight.Bind(m_shader);
-   m_nodeUniformBuffer.Bind(m_shader);
-
    m_minHeightLocation = m_shader.GetUniformLocation("minHeight");
    m_maxHeightLocation = m_shader.GetUniformLocation("maxHeight");
    m_totalSizeLocation = m_shader.GetUniformLocation("totalSize");
@@ -68,7 +53,7 @@ void RenderableTerrain::Render()
    for (auto& node : endNodes)
    {
       //Draw this node.
-      m_nodeUniformBuffer.Update(NodeUniforms(
+      m_shader.Update(NodeUniforms(
          node->Origin(),
          node->Edges(),
          node->Size(),

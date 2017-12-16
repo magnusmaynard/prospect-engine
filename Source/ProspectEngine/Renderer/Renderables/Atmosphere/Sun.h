@@ -1,17 +1,19 @@
 #pragma once
 
-#include "Renderer/Shaders/Shader.h"
+#include "Renderer/Pipeline/Shaders/Shader.h"
 #include "Renderer/Uniforms/UniformBlocks.h"
 #include "Renderer/Uniforms/UniformBuffer.h"
+#include "Renderer/Pipeline/Shaders/SunShader.h"
 
 namespace Prospect
 {
+   class ShaderLibrary;
    struct GlobalUniformBuffers;
 
    class Sun
    {
    public:
-      Sun(const GlobalUniformBuffers& globalUniformBuffers);
+      Sun(ShaderLibrary& shaderLibrary);
       ~Sun();
 
       void Render();
@@ -20,8 +22,7 @@ namespace Prospect
    private:
       void CreateSun();
 
-      Shader& m_shader;
-      UniformBuffer<SunUniforms> m_uniformBuffer;
+      SunShader& m_shader;
       GLuint m_pointsBuffer;
       GLuint m_VAO;
 

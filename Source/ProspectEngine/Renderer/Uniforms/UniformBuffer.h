@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderer/Shaders/Shader.h"
+#include "Renderer/Pipeline/Shaders/Shader.h"
 #include "Renderer/Uniforms/UniformBufferCounter.h"
 
 namespace Prospect
@@ -24,23 +24,23 @@ namespace Prospect
          glDeleteBuffers(1, &m_buffer);
       }
 
-      void Bind(const Shader& shader) const
+      void Bind(const GLuint shaderProgram) const
       {
-         GLuint blockIndex = glGetUniformBlockIndex(shader.GetProgram(), m_name.c_str());
+         GLuint blockIndex = glGetUniformBlockIndex(shaderProgram, m_name.c_str());
 
          if (blockIndex == GL_INVALID_INDEX)
          {
             std::cerr << "Error: Cannot find '" << m_name <<
-               "' uniform block in program " << shader.GetProgram() << std::endl;
+               "' uniform block in program " << shaderProgram << std::endl;
          }
          else if (blockIndex == GL_INVALID_OPERATION)
          {
-            std::cerr << "Error: Invalid program " << shader.GetProgram() << std::endl;
+            std::cerr << "Error: Invalid program " << shaderProgram << std::endl;
          }
          else
          {
             //Success.
-            glUniformBlockBinding(shader.GetProgram(), blockIndex, m_bindingIndex);
+            glUniformBlockBinding(shaderProgram, blockIndex, m_bindingIndex);
          }
       }
 

@@ -3,15 +3,15 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#include "Renderer/Shaders/Shader.h"
+#include "Renderer/Pipeline/Shaders/Shader.h"
 
 #include <glm/mat4x4.hpp>
 #include "Renderer/Renderables/IRenderable.h"
-#include "Renderer/Uniforms/UniformBuffer.h"
-#include "Renderer/Uniforms/UniformBlocks.h"
+#include "Renderer/Pipeline/Shaders/TextShader.h"
 
 namespace Prospect
 {
+   class ShaderLibrary;
    struct GlobalUniformBuffers;
 
    //Relative to origin baseline.
@@ -26,7 +26,7 @@ namespace Prospect
    {
    public:
       RenderableText(
-         const GlobalUniformBuffers& globalUniformBuffers,
+         ShaderLibrary& shaderLibrary,
          const std::string& text,
          const glm::ivec2& position,
          int size);
@@ -52,7 +52,7 @@ namespace Prospect
       std::string m_text;
 
       GLuint m_texture;
-      Shader& m_shader;
+      TextShader& m_shader;
 
       GLuint m_VAO;
 
