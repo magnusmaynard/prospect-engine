@@ -13,7 +13,7 @@ layout (std140) uniform CameraUniforms
 layout (std140) uniform DirectionalLightUniforms
 {
    vec4 Direction;
-   vec4 DiffuseColor;
+   vec4 Color;
    vec4 Brightness;
 } light;
 

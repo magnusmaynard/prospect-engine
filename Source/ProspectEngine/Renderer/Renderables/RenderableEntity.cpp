@@ -5,7 +5,7 @@
 #include "Scene/Scene_impl.h"
 #include "Renderer/VertexData.h"
 #include "Resources/Resources.h"
-#include "Renderer/Pipeline/Shaders/BlinnShader.h"
+#include "Renderer/Pipeline/Shaders/BlinnPhongShader.h"
 #include "Renderer/Pipeline/ShaderLibrary.h"
 
 using namespace Prospect;
@@ -16,7 +16,7 @@ RenderableEntity::RenderableEntity(
    :
    m_entity(entity),
    m_vertexData(vertexData),
-   m_shader(shaderLibrary.GetBlinnShader())
+   m_shader(shaderLibrary.GetBlinnPhongShader())
 {
 }
 

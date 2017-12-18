@@ -28,7 +28,9 @@ void Atmosphere_impl::SetSunDirection(const vec3& value)
    m_light.SetDirection(value);
 
    const vec3 down(0, -1, 0);
-   const float brightness = dot(value, down);
+   const vec3 bias(0, -0.2, 0); //Ensures some brightness when sun is on the horizon.
+
+   const float brightness = max(dot(value + bias, down), 0.f);
    m_light.SetBrightness(brightness);
 
    MakeDirty();

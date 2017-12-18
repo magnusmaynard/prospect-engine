@@ -46,22 +46,17 @@ namespace Prospect
       DirectionalLightUniforms(const Light_impl& directionalLight)
          :
          Direction({ normalize(directionalLight.GetDirection()), 0 }),
-         DiffuseColor(directionalLight.GetColor().ToRGBA()),
+         Color(directionalLight.GetColor().ToRGBA()),
          Brightness({ directionalLight.GetBrightness(), 0, 0, 0 })
       {
       }
 
       glm::vec4 Direction;
-      glm::vec4 DiffuseColor;
+      glm::vec4 Color;
       glm::vec4 Brightness;
    };
 
-   //struct LightsUniforms
-   //{
-   //   DirectionalLightUniforms Lights[10];
-   //};
-
-   struct MaterialsUniforms
+   struct MaterialLibraryUniforms
    {
       struct MaterialUniforms
       {
@@ -82,11 +77,7 @@ namespace Prospect
          glm::vec4 SpecularAndPower;
       };
 
-      MaterialsUniforms()
-      {
-      }
-
-      MaterialsUniforms(const MaterialLibrary_impl& materials)
+      MaterialLibraryUniforms(const MaterialLibrary_impl& materials)
       {
          for(int i = 0; i < materials.GetMaterialCount(); i++)
          {

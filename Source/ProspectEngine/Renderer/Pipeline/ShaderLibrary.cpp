@@ -14,7 +14,7 @@ ShaderLibrary::ShaderLibrary(const GlobalUniformBuffers& globalUniforms)
 {
 }
 
-BlinnShader& ShaderLibrary::GetBlinnShader()
+BlinnPhongShader& ShaderLibrary::GetBlinnPhongShader()
 {
    return m_blinnShader;
 }

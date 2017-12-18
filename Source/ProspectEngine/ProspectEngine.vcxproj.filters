@@ -179,9 +179,6 @@
     <ClInclude Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.h">
       <Filter>Renderer\Pipeline\ShaderStages</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Pipeline\Shaders\BlinnShader.h">
-      <Filter>Renderer\Pipeline\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Pipeline\ShaderLibrary.h">
       <Filter>Renderer\Pipeline</Filter>
     </ClInclude>
@@ -195,6 +192,9 @@
       <Filter>Renderer\Pipeline\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\Pipeline\Shaders\ScatteringShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\BlinnPhongShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
     </ClInclude>
   </ItemGroup>

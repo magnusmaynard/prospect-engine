@@ -2,7 +2,7 @@
 #include "Renderer/Pipeline/Shaders/Shader.h"
 #include "Scene/Entity_impl.h"
 #include "Renderer/Renderables/IRenderable.h"
-#include "Renderer/Pipeline/Shaders/BlinnShader.h"
+#include "Renderer/Pipeline/Shaders/BlinnPhongShader.h"
 
 namespace Prospect
 {
@@ -33,6 +33,6 @@ namespace Prospect
       Entity_impl& m_entity;
 
       VertexData& m_vertexData;
-      BlinnShader& m_shader;
+      BlinnPhongShader& m_shader;
    };
 }

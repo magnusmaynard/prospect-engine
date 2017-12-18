@@ -6,10 +6,10 @@
 
 namespace Prospect
 {
-   class BlinnShader : public Shader
+   class BlinnPhongShader : public Shader
    {
       public:
-      BlinnShader(const GlobalUniformBuffers& globalUniforms)
+      BlinnPhongShader(const GlobalUniformBuffers& globalUniforms)
          :
          Shader(
             Resources::BLINNPHONG_VERTEX_SHADER,

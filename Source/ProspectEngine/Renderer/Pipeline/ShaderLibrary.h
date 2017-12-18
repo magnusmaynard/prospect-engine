@@ -1,7 +1,7 @@
 #pragma once
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
 
-#include "Renderer/Pipeline/Shaders/BlinnShader.h"
+#include "Renderer/Pipeline/Shaders/BlinnPhongShader.h"
 #include "Renderer/Pipeline/Shaders/TextShader.h"
 #include "Renderer/Pipeline/Shaders/TerrainShader.h"
 #include "Renderer/Pipeline/Shaders/SunShader.h"
@@ -14,14 +14,14 @@ namespace Prospect
    public:
       ShaderLibrary(const GlobalUniformBuffers& globalUniforms);
 
-      BlinnShader& GetBlinnShader();
+      BlinnPhongShader& GetBlinnPhongShader();
       TextShader& GetTextShader();
       TerrainShader& GetTerrainShader();
       SunShader& GetSunShader();
       ScatteringShader& GetScatteringShader();
 
    private:
-      BlinnShader m_blinnShader;
+      BlinnPhongShader m_blinnShader;
       TextShader m_textShader;
       TerrainShader m_terrainShader;
       SunShader m_sunShader;

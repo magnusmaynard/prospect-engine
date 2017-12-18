@@ -52,7 +52,7 @@
     <ClInclude Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\ScatteringShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\SunShader.h" />
-    <ClInclude Include="Renderer\Pipeline\Shaders\BlinnShader.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\BlinnPhongShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\Shader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\TerrainShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\TextShader.h" />

@@ -137,7 +137,7 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
 
    m_globalUniformBuffers.Camera.Update(CameraUniforms(scene.GetCameraImpl()));
 
-   m_globalUniformBuffers.Materials.Update(MaterialsUniforms(m_materialLibrary));
+   m_globalUniformBuffers.Materials.Update(MaterialLibraryUniforms(m_materialLibrary));
 
    const Light_impl& atmosphereLight = scene.GetAtmosphereImpl()->GetLightImpl();
 
