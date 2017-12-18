@@ -20,8 +20,8 @@ namespace Prospect
       void SetSpecular(const Color& specular);
       const Color& GetSpecular() const;
 
-      void SetSpecularPower(float specularPower);
-      float GetSpecularPower() const;
+      void SetSpecularPower(int specularPower);
+      int GetSpecularPower() const;
 
       //Internal
       Material_impl(
@@ -29,7 +29,7 @@ namespace Prospect
          const Color& diffuse,
          const Color& ambient,
          const Color& specular,
-         float specularPower);
+         int specularPower);
 
    private:
       unsigned long m_id;
@@ -37,6 +37,6 @@ namespace Prospect
       Color m_diffuse;
       Color m_ambient;
       Color m_specular;
-      float m_specularPower;
+      int m_specularPower;
    };
 }

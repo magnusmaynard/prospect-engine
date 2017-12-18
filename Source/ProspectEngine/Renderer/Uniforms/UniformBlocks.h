@@ -124,10 +124,6 @@ namespace Prospect
 
    struct ScatteringUniforms
    {
-      ScatteringUniforms()
-      {
-      }
-
       ScatteringUniforms(const Atmosphere_impl& atmosphere)
          :
          SunDirection(glm::vec4(normalize(atmosphere.GetSunDirection()), 0)),
@@ -150,14 +146,14 @@ namespace Prospect
       EntityUniforms(const Entity_impl& entity)
          :
          Model(entity.GetTransformMatrix()),
-         //Normal(entity.GetNormalMatrix()),
+         Normal(entity.GetNormalMatrix()),
          MaterialID(entity.GetMaterialID(), 0, 0, 0)
       {
       }
 
       glm::mat4 Model;
-      //glm::mat4 Normal;
-      glm::vec4 MaterialID;
+      glm::mat4 Normal;
+      glm::ivec4 MaterialID;
    };
 
    struct SunUniforms

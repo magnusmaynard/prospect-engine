@@ -6,11 +6,11 @@
 using namespace Prospect;
 
 Material_impl::Material_impl(
-   unsigned long id,
+   const unsigned long id,
    const Color& diffuse,
    const Color& ambient,
    const Color& specular,
-   float specularPower)
+   const int specularPower)
    :
    m_id(id),
    m_diffuse(diffuse),
@@ -55,12 +55,12 @@ const Color& Material_impl::GetSpecular() const
    return m_specular;
 }
 
-void Material_impl::SetSpecularPower(float specularPower)
+void Material_impl::SetSpecularPower(const int specularPower)
 {
    m_specularPower = specularPower;
 }
 
-float Material_impl::GetSpecularPower() const
+int Material_impl::GetSpecularPower() const
 {
    return m_specularPower;
 }

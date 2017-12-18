@@ -46,7 +46,7 @@ namespace Prospect
       void UpdateTransformMatrix(const glm::mat4& transform, const bool isParentDirty);
       glm::mat4 GetTransformMatrix() const;
 
-      glm::mat4 GetNormalMatrix() const;
+      glm::mat3 GetNormalMatrix() const;
 
       Mesh_impl* GetMeshImpl();
       Material_impl* GetMaterialImpl();
@@ -79,8 +79,8 @@ namespace Prospect
       mutable bool m_childEntityAdded = true;
       mutable bool m_isTransformDirty = true;
       glm::mat4 m_localTransform;
-      glm::mat4 m_transformMatrix;
-      glm::mat4 m_normalMatrix;
+      glm::mat4 m_transform;
+      glm::mat3 m_normal;
 
       IRenderable* m_renderable;
    };

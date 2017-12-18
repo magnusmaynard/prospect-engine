@@ -128,6 +128,7 @@ void TestApplication::OnUpdate(const double timeElapsed)
 
    auto cube = m_scene.GetEntity(1);
    cube.SetRotation({ counter * 8.0, -counter * 5.0, counter * 3.0 });
+   //cube.SetRotation({ 0, -counter * 5.0, 0});
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)

@@ -37,7 +37,7 @@ Material MaterialLibrary_impl::CreateMaterial(
    const Color& diffuse,
    const Color& ambient,
    const Color& specular,
-   float specularPower)
+   const float specularPower)
 {
    m_materials.emplace_back(std::make_shared<Material_impl>(
       m_nextMaterialID,

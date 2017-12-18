@@ -130,8 +130,8 @@ void Entity_impl::UpdateTransformMatrix(const mat4& transform, const bool isPare
    {
       UpdateLocalTransform();
 
-      m_transformMatrix = transform * m_localTransform;
-      m_normalMatrix = transpose(inverse(m_transformMatrix));
+      m_transform = transform * m_localTransform;
+      m_normal = transpose(inverse(mat3(m_transform)));
 
       isChildTransformDirty = true;
       m_isTransformDirty = false;
@@ -139,18 +139,18 @@ void Entity_impl::UpdateTransformMatrix(const mat4& transform, const bool isPare
 
    for (auto& child : m_children)
    {
-      child->UpdateTransformMatrix(m_transformMatrix, isChildTransformDirty);
+      child->UpdateTransformMatrix(m_transform, isChildTransformDirty);
    }
 }
 
 mat4 Entity_impl::GetTransformMatrix() const
 {
-   return m_transformMatrix;
+   return m_transform;
 }
 
-glm::mat4 Entity_impl::GetNormalMatrix() const
+mat3 Entity_impl::GetNormalMatrix() const
 {
-   return m_normalMatrix;
+   return m_normal;
 }
 
 void Entity_impl::UpdateLocalTransform()

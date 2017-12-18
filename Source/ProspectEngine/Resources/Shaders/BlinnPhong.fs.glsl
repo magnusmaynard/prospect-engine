@@ -1,5 +1,15 @@
 ﻿#version 450
 
+layout (std140) uniform CameraUniforms
+{
+   mat4 PerspectiveProjection;
+   mat4 OrthographicProjection;
+   mat4 View;
+   vec4 ViewDirection;
+   vec4 Position;
+   vec2 ScreenSize;
+} camera;
+
 layout (std140) uniform DirectionalLightUniforms
 {
    vec4 Direction;
@@ -19,43 +29,38 @@ layout (std140) uniform MaterialUniforms
    Material Materials[10];
 } materials;
 
-layout (std140) uniform Transforms
+layout (std140) uniform EntityUniforms
 {
    mat4 Model;
    mat4 Normal;
-   vec4 MaterialID;
+   ivec4 MaterialID;
 } entity;
 
 in VS_OUT
 {
-   smooth vec3 N;
-   smooth vec3 L;
-   smooth vec3 V;
+   vec3 N;
+   vec3 L;
+   vec3 V;
 } fs_in;
 
 out vec4 color;
 
-//TODO: Currently just uses Phong, make Blinn-phong.
+Material material = materials.Materials[entity.MaterialID.x];
+vec3 ambientAlbedo = material.Ambient.xyz;
+vec3 diffuseAlbedo = material.Diffuse.xyz;
+vec3 specularAlbedo = material.SpecularAndPower.xyz;
+float specularPower = material.SpecularAndPower.w;
+
 void main()
 {
-   Material material = materials.Materials[0];
-
    vec3 N = normalize(fs_in.N);
    vec3 L = normalize(fs_in.L);
-   // vec3 V = normalize(fs_in.V);
+   vec3 V = normalize(fs_in.V);
+   vec3 R = reflect(-L, N);
 
-   // vec3 R = reflect(-L, N);
-   
-   // vec3 ambient = material.Ambient.xyz;
+   vec3 ambient = ambientAlbedo;
+   vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0);
+   vec3 specular = pow(max(dot(R, V), 0.0), specularPower) * specularAlbedo;
 
-   vec3 diffuseAlbedo = vec3(1, 0, 0);
-   vec3 diffuse = max(dot(N, L), 0.0) * diffuseAlbedo; // * light.Brightness.x
-
-   // vec3 specularAlbedo =  material.SpecularAndPower.xyz;
-   // float specularPower = material.SpecularAndPower.w;
-   // vec3 specular = pow(max(dot(R, V), 0.0), specularPower) * specularAlbedo;
-
-   color = vec4(diffuse, 1.0);
-   // color = vec4(ambient + diffuse + specular, 1.0);
-   // color = light.Direction;
+   color = vec4(ambient + diffuse + specular, 1);
 }
