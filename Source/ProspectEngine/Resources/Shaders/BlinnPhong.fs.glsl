@@ -1,18 +1,27 @@
 ﻿#version 450
 
-layout (std140) uniform DirectionalLightUniforms
+layout (std140) uniform CameraUniforms
+{
+   mat4 PerspectiveProjection;
+   mat4 OrthographicProjection;
+   mat4 View;
+   vec4 ViewDirection;
+   vec4 Position;
+   vec2 ScreenSize;
+} camera;
+
+struct Light
 {
    vec4 Direction;
    vec4 Color;
    vec4 Brightness;
-} light;
+};
 
-layout (std140) uniform EntityUniforms
+layout (std140) uniform LightsUniforms
 {
-   mat4 Model;
-   mat4 Normal;
-   ivec4 MaterialID;
-} entity;
+   Light Lights[10];
+   int Count;
+} lights;
 
 struct Material
 {
@@ -29,9 +38,15 @@ layout (std140) uniform MaterialLibraryUniforms
 in VS_OUT
 {
    vec3 N;
-   vec3 L;
    vec3 V;
 } fs_in;
+
+layout (std140) uniform EntityUniforms
+{
+   mat4 Model;
+   mat4 Normal;
+   ivec4 MaterialID;
+} entity;
 
 out vec4 color;
 
@@ -40,18 +55,32 @@ vec3 ambientAlbedo = material.Ambient.xyz;
 vec3 diffuseAlbedo = material.Diffuse.xyz;
 vec3 specularAlbedo = material.SpecularAndPower.xyz;
 float specularPower = material.SpecularAndPower.w;
-float brightness = light.Brightness.x;
+
+vec3 N = normalize(fs_in.N);
+vec3 V = normalize(fs_in.V);
+
+vec3 CalculateLighting()
+{
+   vec3 lightingTotal;
+   for(int i = 0; i < lights.Count; i++)
+   {
+      Light light = lights.Lights[i];
+      vec3 L = normalize(mat3(camera.View) * -light.Direction.xyz);
+      vec3 H = normalize(L + V);
+
+      vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0) * light.Brightness.x;
+      vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * light.Brightness.x;
+
+      lightingTotal += diffuse + specular;
+   }
+
+   return lightingTotal;
+}
 
 void main()
 {
-   vec3 N = normalize(fs_in.N);
-   vec3 L = normalize(fs_in.L);
-   vec3 V = normalize(fs_in.V);
-   vec3 H = normalize(L + V);
-
    vec3 ambient = ambientAlbedo;
-   vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0) * brightness;
-   vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * brightness;
-
-   color = vec4(ambient + diffuse + specular, 1);
+   vec3 lighting = CalculateLighting();
+   
+   color = vec4(ambient + lighting, 1);
 }

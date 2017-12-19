@@ -17,8 +17,8 @@ namespace Prospect
          m_entityUniforms("EntityUniforms")
       {
          globalUniforms.Camera.Bind(GetProgram());
-         globalUniforms.DirectionalLight.Bind(GetProgram());
-         globalUniforms.Materials.Bind(GetProgram());
+         globalUniforms.Lights.Bind(GetProgram());
+         globalUniforms.MaterialLibrary.Bind(GetProgram());
          m_entityUniforms.Bind(GetProgram());
       }
 

@@ -43,7 +43,7 @@ void Renderer::Initialize()
    m_fpsText = std::make_unique<RenderableText>(m_shaderLibrary, "", ivec2(4, 0), 12);
 }
 
-void Renderer::Render(double time, Scene_impl& scene)
+void Renderer::Render(const double time, Scene_impl& scene)
 {
    //Pre Render
    if(m_showWireframe)
@@ -137,12 +137,20 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
 
    m_globalUniformBuffers.Camera.Update(CameraUniforms(scene.GetCameraImpl()));
 
-   m_globalUniformBuffers.Materials.Update(MaterialLibraryUniforms(m_materialLibrary));
+   m_globalUniformBuffers.MaterialLibrary.Update(MaterialLibraryUniforms(m_materialLibrary));
 
-   const Light_impl& atmosphereLight = scene.GetAtmosphereImpl()->GetLightImpl();
+   std::vector<const Light_impl*> lights;
 
-   //TODO: Get all lights
-   m_globalUniformBuffers.DirectionalLight.Update(DirectionalLightUniforms(atmosphereLight));
+   //Atmosphere lights.
+   lights.push_back(&scene.GetAtmosphereImpl()->GetLightImpl());
+
+   //Scene lights.
+   for(int i = 0; i < scene.GetLightCount(); i++)
+   {
+      lights.push_back(scene.GetLightImpl(i));
+   }
+
+   m_globalUniformBuffers.Lights.Update(LightsUniforms(lights));
 }
 
 void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)
@@ -182,12 +190,12 @@ void Renderer::ClearDepthBuffer()
    glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::ShowFPS(bool showFPS)
+void Renderer::ShowFPS(const bool showFPS)
 {
    m_showFPS = showFPS;
 }
 
-void Renderer::ShowWireframe(bool showWireframe)
+void Renderer::ShowWireframe(const bool showWireframe)
 {
    m_showWireframe = showWireframe;
 }
@@ -197,7 +205,7 @@ void Renderer::Resize(const glm::ivec2& size)
    m_depthTexture.Resize(size);
 }
 
-void Renderer::UpdateFPS(double time)
+void Renderer::UpdateFPS(const double time)
 {
    static const double FPS_INTERVAL = 1000.0;
 
@@ -205,7 +213,7 @@ void Renderer::UpdateFPS(double time)
 
    if (time - m_previousTime >= FPS_INTERVAL)
    {
-      std::string text = std::to_string(m_frameCount);
+      const std::string text = std::to_string(m_frameCount);
 
       m_fpsText->SetText(text);
 

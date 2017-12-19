@@ -37,13 +37,13 @@ namespace Prospect
       glm::vec2 ScreenSize;
    };
 
-   struct DirectionalLightUniforms
+   struct LightUniforms
    {
-      DirectionalLightUniforms()
+      LightUniforms()
       {
       }
 
-      DirectionalLightUniforms(const Light_impl& directionalLight)
+      LightUniforms(const Light_impl& directionalLight)
          :
          Direction({ normalize(directionalLight.GetDirection()), 0 }),
          Color(directionalLight.GetColor().ToRGBA()),
@@ -54,6 +54,22 @@ namespace Prospect
       glm::vec4 Direction;
       glm::vec4 Color;
       glm::vec4 Brightness;
+   };
+
+   struct LightsUniforms
+   {
+      LightsUniforms(const std::vector<const Light_impl*>& lights)
+         :
+         Count(lights.size())
+      {
+         for (size_t i = 0; i < lights.size(); i++)
+         {
+            Lights[i] = LightUniforms(*lights[i]);
+         }
+      }
+
+      std::array<LightUniforms, MAX_LIGHTS> Lights;
+      int Count;
    };
 
    struct MaterialLibraryUniforms
@@ -85,7 +101,7 @@ namespace Prospect
          }
       }
 
-      MaterialUniforms Materials[MAX_MATERIALS];
+      std::array<MaterialUniforms, MAX_MATERIALS> Materials;
    };
 
    struct NodeUniforms

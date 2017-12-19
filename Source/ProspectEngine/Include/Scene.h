@@ -31,9 +31,9 @@ namespace Prospect
       int GetEntityCount() const;
       void AddEntity(Entity& entity);
 
-      //Light GetLight(const int index);
-      //int GetLightCount();
-      //void AddLight(Light& light);
+      Light GetLight(const int index);
+      int GetLightCount();
+      void AddLight(Light& light);
 
       const Camera& GetCamera() const;
       Camera& GetCamera();

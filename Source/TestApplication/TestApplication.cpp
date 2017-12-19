@@ -41,9 +41,11 @@ void TestApplication::OnStartup()
    Terrain terrain(vec3(), heightMap, 800, 0, 100);
    m_scene.SetTerrain(terrain);
 
-   //Light sun(vec3(0, 0, 0), vec3(0, -1, 0));
-   //sun.SetColor(Color(0.5, 0.5, 0.5));
-   //m_scene.AddLight(sun);
+   Light light1(vec3(0, 0, 0), vec3(0, -1, 0));
+   m_scene.AddLight(light1);
+
+   Light light2(vec3(0, 0, 0), vec3(1, 0, 0));
+   m_scene.AddLight(light2);
 
    Atmosphere atmosphere;
    m_scene.SetAtmosphere(atmosphere);
@@ -73,31 +75,33 @@ void TestApplication::OnUpdate(const double timeElapsed)
    static float counter = 0;
    counter += 0.1f;
 
+   Camera& camera = m_scene.GetCamera();
+
    //Update direction.
    vec3 playerDirection;
    if (m_playerForward)
    {
-      playerDirection += m_scene.GetCamera().GetForward();
+      playerDirection += camera.GetForward();
    }
    if (m_playerBackward)
    {
-      playerDirection -= m_scene.GetCamera().GetForward();
+      playerDirection -= camera.GetForward();
    }
    if (m_playerLeft)
    {
-      playerDirection += m_scene.GetCamera().GetLeft();
+      playerDirection += camera.GetLeft();
    }
    if (m_playerRight)
    {
-      playerDirection -= m_scene.GetCamera().GetLeft();
+      playerDirection -= camera.GetLeft();
    }
    if (m_playerUp)
    {
-      playerDirection += m_scene.GetCamera().GetUp();
+      playerDirection += cross(camera.GetForward(), camera.GetLeft());
    }
    if (m_playerDown)
    {
-      playerDirection -= m_scene.GetCamera().GetUp();
+      playerDirection -= cross(camera.GetForward(), camera.GetLeft());
    }
 
    if (length(playerDirection) > m_playerThreshold)
@@ -115,7 +119,6 @@ void TestApplication::OnUpdate(const double timeElapsed)
    //Apply friction.
    if (length(m_playerMomentum) > m_playerThreshold)
    {
-      auto& camera = m_scene.GetCamera();
       camera.SetPosition(camera.GetPosition() + m_playerMomentum);
       m_playerMomentum *= 1.0 - m_playerFriction;
    }
@@ -128,7 +131,6 @@ void TestApplication::OnUpdate(const double timeElapsed)
 
    auto cube = m_scene.GetEntity(1);
    cube.SetRotation({ counter * 8.0, -counter * 5.0, counter * 3.0 });
-   //cube.SetRotation({ 0, -counter * 5.0, 0});
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)

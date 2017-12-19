@@ -52,16 +52,16 @@ int Scene_impl::GetEntityCount() const
    return m_rootEntity.GetEntityCount();
 }
 
-//Light Scene_impl::GetLight(const int index)
-//{
-//   if (index < 0 || index >= static_cast<int>(m_lights.size()))
-//   {
-//      throw std::exception("No Light at index.");
-//   }
-//
-//   return m_lights[index];
-//}
-//
+Light Scene_impl::GetLight(const int index)
+{
+   if (index < 0 || index >= static_cast<int>(m_lights.size()))
+   {
+      throw std::exception("No Light at index.");
+   }
+
+   return m_lights[index];
+}
+
 //Light_impl* Scene_impl::GetLightImpl(const int index)
 //{
 //   return const_cast<Light_impl*>(static_cast<const Scene_impl*>(this)->GetLightImpl(index));
@@ -76,16 +76,16 @@ int Scene_impl::GetEntityCount() const
 //
 //   return m_lights[index].get();
 //}
-//
-//int Scene_impl::GetLightCount() const
-//{
-//   return m_lights.size();
-//}
-//
-//void Scene_impl::AddLight(Light& light)
-//{
-//   m_lights.push_back(light.m_impl);
-//}
+
+int Scene_impl::GetLightCount() const
+{
+   return m_lights.size();
+}
+
+void Scene_impl::AddLight(Light& light)
+{
+   m_lights.push_back(light.m_impl);
+}
 
 Camera& Scene_impl::GetCamera()
 {
@@ -146,4 +146,14 @@ Camera_impl& Scene_impl::GetCameraImpl()
 const Camera_impl& Scene_impl::GetCameraImpl() const
 {
    return *m_camera.m_impl;
+}
+
+std::deque<std::shared_ptr<Light_impl>> Scene_impl::GetLights() const
+{
+   return m_lights;
+}
+
+const Light_impl* Scene_impl::GetLightImpl(const int index) const
+{
+   return m_lights[index].get();
 }

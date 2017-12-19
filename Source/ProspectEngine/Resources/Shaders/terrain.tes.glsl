@@ -16,7 +16,6 @@ layout (std140) uniform CameraUniforms
    vec2 ScreenSize;
 } camera;
 
-
 in TCS_OUT
 {
    vec2 textureCoord;

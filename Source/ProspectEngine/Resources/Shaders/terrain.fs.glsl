@@ -5,14 +5,20 @@ layout (binding = 0) uniform sampler2D textureHeight;
 uniform float minHeight;
 uniform float maxHeight;
 
-layout (std140) uniform DirectionalLightUniforms
+struct Light
 {
    vec4 Direction;
-   vec4 DiffuseColor;
-   float Brightness;
-} light;
+   vec4 Color;
+   vec4 Brightness;
+};
 
-layout (std140) uniform NodeUniforms //TODO: Automatic binding index.
+layout (std140) uniform LightsUniforms
+{
+   Light Lights[10];
+   int Count;
+} lights;
+
+layout (std140) uniform NodeUniforms
 {
    vec4 Origin;
    ivec4 Edges;
@@ -28,6 +34,8 @@ in TES_OUT
    
 } fs_in;
 
+Light light = lights.Lights[0];
+
 void main()
 {
    float xNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2(-1, 0)).x * maxHeight;
@@ -42,7 +50,7 @@ void main()
    vec3 normal = vec3(cross(va, vb));
 
    vec3 ambient = vec3(0.05);
-   vec3 diffuse = max(dot(normal, light.Direction.xyz), 0.0) * material * light.Brightness;
+   vec3 diffuse = max(dot(normal, light.Direction.xyz), 0.0) * material * light.Brightness.x;
    vec3 specular = vec3(0);
 
    color = vec4(ambient + diffuse + specular, 1.0);

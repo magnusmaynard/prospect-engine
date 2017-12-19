@@ -26,12 +26,12 @@ namespace Prospect
    static const float DEFAULT_CAMERA_NEAR = 0.01f;
    static const float DEFAULT_CAMERA_FAR = 10000.f;
    static const float DEFAULT_CAMERA_FOV = 45.f;
-   static const float DEFAULT_CAMERA_MIN_ANGLE = 20.f;
-   static const float DEFAULT_CAMERA_MAX_ANGLE = 160.f;
+   static const float DEFAULT_CAMERA_MIN_ANGLE = 10.f;
+   static const float DEFAULT_CAMERA_MAX_ANGLE = 170.f;
    static const float DEFAULT_CAMERA_SENSITIVITY = 0.2f;
 
    static const Color DEFAULT_LIGHT_COLOR(1, 1, 1);
-   static const float DEFAULT_LIGHT_BRIGHTNESS = 1.f;
+   static const float DEFAULT_LIGHT_BRIGHTNESS = 0.8f;
 
    static const float DEFAULT_ATMOSPHERE_INNER_RADIUS = 1500.f;
    static const float DEFAULT_ATMOSPHERE_OUTTER_RADIUS = 2000.f;
@@ -45,4 +45,5 @@ namespace Prospect
    static const int DEFAULT_MATERIAL_SPECULAR_POWER = 16;
 
    static const int MAX_MATERIALS = 10;
+   static const int MAX_LIGHTS = 10;
 }

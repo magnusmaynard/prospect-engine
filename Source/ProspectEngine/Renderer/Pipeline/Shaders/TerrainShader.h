@@ -19,7 +19,7 @@ namespace Prospect
          m_nodeUniforms("NodeUniforms")
       {
          globalUniforms.Camera.Bind(GetProgram());
-         globalUniforms.DirectionalLight.Bind(GetProgram());
+         globalUniforms.Lights.Bind(GetProgram());
          m_nodeUniforms.Bind(GetProgram());
       }
 
