@@ -37,6 +37,7 @@ out VS_OUT
 {
    vec3 N;
    vec3 V;
+   vec3 Position;
 } vs_out;
 
 Light light = lights.Lights[0];
@@ -47,6 +48,8 @@ void main()
 
    vs_out.N = mat3(camera.View * entity.Normal) * normal;
    vs_out.V = -P.xyz;
+
+   vs_out.Position = P.xyz; //TODO; world space or eyespace?
 
    gl_Position = camera.PerspectiveProjection * P;
 }

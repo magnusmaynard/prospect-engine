@@ -45,29 +45,49 @@ void Renderer::Initialize()
 
 
    //GBUFFER
-   const int width = 1280;
-   const int height = 720;
-
    glCreateFramebuffers(1, &m_gFBO);
+   glBindFramebuffer(GL_FRAMEBUFFER, m_gFBO);
 
    glCreateTextures(GL_TEXTURE_2D, G_TEXTURE_COUNT, &m_gTextures[0]);
 
-   //Float gbuffer
-   glTextureStorage2D(m_gTextures[G_TEXTURE_FLOAT], 1, GL_RGBA32F, width, height);
-   glTextureParameteri(m_gTextures[G_TEXTURE_FLOAT], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-   glTextureParameteri(m_gTextures[G_TEXTURE_FLOAT], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+   //Albedo
+   glTextureStorage2D(m_gTextures[G_TEXTURE_ALBEDO], 1, GL_RGBA32F, width, height);
+   glTextureParameteri(m_gTextures[G_TEXTURE_ALBEDO], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+   glTextureParameteri(m_gTextures[G_TEXTURE_ALBEDO], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-   //Depth gbuffer
+   //Normal
+   glTextureStorage2D(m_gTextures[G_TEXTURE_NORMAL], 1, GL_RGBA32F, width, height);
+   glTextureParameteri(m_gTextures[G_TEXTURE_NORMAL], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+   glTextureParameteri(m_gTextures[G_TEXTURE_NORMAL], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+   //Specular
+   glTextureStorage2D(m_gTextures[G_TEXTURE_SPECULAR], 1, GL_RGBA32F, width, height);
+   glTextureParameteri(m_gTextures[G_TEXTURE_SPECULAR], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+   glTextureParameteri(m_gTextures[G_TEXTURE_SPECULAR], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+   //Depth
    glTextureStorage2D(m_gTextures[G_TEXTURE_DEPTH], 1, GL_DEPTH_COMPONENT32F, width, height);
 
    //Attached textures.
-   glNamedFramebufferTexture(m_gFBO, GL_COLOR_ATTACHMENT0, m_gTextures[G_TEXTURE_FLOAT], 0);
+   glNamedFramebufferTexture(m_gFBO, GL_COLOR_ATTACHMENT0, m_gTextures[G_TEXTURE_ALBEDO], 0);
+   glNamedFramebufferTexture(m_gFBO, GL_COLOR_ATTACHMENT1, m_gTextures[G_TEXTURE_NORMAL], 0);
+   glNamedFramebufferTexture(m_gFBO, GL_COLOR_ATTACHMENT2, m_gTextures[G_TEXTURE_SPECULAR], 0);
    glNamedFramebufferTexture(m_gFBO, GL_DEPTH_ATTACHMENT, m_gTextures[G_TEXTURE_DEPTH], 0);
+
+
+   GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+   if (Status != GL_FRAMEBUFFER_COMPLETE) {
+      printf("FB error, status: 0x%x\n", Status);
+   }
+
+   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void Renderer::Render(const double time, Scene_impl& scene)
 {
    //Pre Render
+   //Update state
    if(m_showWireframe)
    {
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -85,15 +105,37 @@ void Renderer::Render(const double time, Scene_impl& scene)
    //UpdateRenderableTerrain(scene);
    //UpdateRenderableAtmosphere(scene);
 
-   //Scene
+   //Geometry pass
+   static const GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1,  GL_COLOR_ATTACHMENT2 };
+   static const GLuint uint_zeros[] = { 0, 0, 0, 0 };
+   static const GLfloat float_zeros[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+   static const GLfloat float_ones[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+   glEnable(GL_DEPTH_TEST);
+
+   glBindFramebuffer(GL_FRAMEBUFFER, m_gFBO);
+   glViewport(0, 0, width, height);
+   glDrawBuffers(3, draw_buffers);
+   glClearBufferuiv(GL_COLOR, 0, uint_zeros);
+   glClearBufferuiv(GL_COLOR, 1, uint_zeros);
+   glClearBufferfv(GL_DEPTH, 0, float_ones);
+
    for (auto& renderable : m_renderables)
    {
       renderable->Render();
    }
 
-   //Draw gbuffer.
+   //Lighting pass
+   glDisable(GL_DEPTH_TEST);
+
+   glBindFramebuffer(GL_FRAMEBUFFER, 0);
+   glViewport(0, 0, width, height);
+   glDrawBuffer(GL_BACK);
+   glBindTextureUnit(0, m_gTextures[G_TEXTURE_ALBEDO]);
+   glBindTextureUnit(1, m_gTextures[G_TEXTURE_NORMAL]);
+   glBindTextureUnit(2, m_gTextures[G_TEXTURE_SPECULAR]);
+   //glBindTextureUnit(3, m_gTextures[G_TEXTURE_DEPTH]);
    m_gShader.Bind();
-   glBindTextureUnit(0, m_gTextures[G_TEXTURE_FLOAT]);
    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
    //if (m_terrain)

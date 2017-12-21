@@ -65,9 +65,13 @@ namespace Prospect
       void ClearDepthBuffer();
 
       //GBUFFER
+      const int width = 1280;
+      const int height = 720;
       const enum G_TEXTURES
       {
-         G_TEXTURE_FLOAT,
+         G_TEXTURE_ALBEDO,
+         G_TEXTURE_NORMAL,
+         G_TEXTURE_SPECULAR,
          G_TEXTURE_DEPTH,
          G_TEXTURE_COUNT,
       };
