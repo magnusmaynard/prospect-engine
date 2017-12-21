@@ -154,8 +154,7 @@ Mesh MeshLibrary_impl::CreateCube(const vec3& size)
    return AddMesh(vertices, indices, normals);
 }
 
-
-Mesh MeshLibrary_impl::GetMeshAtIndex(int index)
+Mesh MeshLibrary_impl::GetMeshAtIndex(const int index)
 {
    if (index < 0 || index >= static_cast<int>(m_meshes.size()))
    {

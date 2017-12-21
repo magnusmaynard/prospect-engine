@@ -21,7 +21,8 @@ Renderer::Renderer(const MaterialLibrary_impl& materialLibrary)
    m_showFPS(false),
    m_showWireframe(false),
    m_shaderLibrary(m_globalUniformBuffers),
-   m_materialLibrary(materialLibrary)
+   m_materialLibrary(materialLibrary),
+   m_gShader(m_globalUniformBuffers)
 {
    Initialize();
 }
@@ -41,6 +42,27 @@ void Renderer::Initialize()
    glFrontFace(GL_CCW);
 
    m_fpsText = std::make_unique<RenderableText>(m_shaderLibrary, "", ivec2(4, 0), 12);
+
+
+   //GBUFFER
+   const int width = 1280;
+   const int height = 720;
+
+   glCreateFramebuffers(1, &m_gFBO);
+
+   glCreateTextures(GL_TEXTURE_2D, G_TEXTURE_COUNT, &m_gTextures[0]);
+
+   //Float gbuffer
+   glTextureStorage2D(m_gTextures[G_TEXTURE_FLOAT], 1, GL_RGBA32F, width, height);
+   glTextureParameteri(m_gTextures[G_TEXTURE_FLOAT], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+   glTextureParameteri(m_gTextures[G_TEXTURE_FLOAT], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+   //Depth gbuffer
+   glTextureStorage2D(m_gTextures[G_TEXTURE_DEPTH], 1, GL_DEPTH_COMPONENT32F, width, height);
+
+   //Attached textures.
+   glNamedFramebufferTexture(m_gFBO, GL_COLOR_ATTACHMENT0, m_gTextures[G_TEXTURE_FLOAT], 0);
+   glNamedFramebufferTexture(m_gFBO, GL_DEPTH_ATTACHMENT, m_gTextures[G_TEXTURE_DEPTH], 0);
 }
 
 void Renderer::Render(const double time, Scene_impl& scene)
@@ -60,8 +82,8 @@ void Renderer::Render(const double time, Scene_impl& scene)
    //Update
    UpdateGlobalUniformBuffers(scene);
    UpdateRenderableEntity(scene.GetRootEntityImpl());
-   UpdateRenderableTerrain(scene);
-   UpdateRenderableAtmosphere(scene);
+   //UpdateRenderableTerrain(scene);
+   //UpdateRenderableAtmosphere(scene);
 
    //Scene
    for (auto& renderable : m_renderables)
@@ -69,27 +91,32 @@ void Renderer::Render(const double time, Scene_impl& scene)
       renderable->Render();
    }
 
-   if (m_terrain)
-   {
-      m_terrain->Render();
-   }
+   //Draw gbuffer.
+   m_gShader.Bind();
+   glBindTextureUnit(0, m_gTextures[G_TEXTURE_FLOAT]);
+   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-   //Atmosphere
-   m_depthTexture.Update();
+   //if (m_terrain)
+   //{
+   //   m_terrain->Render();
+   //}
 
-   if (m_atmosphere)
-   {
-      m_atmosphere->Render();
-   }
+   ////Atmosphere
+   //m_depthTexture.Update();
 
-   ClearDepthBuffer();
+   //if (m_atmosphere)
+   //{
+   //   m_atmosphere->Render();
+   //}
 
-   //HUD
-   if (m_showFPS)
-   {
-      UpdateFPS(time);
-      m_fpsText->Render();
-   }
+   //ClearDepthBuffer();
+
+   ////HUD
+   //if (m_showFPS)
+   //{
+   //   UpdateFPS(time);
+   //   m_fpsText->Render();
+   //}
 
    Debug::CheckErrors();
 }
@@ -142,7 +169,10 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
    std::vector<const Light_impl*> lights;
 
    //Atmosphere lights.
-   lights.push_back(&scene.GetAtmosphereImpl()->GetLightImpl());
+   if (auto* atmosphere = scene.GetAtmosphereImpl())
+   {
+      lights.push_back(&atmosphere->GetLightImpl());
+   }
 
    //Scene lights.
    for(int i = 0; i < scene.GetLightCount(); i++)

@@ -197,6 +197,9 @@
     <ClInclude Include="Renderer\Pipeline\Shaders\BlinnPhongShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\GBufferShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Window.cpp">
@@ -460,6 +463,12 @@
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\clouds.vs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\gbuffer.fs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\gbuffer.vs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
   </ItemGroup>

@@ -9,6 +9,9 @@
 #include "Renderer/Renderables/Atmosphere/RenderableAtmosphere.h"
 #include "Renderer/Textures/DepthTexture.h"
 
+//GBUFFER
+#include "Pipeline/Shaders/GBufferShader.h"
+
 namespace Prospect
 {
    class Scene_impl;
@@ -49,7 +52,7 @@ namespace Prospect
       void Initialize();
 
       void UpdateRenderableEntity(Entity_impl& entity);
-      void UpdateRenderableEntities(const Scene_impl& scene);
+      //void UpdateRenderableEntities(const Scene_impl& scene);
       void UpdateGlobalUniformBuffers(const Scene_impl& scene);
       void UpdateRenderableTerrain(const Scene_impl& scene);
       void UpdateRenderableAtmosphere(const Scene_impl& scene);
@@ -60,5 +63,18 @@ namespace Prospect
 
       void Clear();
       void ClearDepthBuffer();
+
+      //GBUFFER
+      const enum G_TEXTURES
+      {
+         G_TEXTURE_FLOAT,
+         G_TEXTURE_DEPTH,
+         G_TEXTURE_COUNT,
+      };
+
+      GLuint m_gFBO;
+      GLuint m_gTextures[G_TEXTURE_COUNT];
+
+      GBufferShader m_gShader;
    };
 }

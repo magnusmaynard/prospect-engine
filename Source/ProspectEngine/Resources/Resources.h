@@ -3,6 +3,8 @@
 
 namespace Resources
 {
+   static const std::string GBUFFER_VERTEX_SHADER = "Shaders/gbuffer.vs.glsl";
+   static const std::string GBUFFER_FRAGMENT_SHADER = "Shaders/gbuffer.fs.glsl";
    static const std::string SIMPLE_VERTEX_SHADER = "Shaders/simple.vs.glsl";
    static const std::string SIMPLE_FRAGMENT_SHADER = "Shaders/simple.fs.glsl";
    static const std::string BLINNPHONG_VERTEX_SHADER = "Shaders/blinnphong.vs.glsl";

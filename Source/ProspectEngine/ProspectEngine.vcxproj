@@ -50,6 +50,7 @@
     <ClInclude Include="Renderer\Pipeline\ShaderStages\TessControlShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\TessEvaluationShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\GBufferShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\ScatteringShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\SunShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\BlinnPhongShader.h" />
@@ -156,6 +157,8 @@
       <DeploymentContent>true</DeploymentContent>
       <FileType>Document</FileType>
     </None>
+    <None Include="Resources\Shaders\gbuffer.fs.glsl" />
+    <None Include="Resources\Shaders\gbuffer.vs.glsl" />
     <None Include="Resources\Shaders\scattering.fs.glsl">
       <DeploymentContent>true</DeploymentContent>
       <FileType>Document</FileType>

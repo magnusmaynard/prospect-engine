@@ -38,8 +38,12 @@ void TestApplication::OnStartup()
 
    const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\noise.bmp");
 
-   Terrain terrain(vec3(), heightMap, 800, 0, 100);
-   m_scene.SetTerrain(terrain);
+   //Terrain terrain(vec3(), heightMap, 800, 0, 100);
+   //m_scene.SetTerrain(terrain);
+
+   //Atmosphere atmosphere;
+   //m_scene.SetAtmosphere(atmosphere);
+   //atmosphere.SetAltitude(1505);
 
    Light light1(vec3(0, 0, 0), vec3(0, -1, 0));
    m_scene.AddLight(light1);
@@ -47,27 +51,29 @@ void TestApplication::OnStartup()
    Light light2(vec3(0, 0, 0), vec3(1, 0, 0));
    m_scene.AddLight(light2);
 
-   Atmosphere atmosphere;
-   m_scene.SetAtmosphere(atmosphere);
-   atmosphere.SetAltitude(1505);
-
    Material blue = m_materialLib.CreateMaterial({0.1f, 0.8f, 0.1f}, {0.1f, 0.1f, 0.1f}, { 1, 1, 1}, 100);
    Material red = m_materialLib.CreateMaterial(Color::Red());
+   Material gray = m_materialLib.CreateMaterial(Color::Black());
+
    Mesh plane = m_meshLib.CreatePlane({ 20, 20 }, { 10, 10 });
-
-   Entity ground(plane, blue);
-   ground.SetTranslation({ 0, 20, 0 });
-   m_scene.AddEntity(ground);
-
-   Entity ground2(plane, red);
-   ground2.SetTranslation({ 60, 0, 0 });
-   ground2.SetScale({ 0.4, 0.4, 0.4 });
-   ground.AddEntity(ground2);
-
+   Mesh largePlane = m_meshLib.CreatePlane({ 200, 200 }, { 10, 10 });
    Mesh cube = m_meshLib.CreateCube({ 10, 10, 10 });
-   Entity greenCube(cube, red);
-   greenCube.SetTranslation({ 0, 30, 0 });
-   m_scene.AddEntity(greenCube);
+
+   Entity e0(plane, blue);
+   e0.SetTranslation({ 0, 20, 0 });
+   m_scene.AddEntity(e0);
+
+   Entity e1(plane, red);
+   e1.SetTranslation({ 60, 0, 0 });
+   e1.SetScale({ 0.4, 0.4, 0.4 });
+   e0.AddEntity(e1);
+
+   Entity e2(cube, red);
+   e2.SetTranslation({ 0, 30, 0 });
+   m_scene.AddEntity(e2);
+
+   Entity e3(largePlane, gray);
+   m_scene.AddEntity(e3);
 }
 
 void TestApplication::OnUpdate(const double timeElapsed)

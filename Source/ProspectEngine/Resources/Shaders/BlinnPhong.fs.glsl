@@ -48,7 +48,7 @@ layout (std140) uniform EntityUniforms
    ivec4 MaterialID;
 } entity;
 
-out vec4 color;
+layout (location = 0) out vec4 color0;
 
 Material material = materialLibrary.Materials[entity.MaterialID.x];
 vec3 ambientAlbedo = material.Ambient.xyz;
@@ -81,6 +81,6 @@ void main()
 {
    vec3 ambient = ambientAlbedo;
    vec3 lighting = CalculateLighting();
-   
-   color = vec4(ambient + lighting, 1);
+
+   color0 = vec4(ambient + lighting, 1);
 }
