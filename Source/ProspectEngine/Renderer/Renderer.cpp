@@ -134,7 +134,7 @@ void Renderer::Render(const double time, Scene_impl& scene)
    glBindTextureUnit(0, m_gTextures[G_TEXTURE_ALBEDO]);
    glBindTextureUnit(1, m_gTextures[G_TEXTURE_NORMAL]);
    glBindTextureUnit(2, m_gTextures[G_TEXTURE_SPECULAR]);
-   //glBindTextureUnit(3, m_gTextures[G_TEXTURE_DEPTH]);
+   glBindTextureUnit(3, m_gTextures[G_TEXTURE_DEPTH]);
    m_gShader.Bind();
    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 

@@ -3,7 +3,7 @@
 layout (binding = 0) uniform sampler2D albedoTexture;
 layout (binding = 1) uniform sampler2D normalTexture;
 layout (binding = 2) uniform sampler2D specularTexture;
-// layout (binding = 3) uniform sampler2D depthTexture;
+layout (binding = 3) uniform sampler2D depthTexture;
 
 layout (std140) uniform CameraUniforms
 {
@@ -82,39 +82,30 @@ vec3 CalculateLighting(Material material, vec3 N, vec3 V)
 //    return (2.0 * zNear) / (zFar + zNear - depth * (zFar - zNear));
 // }
 
-// // Function for converting depth to view-space position
-// // in deferred pixel shader pass.  vTexCoord is a texture
-// // coordinate for a full-screen quad, such that x=0 is the
-// // left of the screen, and y=0 is the top of the screen.
-// vec3 CalculateViewPosition(float depth)
-// {
-//     // Get the depth value for this pixel
-//     float z = depth;
+vec3 CalculateViewPosition(float depth, vec2 screenPosition)
+{
+    //Scale position from 0.0 to 1.0 to -1.0 to 1.0 range.
+    vec4 projectedPosition;
+    projectedPosition.xy = vec3(screenPosition * 2.0 - 1.0;
+    projectedPosition.z = depth * 2.0 - 1.0;
+    projectedPosition.w = 1.0;
 
-//     // Get x/w and y/w from the viewport position
-//     float x = fs_in.textureCoords.x * 2 - 1;
-//     float y = (1 - fs_in.textureCoords.y) * 2 - 1;
-//     vec4 projectedPosition = vec4(x, y, z, 1);
-
-//     // Transform by the inverse projection matrix
-//     vec4 viewPosition = projectedPosition * inverse(camera.PerspectiveProjection);
-
-//     // Divide by w to get the view-space position
-//     return viewPosition.xyz / viewPosition.w;
-// }
+    vec4 viewPosition = inverse(camera.PerspectiveProjection) * projectedPosition;
+    return viewPosition.xyz / viewPosition.w;
+}
 
 void main()
 {
-   vec4 albedo = texture(albedoTexture, fs_in.textureCoords); //Position and MaterialID.
-   vec4 normal = texture(normalTexture, fs_in.textureCoords); //Normal.
-   // float depth = texture(depthTexture, fs_in.textureCoords).x;
+   vec4 albedo = texture(albedoTexture, fs_in.textureCoords);
+   vec4 normal = texture(normalTexture, fs_in.textureCoords);
+   float depth = texture(depthTexture, fs_in.textureCoords).r;
+   vec3 position = CalculateViewPosition(depth, fs_in.textureCoords);
 
    int materialID = int(albedo.w);
    Material material = materialLibrary.Materials[materialID];
 
-   // vec3 position = CalculateViewPosition(depth);
 
-   vec3 P = normalize(albedo.xyz);
+   vec3 P = normalize(position.xyz);
    vec3 V = -P;
    vec3 N = normalize(normal.xyz);
 
