@@ -21,9 +21,7 @@ layout (std140) uniform EntityUniforms
 
 in VS_OUT
 {
-   vec3 N;
-   vec3 V;
-   vec3 Position;
+   vec3 Normal;
 } fs_in;
 
 layout (location = 0) out vec4 albedo;
@@ -32,14 +30,20 @@ layout (location = 2) out vec4 specular;
 
 void main()
 {
-   vec4 outColor0 = vec4(0);
-   vec4 outColor1 = vec4(0);
+   int materialID = entity.MaterialID.x;
+   
+   //Default to zero.
+   albedo = vec4(0);
+   normal = vec4(0);
+   specular = vec4(0);
 
-   outColor0.xyz = fs_in.Position;
-   outColor0.w = entity.MaterialID.x;
+   //Albedo
+   albedo = materialLibrary.Materials[materialID].Diffuse;
 
-   outColor1.xyz = fs_in.N;
+   //Normal
+   normal.xyz =  fs_in.Normal;
+   normal.w = materialID;
 
-   albedo =  outColor0;
-   normal =  outColor1;
+   //Specular
+   //TODO;
 }

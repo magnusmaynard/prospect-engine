@@ -21,6 +21,7 @@ namespace Prospect
       CameraUniforms(const Camera_impl& camera)
          :
          PerspectiveProjection(camera.GetPerspectiveProjection()),
+         InversePerspectiveProjection(inverse(camera.GetPerspectiveProjection())),
          OrthographicProjection(camera.GetOrthographicProjection()),
          View(camera.GetView()),
          ViewDirection(glm::vec4(camera.GetForward(), 0)),
@@ -30,6 +31,7 @@ namespace Prospect
       }
 
       glm::mat4 PerspectiveProjection;
+      glm::mat4 InversePerspectiveProjection;
       glm::mat4 OrthographicProjection;
       glm::mat4 View;
       glm::vec4 ViewDirection;

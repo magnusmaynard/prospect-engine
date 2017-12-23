@@ -8,9 +8,9 @@ layout (binding = 3) uniform sampler2D depthTexture;
 layout (std140) uniform CameraUniforms
 {
    mat4 PerspectiveProjection;
+   mat4 InversePerspectiveProjection;
    mat4 OrthographicProjection;
    mat4 View;
-   vec4 ViewDirection;
    vec4 Position;
    vec2 ScreenSize;
 } camera;
@@ -82,16 +82,16 @@ vec3 CalculateLighting(Material material, vec3 N, vec3 V)
 //    return (2.0 * zNear) / (zFar + zNear - depth * (zFar - zNear));
 // }
 
-vec3 CalculateViewPosition(float depth, vec2 screenPosition)
+//Calculates a position is view space from a depth and a position on the screen.
+vec3 CalculateViewSpacePosition(float depth, vec2 screenPosition)
 {
     //Scale position from 0.0 to 1.0 to -1.0 to 1.0 range.
-    vec4 projectedPosition;
-    projectedPosition.xy = vec3(screenPosition * 2.0 - 1.0;
-    projectedPosition.z = depth * 2.0 - 1.0;
-    projectedPosition.w = 1.0;
+    vec3 clipSpacePosition = vec3(screenPosition, depth) * 2 - vec3(1);
 
-    vec4 viewPosition = inverse(camera.PerspectiveProjection) * projectedPosition;
-    return viewPosition.xyz / viewPosition.w;
+    //Transform the position to view space.
+    vec4 viewSpacePosition = camera.InversePerspectiveProjection * vec4(clipSpacePosition, 1);
+
+    return viewSpacePosition.xyz / viewSpacePosition.w;
 }
 
 void main()
@@ -99,15 +99,15 @@ void main()
    vec4 albedo = texture(albedoTexture, fs_in.textureCoords);
    vec4 normal = texture(normalTexture, fs_in.textureCoords);
    float depth = texture(depthTexture, fs_in.textureCoords).r;
-   vec3 position = CalculateViewPosition(depth, fs_in.textureCoords);
+   vec3 position = CalculateViewSpacePosition(depth, fs_in.textureCoords);
 
-   int materialID = int(albedo.w);
+   int materialID = int(normal.w);
    Material material = materialLibrary.Materials[materialID];
-
 
    vec3 P = normalize(position.xyz);
    vec3 V = -P;
    vec3 N = normalize(normal.xyz);
 
+    //TODO: Get diffus from gbuffers.
    color = vec4(CalculateLighting(material, N, V), 0);
 }

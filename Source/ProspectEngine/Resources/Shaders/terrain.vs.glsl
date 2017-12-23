@@ -5,6 +5,7 @@ layout (location = 0) in vec3 point;
 layout (std140) uniform CameraUniforms
 {
    mat4 PerspectiveProjection;
+   mat4 InversePerspectiveProjection;
    mat4 OrthographicProjection;
    mat4 View;
    vec4 ViewDirection;
