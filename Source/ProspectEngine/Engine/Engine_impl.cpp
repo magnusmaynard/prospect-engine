@@ -12,13 +12,12 @@ using namespace glm;
 Engine_impl::Engine_impl(
    Engine& parent,
    IApplication& application,
-   const int width,
-   const int height)
+   const ivec2& size)
    :
    m_parent(parent),
    m_application(application),
-   m_window(*this, ivec2(width, height)),
-   m_renderer(m_materialLibrary.GetImpl()),
+   m_window(*this, size),
+   m_renderer(m_materialLibrary.GetImpl(), size),
    m_isCameraControlsEnabled(true),
    m_lastUpdateTime(0)
 {
@@ -32,8 +31,8 @@ void Engine_impl::Start()
 
    while (m_window.IsOpen())
    {
-      double time = m_window.GetTime();
-      double elapsed = time - m_lastUpdateTime;
+      const double time = m_window.GetTime();
+      const double elapsed = time - m_lastUpdateTime;
 
       m_window.PollEvents();
 

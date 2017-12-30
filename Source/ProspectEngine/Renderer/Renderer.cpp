@@ -14,15 +14,15 @@
 using namespace Prospect;
 using namespace glm;
 
-Renderer::Renderer(const MaterialLibrary_impl& materialLibrary)
+Renderer::Renderer(const MaterialLibrary_impl& materialLibrary, const ivec2& size)
    :
-   m_frameCount(0),
-   m_previousTime(0),
    m_showFPS(false),
    m_showWireframe(false),
+   m_frameCount(0),
+   m_previousTime(0),
    m_shaderLibrary(m_globalUniformBuffers),
    m_materialLibrary(materialLibrary),
-   m_gShader(m_globalUniformBuffers)
+   m_gBuffer(m_shaderLibrary, size)
 {
    Initialize();
 }
@@ -42,53 +42,11 @@ void Renderer::Initialize()
    glFrontFace(GL_CCW);
 
    m_fpsText = std::make_unique<RenderableText>(m_shaderLibrary, "", ivec2(4, 0), 12);
-
-
-   //GBUFFER
-   glCreateFramebuffers(1, &m_gFBO);
-   glBindFramebuffer(GL_FRAMEBUFFER, m_gFBO);
-
-   glCreateTextures(GL_TEXTURE_2D, G_TEXTURE_COUNT, &m_gTextures[0]);
-
-   //Albedo
-   glTextureStorage2D(m_gTextures[G_TEXTURE_ALBEDO], 1, GL_RGBA32F, width, height);
-   glTextureParameteri(m_gTextures[G_TEXTURE_ALBEDO], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-   glTextureParameteri(m_gTextures[G_TEXTURE_ALBEDO], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-   //Normal
-   glTextureStorage2D(m_gTextures[G_TEXTURE_NORMAL], 1, GL_RGBA32F, width, height);
-   glTextureParameteri(m_gTextures[G_TEXTURE_NORMAL], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-   glTextureParameteri(m_gTextures[G_TEXTURE_NORMAL], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-   //Specular
-   glTextureStorage2D(m_gTextures[G_TEXTURE_SPECULAR], 1, GL_RGBA32F, width, height);
-   glTextureParameteri(m_gTextures[G_TEXTURE_SPECULAR], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-   glTextureParameteri(m_gTextures[G_TEXTURE_SPECULAR], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-   //Depth
-   glTextureStorage2D(m_gTextures[G_TEXTURE_DEPTH], 1, GL_DEPTH_COMPONENT32F, width, height);
-
-   //Attached textures.
-   glNamedFramebufferTexture(m_gFBO, GL_COLOR_ATTACHMENT0, m_gTextures[G_TEXTURE_ALBEDO], 0);
-   glNamedFramebufferTexture(m_gFBO, GL_COLOR_ATTACHMENT1, m_gTextures[G_TEXTURE_NORMAL], 0);
-   glNamedFramebufferTexture(m_gFBO, GL_COLOR_ATTACHMENT2, m_gTextures[G_TEXTURE_SPECULAR], 0);
-   glNamedFramebufferTexture(m_gFBO, GL_DEPTH_ATTACHMENT, m_gTextures[G_TEXTURE_DEPTH], 0);
-
-
-   GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-
-   if (Status != GL_FRAMEBUFFER_COMPLETE) {
-      printf("FB error, status: 0x%x\n", Status);
-   }
-
-   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Renderer::Render(const double time, Scene_impl& scene)
+void Renderer::UpdateState()
 {
-   //Pre Render
-   //Update state
-   if(m_showWireframe)
+   if (m_showWireframe)
    {
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
    }
@@ -96,8 +54,14 @@ void Renderer::Render(const double time, Scene_impl& scene)
    {
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
    }
+}
+
+void Renderer::Render(const double time, Scene_impl& scene)
+{
+   UpdateState();
 
    Clear();
+   m_gBuffer.Clear();
 
    //Update
    UpdateGlobalUniformBuffers(scene);
@@ -106,19 +70,9 @@ void Renderer::Render(const double time, Scene_impl& scene)
    //UpdateRenderableAtmosphere(scene);
 
    //Geometry pass
-   static const GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1,  GL_COLOR_ATTACHMENT2 };
-   static const GLuint uint_zeros[] = { 0, 0, 0, 0 };
-   static const GLfloat float_zeros[] = { 0.0f, 0.0f, 0.0f, 0.0f };
-   static const GLfloat float_ones[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+   m_gBuffer.Bind();
 
    glEnable(GL_DEPTH_TEST);
-
-   glBindFramebuffer(GL_FRAMEBUFFER, m_gFBO);
-   glViewport(0, 0, width, height);
-   glDrawBuffers(3, draw_buffers);
-   glClearBufferuiv(GL_COLOR, 0, uint_zeros);
-   glClearBufferuiv(GL_COLOR, 1, uint_zeros);
-   glClearBufferfv(GL_DEPTH, 0, float_ones);
 
    for (auto& renderable : m_renderables)
    {
@@ -126,17 +80,7 @@ void Renderer::Render(const double time, Scene_impl& scene)
    }
 
    //Lighting pass
-   glDisable(GL_DEPTH_TEST);
-
-   glBindFramebuffer(GL_FRAMEBUFFER, 0);
-   glViewport(0, 0, width, height);
-   glDrawBuffer(GL_BACK);
-   glBindTextureUnit(0, m_gTextures[G_TEXTURE_ALBEDO]);
-   glBindTextureUnit(1, m_gTextures[G_TEXTURE_NORMAL]);
-   glBindTextureUnit(2, m_gTextures[G_TEXTURE_SPECULAR]);
-   glBindTextureUnit(3, m_gTextures[G_TEXTURE_DEPTH]);
-   m_gShader.Bind();
-   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+   m_gBuffer.Present();
 
    //if (m_terrain)
    //{
@@ -272,9 +216,10 @@ void Renderer::ShowWireframe(const bool showWireframe)
    m_showWireframe = showWireframe;
 }
 
-void Renderer::Resize(const glm::ivec2& size)
+void Renderer::Resize(const ivec2& size)
 {
    m_depthTexture.Resize(size);
+   m_gBuffer.Resize(size);
 }
 
 void Renderer::UpdateFPS(const double time)

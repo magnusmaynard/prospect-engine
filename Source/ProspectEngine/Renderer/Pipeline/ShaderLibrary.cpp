@@ -6,12 +6,18 @@ using namespace Prospect;
 
 ShaderLibrary::ShaderLibrary(const GlobalUniformBuffers& globalUniforms)
    :
+   m_gBufferShader(globalUniforms),
    m_blinnShader(globalUniforms),
    m_textShader(globalUniforms),
    m_terrainShader(globalUniforms),
    m_sunShader(globalUniforms),
    m_scatteringShader(globalUniforms)
 {
+}
+
+GBufferShader& ShaderLibrary::GetGBufferShader()
+{
+   return m_gBufferShader;
 }
 
 BlinnPhongShader& ShaderLibrary::GetBlinnPhongShader()

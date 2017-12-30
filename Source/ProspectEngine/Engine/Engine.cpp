@@ -9,10 +9,9 @@ using namespace Prospect;
 
 Engine::Engine(
    IApplication& application,
-   const int width,
-   const int height)
+   const glm::ivec2& size)
    :
-   m_impl(std::make_unique<Engine_impl>(*this, application, width, height))
+   m_impl(std::make_unique<Engine_impl>(*this, application, size))
 {
 }
 

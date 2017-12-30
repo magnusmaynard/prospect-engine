@@ -43,6 +43,7 @@
     <ClInclude Include="Libraries\MeshLibrary_impl.h" />
     <ClInclude Include="ProspectEngine_pch.h" />
     <ClInclude Include="Renderer\Debugger\Debug.h" />
+    <ClInclude Include="Renderer\Pipeline\GBuffer.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderLibrary.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\ShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.h" />
@@ -100,6 +101,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Renderer\Debugger\Debug.cpp" />
+    <ClCompile Include="Renderer\Pipeline\GBuffer.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderLibrary.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderStages\ShaderStage.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.cpp" />
@@ -288,6 +290,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <CustomBuildAfterTargets>
     </CustomBuildAfterTargets>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <CustomBuildAfterTargets>

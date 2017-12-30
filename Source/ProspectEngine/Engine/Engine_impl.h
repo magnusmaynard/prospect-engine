@@ -37,8 +37,7 @@ namespace Prospect
       Engine_impl(
          Engine& parent,
          IApplication& application,
-         const int width,
-         const int height);
+         const glm::ivec2& size);
 
       void OnResize(const glm::ivec2& size);
       void OnKeyDown(const Key& key, const KeyModifier& modifier);
@@ -51,10 +50,10 @@ namespace Prospect
       Engine& m_parent;
 
       IApplication& m_application;
-      Window m_window;
       Scene m_scene;
-      MeshLibrary m_meshLibrary;
       MaterialLibrary m_materialLibrary;
+      MeshLibrary m_meshLibrary;
+      Window m_window;
       Renderer m_renderer;
 
       bool m_isCameraControlsEnabled;

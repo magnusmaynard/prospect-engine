@@ -21,7 +21,7 @@ using namespace Prospect;
 
 TestApplication::TestApplication()
    :
-   m_engine(*this, 1280, 720),
+   m_engine(*this, { 1280, 720 }),
    m_scene(m_engine.GetScene()),
    m_meshLib(m_engine.GetMeshLibrary()),
    m_materialLib(m_engine.GetMaterialLibrary())

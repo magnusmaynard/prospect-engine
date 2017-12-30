@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Renderer/Window.h"
 #include "Renderer/Renderables/RenderableEntity.h"
 #include "Renderer/VertexData.h"
 #include "Renderer/Pipeline/ShaderLibrary.h"
@@ -8,9 +9,7 @@
 #include "Renderer/Renderables/RenderableText.h"
 #include "Renderer/Renderables/Atmosphere/RenderableAtmosphere.h"
 #include "Renderer/Textures/DepthTexture.h"
-
-//GBUFFER
-#include "Pipeline/Shaders/GBufferShader.h"
+#include "Renderer/Pipeline/GBuffer.h"
 
 namespace Prospect
 {
@@ -22,7 +21,7 @@ namespace Prospect
    class Renderer
    {
    public:
-      Renderer(const MaterialLibrary_impl& materialLibrary);
+      Renderer(const MaterialLibrary_impl& materialLibrary, const glm::ivec2& size);
 
       void Render(double time, Scene_impl& scene);
 
@@ -51,6 +50,8 @@ namespace Prospect
 
       void Initialize();
 
+      void UpdateState();
+
       void UpdateRenderableEntity(Entity_impl& entity);
       //void UpdateRenderableEntities(const Scene_impl& scene);
       void UpdateGlobalUniformBuffers(const Scene_impl& scene);
@@ -64,21 +65,6 @@ namespace Prospect
       void Clear();
       void ClearDepthBuffer();
 
-      //GBUFFER
-      const int width = 1280;
-      const int height = 720;
-      const enum G_TEXTURES
-      {
-         G_TEXTURE_ALBEDO,
-         G_TEXTURE_NORMAL,
-         G_TEXTURE_SPECULAR,
-         G_TEXTURE_DEPTH,
-         G_TEXTURE_COUNT,
-      };
-
-      GLuint m_gFBO;
-      GLuint m_gTextures[G_TEXTURE_COUNT];
-
-      GBufferShader m_gShader;
+      GBuffer m_gBuffer;
    };
 }

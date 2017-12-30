@@ -200,6 +200,9 @@
     <ClInclude Include="Renderer\Pipeline\Shaders\GBufferShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\GBuffer.h">
+      <Filter>Renderer\Pipeline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Window.cpp">
@@ -342,6 +345,9 @@
       <Filter>Renderer\Pipeline\ShaderStages</Filter>
     </ClCompile>
     <ClCompile Include="Renderer\Pipeline\ShaderLibrary.cpp">
+      <Filter>Renderer\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\GBuffer.cpp">
       <Filter>Renderer\Pipeline</Filter>
     </ClCompile>
   </ItemGroup>

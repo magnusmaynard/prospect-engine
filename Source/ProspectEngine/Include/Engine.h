@@ -17,8 +17,7 @@ namespace Prospect
    public:
       Engine(
          IApplication& application,
-         const int width,
-         const int height);
+         const glm::ivec2& size);
       ~Engine();
 
       void Start();
