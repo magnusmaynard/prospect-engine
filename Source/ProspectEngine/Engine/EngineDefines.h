@@ -40,7 +40,7 @@ namespace Prospect
    static const glm::vec3 DEFAULT_ATMOSPHERE_LIGHT_DIRECTION = glm::vec3(0, -1, 0);
 
    static const Color DEFAULT_MATERIAL_DIFFUSE(0.15f, 0.53f, 0.86f);
-   static const Color DEFAULT_MATERIAL_AMBIENT(0.05f, 0.05f, 0.05f);
+   static const Color DEFAULT_MATERIAL_EMISSIVE(0.f, 0.f, 0.f);
    static const Color DEFAULT_MATERIAL_SPECULAR(0.3f, 0.3f, 0.3f);
    static const int DEFAULT_MATERIAL_SPECULAR_POWER = 16;
 

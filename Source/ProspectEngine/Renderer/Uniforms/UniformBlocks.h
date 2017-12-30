@@ -85,7 +85,7 @@ namespace Prospect
          MaterialUniforms(const Material_impl& material)
             :
             Diffuse(material.GetDiffuse().ToRGBA()),
-            Ambient(material.GetAmbient().ToRGBA()),
+            Ambient(material.GetEmissive().ToRGBA()),
             SpecularAndPower(material.GetSpecular().ToRGB(), material.GetSpecularPower())
          {
          }

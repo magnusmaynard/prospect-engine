@@ -19,7 +19,7 @@ Material MaterialLibrary_impl::CreateMaterial()
 {
    return CreateMaterial(
       DEFAULT_MATERIAL_DIFFUSE,
-      DEFAULT_MATERIAL_AMBIENT,
+      DEFAULT_MATERIAL_EMISSIVE,
       DEFAULT_MATERIAL_SPECULAR,
       DEFAULT_MATERIAL_SPECULAR_POWER);
 }
@@ -28,21 +28,21 @@ Material MaterialLibrary_impl::CreateMaterial(const Color& diffuse)
 {
    return CreateMaterial(
       diffuse,
-      DEFAULT_MATERIAL_AMBIENT,
+      DEFAULT_MATERIAL_EMISSIVE,
       DEFAULT_MATERIAL_SPECULAR,
       DEFAULT_MATERIAL_SPECULAR_POWER);
 }
 
 Material MaterialLibrary_impl::CreateMaterial(
    const Color& diffuse,
-   const Color& ambient,
+   const Color& emissive,
    const Color& specular,
    const int specularPower)
 {
    m_materials.emplace_back(std::make_shared<Material_impl>(
       m_nextMaterialID,
       diffuse,
-      ambient,
+      emissive,
       specular,
       specularPower));
 

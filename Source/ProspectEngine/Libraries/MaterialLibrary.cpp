@@ -26,11 +26,11 @@ Material MaterialLibrary::CreateMaterial(const Color& diffuse)
 
 Material MaterialLibrary::CreateMaterial(
    const Color& diffuse,
-   const Color& ambient,
+   const Color& emissive,
    const Color& specular,
    const float specularPower)
 {
-   return m_impl->CreateMaterial(diffuse, ambient, specular, specularPower);
+   return m_impl->CreateMaterial(diffuse, emissive, specular, specularPower);
 }
 
 Material MaterialLibrary::GetMaterial(const int index)

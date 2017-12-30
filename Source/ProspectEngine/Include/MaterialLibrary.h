@@ -22,7 +22,7 @@ namespace Prospect
 
       Material CreateMaterial(
          const Color& diffuse,
-         const Color& ambient,
+         const Color& emissive,
          const Color& specular,
          float specularPower);
 

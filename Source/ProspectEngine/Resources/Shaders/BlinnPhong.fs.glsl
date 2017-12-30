@@ -31,19 +31,18 @@ layout (location = 2) out vec4 specular;
 void main()
 {
    int materialID = entity.MaterialID.x;
-   
-   //Default to zero.
-   albedo = vec4(0);
-   normal = vec4(0);
-   specular = vec4(0);
+   Material material = materialLibrary.Materials[materialID];
 
-   //Albedo
-   albedo = materialLibrary.Materials[materialID].Diffuse;
+   //Albedo buffer
+   albedo.rgba = material.Diffuse; //Albedo
 
-   //Normal
-   normal.xyz =  fs_in.Normal;
-   normal.w = materialID;
+   //Normal buffer
+   normal.rgb = fs_in.Normal; //Normal
+   normal.a = 0; //View dependent roughness
 
-   //Specular
-   //TODO;
+   //Specular buffer
+   specular.r = material.SpecularAndPower.a; //Roughness/Specular Power
+   specular.g = 10.f; //Specular Intensity
+   specular.b = 0; //Material ID
+   specular.a = 0; //SSS Translucency
 }

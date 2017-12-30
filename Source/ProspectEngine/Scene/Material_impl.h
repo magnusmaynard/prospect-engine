@@ -11,16 +11,16 @@ namespace Prospect
       //Public
       unsigned long GetID() const;
 
-      void SetDiffuse(const Color& diffuse);
+      void SetDiffuse(const Color& value);
       const Color& GetDiffuse() const;
 
-      void SetAmbient(const Color& ambient);
-      const Color& GetAmbient() const;
+      void SetEmissive(const Color& value);
+      const Color& GetEmissive() const;
 
-      void SetSpecular(const Color& specular);
+      void SetSpecular(const Color& value);
       const Color& GetSpecular() const;
 
-      void SetSpecularPower(int specularPower);
+      void SetSpecularPower(int value);
       int GetSpecularPower() const;
 
       //Internal
@@ -35,7 +35,7 @@ namespace Prospect
       unsigned long m_id;
 
       Color m_diffuse;
-      Color m_ambient;
+      Color m_emissive;
       Color m_specular;
       int m_specularPower;
    };

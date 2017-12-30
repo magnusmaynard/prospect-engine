@@ -47,13 +47,17 @@ in VS_OUT
 
 out vec4 color;
 
-vec3 CalculateLighting(Material material, vec3 N, vec3 V)
+vec3 CalculateLighting(vec3 position, vec4 albedo, vec4 normal, vec4 specular)
 {
-   //Extract material info
-   vec3 ambientAlbedo = material.Ambient.xyz;
-   vec3 diffuseAlbedo = material.Diffuse.xyz;
-   vec3 specularAlbedo = material.SpecularAndPower.xyz;
-   float specularPower = material.SpecularAndPower.w;
+   //Extract data from buffers.
+   vec3 diffuseAlbedo = albedo.rgb;
+   float specularPower = specular.r;
+   float specularIntensity = specular.g;
+   vec3 specularAlbedo = diffuseAlbedo * specularIntensity;
+
+   vec3 P = normalize(position.xyz);
+   vec3 V = -P;
+   vec3 N = normalize(normal.xyz);
 
    //Apply all lights.
    vec3 lightingTotal;
@@ -98,16 +102,10 @@ void main()
 {
    vec4 albedo = texture(albedoTexture, fs_in.textureCoords);
    vec4 normal = texture(normalTexture, fs_in.textureCoords);
+   vec4 specular = texture(specularTexture, fs_in.textureCoords);
    float depth = texture(depthTexture, fs_in.textureCoords).r;
+
    vec3 position = CalculateViewSpacePosition(depth, fs_in.textureCoords);
 
-   int materialID = int(normal.w);
-   Material material = materialLibrary.Materials[materialID];
-
-   vec3 P = normalize(position.xyz);
-   vec3 V = -P;
-   vec3 N = normalize(normal.xyz);
-
-    //TODO: Get diffus from gbuffers.
-   color = vec4(CalculateLighting(material, N, V), 0);
+   color = vec4(CalculateLighting(position, albedo, normal, specular), 1);
 }
