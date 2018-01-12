@@ -1,14 +1,12 @@
 #pragma once
-#include "Renderer/Pipeline/Shaders/GBufferShader.h"
+#include "Renderer/Pipeline/Shaders/LightingShader.h"
 
 namespace Prospect
 {
-   class ShaderLibrary;
-
    class GBuffer
    {
    public:
-      GBuffer(ShaderLibrary& shaderLibrary, const glm::ivec2& size);
+      GBuffer(const glm::ivec2& size);
       ~GBuffer();
 
       //Update sizes of framebuffers.
@@ -20,8 +18,10 @@ namespace Prospect
       //Bind framebuffers ready for geometry pass
       void Bind();
 
-      //Perform lighting calculation and present to screen.
-      void Present();
+      GLuint GetAlbedoTexture() const;
+      GLuint GetNormalTexture() const;
+      GLuint GetSpecularTexture() const;
+      GLuint GetDepthTexture() const;
 
    private:
       void Initialize(const glm::ivec2& size);
@@ -38,7 +38,5 @@ namespace Prospect
 
       GLuint m_FBO;
       GLuint m_textures[G_TEXTURE_COUNT];
-
-      GBufferShader& m_shader;
    };
 }

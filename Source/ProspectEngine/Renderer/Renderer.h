@@ -7,9 +7,10 @@
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
 #include "Renderer/Renderables/RenderableTerrain.h"
 #include "Renderer/Renderables/RenderableText.h"
-#include "Renderer/Renderables/Atmosphere/RenderableAtmosphere.h"
-#include "Renderer/Textures/DepthTexture.h"
+#include "Renderer/Renderables/RenderableSun.h"
+#include "Renderer/Renderables/RenderableAtmosphere.h"
 #include "Renderer/Pipeline/GBuffer.h"
+#include "Renderer/Pipeline/LightingPass.h"
 
 namespace Prospect
 {
@@ -34,6 +35,7 @@ namespace Prospect
       std::unique_ptr<RenderableTerrain> m_terrain;
       std::unique_ptr<RenderableText> m_fpsText;
       std::unique_ptr<RenderableAtmosphere> m_atmosphere;
+      std::unique_ptr<RenderableSun> m_sun;
 
       std::map<int, VertexData> m_vertexDataMap;
       GlobalUniformBuffers m_globalUniformBuffers;
@@ -43,20 +45,21 @@ namespace Prospect
       unsigned int m_frameCount;
       double m_previousTime;
 
-      DepthTexture m_depthTexture;
-
       ShaderLibrary m_shaderLibrary;
       const MaterialLibrary_impl& m_materialLibrary;
 
       void Initialize();
+      
+      void GeometryPass();
+      void EffectsPass();
 
       void UpdateState();
 
       void UpdateRenderableEntity(Entity_impl& entity);
-      //void UpdateRenderableEntities(const Scene_impl& scene);
       void UpdateGlobalUniformBuffers(const Scene_impl& scene);
       void UpdateRenderableTerrain(const Scene_impl& scene);
       void UpdateRenderableAtmosphere(const Scene_impl& scene);
+      void UpdateRenderableSun(const Scene_impl& scene);
 
       VertexData& GetVertexData(Mesh_impl& mesh);
 
@@ -65,6 +68,9 @@ namespace Prospect
       void Clear();
       void ClearDepthBuffer();
 
+      void BindDefaultFramebuffer();
+
       GBuffer m_gBuffer;
+      LightingPass m_lightingPass;
    };
 }

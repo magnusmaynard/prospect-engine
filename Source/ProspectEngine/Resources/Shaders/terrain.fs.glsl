@@ -5,11 +5,21 @@ layout (binding = 0) uniform sampler2D textureHeight;
 uniform float minHeight;
 uniform float maxHeight;
 
+layout (std140) uniform CameraUniforms
+{
+   mat4 PerspectiveProjection;
+   mat4 InversePerspectiveProjection;
+   mat4 OrthographicProjection;
+   mat4 View;
+   vec4 ViewDirection;
+   vec4 Position;
+   vec2 ScreenSize;
+} camera;
+
 struct Light
 {
    vec4 Direction;
-   vec4 Color;
-   vec4 Brightness;
+   vec4 ColorAndBrightness;
 };
 
 layout (std140) uniform LightsUniforms
@@ -26,15 +36,41 @@ layout (std140) uniform NodeUniforms
    float Level;
 } node;
 
-out vec4 color;
-
 in TES_OUT
 {
    vec2 textureCoord;
-   
 } fs_in;
 
+layout (location = 0) out vec4 albedoBuffer;
+layout (location = 1) out vec4 normalBuffer;
+layout (location = 2) out vec4 specularBuffer;
+
+void UpdateBuffers(
+   vec4 albedo,
+   vec3 normal,
+   float viewDependentRoughness,
+   float specularPower,
+   float specularIntensity,
+   float materialID,
+   float SSSTranslucency)
+{
+   //Albedo buffer
+   albedoBuffer.rgba = albedo;
+
+   //Normal buffer
+   normalBuffer.rgb = normal;
+   normalBuffer.a = viewDependentRoughness;
+
+   //Specular buffer
+   specularBuffer.r = specularPower;
+   specularBuffer.g = specularIntensity;
+   specularBuffer.b = materialID;
+   specularBuffer.a = SSSTranslucency;
+}
+
 Light light = lights.Lights[0];
+vec3 lightColor = light.ColorAndBrightness.rgb;
+float lightBrightness = light.ColorAndBrightness.a;
 
 void main()
 {
@@ -46,12 +82,18 @@ void main()
    vec3 vb = normalize(vec3(0, yPos - yNeg, 2.0));
 
    float height = texture(textureHeight, fs_in.textureCoord).r * 0.2;
-   vec3 material = vec3(0.1 + height);
-   vec3 normal = vec3(cross(va, vb));
+   vec3 normal = mat3(camera.View) * vec3(cross(va, vb));
 
-   vec3 ambient = vec3(0.05);
-   vec3 diffuse = max(dot(normal, light.Direction.xyz), 0.0) * material * light.Brightness.x;
-   vec3 specular = vec3(0);
+   vec3 diffuse = vec3(0.1 + height);
 
-   color = vec4(ambient + diffuse + specular, 1.0);
+   vec4 color = vec4(diffuse, 1.0);
+
+   UpdateBuffers(
+      color,
+      normal,
+      0,
+      16.f,
+      0.f,
+      -1,
+      0);
 }

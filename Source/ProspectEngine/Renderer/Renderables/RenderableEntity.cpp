@@ -37,10 +37,12 @@ void RenderableEntity::Render()
 {
    //glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
+   glBlendFunc(GL_ONE, GL_ZERO);//TODO:
+
    m_shader.Bind();
 
    m_shader.Update(EntityUniforms(m_entity));
-   
+
    m_vertexData.Render();
 }
 

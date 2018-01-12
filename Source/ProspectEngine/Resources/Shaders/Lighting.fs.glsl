@@ -18,8 +18,7 @@ layout (std140) uniform CameraUniforms
 struct Light
 {
    vec4 Direction;
-   vec4 Color;
-   vec4 Brightness;
+   vec4 ColorAndBrightness;
 };
 
 layout (std140) uniform LightsUniforms
@@ -64,13 +63,23 @@ vec3 CalculateLighting(vec3 position, vec4 albedo, vec4 normal, vec4 specular)
    for(int i = 0; i < lights.Count; i++)
    {
       Light light = lights.Lights[i];
+      vec3 lightColor = light.ColorAndBrightness.rgb;
+      float lightBrightness = light.ColorAndBrightness.a;
+
       vec3 L = normalize(mat3(camera.View) * -light.Direction.xyz);
       vec3 H = normalize(L + V);
 
-      vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0) * light.Brightness.x;
-      vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * light.Brightness.x;
+      vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0) * lightBrightness;
+      vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * lightBrightness;
 
       lightingTotal += diffuse + specular;
+
+      bool isAmbientLightSource = i == 0;//TODO: store in Light uniform.
+      if(isAmbientLightSource)
+      {
+         vec3 ambient = vec3(0.1, 0.1, 0.1);
+         lightingTotal += ambient;
+      }
    }
 
    return lightingTotal;
@@ -107,5 +116,13 @@ void main()
 
    vec3 position = CalculateViewSpacePosition(depth, fs_in.textureCoords);
 
-   color = vec4(CalculateLighting(position, albedo, normal, specular), 1);
+   float materialID = specular.b;
+    if(materialID < 0)
+    {
+        color = albedo;
+    }
+    else
+    {
+        color = vec4(CalculateLighting(position, albedo, normal, specular), 1);
+    }
 }

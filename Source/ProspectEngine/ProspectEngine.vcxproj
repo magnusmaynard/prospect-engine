@@ -44,6 +44,7 @@
     <ClInclude Include="ProspectEngine_pch.h" />
     <ClInclude Include="Renderer\Debugger\Debug.h" />
     <ClInclude Include="Renderer\Pipeline\GBuffer.h" />
+    <ClInclude Include="Renderer\Pipeline\LightingPass.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderLibrary.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\ShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.h" />
@@ -51,19 +52,18 @@
     <ClInclude Include="Renderer\Pipeline\ShaderStages\TessControlShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\TessEvaluationShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.h" />
-    <ClInclude Include="Renderer\Pipeline\Shaders\GBufferShader.h" />
-    <ClInclude Include="Renderer\Pipeline\Shaders\ScatteringShader.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\LightingShader.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\AtmosphereShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\SunShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\BlinnPhongShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\Shader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\TerrainShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\TextShader.h" />
     <ClInclude Include="Renderer\PolygonMode.h" />
-    <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.h" />
-    <ClInclude Include="Renderer\Renderables\Atmosphere\Sun.h" />
-    <ClInclude Include="Renderer\Renderables\Atmosphere\Scattering.h" />
     <ClInclude Include="Renderer\Renderables\IRenderable.h" />
+    <ClInclude Include="Renderer\Renderables\RenderableAtmosphere.h" />
     <ClInclude Include="Renderer\Renderables\RenderableEntity.h" />
+    <ClInclude Include="Renderer\Renderables\RenderableSun.h" />
     <ClInclude Include="Renderer\Renderables\RenderableTerrain.h" />
     <ClInclude Include="Renderer\Renderables\RenderableText.h" />
     <ClInclude Include="Renderer\Renderer.h" />
@@ -102,6 +102,7 @@
     </ClCompile>
     <ClCompile Include="Renderer\Debugger\Debug.cpp" />
     <ClCompile Include="Renderer\Pipeline\GBuffer.cpp" />
+    <ClCompile Include="Renderer\Pipeline\LightingPass.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderLibrary.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderStages\ShaderStage.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.cpp" />
@@ -110,10 +111,9 @@
     <ClCompile Include="Renderer\Pipeline\ShaderStages\TessEvaluationShaderStage.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.cpp" />
     <ClCompile Include="Renderer\Pipeline\Shaders\Shader.cpp" />
-    <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.cpp" />
-    <ClCompile Include="Renderer\Renderables\Atmosphere\Scattering.cpp" />
-    <ClCompile Include="Renderer\Renderables\Atmosphere\Sun.cpp" />
+    <ClCompile Include="Renderer\Renderables\RenderableAtmosphere.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableEntity.cpp" />
+    <ClCompile Include="Renderer\Renderables\RenderableSun.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableTerrain.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableText.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
@@ -143,6 +143,7 @@
     <ClCompile Include="Utilities\IO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Shaders\Atmosphere.fs.glsl" />
     <None Include="Resources\Shaders\blinnphong.fs.glsl">
       <DeploymentContent>true</DeploymentContent>
       <FileType>Document</FileType>
@@ -151,24 +152,8 @@
       <DeploymentContent>true</DeploymentContent>
       <FileType>Document</FileType>
     </None>
-    <None Include="Resources\Shaders\clouds.fs.glsl">
-      <DeploymentContent>true</DeploymentContent>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="Resources\Shaders\clouds.vs.glsl">
-      <DeploymentContent>true</DeploymentContent>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="Resources\Shaders\gbuffer.fs.glsl" />
-    <None Include="Resources\Shaders\gbuffer.vs.glsl" />
-    <None Include="Resources\Shaders\scattering.fs.glsl">
-      <DeploymentContent>true</DeploymentContent>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="Resources\Shaders\scattering.vs.glsl">
-      <DeploymentContent>true</DeploymentContent>
-      <FileType>Document</FileType>
-    </None>
+    <None Include="Resources\Shaders\Lighting.fs.glsl" />
+    <None Include="Resources\Shaders\Quad.vs.glsl" />
     <None Include="Resources\Shaders\simple.fs.glsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>

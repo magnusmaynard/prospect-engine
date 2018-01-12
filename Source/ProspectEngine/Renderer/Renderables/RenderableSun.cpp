@@ -1,6 +1,6 @@
 #include "ProspectEngine_pch.h"
 
-#include "Sun.h"
+#include "RenderableSun.h"
 
 #include "Renderer/Pipeline/ShaderLibrary.h"
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
@@ -9,7 +9,7 @@
 using namespace Prospect;
 using namespace glm;
 
-Sun::Sun(ShaderLibrary& shaderLibrary)
+RenderableSun::RenderableSun(ShaderLibrary& shaderLibrary)
    :
    m_shader(shaderLibrary.GetSunShader()),
    m_color(1, 1, 1), //TODO:
@@ -19,13 +19,13 @@ Sun::Sun(ShaderLibrary& shaderLibrary)
    CreateSun();
 }
 
-Sun::~Sun()
+RenderableSun::~RenderableSun()
 {
    glDeleteBuffers(1, &m_pointsBuffer);
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-void Sun::CreateSun()
+void RenderableSun::CreateSun()
 {
    //Creates a fan of points around a central vertex.
    const int segments = 24;
@@ -72,7 +72,7 @@ void Sun::CreateSun()
 }
 
 
-void Sun::UpdateUniforms(const Atmosphere_impl& atmosphere)
+void RenderableSun::UpdateUniforms(const Atmosphere_impl& atmosphere)
 {
    vec3 toSun = -normalize(atmosphere.GetSunDirection());
    m_translation = translate(toSun * m_distance);
@@ -80,8 +80,10 @@ void Sun::UpdateUniforms(const Atmosphere_impl& atmosphere)
    m_shader.Update({ m_translation });
 }
 
-void Sun::Render()
+void RenderableSun::Render()
 {
+   glEnable(GL_DEPTH_TEST);
+
    m_shader.Bind();
    glBindVertexArray(m_VAO);
    glUniform3fv(4, 1, &m_color[0]);

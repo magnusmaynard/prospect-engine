@@ -24,25 +24,44 @@ in VS_OUT
    vec3 Normal;
 } fs_in;
 
-layout (location = 0) out vec4 albedo;
-layout (location = 1) out vec4 normal;
-layout (location = 2) out vec4 specular;
+layout (location = 0) out vec4 albedoBuffer;
+layout (location = 1) out vec4 normalBuffer;
+layout (location = 2) out vec4 specularBuffer;
+
+void UpdateBuffers(
+   vec4 albedo,
+   vec3 normal,
+   float viewDependentRoughness,
+   float specularPower,
+   float specularIntensity,
+   float materialID,
+   float SSSTranslucency)
+{
+   //Albedo buffer
+   albedoBuffer.rgba = albedo;
+
+   //Normal buffer
+   normalBuffer.rgb = normal;
+   normalBuffer.a = viewDependentRoughness;
+
+   //Specular buffer
+   specularBuffer.r = specularPower;
+   specularBuffer.g = specularIntensity;
+   specularBuffer.b = materialID;
+   specularBuffer.a = SSSTranslucency;
+}
 
 void main()
 {
    int materialID = entity.MaterialID.x;
    Material material = materialLibrary.Materials[materialID];
 
-   //Albedo buffer
-   albedo.rgba = material.Diffuse; //Albedo
-
-   //Normal buffer
-   normal.rgb = fs_in.Normal; //Normal
-   normal.a = 0; //View dependent roughness
-
-   //Specular buffer
-   specular.r = material.SpecularAndPower.a; //Roughness/Specular Power
-   specular.g = 10.f; //Specular Intensity
-   specular.b = 0; //Material ID
-   specular.a = 0; //SSS Translucency
+   UpdateBuffers(
+      material.Diffuse,
+      fs_in.Normal,
+      0,
+      material.SpecularAndPower.a,
+      10.f,
+      materialID,
+      0);
 }

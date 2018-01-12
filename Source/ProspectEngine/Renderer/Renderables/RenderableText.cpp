@@ -150,6 +150,7 @@ void RenderableText::Render()
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   glDepthMask(false);
 
    UpdateTextIfDirty();
    UpdateTransformIfDirty();
@@ -161,6 +162,8 @@ void RenderableText::Render()
    glUniformMatrix4fv(10, 1, GL_FALSE, &m_transform[0][0]);
 
    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+   glDepthMask(true);
 }
 
 void RenderableText::MakeDirty()

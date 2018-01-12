@@ -6,7 +6,7 @@ using namespace Prospect;
 
 ShaderLibrary::ShaderLibrary(const GlobalUniformBuffers& globalUniforms)
    :
-   m_gBufferShader(globalUniforms),
+   m_lightingShader(globalUniforms),
    m_blinnShader(globalUniforms),
    m_textShader(globalUniforms),
    m_terrainShader(globalUniforms),
@@ -15,9 +15,9 @@ ShaderLibrary::ShaderLibrary(const GlobalUniformBuffers& globalUniforms)
 {
 }
 
-GBufferShader& ShaderLibrary::GetGBufferShader()
+LightingShader& ShaderLibrary::GetLightingShader()
 {
-   return m_gBufferShader;
+   return m_lightingShader;
 }
 
 BlinnPhongShader& ShaderLibrary::GetBlinnPhongShader()
@@ -40,7 +40,7 @@ SunShader& ShaderLibrary::GetSunShader()
    return m_sunShader;
 }
 
-ScatteringShader& ShaderLibrary::GetScatteringShader()
+AtmosphereShader& ShaderLibrary::GetAtmosphereShader()
 {
    return m_scatteringShader;
 }

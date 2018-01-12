@@ -10,11 +10,11 @@ namespace Prospect
    class ShaderLibrary;
    struct GlobalUniformBuffers;
 
-   class Sun
+   class RenderableSun
    {
    public:
-      Sun(ShaderLibrary& shaderLibrary);
-      ~Sun();
+      RenderableSun(ShaderLibrary& shaderLibrary);
+      ~RenderableSun();
 
       void Render();
       void UpdateUniforms(const Atmosphere_impl& atmosphere);

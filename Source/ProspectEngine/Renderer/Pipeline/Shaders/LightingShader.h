@@ -6,14 +6,14 @@
 
 namespace Prospect
 {
-   class GBufferShader : public Shader
+   class LightingShader : public Shader
    {
    public:
-      GBufferShader(const GlobalUniformBuffers& globalUniforms)
+      LightingShader(const GlobalUniformBuffers& globalUniforms)
          :
          Shader(
-            Resources::GBUFFER_VERTEX_SHADER,
-            Resources::GBUFFER_FRAGMENT_SHADER)
+            Resources::QUAD_VERTEX_SHADER,
+            Resources::LIGHTING_FRAGMENT_SHADER)
       {
          globalUniforms.Camera.Bind(GetProgram());
          globalUniforms.Lights.Bind(GetProgram());

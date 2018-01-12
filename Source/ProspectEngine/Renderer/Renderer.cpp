@@ -22,7 +22,8 @@ Renderer::Renderer(const MaterialLibrary_impl& materialLibrary, const ivec2& siz
    m_previousTime(0),
    m_shaderLibrary(m_globalUniformBuffers),
    m_materialLibrary(materialLibrary),
-   m_gBuffer(m_shaderLibrary, size)
+   m_gBuffer(size),
+   m_lightingPass(m_shaderLibrary, m_gBuffer)
 {
    Initialize();
 }
@@ -54,59 +55,70 @@ void Renderer::UpdateState()
    {
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
    }
+
+   glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer::Render(const double time, Scene_impl& scene)
 {
    UpdateState();
+   UpdateGlobalUniformBuffers(scene);
+   UpdateRenderableEntity(scene.GetRootEntityImpl());
+   UpdateRenderableTerrain(scene);
+   UpdateRenderableAtmosphere(scene);
+   UpdateRenderableSun(scene);
+   UpdateFPS(time);
 
    Clear();
    m_gBuffer.Clear();
 
-   //Update
-   UpdateGlobalUniformBuffers(scene);
-   UpdateRenderableEntity(scene.GetRootEntityImpl());
-   //UpdateRenderableTerrain(scene);
-   //UpdateRenderableAtmosphere(scene);
-
-   //Geometry pass
+   //Geometry pass.
    m_gBuffer.Bind();
+   GeometryPass();
 
-   glEnable(GL_DEPTH_TEST);
+   //Lighting pass.
+   BindDefaultFramebuffer();
+   m_lightingPass.Render();
 
+   //Effects pass.
+   EffectsPass();
+
+   Debug::CheckErrors();
+}
+
+
+void Renderer::GeometryPass()
+{
    for (auto& renderable : m_renderables)
    {
       renderable->Render();
    }
 
-   //Lighting pass
-   m_gBuffer.Present();
+   if (m_terrain)
+   {
+      m_terrain->Render();
+   }
 
-   //if (m_terrain)
-   //{
-   //   m_terrain->Render();
-   //}
+   if (m_sun)
+   {
+      m_sun->Render();
+   }
 
-   ////Atmosphere
-   //m_depthTexture.Update();
-
-   //if (m_atmosphere)
-   //{
-   //   m_atmosphere->Render();
-   //}
-
-   //ClearDepthBuffer();
-
-   ////HUD
-   //if (m_showFPS)
-   //{
-   //   UpdateFPS(time);
-   //   m_fpsText->Render();
-   //}
-
-   Debug::CheckErrors();
+   if (m_showFPS)
+   {
+      m_fpsText->Render();
+   }
 }
 
+void Renderer::EffectsPass()
+{
+   BindDefaultFramebuffer();
+
+   if (m_atmosphere)
+   {
+      m_atmosphere->Render();
+   }
+}
 
 void Renderer::UpdateRenderableEntity(Entity_impl& entity)
 {
@@ -187,10 +199,23 @@ void Renderer::UpdateRenderableAtmosphere(const Scene_impl& scene)
    {
       if (const auto atmosphere = scene.GetAtmosphereImpl())
       {
-         m_atmosphere = std::make_unique<RenderableAtmosphere>(m_shaderLibrary, m_depthTexture, *atmosphere);
+         m_atmosphere = std::make_unique<RenderableAtmosphere>(m_shaderLibrary, m_gBuffer, *atmosphere);
 
          atmosphere->SetRenderable(m_atmosphere.get());
       }
+   }
+}
+
+void Renderer::UpdateRenderableSun(const Scene_impl& scene)
+{
+   if (const auto atmosphere = scene.GetAtmosphereImpl())
+   {
+      if (m_sun == nullptr)
+      {
+         m_sun = std::make_unique<RenderableSun>(m_shaderLibrary);
+      }
+
+      m_sun->UpdateUniforms(*atmosphere);
    }
 }
 
@@ -206,6 +231,11 @@ void Renderer::ClearDepthBuffer()
    glClear(GL_DEPTH_BUFFER_BIT);
 }
 
+void Renderer::BindDefaultFramebuffer()
+{
+   glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 void Renderer::ShowFPS(const bool showFPS)
 {
    m_showFPS = showFPS;
@@ -218,7 +248,6 @@ void Renderer::ShowWireframe(const bool showWireframe)
 
 void Renderer::Resize(const ivec2& size)
 {
-   m_depthTexture.Resize(size);
    m_gBuffer.Resize(size);
 }
 

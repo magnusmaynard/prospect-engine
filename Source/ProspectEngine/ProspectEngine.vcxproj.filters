@@ -143,15 +143,6 @@
     <ClInclude Include="Include\Defaults.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.h">
-      <Filter>Renderer\Renderables\Atmosphere</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Renderables\Atmosphere\Sun.h">
-      <Filter>Renderer\Renderables\Atmosphere</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Renderables\Atmosphere\Scattering.h">
-      <Filter>Renderer\Renderables\Atmosphere</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Textures\DepthTexture.h">
       <Filter>Renderer\Textures</Filter>
     </ClInclude>
@@ -191,17 +182,26 @@
     <ClInclude Include="Renderer\Pipeline\Shaders\SunShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Pipeline\Shaders\ScatteringShader.h">
-      <Filter>Renderer\Pipeline\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Pipeline\Shaders\BlinnPhongShader.h">
-      <Filter>Renderer\Pipeline\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Pipeline\Shaders\GBufferShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\Pipeline\GBuffer.h">
       <Filter>Renderer\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\LightingShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\AtmosphereShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\LightingPass.h">
+      <Filter>Renderer\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\RenderableAtmosphere.h">
+      <Filter>Renderer\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\RenderableSun.h">
+      <Filter>Renderer\Renderables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -308,15 +308,6 @@
     <ClCompile Include="Scene\Lights\Light_impl.cpp">
       <Filter>Scene\Lights</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Renderables\Atmosphere\RenderableAtmosphere.cpp">
-      <Filter>Renderer\Renderables\Atmosphere</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Renderables\Atmosphere\Sun.cpp">
-      <Filter>Renderer\Renderables\Atmosphere</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Renderables\Atmosphere\Scattering.cpp">
-      <Filter>Renderer\Renderables\Atmosphere</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Textures\DepthTexture.cpp">
       <Filter>Renderer\Textures</Filter>
     </ClCompile>
@@ -349,6 +340,15 @@
     </ClCompile>
     <ClCompile Include="Renderer\Pipeline\GBuffer.cpp">
       <Filter>Renderer\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\LightingPass.cpp">
+      <Filter>Renderer\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\RenderableAtmosphere.cpp">
+      <Filter>Renderer\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\RenderableSun.cpp">
+      <Filter>Renderer\Renderables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -403,9 +403,6 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{1c5e798d-4a9e-457d-b502-f96f28791edb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer\Renderables\Atmosphere">
-      <UniqueIdentifier>{8bfc8771-6ae7-4564-b696-90ae2c969eb7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Renderer\Textures">
       <UniqueIdentifier>{82cde331-469e-4b4b-9cef-0b66bf4493e3}</UniqueIdentifier>
     </Filter>
@@ -453,28 +450,19 @@
     <None Include="Resources\Shaders\sun.vs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\scattering.vs.glsl">
-      <Filter>Resources\Shaders</Filter>
-    </None>
-    <None Include="Resources\Shaders\scattering.fs.glsl">
-      <Filter>Resources\Shaders</Filter>
-    </None>
     <None Include="Resources\Shaders\blinnphong.vs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\blinnphong.fs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\clouds.fs.glsl">
+    <None Include="Resources\Shaders\Quad.vs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\clouds.vs.glsl">
+    <None Include="Resources\Shaders\Lighting.fs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\gbuffer.fs.glsl">
-      <Filter>Resources\Shaders</Filter>
-    </None>
-    <None Include="Resources\Shaders\gbuffer.vs.glsl">
+    <None Include="Resources\Shaders\Atmosphere.fs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
   </ItemGroup>

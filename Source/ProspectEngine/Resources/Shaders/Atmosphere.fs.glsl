@@ -3,7 +3,7 @@
 //Renders skydome from space.
 //http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter16.html
 
-layout (binding = 0) uniform sampler2D depthTexture;
+layout (binding = 3) uniform sampler2D depthTexture;
 
 in VS_OUT
 {
@@ -23,22 +23,49 @@ layout (std140) uniform CameraUniforms
 } camera;
 
 //Local Uniforms
-layout (std140) uniform ScatteringUniforms
+layout (std140) uniform AtmosphereUniforms
 {
    vec4 SunDirection;
    float InnerRadius;
    float OutterRadius;
    float DensityScale;
    float Altitude;
-} scattering;
+} atmosphere;
 
-//Output
+// //Output
+// layout (location = 0) out vec4 albedoBuffer;
+// layout (location = 1) out vec4 normalBuffer;
+
 out vec4 color;
+// layout (location = 2) out vec4 specularBuffer;
+
+// void UpdateBuffers(
+//    vec4 albedo,
+//    vec3 normal,
+//    float viewDependentRoughness,
+//    float specularPower,
+//    float specularIntensity,
+//    float materialID,
+//    float SSSTranslucency)
+// {
+//    //Albedo buffer
+//    albedoBuffer.rgba = albedo;
+
+//    //Normal buffer
+//    normalBuffer.rgb = normal;
+//    normalBuffer.a = viewDependentRoughness;
+
+//    //Specular buffer
+//    specularBuffer.r = specularPower;
+//    specularBuffer.g = specularIntensity;
+//    specularBuffer.b = materialID;
+//    specularBuffer.a = SSSTranslucency;
+// }
 
 //Configuration
 const vec3 EARTH_POSITION = vec3(0, 0, 0);
-const float MAX_HEIGHT = scattering.OutterRadius - scattering.InnerRadius; //Thickness of scattering.
-const float SCALE = 1.0 / (scattering.OutterRadius - scattering.InnerRadius);
+const float MAX_HEIGHT = atmosphere.OutterRadius - atmosphere.InnerRadius; //Thickness of atmosphere.
+const float SCALE = 1.0 / (atmosphere.OutterRadius - atmosphere.InnerRadius);
 
 const int IN_SCATTER_SAMPLES = 10;
 const float IN_SCATTER_SAMPLES_F = IN_SCATTER_SAMPLES;
@@ -102,8 +129,8 @@ vec2 RaySphereIntersection(
 //TODO: Light does not seem to go around earth, maybe intersection are clipping the inner sphere.
 bool RayEarthIntersections(const vec3 position, const vec3 ray, out vec2 nearFar) // out vec3 far
 {
-   vec2 outterNearFar = RaySphereIntersection(position, ray, EARTH_POSITION, scattering.OutterRadius);
-   vec2 innerNearFar = RaySphereIntersection(position, ray, EARTH_POSITION, scattering.InnerRadius);
+   vec2 outterNearFar = RaySphereIntersection(position, ray, EARTH_POSITION, atmosphere.OutterRadius);
+   vec2 innerNearFar = RaySphereIntersection(position, ray, EARTH_POSITION, atmosphere.InnerRadius);
 
    if(outterNearFar.y == 0)//No intersections.
    {
@@ -142,8 +169,8 @@ float MiePhase(float g1, float g2, float cos1, float cos2)
 //Get density of a given sample point.
 float Density(vec3 samplePoint)
 {
-   float sampleHeight = (length(EARTH_POSITION - samplePoint) - scattering.InnerRadius) / MAX_HEIGHT;
-   return exp(-sampleHeight / scattering.DensityScale);
+   float sampleHeight = (length(EARTH_POSITION - samplePoint) - atmosphere.InnerRadius) / MAX_HEIGHT;
+   return exp(-sampleHeight / atmosphere.DensityScale);
 }
 
 //Average atmospheric density between two intersection points.
@@ -176,8 +203,8 @@ vec3 InScattering(vec3 ray, vec3 near, vec3 far)
    for(int i = 0; i < IN_SCATTER_SAMPLES; i++)
    {
       //Out scattering to sun.
-      vec3 sunRay = -scattering.SunDirection.xyz;
-      vec2 sunNearFar = RaySphereIntersection(samplePoint, sunRay, EARTH_POSITION, scattering.OutterRadius);
+      vec3 sunRay = -atmosphere.SunDirection.xyz;
+      vec2 sunNearFar = RaySphereIntersection(samplePoint, sunRay, EARTH_POSITION, atmosphere.OutterRadius);
 
       vec3 farPoint = samplePoint + (sunRay * sunNearFar.y);
       float sunOutScattering = OutScattering(samplePoint, farPoint);
@@ -193,7 +220,7 @@ vec3 InScattering(vec3 ray, vec3 near, vec3 far)
 
    totalScattering = totalScattering * length(increment) * SCALE;
 
-   float c1 = dot(ray, scattering.SunDirection.xyz);
+   float c1 = dot(ray, atmosphere.SunDirection.xyz);
    float c2 = c1 * c1;
 
    vec3 rayleigh = I_SUN * K_RAYLEIGH * INVERSE_WAVELENGTH * RayleighPhase(c2) * totalScattering;
@@ -213,19 +240,19 @@ float GetLinearDepth()
 
 void main()
 {
-   vec3 eyePosition = vec3(0, scattering.Altitude, 0);
+   vec3 eyePosition = vec3(0, atmosphere.Altitude, 0);
    vec3 ray = RayFromCamera(gl_FragCoord.xy);
 
    vec2 nearFar = vec2(0, 0);
    bool hasIntersected = RayEarthIntersections(eyePosition, ray, nearFar);
 
-   color = vec4(0, 0, 0, 0);
+   vec4 diffuse = vec4(0, 0, 0, 0);
 
    if(hasIntersected)
    {
       float depth = GetLinearDepth();
 
-      color = vec4(depth, 0, 0, 1);
+      diffuse = vec4(depth, 0, 0, 1);
 
       if(depth < 1.0)
       {
@@ -237,6 +264,8 @@ void main()
 
       vec3 I = InScattering(ray, near, far);
 
-      color = vec4(I, 1.0);
+      diffuse = vec4(I, 1.0);
    }
+
+   color = diffuse;  
 }

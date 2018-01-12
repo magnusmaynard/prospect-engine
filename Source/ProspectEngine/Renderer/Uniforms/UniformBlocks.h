@@ -48,14 +48,12 @@ namespace Prospect
       LightUniforms(const Light_impl& directionalLight)
          :
          Direction({ normalize(directionalLight.GetDirection()), 0 }),
-         Color(directionalLight.GetColor().ToRGBA()),
-         Brightness({ directionalLight.GetBrightness(), 0, 0, 0 })
+         ColorAndBrightness(directionalLight.GetColor().ToRGB(), directionalLight.GetBrightness())
       {
       }
 
       glm::vec4 Direction;
-      glm::vec4 Color;
-      glm::vec4 Brightness;
+      glm::vec4 ColorAndBrightness;
    };
 
    struct LightsUniforms
@@ -131,9 +129,9 @@ namespace Prospect
       float Level = 0;
    };
 
-   struct ScatteringUniforms
+   struct AtmosphereUniforms
    {
-      ScatteringUniforms(const Atmosphere_impl& atmosphere)
+      AtmosphereUniforms(const Atmosphere_impl& atmosphere)
          :
          SunDirection(glm::vec4(normalize(atmosphere.GetSunDirection()), 0)),
          InnerRadius(atmosphere.GetInnerRadius()),

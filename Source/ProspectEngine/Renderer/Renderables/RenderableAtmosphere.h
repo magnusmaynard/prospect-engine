@@ -2,8 +2,8 @@
 
 #include "Renderer/Uniforms/UniformBlocks.h"
 #include "Renderer/Renderables/IRenderable.h"
-#include "Renderer/Renderables/Atmosphere/Sun.h"
-#include "Renderer/Renderables/Atmosphere/Scattering.h"
+#include "Renderer/Pipeline/ShaderLibrary.h"
+#include "Renderer/Pipeline/GBuffer.h"
 
 namespace Prospect
 {
@@ -16,7 +16,7 @@ namespace Prospect
    public:
       RenderableAtmosphere(
          ShaderLibrary& shaderLibrary,
-         const DepthTexture& depthTexture,
+         const GBuffer& gBuffer,
          const Atmosphere_impl& atmosphere);
       ~RenderableAtmosphere();
 
@@ -26,11 +26,9 @@ namespace Prospect
    private:
       void UpdateUniformsIfDirty();
 
+      AtmosphereShader& m_shader;
+      const GBuffer& m_gBuffer;
       const Atmosphere_impl& m_atmosphere;
-
-      Scattering m_scattering;
-      Sun m_sun;
-      //Clouds m_clouds;
 
       mutable bool m_isDirty;
    };

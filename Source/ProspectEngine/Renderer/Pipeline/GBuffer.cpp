@@ -5,9 +5,7 @@
 
 using namespace Prospect;
 
-GBuffer::GBuffer(ShaderLibrary& shaderLibrary, const glm::ivec2& size)
-   :
-   m_shader(shaderLibrary.GetGBufferShader())
+GBuffer::GBuffer(const glm::ivec2& size)
 {
    Initialize(size);
 }
@@ -74,7 +72,7 @@ void GBuffer::Clear()
    static GLfloat zeros[] = { 0, 0, 0, 0 };
    static GLfloat ones[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-   glNamedFramebufferDrawBuffers(m_FBO, drawBuffersCount, drawBuffers);
+   glNamedFramebufferDrawBuffers(m_FBO, drawBuffersCount, drawBuffers); //TODO: draw buffers give access as texture?
 
    glClearNamedFramebufferfv(m_FBO, GL_COLOR, 0, zeros);
    glClearNamedFramebufferfv(m_FBO, GL_COLOR, 1, zeros);
@@ -87,19 +85,22 @@ void GBuffer::Bind()
    glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 }
 
-void GBuffer::Present()
+GLuint GBuffer::GetAlbedoTexture() const
 {
-   glDisable(GL_DEPTH_TEST);
+   return m_textures[G_TEXTURE_ALBEDO];
+}
 
-   glBindFramebuffer(GL_FRAMEBUFFER, 0);
+GLuint GBuffer::GetNormalTexture() const
+{
+   return m_textures[G_TEXTURE_NORMAL];
+}
 
-   glDrawBuffer(GL_BACK);
-   glBindTextureUnit(0, m_textures[G_TEXTURE_ALBEDO]);
-   glBindTextureUnit(1, m_textures[G_TEXTURE_NORMAL]);
-   glBindTextureUnit(2, m_textures[G_TEXTURE_SPECULAR]);
-   glBindTextureUnit(3, m_textures[G_TEXTURE_DEPTH]);
+GLuint GBuffer::GetSpecularTexture() const
+{
+   return m_textures[G_TEXTURE_SPECULAR];
+}
 
-   m_shader.Bind();
-
-   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+GLuint GBuffer::GetDepthTexture() const
+{
+   return m_textures[G_TEXTURE_DEPTH];
 }
