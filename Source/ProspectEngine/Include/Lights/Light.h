@@ -2,6 +2,7 @@
 
 namespace Prospect
 {
+   enum class LightType;
    class Light_impl;
    struct Color;
 
@@ -10,7 +11,8 @@ namespace Prospect
    public:
       Light(
          const glm::vec3& position,
-         const glm::vec3& direction);
+         const glm::vec3& direction,
+         const LightType& type);
       Light(std::shared_ptr<Light_impl>& impl);
 
       void SetPosition(const glm::vec3& value);
@@ -21,6 +23,18 @@ namespace Prospect
 
       void SetColor(const Color& value);
       Color GetColor() const;
+
+      void SetBrightness(const float value);
+      float GetBrightness() const;
+
+      void SetRange(const float value);
+      float GetRange() const;
+
+      void SetAngle(const float value);
+      float GetAngle() const;
+
+      void SetType(const LightType& value);
+      LightType GetType() const;
 
    private:
       std::shared_ptr<Light_impl> m_impl;

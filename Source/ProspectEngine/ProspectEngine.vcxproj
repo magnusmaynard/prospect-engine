@@ -32,6 +32,7 @@
     <ClInclude Include="Include\IApplication.h" />
     <ClInclude Include="Include\Key.h" />
     <ClInclude Include="Include\Lights\Light.h" />
+    <ClInclude Include="Include\Lights\LightType.h" />
     <ClInclude Include="Include\Material.h" />
     <ClInclude Include="Include\MaterialLibrary.h" />
     <ClInclude Include="Include\Mesh.h" />

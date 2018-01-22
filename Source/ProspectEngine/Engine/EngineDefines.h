@@ -32,6 +32,8 @@ namespace Prospect
 
    static const Color DEFAULT_LIGHT_COLOR(1, 1, 1);
    static const float DEFAULT_LIGHT_BRIGHTNESS = 0.8f;
+   static const float DEFAULT_LIGHT_RANGE = 100.f;
+   static const float DEFAULT_LIGHT_ANGLE = 45.f;
 
    static const float DEFAULT_ATMOSPHERE_INNER_RADIUS = 1500.f;
    static const float DEFAULT_ATMOSPHERE_OUTTER_RADIUS = 2000.f;

@@ -11,7 +11,7 @@ using namespace glm;
 Atmosphere_impl::Atmosphere_impl()
    :
    m_renderable(nullptr),
-   m_light(vec3(), DEFAULT_ATMOSPHERE_LIGHT_DIRECTION),
+   m_light(vec3(), DEFAULT_ATMOSPHERE_LIGHT_DIRECTION, LightType::Directional),
    m_altitude(DEFAULT_ATMOSPHERE_ALTITUDE),
    m_innerRadius(DEFAULT_ATMOSPHERE_INNER_RADIUS),
    m_outterRadius(DEFAULT_ATMOSPHERE_OUTTER_RADIUS),

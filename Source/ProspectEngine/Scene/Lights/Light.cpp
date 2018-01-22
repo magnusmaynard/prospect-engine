@@ -9,9 +9,10 @@ using namespace Prospect;
 
 Light::Light(
    const glm::vec3& position,
-   const glm::vec3& direction)
+   const glm::vec3& direction,
+   const LightType& type)
    :
-   m_impl(std::make_shared<Light_impl>(position, direction))
+   m_impl(std::make_shared<Light_impl>(position, direction, type))
 {
 }
 
@@ -49,4 +50,43 @@ void Light::SetColor(const Color& value)
 Color Light::GetColor() const
 {
    return m_impl->GetColor();
+}
+
+void Light::SetBrightness(const float value)
+{
+   m_impl->SetBrightness(value);
+}
+
+float Light::GetBrightness() const
+{
+   return m_impl->GetBrightness();
+}
+
+void Light::SetRange(const float value)
+{
+   m_impl->SetRange(value);
+}
+
+float Light::GetRange() const
+{
+   return m_impl->GetRange();
+}
+
+void Light::SetAngle(const float value)
+{
+   m_impl->SetAngle(value);
+}
+
+float Light::GetAngle() const
+{
+   return m_impl->GetAngle();
+}
+
+void Light::SetType(const LightType& value)
+{
+   m_impl->SetType(value);
+}
+LightType Light::GetType() const
+{
+   return m_impl->GetType();
 }

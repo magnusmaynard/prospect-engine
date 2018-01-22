@@ -203,6 +203,9 @@
     <ClInclude Include="Renderer\Renderables\RenderableSun.h">
       <Filter>Renderer\Renderables</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Lights\LightType.h">
+      <Filter>Include\Lights</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Window.cpp">

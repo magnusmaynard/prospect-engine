@@ -45,15 +45,19 @@ namespace Prospect
       {
       }
 
-      LightUniforms(const Light_impl& directionalLight)
+      LightUniforms(const Light_impl& light)
          :
-         Direction({ normalize(directionalLight.GetDirection()), 0 }),
-         ColorAndBrightness(directionalLight.GetColor().ToRGB(), directionalLight.GetBrightness())
+         Position(light.GetPosition(), 0),
+         Direction({ normalize(light.GetDirection()), 0 }),
+         ColorAndBrightness(light.GetColor().ToRGB(), light.GetBrightness()),
+         RangeAndAngleAndType(light.GetRange(), light.GetAngle(), light.GetType(), 0)
       {
       }
 
+      glm::vec4 Position;
       glm::vec4 Direction;
       glm::vec4 ColorAndBrightness;
+      glm::vec4 RangeAndAngleAndType;
    };
 
    struct LightsUniforms

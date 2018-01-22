@@ -17,8 +17,10 @@ layout (std140) uniform CameraUniforms
 
 struct Light
 {
+   vec4 Position;
    vec4 Direction;
    vec4 ColorAndBrightness;
+   vec4 RangeAndAngleAndType;
 };
 
 layout (std140) uniform LightsUniforms
@@ -44,42 +46,101 @@ in VS_OUT
    vec2 textureCoords;
 } fs_in;
 
+//Get buffer value from texture.
+vec4 albedoBuffer = texture(albedoTexture, fs_in.textureCoords);
+vec4 normalBuffer = texture(normalTexture, fs_in.textureCoords);
+vec4 specularBuffer = texture(specularTexture, fs_in.textureCoords);
+vec4 depthBuffer = texture(depthTexture, fs_in.textureCoords);
+
+//Extract data from buffers.
+vec3 diffuseAlbedo = albedoBuffer.rgb;
+vec3 normal = normalBuffer.xyz;
+float viewDependentRoughness = normalBuffer.a;
+float specularPower = specularBuffer.r;
+float specularIntensity = specularBuffer.g;
+int materialID = int(specularBuffer.b);
+float SSSTranslucency = specularBuffer.a;
+vec3 specularAlbedo = diffuseAlbedo * specularIntensity;
+float depth = depthBuffer.x;
+
 out vec4 color;
 
-vec3 CalculateLighting(vec3 position, vec4 albedo, vec4 normal, vec4 specular)
+vec3 CalculateDirectionalLight(Light light, vec3 V, vec3 N)
 {
-   //Extract data from buffers.
-   vec3 diffuseAlbedo = albedo.rgb;
-   float specularPower = specular.r;
-   float specularIntensity = specular.g;
-   vec3 specularAlbedo = diffuseAlbedo * specularIntensity;
+    vec3 lightColor = light.ColorAndBrightness.rgb;
+    float lightBrightness = light.ColorAndBrightness.a;
 
-   vec3 P = normalize(position.xyz);
+    vec3 L = normalize(mat3(camera.View) * -light.Direction.xyz);
+    vec3 H = normalize(L + V); //Half vector
+
+    vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0) * lightBrightness;
+    vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * lightBrightness;
+
+    return diffuse + specular;
+}
+
+vec3 CalculatePointLight(Light light, vec3 position, vec3 V, vec3 N)
+{
+    vec3 lightPosition = (camera.View * vec4(light.Position.xyz, 1)).xyz;
+    vec3 lightVector = lightPosition - position;
+    float distance = length(lightVector);
+
+    vec3 lightColor = light.ColorAndBrightness.rgb;
+    float lightBrightness = light.ColorAndBrightness.a;
+    float lightRange = light.RangeAndAngleAndType.r;
+
+    float attenuation =  pow(max(0, 1 - (distance * distance) / (lightRange * lightRange)), 2);
+
+    vec3 L = normalize(lightVector);
+    vec3 H = normalize(L + V); //Half vector
+
+    vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0) * lightBrightness;
+    vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * lightBrightness;
+
+    return (diffuse + specular) * attenuation;
+}
+
+vec3 CalculateSpotLight()
+{
+   return vec3(0);
+}
+
+vec3 CalculateLighting(vec3 position)
+{
+   vec3 P = normalize(position);
    vec3 V = -P;
-   vec3 N = normalize(normal.xyz);
+   vec3 N = normalize(normal);
 
    //Apply all lights.
    vec3 lightingTotal;
    for(int i = 0; i < lights.Count; i++)
    {
       Light light = lights.Lights[i];
-      vec3 lightColor = light.ColorAndBrightness.rgb;
-      float lightBrightness = light.ColorAndBrightness.a;
+      int lightType = int(light.RangeAndAngleAndType.z);
 
-      vec3 L = normalize(mat3(camera.View) * -light.Direction.xyz);
-      vec3 H = normalize(L + V);
-
-      vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0) * lightBrightness;
-      vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * lightBrightness;
-
-      lightingTotal += diffuse + specular;
-
-      bool isAmbientLightSource = i == 0;//TODO: store in Light uniform.
-      if(isAmbientLightSource)
+      //Directional
+      if(lightType == 0)
       {
-         vec3 ambient = vec3(0.1, 0.1, 0.1);
-         lightingTotal += ambient;
+          lightingTotal += CalculateDirectionalLight(light, V, N);
       }
+      //Point
+      else if(lightType == 1)
+      {
+         lightingTotal += CalculatePointLight(light, position, V, N);
+      }
+      //Spot
+      else
+      {
+         //TODO:
+      }
+
+    //TODO: add ambient light.
+    //   bool isAmbientLightSource = i == 0;//TODO: store in Light uniform.
+    //   if(isAmbientLightSource)
+    //   {
+    //      vec3 ambient = vec3(0.1, 0.1, 0.1);
+    //      lightingTotal += ambient;
+    //   }
    }
 
    return lightingTotal;
@@ -95,7 +156,7 @@ vec3 CalculateLighting(vec3 position, vec4 albedo, vec4 normal, vec4 specular)
 //    return (2.0 * zNear) / (zFar + zNear - depth * (zFar - zNear));
 // }
 
-//Calculates a position is view space from a depth and a position on the screen.
+//Calculates a position in view space from a depth and a position on the screen.
 vec3 CalculateViewSpacePosition(float depth, vec2 screenPosition)
 {
     //Scale position from 0.0 to 1.0 to -1.0 to 1.0 range.
@@ -109,20 +170,14 @@ vec3 CalculateViewSpacePosition(float depth, vec2 screenPosition)
 
 void main()
 {
-   vec4 albedo = texture(albedoTexture, fs_in.textureCoords);
-   vec4 normal = texture(normalTexture, fs_in.textureCoords);
-   vec4 specular = texture(specularTexture, fs_in.textureCoords);
-   float depth = texture(depthTexture, fs_in.textureCoords).r;
+    vec3 position = CalculateViewSpacePosition(depth, fs_in.textureCoords);
 
-   vec3 position = CalculateViewSpacePosition(depth, fs_in.textureCoords);
-
-   float materialID = specular.b;
     if(materialID < 0)
     {
-        color = albedo;
+        color = vec4(diffuseAlbedo, 1);
     }
     else
     {
-        color = vec4(CalculateLighting(position, albedo, normal, specular), 1);
+        color = vec4(CalculateLighting(position), 1);
     }
 }
