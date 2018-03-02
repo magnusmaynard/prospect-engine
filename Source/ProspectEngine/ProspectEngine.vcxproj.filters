@@ -206,6 +206,12 @@
     <ClInclude Include="Include\Lights\LightType.h">
       <Filter>Include\Lights</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\ShadowMap.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\ShadowMapShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Window.cpp">
@@ -353,6 +359,9 @@
     <ClCompile Include="Renderer\Renderables\RenderableSun.cpp">
       <Filter>Renderer\Renderables</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\ShadowMap.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -466,6 +475,12 @@
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\Atmosphere.fs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\ShadowMap.vs.glsl">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\ShadowMap.fs.glsl">
       <Filter>Resources\Shaders</Filter>
     </None>
   </ItemGroup>

@@ -6,6 +6,7 @@
 #include "Renderer/Pipeline/GBuffer.h"
 
 using namespace Prospect;
+using namespace glm;
 
 LightingPass::LightingPass(
    ShaderLibrary& shaderLibrary,
@@ -16,7 +17,7 @@ LightingPass::LightingPass(
 {
 }
 
-void LightingPass::Render()
+void LightingPass::Render(const GLuint shadowTexture, const mat4& lightMVP)
 {
    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
    glDisable(GL_DEPTH_TEST);
@@ -28,6 +29,13 @@ void LightingPass::Render()
    glBindTextureUnit(2, m_gBuffer.GetSpecularTexture());
    glBindTextureUnit(3, m_gBuffer.GetDepthTexture());
 
+   //TEMP
+   glBindTextureUnit(4, shadowTexture);
+
    m_shader.Bind();
+
+   const GLuint shadowMVPUniformLocation = m_shader.GetUniformLocation("shadowMVP");
+   glUniformMatrix4fv(shadowMVPUniformLocation, 1, GL_FALSE, &lightMVP[0][0]);
+
    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }

@@ -33,25 +33,25 @@ TestApplication::TestApplication()
 void TestApplication::OnStartup()
 {
    m_engine.SetTitle("Test Application");
-   m_engine.ShowFPS(true);
+   m_engine.ShowFPS(false);
 
    m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
 
    const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\noise.bmp");
 
-   //Terrain terrain(vec3(), heightMap, 800, 0, 100);
-   //m_scene.SetTerrain(terrain);
+   Terrain terrain(vec3(), heightMap, 800, 0, 100);
+   m_scene.SetTerrain(terrain);
 
-   //Atmosphere atmosphere;
-   //m_scene.SetAtmosphere(atmosphere);
-   //atmosphere.SetAltitude(1505);
+   Atmosphere atmosphere;
+   m_scene.SetAtmosphere(atmosphere);
+   atmosphere.SetAltitude(1505);
 
-   Light light1(vec3(40, 20, 0), vec3(0, -1, 0), LightType::Point);
-   light1.SetRange(200);
-   m_scene.AddLight(light1);
+   //Light light1(vec3(50, 30, 0), vec3(0, -1, 0), LightType::Point);
+   //light1.SetRange(200);
+   //m_scene.AddLight(light1);
 
-   Light light2(vec3(-40, 20, 0), vec3(1, 0, 0), LightType::Point);
-   m_scene.AddLight(light2);
+   //Light light2(vec3(-50, 30, 0), vec3(1, 0, 0), LightType::Point);
+   //m_scene.AddLight(light2);
 
    Material white = m_materialLib.CreateMaterial(Color::White(), Color::White(), Color::White(), 128);
    Material blue = m_materialLib.CreateMaterial({0.1f, 0.8f, 0.1f}, {0.1f, 0.1f, 0.1f}, { 1, 1, 1}, 100);
@@ -63,6 +63,7 @@ void TestApplication::OnStartup()
    Mesh cube = m_meshLib.CreateCube({ 10, 10, 10 });
    Mesh light = m_meshLib.CreateCube({ 1, 1, 1 });
 
+   //Objects
    Entity e0(plane, blue);
    e0.SetTranslation({ 0, 20, 0 });
    m_scene.AddEntity(e0);
@@ -79,14 +80,14 @@ void TestApplication::OnStartup()
    Entity e3(largePlane, gray);
    m_scene.AddEntity(e3);
 
-   //Lights
-   Entity l1(light, white);
-   l1.SetTranslation(light1.GetPosition());
-   m_scene.AddEntity(l1);
+   ////Lights
+   //Entity l1(light, white);
+   //l1.SetTranslation(light1.GetPosition());
+   //m_scene.AddEntity(l1);
 
-   Entity l2(light, white);
-   l2.SetTranslation(light2.GetPosition());
-   m_scene.AddEntity(l2);
+   //Entity l2(light, white);
+   //l2.SetTranslation(light2.GetPosition());
+   //m_scene.AddEntity(l2);
 
 }
 

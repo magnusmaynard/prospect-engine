@@ -55,6 +55,7 @@
     <ClInclude Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\LightingShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\AtmosphereShader.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\ShadowMapShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\SunShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\BlinnPhongShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\Shader.h" />
@@ -69,6 +70,7 @@
     <ClInclude Include="Renderer\Renderables\RenderableText.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\RendererDefines.h" />
+    <ClInclude Include="Renderer\ShadowMap.h" />
     <ClInclude Include="Renderer\Textures\DepthTexture.h" />
     <ClInclude Include="Renderer\Uniforms\GlobalUniformBuffers.h" />
     <ClInclude Include="Renderer\Uniforms\UniformBuffer.h" />
@@ -118,6 +120,7 @@
     <ClCompile Include="Renderer\Renderables\RenderableTerrain.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableText.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="Renderer\ShadowMap.cpp" />
     <ClCompile Include="Renderer\Textures\DepthTexture.cpp" />
     <ClCompile Include="Renderer\Uniforms\UniformBufferCounter.cpp" />
     <ClCompile Include="Renderer\VertexData.cpp" />
@@ -155,6 +158,8 @@
     </None>
     <None Include="Resources\Shaders\Lighting.fs.glsl" />
     <None Include="Resources\Shaders\Quad.vs.glsl" />
+    <None Include="Resources\Shaders\ShadowMap.fs.glsl" />
+    <None Include="Resources\Shaders\ShadowMap.vs.glsl" />
     <None Include="Resources\Shaders\simple.fs.glsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>

@@ -24,7 +24,6 @@ namespace Prospect
          InversePerspectiveProjection(inverse(camera.GetPerspectiveProjection())),
          OrthographicProjection(camera.GetOrthographicProjection()),
          View(camera.GetView()),
-         ViewDirection(glm::vec4(camera.GetForward(), 0)),
          Position(glm::vec4(camera.GetPosition(), 0)),
          ScreenSize(camera.GetSize())
       {
@@ -34,7 +33,6 @@ namespace Prospect
       glm::mat4 InversePerspectiveProjection;
       glm::mat4 OrthographicProjection;
       glm::mat4 View;
-      glm::vec4 ViewDirection;
       glm::vec4 Position;
       glm::vec2 ScreenSize;
    };

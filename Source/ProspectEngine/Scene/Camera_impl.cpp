@@ -133,10 +133,10 @@ void Camera_impl::UpdateProjectionsIfDirty() const
          DEFAULT_CAMERA_FAR);
 
       m_orthographicProjection = ortho(
-         0.f,
-         static_cast<float>(m_size.x),
-         0.f,
-         static_cast<float>(m_size.y),
+         m_size.x * -0.5f,
+         m_size.x * 0.5f,
+         m_size.y * -0.5f,
+         m_size.y * 0.5f,
          DEFAULT_CAMERA_NEAR,
          DEFAULT_CAMERA_FAR);
    }

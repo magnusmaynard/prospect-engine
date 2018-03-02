@@ -5,6 +5,10 @@ layout (binding = 1) uniform sampler2D normalTexture;
 layout (binding = 2) uniform sampler2D specularTexture;
 layout (binding = 3) uniform sampler2D depthTexture;
 
+layout (binding = 4) uniform sampler2DShadow shadowTexture; //
+
+uniform mat4 shadowMVP;
+
 layout (std140) uniform CameraUniforms
 {
    mat4 PerspectiveProjection;
@@ -168,9 +172,31 @@ vec3 CalculateViewSpacePosition(float depth, vec2 screenPosition)
     return viewSpacePosition.xyz / viewSpacePosition.w;
 }
 
+//TEMP
+// float ReadShadowMap(vec3 eyeDir)
+// {
+//     mat4 cameraViewToWorldMatrix = inverse(worldToCameraViewMatrix);
+//     mat4 cameraViewToProjectedLightSpace = lightViewToProjectionMatrix * worldToLightViewMatrix * cameraViewToWorldMatrix;
+//     vec4 projectedEyeDir = cameraViewToProjectedLightSpace * vec4(eyeDir,1);
+//     projectedEyeDir = projectedEyeDir/projectedEyeDir.w;
+
+//     vec2 textureCoordinates = projectedEyeDir.xy * vec2(0.5,0.5) + vec2(0.5,0.5);
+
+//     const float bias = 0.0001;
+//     float depthValue = texture2D( tShadowMap, textureCoordinates ) - bias;
+//     return projectedEyeDir.z * 0.5 + 0.5 < depthValue;
+// }
+
 void main()
 {
     vec3 position = CalculateViewSpacePosition(depth, fs_in.textureCoords);
+
+    //TODO: transform position to light/shadow clip space.
+    //sample texture, to determin if it is visible.
+    //http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
+    //https://stackoverflow.com/questions/15250380/what-are-shadow-samplers-in-opengl-and-what-are-possible-uses-for-them
+
+    vec4 shadowCoord = shadowMVP * inverse(camera.View) * vec4(position, 1);
 
     if(materialID < 0)
     {
@@ -180,4 +206,18 @@ void main()
     {
         color = vec4(CalculateLighting(position), 1);
     }
+
+    float visibility = 1.0;
+    
+    // vec3 lightDirection = lights.Lights[0].Direction.xyz;
+    // float cosTheta = clamp(dot(normal, -lightDirection), 0, 1);
+    // float bias = 0.0002 * tan(acos(cosTheta));
+    // bias = clamp(bias, 0.0, 0.005);
+    float bias = 0.001;
+
+    visibility = texture(shadowTexture, shadowCoord.xyz - vec3(0, 0, bias));
+
+    color *= visibility;
+
+   // color = texture(shadowTexture, fs_in.textureCoords);
 }

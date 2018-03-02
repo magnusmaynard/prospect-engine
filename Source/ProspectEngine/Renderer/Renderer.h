@@ -51,6 +51,7 @@ namespace Prospect
       void Initialize();
       
       void GeometryPass();
+      void ShadowPasses(Scene_impl& scene);
       void EffectsPass();
 
       void UpdateState();
@@ -70,6 +71,11 @@ namespace Prospect
 
       void BindDefaultFramebuffer();
 
+      glm::mat4 Renderer::GetShadowMatrix(const Light_impl& light) const;
+      void CreateShadowMap();
+
+      GLuint m_shadowFBO;
+      GLuint m_shadowTexture;
       GBuffer m_gBuffer;
       LightingPass m_lightingPass;
    };

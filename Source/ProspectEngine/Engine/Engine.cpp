@@ -32,7 +32,7 @@ void Engine::EnableCameraControls(bool isEnabled)
 
 void Engine::ShowFPS(bool showFPS)
 {
-   m_impl->ShowFPS(true);
+   m_impl->ShowFPS(showFPS);
 }
 
 void Engine::ShowWireframe(bool showWireframe)

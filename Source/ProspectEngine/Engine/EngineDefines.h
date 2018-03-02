@@ -39,7 +39,7 @@ namespace Prospect
    static const float DEFAULT_ATMOSPHERE_OUTTER_RADIUS = 2000.f;
    static const float DEFAULT_ATMOSPHERE_DENSITY_SCALE = 0.25f;
    static const float DEFAULT_ATMOSPHERE_ALTITUDE = 1500.1f;
-   static const glm::vec3 DEFAULT_ATMOSPHERE_LIGHT_DIRECTION = glm::vec3(0, -1, 0);
+   static const glm::vec3 DEFAULT_ATMOSPHERE_LIGHT_DIRECTION = glm::vec3(0, -1, 1);
 
    static const Color DEFAULT_MATERIAL_DIFFUSE(0.15f, 0.53f, 0.86f);
    static const Color DEFAULT_MATERIAL_EMISSIVE(0.f, 0.f, 0.f);
