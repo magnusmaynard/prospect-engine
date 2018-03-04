@@ -84,20 +84,22 @@ namespace Prospect
          :
          Position(light.GetPosition(), 0),
          Direction({ normalize(light.GetDirection()), 0 }),
-         ColorAndBrightness(light.GetColor().ToRGB(), light.GetBrightness())
+         ColorAndBrightness(light.GetColor().ToRGB(), light.GetBrightness()),
+         ShadowMapIndex(light.GetShadowMapIndex(), 0, 0 ,0)
       {
       }
 
       glm::vec4 Position;
       glm::vec4 Direction;
       glm::vec4 ColorAndBrightness;
+      glm::vec4 ShadowMapIndex;
    };
 
    struct DirectionalLightListUniforms
    {
       DirectionalLightListUniforms(const std::vector<const DirectionalLight_impl*>& lights)
          :
-         Count(lights.size())
+         Count(lights.size(), 0)
       {
          for (size_t i = 0; i < lights.size(); i++)
          {
@@ -106,7 +108,7 @@ namespace Prospect
       }
 
       std::array<DirectionalLightUniforms, MAX_DIRECTIONAL_LIGHTS> Lights;
-      int Count;
+      glm::vec2 Count;
    };
 
    struct MaterialLibraryUniforms

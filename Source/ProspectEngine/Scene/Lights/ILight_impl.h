@@ -16,8 +16,11 @@ namespace Prospect
       virtual void SetCastShadows(const bool value) = 0;
       virtual bool GetCastShadows() const = 0;
 
-      virtual void SetShadowMapId(const int value) = 0;
-      virtual int GetShadowMapId() const = 0;
+      virtual void SetShadowMapIndex(const int value) = 0;
+      virtual int GetShadowMapIndex() const = 0;
+
+      virtual bool GetIsDirty() const = 0;
+      virtual void SetIsDirty(const bool value) = 0;
 
       virtual void SetPosition(const glm::vec3& value) = 0;
       virtual glm::vec3 GetPosition() const = 0;

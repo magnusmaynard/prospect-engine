@@ -20,12 +20,13 @@ struct DirectionalLight
    vec4 Position;
    vec4 Direction;
    vec4 ColorAndBrightness;
+   vec4 ShadowMapIndex;
 };
 
 layout (std140) uniform DirectionalLightListUniforms
 {
    DirectionalLight Lights[10];
-   int Count;
+   vec2 Count;
 } directionalLights;
 
 layout (std140) uniform NodeUniforms

@@ -12,8 +12,7 @@ namespace Prospect
       void Clear();
       void Bind();
 
-      bool GetIsDirty() const;
-      void SetIsDirty(const bool value) const;
+      void MakeDirty() const;
 
       glm::mat4 GetProjection() const;
       glm::mat4 GetView() const;
@@ -24,9 +23,10 @@ namespace Prospect
 
       const DirectionalLight_impl& m_light;
       GLuint m_shadowFBO;
-      GLuint m_shadowTexture;
+      GLuint m_shadowTextures;
 
       const glm::ivec2 TEXTURE_SIZE = glm::ivec2(1024, 1024);
+      const int MAX_SHADOW_MAPS = 10;
 
       mutable glm::mat4 m_projection;
       mutable glm::mat4 m_view;

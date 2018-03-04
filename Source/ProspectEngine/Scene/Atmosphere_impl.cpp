@@ -11,7 +11,7 @@ using namespace glm;
 Atmosphere_impl::Atmosphere_impl()
    :
    m_renderable(nullptr),
-   m_light(nullptr),
+   m_light(DEFAULT_ATMOSPHERE_SUN_DIRECTION),
    m_sunDirection(DEFAULT_ATMOSPHERE_SUN_DIRECTION),
    m_altitude(DEFAULT_ATMOSPHERE_ALTITUDE),
    m_innerRadius(DEFAULT_ATMOSPHERE_INNER_RADIUS),
@@ -26,12 +26,12 @@ Atmosphere_impl::~Atmosphere_impl()
 
 void Atmosphere_impl::SetLight(DirectionalLight& light)
 {
-   m_light = &light;
+   m_light = light;
 
    UpdateLight();
 }
 
-DirectionalLight* Atmosphere_impl::GetLight()
+DirectionalLight Atmosphere_impl::GetLight()
 {
    return m_light;
 }
@@ -105,16 +105,13 @@ void Atmosphere_impl::SetRenderable(IRenderable* value) const
 
 void Atmosphere_impl::UpdateLight()
 {
-   if (m_light)
-   {
-      m_light->SetDirection(m_sunDirection);
+   m_light.SetDirection(m_sunDirection);
 
-      const vec3 down(0, -1, 0);
-      const vec3 bias(0, -0.2, 0); //Ensures some brightness when sun is on the horizon.
+   const vec3 down(0, -1, 0);
+   const vec3 bias(0, -0.2, 0); //Ensures some brightness when sun is on the horizon.
 
-      const float brightness = max(dot(m_sunDirection + bias, down), 0.f);
-      m_light->SetBrightness(brightness);
-   }
+   const float brightness = max(dot(m_sunDirection + bias, down), 0.f);
+   m_light.SetBrightness(brightness);
 }
 
 void Atmosphere_impl::MakeDirty() const

@@ -16,8 +16,11 @@ namespace Prospect
       void SetCastShadows(const bool value) override;
       bool GetCastShadows() const override;
 
-      void SetShadowMapId(const int value) override;
-      int GetShadowMapId() const override;
+      void SetShadowMapIndex(const int value) override;
+      int GetShadowMapIndex() const override;
+
+      bool GetIsDirty() const override;
+      void SetIsDirty(const bool value) override;
 
       void SetPosition(const glm::vec3& value) override;
       glm::vec3 GetPosition() const override;
@@ -32,9 +35,12 @@ namespace Prospect
       float GetBrightness() const override;
 
    private:
+      void MakeDirty();
+
       LightType m_type;
       bool m_castShadows;
-      int m_shadowMapId;
+      int m_shadowMapIndex;
+      bool m_isDirty;
 
       glm::vec3 m_position;
       glm::vec3 m_direction;

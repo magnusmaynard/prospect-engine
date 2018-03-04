@@ -25,7 +25,7 @@ void Atmosphere::SetLight(DirectionalLight& light)
    m_impl->SetLight(light);
 }
 
-DirectionalLight* Atmosphere::GetLight()
+DirectionalLight Atmosphere::GetLight()
 {
    return m_impl->GetLight();
 }

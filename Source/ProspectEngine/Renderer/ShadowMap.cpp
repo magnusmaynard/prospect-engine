@@ -19,19 +19,19 @@ void ShadowMap::Initialise()
    glCreateFramebuffers(1, &m_shadowFBO);
    glBindFramebuffer(GL_FRAMEBUFFER, m_shadowFBO);
 
-   glCreateTextures(GL_TEXTURE_2D, 1, &m_shadowTexture);
-   glTextureStorage2D(m_shadowTexture, 1, GL_DEPTH_COMPONENT32F, TEXTURE_SIZE.x, TEXTURE_SIZE.y);
+   glCreateTextures(GL_TEXTURE_2D_ARRAY, 1, &m_shadowTextures);
+   glTextureStorage3D(m_shadowTextures, 1, GL_DEPTH_COMPONENT32F, TEXTURE_SIZE.x, TEXTURE_SIZE.y, MAX_SHADOW_MAPS);
 
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+   glTextureParameteri(m_shadowTextures, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+   glTextureParameteri(m_shadowTextures, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+   glTextureParameteri(m_shadowTextures, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+   glTextureParameteri(m_shadowTextures, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
    //Required for shadow sampler.
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+   glTextureParameteri(m_shadowTextures, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+   glTextureParameteri(m_shadowTextures, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 
-   glNamedFramebufferTexture(m_shadowFBO, GL_DEPTH_ATTACHMENT, m_shadowTexture, 0);
+   glNamedFramebufferTextureLayer(m_shadowFBO, GL_DEPTH_ATTACHMENT, m_shadowTextures, 0, m_light.GetShadowMapIndex());
 
    const GLenum error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
    if (error != GL_FRAMEBUFFER_COMPLETE)
@@ -46,14 +46,9 @@ void ShadowMap::Clear()
    glClearNamedFramebufferfv(m_shadowFBO, GL_DEPTH, 0, ones);
 }
 
-bool ShadowMap::GetIsDirty() const
+void ShadowMap::MakeDirty() const
 {
-   return m_isDirty;
-}
-
-void ShadowMap::SetIsDirty(const bool value) const
-{
-   m_isDirty = value;
+   m_isDirty = true;
 }
 
 mat4 ShadowMap::GetProjection() const
@@ -72,7 +67,7 @@ mat4 ShadowMap::GetView() const
 
 GLuint ShadowMap::GetShadowTexture() const
 {
-   return m_shadowTexture;
+   return m_shadowTextures;
 }
 
 void ShadowMap::Bind()

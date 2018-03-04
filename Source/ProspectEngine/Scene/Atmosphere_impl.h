@@ -14,7 +14,7 @@ namespace Prospect
       ~Atmosphere_impl();
 
       void SetLight(DirectionalLight& light);
-      DirectionalLight* GetLight();
+      DirectionalLight GetLight();
 
       //TODO: Get/Set Rayleigh constant
       //TODO: Get/Set Mie constant
@@ -41,7 +41,7 @@ namespace Prospect
    private:
       void UpdateLight();
 
-      DirectionalLight* m_light;
+      DirectionalLight m_light;
 
       float m_altitude;
       glm::vec3 m_sunDirection;

@@ -5,8 +5,7 @@ layout (binding = 1) uniform sampler2D normalTexture;
 layout (binding = 2) uniform sampler2D specularTexture;
 layout (binding = 3) uniform sampler2D depthTexture;
 
-layout (binding = 4) uniform sampler2DShadow shadowTexture;
-// layout (binding = 4) uniform sampler2D shadowTexture;
+layout (binding = 4) uniform sampler2DArrayShadow shadowTextures;
 
 uniform mat4 shadowMatrix;
 
@@ -25,12 +24,13 @@ struct DirectionalLight
    vec4 Position;
    vec4 Direction;
    vec4 ColorAndBrightness;
+   vec4 ShadowMapIndex;
 };
 
 layout (std140) uniform DirectionalLightListUniforms
 {
    DirectionalLight Lights[10];
-   int Count;
+   vec2 Count;
 } directionalLights;
 
 struct Material
@@ -69,8 +69,9 @@ float depth = depthBuffer.x;
 
 out vec4 color;
 
-vec3 CalculateDirectionalLight(DirectionalLight light, vec3 V, vec3 N)
+vec3 CalculateDirectionalLight(DirectionalLight light, vec3 position, vec3 V, vec3 N)
 {
+    //Calculate color.
     vec3 lightColor = light.ColorAndBrightness.rgb;
     float lightBrightness = light.ColorAndBrightness.a;
 
@@ -80,7 +81,25 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 V, vec3 N)
     vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0) * lightBrightness;
     vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * lightBrightness;
 
-    return diffuse + specular;
+    vec3 color = diffuse + specular;
+
+    //Slope scale bias.
+    // float cosTheta = clamp(dot(normal, -lightDirection), 0, 1);
+    // float bias = 0.0002 * tan(acos(cosTheta));
+    // bias = clamp(bias, 0.0, 0.005);
+
+    //Apply shadows.
+    float bias = 0.001;
+    vec3 shadowPosition = (shadowMatrix * inverse(camera.View) * vec4(position, 1)).xyz - vec3(0, 0, bias);
+    float layer = light.ShadowMapIndex.x;
+
+    vec4 shadowCoord;
+    shadowCoord.xyw = shadowPosition;
+    shadowCoord.z = layer;
+
+    float visibility = texture(shadowTextures, shadowCoord);
+
+    return color * visibility;
 }
 
 // vec3 CalculatePointLight(Light light, vec3 position, vec3 V, vec3 N)
@@ -104,10 +123,10 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 V, vec3 N)
 //     return (diffuse + specular) * attenuation;
 // }
 
-vec3 CalculateSpotLight()
-{
-   return vec3(0);
-}
+// vec3 CalculateSpotLight()
+// {
+//    return vec3(0);
+// }
 
 vec3 CalculateLighting(vec3 position)
 {
@@ -118,11 +137,11 @@ vec3 CalculateLighting(vec3 position)
     vec3 lightingTotal;
 
     //DirectionalLights
-    for(int i = 0; i < directionalLights.Count; i++)
+    for(int i = 0; i < directionalLights.Count.x; i++)
     {
         DirectionalLight light = directionalLights.Lights[i];
 
-        lightingTotal += CalculateDirectionalLight(light, V, N);
+        lightingTotal += CalculateDirectionalLight(light, position, V, N);
     }
 
     // for(int i = 0; i < directionalLights.Count; i++)
@@ -188,19 +207,5 @@ void main()
         color = vec4(CalculateLighting(position), 1);
     }
 
-    float visibility = 1.0;
-    
-    // vec3 lightDirection = lights.Lights[0].Direction.xyz;
-    // float cosTheta = clamp(dot(normal, -lightDirection), 0, 1);
-    // float bias = 0.0002 * tan(acos(cosTheta));
-    // bias = clamp(bias, 0.0, 0.005);
-    float bias = 0.001;
-    vec4 shadowCoord = shadowMatrix * inverse(camera.View) * vec4(position, 1);
-
-    visibility = texture(shadowTexture, shadowCoord.xyz - vec3(0, 0, bias));
-
-    color *= visibility;
-
 //    color = texture(shadowTexture, fs_in.textureCoords);
-//    color = vec4(texture(shadowTexture, vec3(fs_in.textureCoords, 1)));
 }

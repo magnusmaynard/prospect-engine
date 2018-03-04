@@ -73,7 +73,6 @@ void Renderer::Render(const double time, Scene_impl& scene)
    m_gBuffer.Clear();
 
    ShadowPass(scene);
-
    GeometryPass();
    LightingPass2();
    EffectsPass();
@@ -117,22 +116,29 @@ void Renderer::LightingPass2()
 void Renderer::UpdateShadowMap(DirectionalLight_impl& light)
 {
    ShadowMap* shadowMap = nullptr;
-   if(light.GetShadowMapId() == INVALID_SHADOW_MAP_ID)
+   if(light.GetShadowMapIndex() == INVALID_SHADOW_MAP_ID)
    {
-      const int newId = m_shadowMaps.size();
+      const int newIndex = m_shadowMaps.size();
       m_shadowMaps.push_back(ShadowMap(light));
-      light.SetShadowMapId(newId);
+      light.SetShadowMapIndex(newIndex);
 
-      shadowMap = &m_shadowMaps[newId];
+      shadowMap = &m_shadowMaps[newIndex];
       shadowMap->Initialise();
    }
    else
    {
-      shadowMap = &m_shadowMaps[light.GetShadowMapId()];
+      shadowMap = &m_shadowMaps[light.GetShadowMapIndex()];
    }
 
    shadowMap->Clear();
    shadowMap->Bind();
+
+   //TODO: This sucks, the light should not be responsible for the shadow map caching.
+   if(light.GetIsDirty())
+   {
+      light.SetIsDirty(false);
+      shadowMap->MakeDirty();
+   }
 
    //Update camera to lights perspective.
    CameraUniforms camera;

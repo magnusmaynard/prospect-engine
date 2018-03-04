@@ -14,7 +14,7 @@ namespace Prospect
       ~Atmosphere();
 
       void SetLight(DirectionalLight& light);
-      DirectionalLight* GetLight();
+      DirectionalLight GetLight();
 
       void SetSunDirection(const glm::vec3& value);
       glm::vec3 GetSunDirection() const;
