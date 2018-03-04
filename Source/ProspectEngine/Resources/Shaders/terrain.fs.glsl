@@ -15,17 +15,18 @@ layout (std140) uniform CameraUniforms
    vec2 ScreenSize;
 } camera;
 
-struct Light
+struct DirectionalLight
 {
+   vec4 Position;
    vec4 Direction;
    vec4 ColorAndBrightness;
 };
 
-layout (std140) uniform LightsUniforms
+layout (std140) uniform DirectionalLightListUniforms
 {
-   Light Lights[10];
+   DirectionalLight Lights[10];
    int Count;
-} lights;
+} directionalLights;
 
 layout (std140) uniform NodeUniforms
 {
@@ -67,7 +68,7 @@ void UpdateBuffers(
    specularBuffer.a = SSSTranslucency;
 }
 
-Light light = lights.Lights[0];
+DirectionalLight light = directionalLights.Lights[0];
 vec3 lightColor = light.ColorAndBrightness.rgb;
 float lightBrightness = light.ColorAndBrightness.a;
 

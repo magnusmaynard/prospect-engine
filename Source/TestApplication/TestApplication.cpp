@@ -11,8 +11,9 @@
 #include "Bitmap.h"
 #include "Utilities/IO.h"
 #include "Atmosphere.h"
-#include "Lights/Light.h"
+#include "Lights/ILight.h"
 #include "Lights/LightType.h"
+#include "Lights/DirectionalLight.h"
 #include "Terrain.h"
 #include <iostream>
 #include <glm/gtx/rotate_vector.inl>
@@ -42,9 +43,15 @@ void TestApplication::OnStartup()
    Terrain terrain(vec3(), heightMap, 800, 0, 100);
    m_scene.SetTerrain(terrain);
 
+   DirectionalLight sunLight(vec3(0, -1, 1));
+   m_scene.AddLight(sunLight);
+
    Atmosphere atmosphere;
-   m_scene.SetAtmosphere(atmosphere);
    atmosphere.SetAltitude(1505);
+   atmosphere.SetLight(sunLight);
+
+   m_scene.SetAtmosphere(atmosphere);
+
 
    //Light light1(vec3(50, 30, 0), vec3(0, -1, 0), LightType::Point);
    //light1.SetRange(200);

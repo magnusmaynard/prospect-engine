@@ -5,9 +5,10 @@ layout (binding = 1) uniform sampler2D normalTexture;
 layout (binding = 2) uniform sampler2D specularTexture;
 layout (binding = 3) uniform sampler2D depthTexture;
 
-layout (binding = 4) uniform sampler2DShadow shadowTexture; //
+layout (binding = 4) uniform sampler2DShadow shadowTexture;
+// layout (binding = 4) uniform sampler2D shadowTexture;
 
-uniform mat4 shadowMVP;
+uniform mat4 shadowMatrix;
 
 layout (std140) uniform CameraUniforms
 {
@@ -19,19 +20,18 @@ layout (std140) uniform CameraUniforms
    vec2 ScreenSize;
 } camera;
 
-struct Light
+struct DirectionalLight
 {
    vec4 Position;
    vec4 Direction;
    vec4 ColorAndBrightness;
-   vec4 RangeAndAngleAndType;
 };
 
-layout (std140) uniform LightsUniforms
+layout (std140) uniform DirectionalLightListUniforms
 {
-   Light Lights[10];
+   DirectionalLight Lights[10];
    int Count;
-} lights;
+} directionalLights;
 
 struct Material
 {
@@ -69,7 +69,7 @@ float depth = depthBuffer.x;
 
 out vec4 color;
 
-vec3 CalculateDirectionalLight(Light light, vec3 V, vec3 N)
+vec3 CalculateDirectionalLight(DirectionalLight light, vec3 V, vec3 N)
 {
     vec3 lightColor = light.ColorAndBrightness.rgb;
     float lightBrightness = light.ColorAndBrightness.a;
@@ -83,26 +83,26 @@ vec3 CalculateDirectionalLight(Light light, vec3 V, vec3 N)
     return diffuse + specular;
 }
 
-vec3 CalculatePointLight(Light light, vec3 position, vec3 V, vec3 N)
-{
-    vec3 lightPosition = (camera.View * vec4(light.Position.xyz, 1)).xyz;
-    vec3 lightVector = lightPosition - position;
-    float distance = length(lightVector);
+// vec3 CalculatePointLight(Light light, vec3 position, vec3 V, vec3 N)
+// {
+//     vec3 lightPosition = (camera.View * vec4(light.Position.xyz, 1)).xyz;
+//     vec3 lightVector = lightPosition - position;
+//     float distance = length(lightVector);
 
-    vec3 lightColor = light.ColorAndBrightness.rgb;
-    float lightBrightness = light.ColorAndBrightness.a;
-    float lightRange = light.RangeAndAngleAndType.r;
+//     vec3 lightColor = light.ColorAndBrightness.rgb;
+//     float lightBrightness = light.ColorAndBrightness.a;
+//     float lightRange = light.RangeAndAngleAndType.r;
 
-    float attenuation =  pow(max(0, 1 - (distance * distance) / (lightRange * lightRange)), 2);
+//     float attenuation =  pow(max(0, 1 - (distance * distance) / (lightRange * lightRange)), 2);
 
-    vec3 L = normalize(lightVector);
-    vec3 H = normalize(L + V); //Half vector
+//     vec3 L = normalize(lightVector);
+//     vec3 H = normalize(L + V); //Half vector
 
-    vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0) * lightBrightness;
-    vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * lightBrightness;
+//     vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0) * lightBrightness;
+//     vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * lightBrightness;
 
-    return (diffuse + specular) * attenuation;
-}
+//     return (diffuse + specular) * attenuation;
+// }
 
 vec3 CalculateSpotLight()
 {
@@ -111,32 +111,36 @@ vec3 CalculateSpotLight()
 
 vec3 CalculateLighting(vec3 position)
 {
-   vec3 P = normalize(position);
-   vec3 V = -P;
-   vec3 N = normalize(normal);
+    vec3 P = normalize(position);
+    vec3 V = -P;
+    vec3 N = normalize(normal);
 
-   //Apply all lights.
-   vec3 lightingTotal;
-   for(int i = 0; i < lights.Count; i++)
-   {
-      Light light = lights.Lights[i];
-      int lightType = int(light.RangeAndAngleAndType.z);
+    vec3 lightingTotal;
 
-      //Directional
-      if(lightType == 0)
-      {
-          lightingTotal += CalculateDirectionalLight(light, V, N);
-      }
-      //Point
-      else if(lightType == 1)
-      {
-         lightingTotal += CalculatePointLight(light, position, V, N);
-      }
-      //Spot
-      else
-      {
-         //TODO:
-      }
+    //DirectionalLights
+    for(int i = 0; i < directionalLights.Count; i++)
+    {
+        DirectionalLight light = directionalLights.Lights[i];
+
+        lightingTotal += CalculateDirectionalLight(light, V, N);
+    }
+
+    // for(int i = 0; i < directionalLights.Count; i++)
+    // {
+    //     DirectionalLight light = directionalLights.Lights[i];
+    //     int lightType = int(light.RangeAndAngleAndType.z);
+
+    //     if(lightType == 1)
+    //     {
+    //         //Point
+    //         lightingTotal += CalculatePointLight(light, position, V, N);
+    //     }
+    //     else
+    //     {
+    //         //Spot
+    //         //TODO:
+    //     }
+    // }
 
     //TODO: add ambient light.
     //   bool isAmbientLightSource = i == 0;//TODO: store in Light uniform.
@@ -145,9 +149,8 @@ vec3 CalculateLighting(vec3 position)
     //      vec3 ambient = vec3(0.1, 0.1, 0.1);
     //      lightingTotal += ambient;
     //   }
-   }
 
-   return lightingTotal;
+    return lightingTotal;
 }
 
 // float GetLinearDepth()
@@ -172,31 +175,9 @@ vec3 CalculateViewSpacePosition(float depth, vec2 screenPosition)
     return viewSpacePosition.xyz / viewSpacePosition.w;
 }
 
-//TEMP
-// float ReadShadowMap(vec3 eyeDir)
-// {
-//     mat4 cameraViewToWorldMatrix = inverse(worldToCameraViewMatrix);
-//     mat4 cameraViewToProjectedLightSpace = lightViewToProjectionMatrix * worldToLightViewMatrix * cameraViewToWorldMatrix;
-//     vec4 projectedEyeDir = cameraViewToProjectedLightSpace * vec4(eyeDir,1);
-//     projectedEyeDir = projectedEyeDir/projectedEyeDir.w;
-
-//     vec2 textureCoordinates = projectedEyeDir.xy * vec2(0.5,0.5) + vec2(0.5,0.5);
-
-//     const float bias = 0.0001;
-//     float depthValue = texture2D( tShadowMap, textureCoordinates ) - bias;
-//     return projectedEyeDir.z * 0.5 + 0.5 < depthValue;
-// }
-
 void main()
 {
     vec3 position = CalculateViewSpacePosition(depth, fs_in.textureCoords);
-
-    //TODO: transform position to light/shadow clip space.
-    //sample texture, to determin if it is visible.
-    //http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
-    //https://stackoverflow.com/questions/15250380/what-are-shadow-samplers-in-opengl-and-what-are-possible-uses-for-them
-
-    vec4 shadowCoord = shadowMVP * inverse(camera.View) * vec4(position, 1);
 
     if(materialID < 0)
     {
@@ -214,10 +195,12 @@ void main()
     // float bias = 0.0002 * tan(acos(cosTheta));
     // bias = clamp(bias, 0.0, 0.005);
     float bias = 0.001;
+    vec4 shadowCoord = shadowMatrix * inverse(camera.View) * vec4(position, 1);
 
     visibility = texture(shadowTexture, shadowCoord.xyz - vec3(0, 0, bias));
 
     color *= visibility;
 
-   // color = texture(shadowTexture, fs_in.textureCoords);
+//    color = texture(shadowTexture, fs_in.textureCoords);
+//    color = vec4(texture(shadowTexture, vec3(fs_in.textureCoords, 1)));
 }

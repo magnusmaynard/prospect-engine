@@ -4,7 +4,7 @@
 #include "Scene/Mesh_impl.h"
 #include "Scene/Scene_impl.h"
 #include "Scene/Camera_impl.h"
-#include "Scene/Lights/Light_impl.h"
+#include "Scene/Lights/ILight_impl.h"
 #include "Renderer/Renderables/RenderableEntity.h"
 #include "Renderer/Renderables/RenderableTerrain.h"
 #include "Renderer/Renderables/RenderableText.h"
@@ -43,8 +43,6 @@ void Renderer::Initialize()
    glFrontFace(GL_CCW);
 
    m_fpsText = std::make_unique<RenderableText>(m_shaderLibrary, "", ivec2(4, 0), 12);
-
-   CreateShadowMap();//TEMP
 }
 
 void Renderer::UpdateState()
@@ -74,33 +72,18 @@ void Renderer::Render(const double time, Scene_impl& scene)
    Clear();
    m_gBuffer.Clear();
 
-   //TEMP
-   static GLfloat ones[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-   glClearNamedFramebufferfv(m_shadowFBO, GL_DEPTH, 0, ones);
-
-
-   //Shadow maps.
-   ShadowPasses(scene);
-
-   //Geometry pass.
-   m_gBuffer.Bind();
+   ShadowPass(scene);
    GeometryPass();
-
-   //Lighting pass.
-   BindDefaultFramebuffer();
-
-   //TEMP
-   m_lightingPass.Render(m_shadowTexture, GetShadowMatrix(scene.GetAtmosphereImpl()->GetLightImpl()));
-
-   //Effects pass.
+   LightingPass2();
    EffectsPass();
 
    Debug::CheckErrors();
 }
 
-
 void Renderer::GeometryPass()
 {
+   m_gBuffer.Bind();
+
    for (auto& renderable : m_renderables)
    {
       renderable->Render();
@@ -122,48 +105,63 @@ void Renderer::GeometryPass()
    }
 }
 
-mat4 Renderer::GetShadowMatrix(const Light_impl& light) const
+void Renderer::LightingPass2()
 {
-   const mat4 lightProjection = ortho(-100.f, 100.f, -100.f, 100.f, -1000.f, 1000.f);
-   const mat4 lightView = lookAt(light.GetPosition() - light.GetDirection(), light.GetPosition(), POS_Y);
-   const mat4 lightModel = mat4(1.0);
+   BindDefaultFramebuffer();
 
-   //Move [-1, 1] space to [0, 1] required for sampling textures.
-   const mat4 biasMatrix(
-      0.5, 0.0, 0.0, 0.0,
-      0.0, 0.5, 0.0, 0.0,
-      0.0, 0.0, 0.5, 0.0,
-      0.5, 0.5, 0.5, 1.0
-   );
-
-   return biasMatrix * lightProjection * lightView * lightModel;
+   //TEMP
+   m_lightingPass.Render(m_shadowMaps[0]);
 }
 
-void Renderer::ShadowPasses(Scene_impl& scene)
+void Renderer::UpdateShadowMap(DirectionalLight_impl& light)
 {
-   //Update to light perspective.
-   
-   //TODO: for each light.
+   ShadowMap* shadowMap = nullptr;
+   if(light.GetShadowMapId() == INVALID_SHADOW_MAP_ID)
+   {
+      const int newId = m_shadowMaps.size();
+      m_shadowMaps.push_back(ShadowMap(light));
+      light.SetShadowMapId(newId);
 
-   const Light_impl& light = scene.GetAtmosphereImpl()->GetLightImpl();
+      shadowMap = &m_shadowMaps[newId];
+      shadowMap->Initialise();
+   }
+   else
+   {
+      shadowMap = &m_shadowMaps[light.GetShadowMapId()];
+   }
 
-   const mat4 lightProjection = ortho(-100.f, 100.f, -100.f, 100.f, -1000.f, 1000.f);
-   const mat4 lightView = lookAt(light.GetPosition() - light.GetDirection(), light.GetPosition(), POS_Y);
-
-   CameraUniforms camera(scene.GetCameraImpl());
-   camera.PerspectiveProjection = lightProjection;
-   camera.View = lightView;
+   shadowMap->Clear();
+   shadowMap->Bind();
 
    //Update camera to lights perspective.
+   CameraUniforms camera;
+   camera.PerspectiveProjection = shadowMap->GetProjection();
+   camera.View = shadowMap->GetView();
    m_globalUniformBuffers.Camera.Update(camera);
-
-   //Bind Shadow Framebuffer
-   glBindFramebuffer(GL_FRAMEBUFFER, m_shadowFBO);
 
    //Render scene.
    for (auto& renderable : m_renderables)
    {
+      //if(renderable->GetCastShadow())
       renderable->Render();
+   }
+}
+
+void Renderer::ShadowPass(Scene_impl& scene)
+{
+   for (int i = 0; i < scene.GetLightCount(); i++)
+   {
+      ILight_impl* light = scene.GetLightImpl(i);
+
+      if(light->GetCastShadows() &&
+         light->GetType() == LightType::Directional)
+      {
+         UpdateShadowMap(*static_cast<DirectionalLight_impl*>(light));
+      }
+      else
+      {
+         //Do nothing.
+      }
    }
 
    //Reset camera back to normal.
@@ -224,21 +222,26 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
 
    m_globalUniformBuffers.MaterialLibrary.Update(MaterialLibraryUniforms(m_materialLibrary));
 
-   std::vector<const Light_impl*> lights;
+   std::vector<const DirectionalLight_impl*> directionalLights;
 
-   //Atmosphere lights.
-   if (auto* atmosphere = scene.GetAtmosphereImpl())
-   {
-      lights.push_back(&atmosphere->GetLightImpl());
-   }
-
-   //Scene lights.
    for(int i = 0; i < scene.GetLightCount(); i++)
    {
-      lights.push_back(scene.GetLightImpl(i));
+      const ILight_impl* light = scene.GetLightImpl(i);
+
+      switch (light->GetType())
+      {
+      case LightType::Directional:
+         directionalLights.push_back(static_cast<const DirectionalLight_impl*>(light));
+         break;
+      case LightType::Spot:
+      case LightType::Point:
+      default:
+         //Do nothing.
+         break;
+      }
    }
 
-   m_globalUniformBuffers.Lights.Update(LightsUniforms(lights));
+   m_globalUniformBuffers.DirectionalLights.Update(DirectionalLightListUniforms(directionalLights));
 }
 
 void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)
@@ -294,34 +297,6 @@ void Renderer::ClearDepthBuffer()
 void Renderer::BindDefaultFramebuffer()
 {
    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-void Renderer::CreateShadowMap()
-{
-   glCreateFramebuffers(1, &m_shadowFBO);
-   glBindFramebuffer(GL_FRAMEBUFFER, m_shadowFBO);
-
-   glCreateTextures(GL_TEXTURE_2D, 1, &m_shadowTexture);
-   glTextureStorage2D(m_shadowTexture, 1, GL_DEPTH_COMPONENT32F, 1280, 720);
-
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-   //Require for shadow sampler.
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-   glTextureParameteri(m_shadowTexture, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-
-   glNamedFramebufferTexture(m_shadowFBO, GL_DEPTH_ATTACHMENT, m_shadowTexture, 0);
-
-   const GLenum error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-   if (error != GL_FRAMEBUFFER_COMPLETE)
-   {
-      std::cerr << "Error: Failed to create framebuffer: " << std::hex << error << std::endl;
-   }
-
-   BindDefaultFramebuffer();
 }
 
 void Renderer::ShowFPS(const bool showFPS)

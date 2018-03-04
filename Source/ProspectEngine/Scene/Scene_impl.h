@@ -3,10 +3,10 @@
 #include "Include/Scene.h"
 #include "Include/Entity.h"
 #include "Include/Atmosphere.h"
-#include "Include/Lights/Light.h"
 #include "Include/Terrain.h"
 
 #include "Scene/Entity_impl.h"
+#include "Scene/Lights/ILight_impl.h"
 
 namespace Prospect
 {
@@ -29,9 +29,9 @@ namespace Prospect
       int GetEntityCount() const;
       Entity GetEntity(const int index);
 
-      Light GetLight(const int index);
+      //Light GetLight(const int index);
       int GetLightCount() const;
-      void AddLight(Light& light);
+      void AddLight(DirectionalLight& light);
 
       Camera& GetCamera();
 
@@ -48,8 +48,9 @@ namespace Prospect
       Camera_impl& GetCameraImpl();
       const Camera_impl& GetCameraImpl() const;
 
-      std::deque<std::shared_ptr<Light_impl>> GetLights() const;
-      const Light_impl* GetLightImpl(const int index) const;
+      std::deque<std::shared_ptr<ILight_impl>> GetLights() const;
+      const ILight_impl* GetLightImpl(const int index) const;
+      ILight_impl* GetLightImpl(const int index);
 
    private:
       Scene& m_parent;
@@ -57,7 +58,7 @@ namespace Prospect
       Camera m_camera;
       std::shared_ptr<Terrain_impl> m_terrain;
       std::shared_ptr<Atmosphere_impl> m_atmosphere;
-      std::deque<std::shared_ptr<Light_impl>> m_lights;
+      std::deque<std::shared_ptr<ILight_impl>> m_lights;
 
       Entity_impl m_rootEntity;
    };

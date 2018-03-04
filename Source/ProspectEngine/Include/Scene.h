@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <optional> //TODO: Why are these needed?
+#include "Lights/DirectionalLight.h"
 
 namespace Prospect
 {
@@ -14,7 +15,6 @@ namespace Prospect
    class Camera;
    struct Bitmap;
    class Atmosphere;
-   class Light;
 
    class Scene
    {
@@ -31,9 +31,9 @@ namespace Prospect
       int GetEntityCount() const;
       void AddEntity(Entity& entity);
 
-      Light GetLight(const int index);
+      //Light GetLight(const int index);
       int GetLightCount();
-      void AddLight(Light& light);
+      void AddLight(DirectionalLight& light);
 
       const Camera& GetCamera() const;
       Camera& GetCamera();

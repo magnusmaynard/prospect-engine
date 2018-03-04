@@ -3,6 +3,7 @@
 
 namespace Prospect
 {
+   class ShadowMap;
    class ShaderLibrary;
    class GBuffer;
 
@@ -13,7 +14,7 @@ namespace Prospect
          ShaderLibrary& shaderLibrary,
          const GBuffer& gbuffer);
 
-      void Render(const GLuint m_shadowTexture, const glm::mat4& lightMVP);
+      void Render(const ShadowMap& shadowMap);
 
    private:
       LightingShader& m_shader;

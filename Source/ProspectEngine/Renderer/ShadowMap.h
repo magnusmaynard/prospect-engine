@@ -1,30 +1,35 @@
 #pragma once
-#include "Scene/Lights/Light_impl.h"
+#include "Scene/Lights/DirectionalLight_impl.h"
 
 namespace Prospect
 {
-   class ShaderLibrary;
-
    class ShadowMap
    {
    public:
-      ShadowMap(
-         ShaderLibrary& shaderLibrary,
-         const Light_impl& light);
+      ShadowMap(const DirectionalLight_impl& light);
+      void Initialise();
 
-      void Render();
+      void Clear();
+      void Bind();
+
+      bool GetIsDirty() const;
+      void SetIsDirty(const bool value) const;
+
+      glm::mat4 GetProjection() const;
+      glm::mat4 GetView() const;
+      GLuint GetShadowTexture() const;
 
    private:
-      void UpdateLightMVP();
+      void UpdateProjectionAndView() const;
 
-      const Light_impl& m_light;
+      const DirectionalLight_impl& m_light;
       GLuint m_shadowFBO;
       GLuint m_shadowTexture;
 
-      //ShadowMapShader& m_shader;
+      const glm::ivec2 TEXTURE_SIZE = glm::ivec2(1280, 720);
 
-      glm::mat4 m_lightMVP;
-
-      const glm::ivec2 TEXTURE_SIZE = glm::ivec2(1000, 1000);
+      mutable glm::mat4 m_projection;
+      mutable glm::mat4 m_view;
+      mutable bool m_isDirty;
    };
 }

@@ -20,6 +20,16 @@ Atmosphere::Atmosphere(std::shared_ptr<Atmosphere_impl>& impl)
 
 Atmosphere::~Atmosphere() = default;
 
+void Atmosphere::SetLight(DirectionalLight& light)
+{
+   m_impl->SetLight(light);
+}
+
+DirectionalLight* Atmosphere::GetLight()
+{
+   return m_impl->GetLight();
+}
+
 void Atmosphere::SetSunDirection(const glm::vec3& value)
 {
    m_impl->SetSunDirection(value);

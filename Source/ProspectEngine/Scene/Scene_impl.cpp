@@ -5,7 +5,8 @@
 #include "Engine/EngineDefines.h"
 #include "Engine/Extensions.h"
 #include "Scene/Terrain/Terrain_impl.h"
-#include "Scene/Lights/Light_impl.h"
+#include "Include/Lights/DirectionalLight.h"
+#include "Scene/Lights/DirectionalLight_impl.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -52,15 +53,15 @@ int Scene_impl::GetEntityCount() const
    return m_rootEntity.GetEntityCount();
 }
 
-Light Scene_impl::GetLight(const int index)
-{
-   if (index < 0 || index >= static_cast<int>(m_lights.size()))
-   {
-      throw std::exception("No Light at index.");
-   }
-
-   return m_lights[index];
-}
+//Light Scene_impl::GetLight(const int index)
+//{
+//   if (index < 0 || index >= static_cast<int>(m_lights.size()))
+//   {
+//      throw std::exception("No Light at index.");
+//   }
+//
+//   return m_lights[index];
+//}
 
 //Light_impl* Scene_impl::GetLightImpl(const int index)
 //{
@@ -82,9 +83,10 @@ int Scene_impl::GetLightCount() const
    return m_lights.size();
 }
 
-void Scene_impl::AddLight(Light& light)
+void Scene_impl::AddLight(DirectionalLight& light)
 {
-   m_lights.push_back(light.m_impl);
+   //TODO: does this work?
+   m_lights.push_back(std::dynamic_pointer_cast<ILight_impl>(light.m_impl));
 }
 
 Camera& Scene_impl::GetCamera()
@@ -148,12 +150,17 @@ const Camera_impl& Scene_impl::GetCameraImpl() const
    return *m_camera.m_impl;
 }
 
-std::deque<std::shared_ptr<Light_impl>> Scene_impl::GetLights() const
+std::deque<std::shared_ptr<ILight_impl>> Scene_impl::GetLights() const
 {
    return m_lights;
 }
 
-const Light_impl* Scene_impl::GetLightImpl(const int index) const
+ILight_impl* Scene_impl::GetLightImpl(const int index)
+{
+   return m_lights[index].get();
+}
+
+const ILight_impl* Scene_impl::GetLightImpl(const int index) const
 {
    return m_lights[index].get();
 }

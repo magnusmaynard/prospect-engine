@@ -1,6 +1,6 @@
 #pragma once
 #include "Include/Atmosphere.h"
-#include "Lights/Light_impl.h"
+#include "Include/Lights/DirectionalLight.h"
 
 namespace Prospect
 {
@@ -12,6 +12,9 @@ namespace Prospect
       //Public
       Atmosphere_impl();
       ~Atmosphere_impl();
+
+      void SetLight(DirectionalLight& light);
+      DirectionalLight* GetLight();
 
       //TODO: Get/Set Rayleigh constant
       //TODO: Get/Set Mie constant
@@ -34,20 +37,19 @@ namespace Prospect
 
       //Internal
       void SetRenderable(IRenderable* value) const;
-      Light_impl& GetLightImpl();
-      const Light_impl& GetLightImpl() const;
 
    private:
-      void MakeDirty() const;
+      void UpdateLight();
 
-      mutable IRenderable* m_renderable;
-
-      Light_impl m_light;
+      DirectionalLight* m_light;
 
       float m_altitude;
       glm::vec3 m_sunDirection;
       float m_innerRadius;
       float m_outterRadius;
       float m_densityScale;
+
+      void MakeDirty() const;
+      mutable IRenderable* m_renderable;
    };
 }

@@ -11,6 +11,7 @@
 #include "Renderer/Renderables/RenderableAtmosphere.h"
 #include "Renderer/Pipeline/GBuffer.h"
 #include "Renderer/Pipeline/LightingPass.h"
+#include "ShadowMap.h"
 
 namespace Prospect
 {
@@ -51,7 +52,8 @@ namespace Prospect
       void Initialize();
       
       void GeometryPass();
-      void ShadowPasses(Scene_impl& scene);
+      void ShadowPass(Scene_impl& scene);
+      void LightingPass2();
       void EffectsPass();
 
       void UpdateState();
@@ -71,11 +73,14 @@ namespace Prospect
 
       void BindDefaultFramebuffer();
 
-      glm::mat4 Renderer::GetShadowMatrix(const Light_impl& light) const;
-      void CreateShadowMap();
 
-      GLuint m_shadowFBO;
-      GLuint m_shadowTexture;
+      void UpdateShadowMap(DirectionalLight_impl& light);
+      glm::mat4 GetShadowMatrix(const DirectionalLight_impl& light) const;
+      //void CreateShadowMap();
+
+      std::deque<ShadowMap> m_shadowMaps;
+      //GLuint m_shadowFBO;
+      //GLuint m_shadowTexture;
       GBuffer m_gBuffer;
       LightingPass m_lightingPass;
    };

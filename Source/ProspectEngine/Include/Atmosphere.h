@@ -2,6 +2,7 @@
 
 namespace Prospect
 {
+   class DirectionalLight;
    class Light;
    class Atmosphere_impl;
 
@@ -11,6 +12,9 @@ namespace Prospect
       Atmosphere();
       Atmosphere(std::shared_ptr<Atmosphere_impl>& impl);
       ~Atmosphere();
+
+      void SetLight(DirectionalLight& light);
+      DirectionalLight* GetLight();
 
       void SetSunDirection(const glm::vec3& value);
       glm::vec3 GetSunDirection() const;

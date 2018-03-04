@@ -34,12 +34,14 @@ namespace Prospect
    static const float DEFAULT_LIGHT_BRIGHTNESS = 0.8f;
    static const float DEFAULT_LIGHT_RANGE = 100.f;
    static const float DEFAULT_LIGHT_ANGLE = 45.f;
+   static const bool DEFAULT_LIGHT_CAST_SHADOWS = true;
+   static const int INVALID_SHADOW_MAP_ID = -1;
 
    static const float DEFAULT_ATMOSPHERE_INNER_RADIUS = 1500.f;
    static const float DEFAULT_ATMOSPHERE_OUTTER_RADIUS = 2000.f;
    static const float DEFAULT_ATMOSPHERE_DENSITY_SCALE = 0.25f;
    static const float DEFAULT_ATMOSPHERE_ALTITUDE = 1500.1f;
-   static const glm::vec3 DEFAULT_ATMOSPHERE_LIGHT_DIRECTION = glm::vec3(0, -1, 1);
+   static const glm::vec3 DEFAULT_ATMOSPHERE_SUN_DIRECTION = glm::vec3(0, -1, 1);
 
    static const Color DEFAULT_MATERIAL_DIFFUSE(0.15f, 0.53f, 0.86f);
    static const Color DEFAULT_MATERIAL_EMISSIVE(0.f, 0.f, 0.f);
@@ -47,5 +49,5 @@ namespace Prospect
    static const int DEFAULT_MATERIAL_SPECULAR_POWER = 16;
 
    static const int MAX_MATERIALS = 10;
-   static const int MAX_LIGHTS = 10;
+   static const int MAX_DIRECTIONAL_LIGHTS = 10;
 }

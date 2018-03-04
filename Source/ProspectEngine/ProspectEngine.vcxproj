@@ -31,7 +31,8 @@
     <ClInclude Include="Include\Entity.h" />
     <ClInclude Include="Include\IApplication.h" />
     <ClInclude Include="Include\Key.h" />
-    <ClInclude Include="Include\Lights\Light.h" />
+    <ClInclude Include="Include\Lights\ILight.h" />
+    <ClInclude Include="Include\Lights\DirectionalLight.h" />
     <ClInclude Include="Include\Lights\LightType.h" />
     <ClInclude Include="Include\Material.h" />
     <ClInclude Include="Include\MaterialLibrary.h" />
@@ -83,7 +84,8 @@
     <ClInclude Include="Scene\Atmosphere_impl.h" />
     <ClInclude Include="Scene\Camera_impl.h" />
     <ClInclude Include="Scene\Entity_impl.h" />
-    <ClInclude Include="Scene\Lights\Light_impl.h" />
+    <ClInclude Include="Scene\Lights\DirectionalLight_impl.h" />
+    <ClInclude Include="Scene\Lights\ILight_impl.h" />
     <ClInclude Include="Scene\Material_impl.h" />
     <ClInclude Include="Scene\Mesh_impl.h" />
     <ClInclude Include="Scene\Scene_impl.h" />
@@ -132,8 +134,8 @@
     <ClCompile Include="Scene\Camera_impl.cpp" />
     <ClCompile Include="Scene\Entity.cpp" />
     <ClCompile Include="Scene\Entity_impl.cpp" />
-    <ClCompile Include="Scene\Lights\Light.cpp" />
-    <ClCompile Include="Scene\Lights\Light_impl.cpp" />
+    <ClCompile Include="Scene\Lights\DirectionalLight_impl.cpp" />
+    <ClCompile Include="Scene\Lights\DirectionalLight.cpp" />
     <ClCompile Include="Scene\Material.cpp" />
     <ClCompile Include="Scene\Material_impl.cpp" />
     <ClCompile Include="Scene\Mesh.cpp" />

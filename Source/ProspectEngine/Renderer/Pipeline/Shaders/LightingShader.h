@@ -16,7 +16,7 @@ namespace Prospect
             Resources::LIGHTING_FRAGMENT_SHADER)
       {
          globalUniforms.Camera.Bind(GetProgram());
-         globalUniforms.Lights.Bind(GetProgram());
+         globalUniforms.DirectionalLights.Bind(GetProgram());
          globalUniforms.MaterialLibrary.Bind(GetProgram());
       }
    };

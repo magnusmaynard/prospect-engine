@@ -1,5 +1,5 @@
 #pragma once
-#include "Scene/Lights/Light_impl.h"
+#include "Scene/Lights/DirectionalLight_impl.h"
 #include "Scene/Material_impl.h"
 #include "Scene/Camera_impl.h"
 #include "Scene/Atmosphere_impl.h"
@@ -37,40 +37,75 @@ namespace Prospect
       glm::vec2 ScreenSize;
    };
 
-   struct LightUniforms
+   //struct LightUniforms
+   //{
+   //   LightUniforms()
+   //   {
+   //   }
+
+   //   LightUniforms(const Light_impl& light)
+   //      :
+   //      Position(light.GetPosition(), 0),
+   //      Direction({ normalize(light.GetDirection()), 0 }),
+   //      ColorAndBrightness(light.GetColor().ToRGB(), light.GetBrightness()),
+   //      RangeAndAngleAndType(light.GetRange(), light.GetAngle(), light.GetType(), 0)
+   //   {
+   //   }
+
+   //   glm::vec4 Position;
+   //   glm::vec4 Direction;
+   //   glm::vec4 ColorAndBrightness;
+   //   glm::vec4 RangeAndAngleAndType;
+   //};
+
+   //struct LightsUniforms
+   //{
+   //   LightsUniforms(const std::vector<const Light_impl*>& lights)
+   //      :
+   //      Count(lights.size())
+   //   {
+   //      for (size_t i = 0; i < lights.size(); i++)
+   //      {
+   //         Lights[i] = LightUniforms(*lights[i]);
+   //      }
+   //   }
+
+   //   std::array<LightUniforms, MAX_LIGHTS> Lights;
+   //   int Count;
+   //};
+
+   struct DirectionalLightUniforms
    {
-      LightUniforms()
+      DirectionalLightUniforms()
       {
       }
 
-      LightUniforms(const Light_impl& light)
+      DirectionalLightUniforms(const DirectionalLight_impl& light)
          :
          Position(light.GetPosition(), 0),
          Direction({ normalize(light.GetDirection()), 0 }),
-         ColorAndBrightness(light.GetColor().ToRGB(), light.GetBrightness()),
-         RangeAndAngleAndType(light.GetRange(), light.GetAngle(), light.GetType(), 0)
+         ColorAndBrightness(light.GetColor().ToRGB(), light.GetBrightness())
       {
       }
 
       glm::vec4 Position;
       glm::vec4 Direction;
       glm::vec4 ColorAndBrightness;
-      glm::vec4 RangeAndAngleAndType;
    };
 
-   struct LightsUniforms
+   struct DirectionalLightListUniforms
    {
-      LightsUniforms(const std::vector<const Light_impl*>& lights)
+      DirectionalLightListUniforms(const std::vector<const DirectionalLight_impl*>& lights)
          :
          Count(lights.size())
       {
          for (size_t i = 0; i < lights.size(); i++)
          {
-            Lights[i] = LightUniforms(*lights[i]);
+            Lights[i] = DirectionalLightUniforms(*lights[i]);
          }
       }
 
-      std::array<LightUniforms, MAX_LIGHTS> Lights;
+      std::array<DirectionalLightUniforms, MAX_DIRECTIONAL_LIGHTS> Lights;
       int Count;
    };
 

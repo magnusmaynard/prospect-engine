@@ -134,12 +134,6 @@
     <ClInclude Include="Engine\Extensions.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Lights\Light.h">
-      <Filter>Include\Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Lights\Light_impl.h">
-      <Filter>Scene\Lights</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Defaults.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -211,6 +205,18 @@
     </ClInclude>
     <ClInclude Include="Renderer\Pipeline\Shaders\ShadowMapShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Lights\DirectionalLight_impl.h">
+      <Filter>Scene\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Lights\ILight_impl.h">
+      <Filter>Scene\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Lights\ILight.h">
+      <Filter>Include\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Lights\DirectionalLight.h">
+      <Filter>Include\Lights</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -311,12 +317,6 @@
     <ClCompile Include="Engine\Engine_impl.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Lights\Light.cpp">
-      <Filter>Scene\Lights</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Lights\Light_impl.cpp">
-      <Filter>Scene\Lights</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Textures\DepthTexture.cpp">
       <Filter>Renderer\Textures</Filter>
     </ClCompile>
@@ -361,6 +361,12 @@
     </ClCompile>
     <ClCompile Include="Renderer\ShadowMap.cpp">
       <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Lights\DirectionalLight_impl.cpp">
+      <Filter>Scene\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Lights\DirectionalLight.cpp">
+      <Filter>Scene\Lights</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
