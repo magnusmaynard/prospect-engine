@@ -76,12 +76,10 @@ namespace Prospect
 
       void UpdateShadowMap(DirectionalLight_impl& light);
       glm::mat4 GetShadowMatrix(const DirectionalLight_impl& light) const;
-      //void CreateShadowMap();
 
       std::deque<ShadowMap> m_shadowMaps;
-      //GLuint m_shadowFBO;
-      //GLuint m_shadowTexture;
       GBuffer m_gBuffer;
       LightingPass m_lightingPass;
+      glm::ivec2 m_size;
    };
 }

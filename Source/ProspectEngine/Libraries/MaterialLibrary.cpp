@@ -28,7 +28,7 @@ Material MaterialLibrary::CreateMaterial(
    const Color& diffuse,
    const Color& emissive,
    const Color& specular,
-   const float specularPower)
+   const int specularPower)
 {
    return m_impl->CreateMaterial(diffuse, emissive, specular, specularPower);
 }

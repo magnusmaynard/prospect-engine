@@ -78,6 +78,7 @@ GLuint ShadowMap::GetShadowTexture() const
 void ShadowMap::Bind()
 {
    glBindFramebuffer(GL_FRAMEBUFFER, m_shadowFBO);
+   glViewport(0, 0, TEXTURE_SIZE.x, TEXTURE_SIZE.y);
 }
 
 void ShadowMap::UpdateProjectionAndView() const
@@ -92,7 +93,6 @@ void ShadowMap::UpdateProjectionAndView() const
          POS_Y);
 
       m_projection = ortho(-100.f, 100.f, -100.f, 100.f, -1000.f, 1000.f);
-
    }
 }
 

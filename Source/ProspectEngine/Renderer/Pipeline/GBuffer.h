@@ -24,7 +24,7 @@ namespace Prospect
       GLuint GetDepthTexture() const;
 
    private:
-      void Initialize(const glm::ivec2& size);
+      void Initialize();
       void Destroy();
 
       const enum G_TEXTURES
@@ -38,5 +38,6 @@ namespace Prospect
 
       GLuint m_FBO;
       GLuint m_textures[G_TEXTURE_COUNT];
+      glm::ivec2 m_size;
    };
 }

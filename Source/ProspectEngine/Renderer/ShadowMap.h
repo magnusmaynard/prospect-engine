@@ -26,7 +26,7 @@ namespace Prospect
       GLuint m_shadowFBO;
       GLuint m_shadowTexture;
 
-      const glm::ivec2 TEXTURE_SIZE = glm::ivec2(1280, 720);
+      const glm::ivec2 TEXTURE_SIZE = glm::ivec2(1024, 1024);
 
       mutable glm::mat4 m_projection;
       mutable glm::mat4 m_view;

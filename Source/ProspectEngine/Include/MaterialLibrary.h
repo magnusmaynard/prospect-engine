@@ -24,7 +24,7 @@ namespace Prospect
          const Color& diffuse,
          const Color& emissive,
          const Color& specular,
-         float specularPower);
+         int specularPower);
 
       Material GetMaterial(int index);
       int GetMaterialCount() const;

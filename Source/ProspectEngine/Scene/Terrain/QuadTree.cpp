@@ -31,13 +31,13 @@ int QuadTree::FindClosestEndNodeIndex(const glm::vec3& position) const
    int closestEndNodeIndex = 0;
    float closestEndNodeDistance = m_endNodes[closestEndNodeIndex]->DistanceTo(position);
 
-   for (int i = 0; i < m_endNodes.size(); i++)
+   for (size_t i = 0; i < m_endNodes.size(); i++)
    {
       const float endNodeDistance = m_endNodes[i]->DistanceTo(position);
 
       if (endNodeDistance < closestEndNodeDistance)
       {
-         closestEndNodeIndex = i;
+         closestEndNodeIndex = static_cast<int>(i);
          closestEndNodeDistance = endNodeDistance;
       }
    }

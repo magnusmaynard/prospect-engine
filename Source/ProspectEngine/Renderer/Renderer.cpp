@@ -73,6 +73,7 @@ void Renderer::Render(const double time, Scene_impl& scene)
    m_gBuffer.Clear();
 
    ShadowPass(scene);
+
    GeometryPass();
    LightingPass2();
    EffectsPass();
@@ -297,6 +298,7 @@ void Renderer::ClearDepthBuffer()
 void Renderer::BindDefaultFramebuffer()
 {
    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+   glViewport(0, 0, m_size.x, m_size.y);
 }
 
 void Renderer::ShowFPS(const bool showFPS)
@@ -311,6 +313,7 @@ void Renderer::ShowWireframe(const bool showWireframe)
 
 void Renderer::Resize(const ivec2& size)
 {
+   m_size = size;
    m_gBuffer.Resize(size);
 }
 

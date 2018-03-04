@@ -436,6 +436,9 @@
     <Filter Include="Renderer\Pipeline\ShaderStages">
       <UniqueIdentifier>{08ca62fc-214d-4b22-ab15-433cb347dc7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renderer\OpenGL">
+      <UniqueIdentifier>{f9fc849b-a8b1-4918-83cd-c99cafbdbe19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\terrain.fs.glsl">
