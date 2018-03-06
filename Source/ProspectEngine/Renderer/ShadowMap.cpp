@@ -7,87 +7,41 @@
 using namespace Prospect;
 using namespace glm;
 
-ShadowMap::ShadowMap(const DirectionalLight_impl& light)
-   :
-   m_light(light),
-   m_isDirty(true)
+ShadowMap::ShadowMap()
 {
 }
 
-void ShadowMap::Initialise()
+void ShadowMap::Update(const DirectionalLight_impl& light)
 {
-   glCreateFramebuffers(1, &m_shadowFBO);
-   glBindFramebuffer(GL_FRAMEBUFFER, m_shadowFBO);
+   m_viewMatrix = lookAt(
+      light.GetPosition(),
+      light.GetPosition() + light.GetDirection(),
+      POS_Y);
 
-   glCreateTextures(GL_TEXTURE_2D_ARRAY, 1, &m_shadowTextures);
-   glTextureStorage3D(m_shadowTextures, 1, GL_DEPTH_COMPONENT32F, TEXTURE_SIZE.x, TEXTURE_SIZE.y, MAX_SHADOW_MAPS);
+   m_projectionMatrix = ortho(-100.f, 100.f, -100.f, 100.f, -1000.f, 1000.f);
 
-   glTextureParameteri(m_shadowTextures, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-   glTextureParameteri(m_shadowTextures, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-   glTextureParameteri(m_shadowTextures, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-   glTextureParameteri(m_shadowTextures, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+   //Move [-1, 1] space to [0, 1] required for sampling textures.
+   const mat4 biasMatrix(
+      0.5, 0.0, 0.0, 0.0,
+      0.0, 0.5, 0.0, 0.0,
+      0.0, 0.0, 0.5, 0.0,
+      0.5, 0.5, 0.5, 1.0
+   );
 
-   //Required for shadow sampler.
-   glTextureParameteri(m_shadowTextures, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-   glTextureParameteri(m_shadowTextures, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-
-   glNamedFramebufferTextureLayer(m_shadowFBO, GL_DEPTH_ATTACHMENT, m_shadowTextures, 0, m_light.GetShadowMapIndex());
-
-   const GLenum error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-   if (error != GL_FRAMEBUFFER_COMPLETE)
-   {
-      std::cerr << "Error: Failed to create framebuffer: " << std::hex << error << std::endl;
-   }
+   m_shadowMatrix = biasMatrix * GetProjectionMatrix() * GetViewMatrix();
 }
 
-void ShadowMap::Clear()
+mat4 ShadowMap::GetShadowMatrix() const
 {
-   static GLfloat ones[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-   glClearNamedFramebufferfv(m_shadowFBO, GL_DEPTH, 0, ones);
+   return m_shadowMatrix;
 }
 
-void ShadowMap::MakeDirty() const
+mat4 ShadowMap::GetViewMatrix() const
 {
-   m_isDirty = true;
+   return m_viewMatrix;
 }
 
-mat4 ShadowMap::GetProjection() const
+mat4 ShadowMap::GetProjectionMatrix() const
 {
-   UpdateProjectionAndView();
-
-   return m_projection;
+   return m_projectionMatrix;
 }
-
-mat4 ShadowMap::GetView() const
-{
-   UpdateProjectionAndView();
-
-   return m_view;
-}
-
-GLuint ShadowMap::GetShadowTexture() const
-{
-   return m_shadowTextures;
-}
-
-void ShadowMap::Bind()
-{
-   glBindFramebuffer(GL_FRAMEBUFFER, m_shadowFBO);
-   glViewport(0, 0, TEXTURE_SIZE.x, TEXTURE_SIZE.y);
-}
-
-void ShadowMap::UpdateProjectionAndView() const
-{
-   if (m_isDirty)
-   {
-      m_isDirty = false;
-
-      m_view = lookAt(
-         m_light.GetPosition(),
-         m_light.GetPosition() + m_light.GetDirection(),
-         POS_Y);
-
-      m_projection = ortho(-100.f, 100.f, -100.f, 100.f, -1000.f, 1000.f);
-   }
-}
-

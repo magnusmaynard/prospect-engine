@@ -218,6 +218,9 @@
     <ClInclude Include="Include\Lights\DirectionalLight.h">
       <Filter>Include\Lights</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\ShadowMaps.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Window.cpp">
@@ -367,6 +370,9 @@
     </ClCompile>
     <ClCompile Include="Scene\Lights\DirectionalLight.cpp">
       <Filter>Scene\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\ShadowMaps.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

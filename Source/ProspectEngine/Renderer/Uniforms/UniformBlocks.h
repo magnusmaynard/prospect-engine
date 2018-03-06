@@ -6,6 +6,7 @@
 #include "Scene/Entity_impl.h"
 #include "Engine/EngineDefines.h"
 #include "Libraries/MaterialLibrary_impl.h"
+#include "Renderer/ShadowMaps.h"
 
 namespace Prospect
 {
@@ -37,42 +38,21 @@ namespace Prospect
       glm::vec2 ScreenSize;
    };
 
-   //struct LightUniforms
-   //{
-   //   LightUniforms()
-   //   {
-   //   }
+   struct ShadowMapsUniforms
+   {
+      ShadowMapsUniforms(const ShadowMaps& shadowMaps)
+         :
+         Count(shadowMaps.Count(), 0)
+      {
+         for (int i = 0; i < shadowMaps.Count(); i++)
+         {
+            ShadowMatrices[i] = shadowMaps.GetShadowMatrix(i);
+         }
+      }
 
-   //   LightUniforms(const Light_impl& light)
-   //      :
-   //      Position(light.GetPosition(), 0),
-   //      Direction({ normalize(light.GetDirection()), 0 }),
-   //      ColorAndBrightness(light.GetColor().ToRGB(), light.GetBrightness()),
-   //      RangeAndAngleAndType(light.GetRange(), light.GetAngle(), light.GetType(), 0)
-   //   {
-   //   }
-
-   //   glm::vec4 Position;
-   //   glm::vec4 Direction;
-   //   glm::vec4 ColorAndBrightness;
-   //   glm::vec4 RangeAndAngleAndType;
-   //};
-
-   //struct LightsUniforms
-   //{
-   //   LightsUniforms(const std::vector<const Light_impl*>& lights)
-   //      :
-   //      Count(lights.size())
-   //   {
-   //      for (size_t i = 0; i < lights.size(); i++)
-   //      {
-   //         Lights[i] = LightUniforms(*lights[i]);
-   //      }
-   //   }
-
-   //   std::array<LightUniforms, MAX_LIGHTS> Lights;
-   //   int Count;
-   //};
+      std::array<glm::mat4, MAX_SHADOW_MAPS> ShadowMatrices;
+      glm::vec2 Count;
+   };
 
    struct DirectionalLightUniforms
    {

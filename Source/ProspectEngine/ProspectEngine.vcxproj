@@ -72,6 +72,7 @@
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\RendererDefines.h" />
     <ClInclude Include="Renderer\ShadowMap.h" />
+    <ClInclude Include="Renderer\ShadowMaps.h" />
     <ClInclude Include="Renderer\Textures\DepthTexture.h" />
     <ClInclude Include="Renderer\Uniforms\GlobalUniformBuffers.h" />
     <ClInclude Include="Renderer\Uniforms\UniformBuffer.h" />
@@ -123,6 +124,7 @@
     <ClCompile Include="Renderer\Renderables\RenderableText.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\ShadowMap.cpp" />
+    <ClCompile Include="Renderer\ShadowMaps.cpp" />
     <ClCompile Include="Renderer\Textures\DepthTexture.cpp" />
     <ClCompile Include="Renderer\Uniforms\UniformBufferCounter.cpp" />
     <ClCompile Include="Renderer\VertexData.cpp" />

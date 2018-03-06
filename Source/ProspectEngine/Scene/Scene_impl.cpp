@@ -150,7 +150,7 @@ const Camera_impl& Scene_impl::GetCameraImpl() const
    return *m_camera.m_impl;
 }
 
-std::deque<std::shared_ptr<ILight_impl>> Scene_impl::GetLights() const
+const std::deque<std::shared_ptr<ILight_impl>>& Scene_impl::GetLights() const
 {
    return m_lights;
 }

@@ -3,22 +3,24 @@
 
 namespace Prospect
 {
-   class ShadowMap;
    class ShaderLibrary;
    class GBuffer;
+   class ShadowMaps;
 
    class LightingPass
    {
    public:
       LightingPass(
          ShaderLibrary& shaderLibrary,
-         const GBuffer& gbuffer);
+         const GBuffer& gbuffer,
+         const ShadowMaps& shadowMaps);
 
-      void Render(const ShadowMap& shadowMap);
+      void Render();
 
    private:
       LightingShader& m_shader;
 
       const GBuffer& m_gBuffer;
+      const ShadowMaps& m_shadowMaps;
    };
 }

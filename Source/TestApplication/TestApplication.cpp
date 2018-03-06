@@ -47,8 +47,8 @@ void TestApplication::OnStartup()
    m_scene.AddLight(sunLight);
 
    //TODO: 2nd light doesn't work?
-   //DirectionalLight otherLight(vec3(0, -1, 1));
-   //m_scene.AddLight(otherLight);
+   DirectionalLight otherLight(vec3(1, -1, 0));
+   m_scene.AddLight(otherLight);
 
    Atmosphere atmosphere;
    atmosphere.SetAltitude(1505);

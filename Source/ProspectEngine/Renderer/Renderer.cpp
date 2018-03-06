@@ -10,6 +10,7 @@
 #include "Renderer/Renderables/RenderableText.h"
 #include "Renderer/Debugger/Debug.h"
 #include "Libraries/MaterialLibrary_impl.h"
+#include "Renderer/ShadowMap.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -23,7 +24,7 @@ Renderer::Renderer(const MaterialLibrary_impl& materialLibrary, const ivec2& siz
    m_shaderLibrary(m_globalUniformBuffers),
    m_materialLibrary(materialLibrary),
    m_gBuffer(size),
-   m_lightingPass(m_shaderLibrary, m_gBuffer)
+   m_lightingPass(m_shaderLibrary, m_gBuffer, m_shadowMaps)
 {
    Initialize();
 }
@@ -80,6 +81,33 @@ void Renderer::Render(const double time, Scene_impl& scene)
    Debug::CheckErrors();
 }
 
+void Renderer::ShadowPass(Scene_impl& scene)
+{
+   m_shadowMaps.Update(scene);
+
+   for (int i = 0; i < m_shadowMaps.Count(); i++)
+   {
+      m_shadowMaps.Bind(i);
+      m_shadowMaps.Clear();
+
+      //Update camera to lights perspective.
+      CameraUniforms camera;
+      camera.PerspectiveProjection = m_shadowMaps.GetProjectionMatrix(i);
+      camera.View = m_shadowMaps.GetViewMatrix(i);
+      m_globalUniformBuffers.Camera.Update(camera);
+
+      //Render scene.
+      for (auto& renderable : m_renderables)
+      {
+         //TODO: if(renderable->GetCastShadow())
+         renderable->Render();
+      }
+   }
+
+   //Reset camera back to normal.
+   m_globalUniformBuffers.Camera.Update(CameraUniforms(scene.GetCameraImpl()));
+}
+
 void Renderer::GeometryPass()
 {
    m_gBuffer.Bind();
@@ -109,70 +137,7 @@ void Renderer::LightingPass2()
 {
    BindDefaultFramebuffer();
 
-   //TEMP
-   m_lightingPass.Render(m_shadowMaps[0]);
-}
-
-void Renderer::UpdateShadowMap(DirectionalLight_impl& light)
-{
-   ShadowMap* shadowMap = nullptr;
-   if(light.GetShadowMapIndex() == INVALID_SHADOW_MAP_ID)
-   {
-      const int newIndex = m_shadowMaps.size();
-      m_shadowMaps.push_back(ShadowMap(light));
-      light.SetShadowMapIndex(newIndex);
-
-      shadowMap = &m_shadowMaps[newIndex];
-      shadowMap->Initialise();
-   }
-   else
-   {
-      shadowMap = &m_shadowMaps[light.GetShadowMapIndex()];
-   }
-
-   shadowMap->Clear();
-   shadowMap->Bind();
-
-   //TODO: This sucks, the light should not be responsible for the shadow map caching.
-   if(light.GetIsDirty())
-   {
-      light.SetIsDirty(false);
-      shadowMap->MakeDirty();
-   }
-
-   //Update camera to lights perspective.
-   CameraUniforms camera;
-   camera.PerspectiveProjection = shadowMap->GetProjection();
-   camera.View = shadowMap->GetView();
-   m_globalUniformBuffers.Camera.Update(camera);
-
-   //Render scene.
-   for (auto& renderable : m_renderables)
-   {
-      //if(renderable->GetCastShadow())
-      renderable->Render();
-   }
-}
-
-void Renderer::ShadowPass(Scene_impl& scene)
-{
-   for (int i = 0; i < scene.GetLightCount(); i++)
-   {
-      ILight_impl* light = scene.GetLightImpl(i);
-
-      if(light->GetCastShadows() &&
-         light->GetType() == LightType::Directional)
-      {
-         UpdateShadowMap(*static_cast<DirectionalLight_impl*>(light));
-      }
-      else
-      {
-         //Do nothing.
-      }
-   }
-
-   //Reset camera back to normal.
-   m_globalUniformBuffers.Camera.Update(CameraUniforms(scene.GetCameraImpl()));
+   m_lightingPass.Render();
 }
 
 void Renderer::EffectsPass()

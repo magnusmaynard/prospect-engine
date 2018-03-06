@@ -48,7 +48,7 @@ namespace Prospect
       Camera_impl& GetCameraImpl();
       const Camera_impl& GetCameraImpl() const;
 
-      std::deque<std::shared_ptr<ILight_impl>> GetLights() const;
+      const std::deque<std::shared_ptr<ILight_impl>>& GetLights() const;
       const ILight_impl* GetLightImpl(const int index) const;
       ILight_impl* GetLightImpl(const int index);
 

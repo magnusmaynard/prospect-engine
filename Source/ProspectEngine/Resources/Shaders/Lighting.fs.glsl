@@ -7,8 +7,6 @@ layout (binding = 3) uniform sampler2D depthTexture;
 
 layout (binding = 4) uniform sampler2DArrayShadow shadowTextures;
 
-uniform mat4 shadowMatrix;
-
 layout (std140) uniform CameraUniforms
 {
    mat4 PerspectiveProjection;
@@ -32,6 +30,12 @@ layout (std140) uniform DirectionalLightListUniforms
    DirectionalLight Lights[10];
    vec2 Count;
 } directionalLights;
+
+layout (std140) uniform ShadowMapsUniforms
+{
+    mat4 ShadowMatrices[10];
+    vec2 Count;
+} shadowMaps;
 
 struct Material
 {
@@ -88,18 +92,26 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 position, vec3 V, ve
     // float bias = 0.0002 * tan(acos(cosTheta));
     // bias = clamp(bias, 0.0, 0.005);
 
-    //Apply shadows.
+    // Apply shadows.
+    int shadowMapIndex = int(light.ShadowMapIndex.x);
+    mat4 shadowMatrix = shadowMaps.ShadowMatrices[shadowMapIndex];
+
     float bias = 0.001;
-    vec3 shadowPosition = (shadowMatrix * inverse(camera.View) * vec4(position, 1)).xyz - vec3(0, 0, bias);
-    float layer = light.ShadowMapIndex.x;
+    vec3 shadowPosition = (shadowMatrix * inverse(camera.View) * vec4(position, 1)).xyz - vec3(0, 0, bias); //TODO remove inverse()
+    float layer = shadowMapIndex;
 
     vec4 shadowCoord;
     shadowCoord.xyw = shadowPosition;
     shadowCoord.z = layer;
 
     float visibility = texture(shadowTextures, shadowCoord);
-
     return color * visibility;
+    
+//     vec4 shadowCoord;
+//     shadowCoord.xyw = vec3(fs_in.textureCoords, 0);
+//     shadowCoord.z = 0;
+
+//    return vec3(texture(shadowTextures, shadowCoord));
 }
 
 // vec3 CalculatePointLight(Light light, vec3 position, vec3 V, vec3 N)
@@ -206,6 +218,4 @@ void main()
     {
         color = vec4(CalculateLighting(position), 1);
     }
-
-//    color = texture(shadowTexture, fs_in.textureCoords);
 }

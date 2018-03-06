@@ -50,4 +50,5 @@ namespace Prospect
 
    static const int MAX_MATERIALS = 10;
    static const int MAX_DIRECTIONAL_LIGHTS = 10;
+   static const int MAX_SHADOW_MAPS = 10;
 }
