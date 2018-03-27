@@ -73,6 +73,31 @@ float depth = depthBuffer.x;
 
 out vec4 color;
 
+//https://stackoverflow.com/a/28095165/3209889
+float GoldNoise(in vec2 coordinate, in float seed)
+{
+    const float PHI = 1.61803398874989484820459 * 00000.1; // Golden Ratio
+    const float PI  = 3.14159265358979323846264 * 00000.1; // PI
+    const float SQ2 = 1.41421356237309504880169 * 10000.0; // Square Root of Two
+
+    return fract(sin(dot(coordinate*(seed+PHI), vec2(PHI, PI)))*SQ2);
+}
+
+vec4 GoldNoise4(float seed)
+{
+    float r = GoldNoise(gl_FragCoord.xy, seed);
+    float g = GoldNoise(gl_FragCoord.xy, r);
+    float b = GoldNoise(gl_FragCoord.xy, g);
+    float a = GoldNoise(gl_FragCoord.xy, b);
+
+    return vec4(r, g, b, a);
+}
+
+vec4 DitherRGBA(vec4 color, float seed)
+{
+    return color + GoldNoise4(seed) / 255.0;
+}
+
 vec3 CalculateDirectionalLight(DirectionalLight light, vec3 position, vec3 V, vec3 N)
 {
     //Calculate color.
@@ -217,5 +242,7 @@ void main()
     else
     {
         color = vec4(CalculateLighting(position), 1);
+
+        color = DitherRGBA(color, 7);
     }
 }

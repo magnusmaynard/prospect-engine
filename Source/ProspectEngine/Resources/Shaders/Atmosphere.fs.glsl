@@ -85,6 +85,31 @@ const vec3 INVERSE_WAVELENGTH = vec3(
 //Maths Constants
 const float PI = 3.14159265359;
 
+//https://stackoverflow.com/a/28095165/3209889
+float GoldNoise(in vec2 coordinate, in float seed)
+{
+    const float PHI = 1.61803398874989484820459 * 00000.1; // Golden Ratio
+    const float PI  = 3.14159265358979323846264 * 00000.1; // PI
+    const float SQ2 = 1.41421356237309504880169 * 10000.0; // Square Root of Two
+
+    return fract(sin(dot(coordinate*(seed+PHI), vec2(PHI, PI)))*SQ2);
+}
+
+vec4 GoldNoise4(float seed)
+{
+    float r = GoldNoise(gl_FragCoord.xy, seed);
+    float g = GoldNoise(gl_FragCoord.xy, r);
+    float b = GoldNoise(gl_FragCoord.xy, g);
+    float a = GoldNoise(gl_FragCoord.xy, b);
+
+    return vec4(r, g, b, a);
+}
+
+vec4 DitherRGBA(vec4 color, float seed)
+{
+    return color + GoldNoise4(seed) / 255.0;
+}
+
 //http://antongerdelan.net/opengl/raycasting.html
 vec3 RayFromCamera(const vec2 point)
 {
@@ -266,5 +291,5 @@ void main()
       diffuse = vec4(I, 1.0);
    }
 
-   color = diffuse;  
+   color = DitherRGBA(diffuse, 7);
 }

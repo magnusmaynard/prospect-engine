@@ -34,7 +34,7 @@ TestApplication::TestApplication()
 void TestApplication::OnStartup()
 {
    m_engine.SetTitle("Test Application");
-   m_engine.ShowFPS(false);
+   m_engine.ShowFPS(true);
 
    m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
 
@@ -46,7 +46,6 @@ void TestApplication::OnStartup()
    DirectionalLight sunLight(vec3(0, -1, 1));
    m_scene.AddLight(sunLight);
 
-   //TODO: 2nd light doesn't work?
    DirectionalLight otherLight(vec3(1, -1, 0));
    m_scene.AddLight(otherLight);
 
@@ -188,7 +187,7 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
       {
          if (auto atmosphere = m_scene.GetAtmosphere())
          {
-            atmosphere->SetSunDirection(rotateX(atmosphere->GetSunDirection(), 0.1f));
+            atmosphere->SetSunDirection(rotateX(atmosphere->GetSunDirection(), 0.02f));
          }
          break;
       }
@@ -196,7 +195,7 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
       {
          if (auto atmosphere = m_scene.GetAtmosphere())
          {
-            atmosphere->SetSunDirection(rotateX(atmosphere->GetSunDirection(), -0.1f));
+            atmosphere->SetSunDirection(rotateX(atmosphere->GetSunDirection(), -0.02f));
          }
          break;
       }

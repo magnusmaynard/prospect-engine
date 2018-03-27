@@ -126,11 +126,6 @@ void Renderer::GeometryPass()
    {
       m_sun->Render();
    }
-
-   if (m_showFPS)
-   {
-      m_fpsText->Render();
-   }
 }
 
 void Renderer::LightingPass2()
@@ -147,6 +142,11 @@ void Renderer::EffectsPass()
    if (m_atmosphere)
    {
       m_atmosphere->Render();
+   }
+
+   if (m_showFPS)
+   {
+      m_fpsText->Render();
    }
 }
 

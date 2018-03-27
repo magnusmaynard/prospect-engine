@@ -21,5 +21,6 @@ void main()
 {
    textureCoord = textureCoords;
 
-   gl_Position = camera.OrthographicProjection * model * vec4(position, 0, 1);
+   vec2 screenOffset = camera.ScreenSize * 0.5;
+   gl_Position = camera.OrthographicProjection * model * vec4(position - screenOffset, 0, 1);
 }
