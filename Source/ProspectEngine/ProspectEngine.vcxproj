@@ -46,7 +46,6 @@
     <ClInclude Include="ProspectEngine_pch.h" />
     <ClInclude Include="Renderer\Debugger\Debug.h" />
     <ClInclude Include="Renderer\Pipeline\GBuffer.h" />
-    <ClInclude Include="Renderer\Pipeline\LightingPass.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderLibrary.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\ShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.h" />
@@ -69,6 +68,7 @@
     <ClInclude Include="Renderer\Renderers\AtmosphereRenderer.h" />
     <ClInclude Include="Renderer\Renderers\EntityRenderer.h" />
     <ClInclude Include="Renderer\Renderers\IRenderer.h" />
+    <ClInclude Include="Renderer\Renderers\LightingRenderer.h" />
     <ClInclude Include="Renderer\Renderers\RenderData.h" />
     <ClInclude Include="Renderer\Renderers\RenderDataLibrary.h" />
     <ClInclude Include="Renderer\Renderers\SunRenderer.h" />
@@ -84,6 +84,8 @@
     <ClInclude Include="Renderer\Window.h" />
     <ClInclude Include="Resources\ResourceIO.h" />
     <ClInclude Include="Resources\Resources.h" />
+    <ClInclude Include="Scene2D\Scene2D_impl.h" />
+    <ClInclude Include="Scene2D\Text_impl.h" />
     <ClInclude Include="Scene\Atmosphere_impl.h" />
     <ClInclude Include="Scene\Camera_impl.h" />
     <ClInclude Include="Scene\Entity_impl.h" />
@@ -95,7 +97,6 @@
     <ClInclude Include="Scene\Terrain\Node.h" />
     <ClInclude Include="Scene\Terrain\QuadTree.h" />
     <ClInclude Include="Scene\Terrain\Terrain_impl.h" />
-    <ClInclude Include="Scene\Text_impl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Containers\Bitmap.cpp" />
@@ -111,7 +112,6 @@
     </ClCompile>
     <ClCompile Include="Renderer\Debugger\Debug.cpp" />
     <ClCompile Include="Renderer\Pipeline\GBuffer.cpp" />
-    <ClCompile Include="Renderer\Pipeline\LightingPass.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderLibrary.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderStages\ShaderStage.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.cpp" />
@@ -124,6 +124,7 @@
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\Renderers\AtmosphereRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\EntityRenderer.cpp" />
+    <ClCompile Include="Renderer\Renderers\LightingRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\SunRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\TerrainRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\TextRenderer.cpp" />
@@ -133,6 +134,8 @@
     <ClCompile Include="Renderer\Uniforms\UniformBufferCounter.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />
     <ClCompile Include="Resources\ResourceIO.cpp" />
+    <ClCompile Include="Scene2D\Scene2D_impl.cpp" />
+    <ClCompile Include="Scene2D\Text_impl.cpp" />
     <ClCompile Include="Scene\Atmosphere.cpp" />
     <ClCompile Include="Scene\Atmosphere_impl.cpp" />
     <ClCompile Include="Scene\Camera.cpp" />
@@ -151,7 +154,6 @@
     <ClCompile Include="Scene\Terrain\QuadTree.cpp" />
     <ClCompile Include="Scene\Terrain\Terrain.cpp" />
     <ClCompile Include="Scene\Terrain\Terrain_impl.cpp" />
-    <ClCompile Include="Scene\Text_impl.cpp" />
     <ClCompile Include="Utilities\IO.cpp" />
   </ItemGroup>
   <ItemGroup>

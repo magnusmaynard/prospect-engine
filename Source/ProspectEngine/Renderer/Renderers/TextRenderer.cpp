@@ -9,7 +9,7 @@
 #include "Resources/ResourceIO.h"
 
 #include "Renderer/Pipeline/ShaderLibrary.h"
-#include "Scene/Text_impl.h"
+#include "Scene2D/Text_impl.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -21,7 +21,9 @@ TextRenderer::TextRenderer(ShaderLibrary& shaderLibrary)
    m_renderDataLibrary.SetInitialise(Initialise);
    m_renderDataLibrary.SetDispose(Dispose);
 
-   InitialiseFont(12);
+   const int DEFAULT_FONT_SIZE = 12; //TODO: expose this.
+
+   InitialiseFont(DEFAULT_FONT_SIZE);
 }
 
 void TextRenderer::InitialiseFont(const int size)

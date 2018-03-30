@@ -3,8 +3,10 @@
 #include "Engine_impl.h"
 
 #include "Scene/Scene_impl.h"
+#include "Scene2D/Scene2D_impl.h"
 #include "Scene/Camera_impl.h"
 #include "Include/MaterialLibrary.h"
+#include "Scene2D/Text_impl.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -19,8 +21,11 @@ Engine_impl::Engine_impl(
    m_window(*this, size),
    m_renderer(m_materialLibrary.GetImpl(), size),
    m_isCameraControlsEnabled(true),
-   m_lastUpdateTime(0)
+   m_lastUpdateTime(0),
+   m_showFPS(false)
 {
+   Text_impl& fpsText = m_scene2D.AddText();
+   fpsText.SetPosition(ivec2(4, 0));
 }
 
 void Engine_impl::Start()
@@ -28,6 +33,8 @@ void Engine_impl::Start()
    OnResize(m_window.GetSize());
 
    m_application.OnStartup();
+
+   unsigned int m_frameCount;
 
    while (m_window.IsOpen())
    {
@@ -45,7 +52,9 @@ void Engine_impl::Start()
 
       m_scene.m_impl->Update(time);
 
-      m_renderer.Render(time, *m_scene.m_impl);
+      UpdateFPS(time);
+
+      m_renderer.Render(time, *m_scene.m_impl, m_scene2D);
 
       m_window.SwapBuffers();
    }
@@ -60,17 +69,17 @@ void Engine_impl::SetTitle(const std::string& title)
    m_window.SetTitle(title);
 }
 
-void Engine_impl::EnableCameraControls(bool isEnabled)
+void Engine_impl::EnableCameraControls(const bool isEnabled)
 {
    m_isCameraControlsEnabled = isEnabled;
 }
 
-void Engine_impl::ShowFPS(bool showFPS)
+void Engine_impl::ShowFPS(const bool showFPS)
 {
-   m_renderer.ShowFPS(showFPS);
+   m_showFPS = showFPS;
 }
 
-void Engine_impl::ShowWireframe(bool showWireframe)
+void Engine_impl::ShowWireframe(const bool showWireframe)
 {
    m_renderer.ShowWireframe(showWireframe);
 }
@@ -126,9 +135,29 @@ void Engine_impl::OnMouseMove(const vec2& newPosition, const vec2& oldPosition)
 {
    if (m_isCameraControlsEnabled)
    {
-      vec2 turnDelta = oldPosition - newPosition;
+      const vec2 turnDelta = oldPosition - newPosition;
       m_scene.m_impl->GetCameraImpl().Turn(turnDelta);
    }
 
    m_application.OnMouseMove(oldPosition, newPosition);
+}
+
+void Engine_impl::UpdateFPS(const double time)
+{
+   static const double FPS_INTERVAL = 1000.0;
+   static double previousTime = time;
+   static unsigned long frameCount;
+
+   frameCount++;
+
+   if (time - previousTime >= FPS_INTERVAL)
+   {
+      const std::string textString = std::to_string(frameCount);
+
+      Text_impl& text = m_scene2D.GetTextByIndex(0);
+      text.SetText(textString);
+
+      frameCount = 0;
+      previousTime = time;
+   }
 }

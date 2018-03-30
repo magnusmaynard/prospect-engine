@@ -1,14 +1,11 @@
 #include "ProspectEngine_pch.h"
 
-#include "Scene/Text_impl.h"
+#include "Scene2D/Text_impl.h"
 
 using namespace Prospect;
 using namespace glm;
 
-Text_impl::Text_impl(
-   const std::string& text,
-   const glm::ivec2& position,
-   int size)
+Text_impl::Text_impl(const std::string& text, const glm::ivec2& position)
 {
    SetText(text);
    SetPosition(position);

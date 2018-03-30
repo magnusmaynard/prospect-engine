@@ -6,10 +6,7 @@ namespace Prospect
    class Text_impl : public Renderable
    {
    public:
-      Text_impl(
-         const std::string& text,
-         const glm::ivec2& position,
-         int size);
+      Text_impl(const std::string& text, const glm::ivec2& position);
 
       void SetText(const std::string& text);
       void SetPosition(const glm::ivec2& position);

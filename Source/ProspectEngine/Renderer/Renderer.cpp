@@ -8,26 +8,23 @@
 #include "Renderer/Debugger/Debug.h"
 #include "Libraries/MaterialLibrary_impl.h"
 #include "Renderer/ShadowMap.h"
+#include "Scene2D/Scene2D_impl.h"
 
 using namespace Prospect;
 using namespace glm;
 
 Renderer::Renderer(const MaterialLibrary_impl& materialLibrary, const ivec2& size)
    :
-   m_showFPS(false),
    m_showWireframe(false),
-   m_frameCount(0),
-   m_previousTime(0),
    m_shaderLibrary(m_globalUniformBuffers),
    m_materialLibrary(materialLibrary),
    m_gBuffer(size),
-   m_lightingPass(m_shaderLibrary, m_gBuffer, m_shadowMaps),
    m_entityRenderer(m_shaderLibrary),
    m_terrainRenderer(m_shaderLibrary),
    m_atmosphereRenderer(m_shaderLibrary),
    m_sunRenderer(m_shaderLibrary),
    m_textRenderer(m_shaderLibrary),
-   m_fpsText("", ivec2(4, 0), 12)
+   m_lightingRenderer(m_shaderLibrary)
 {
    Initialise();
 }
@@ -62,19 +59,18 @@ void Renderer::UpdateState()
    glEnable(GL_DEPTH_TEST);
 }
 
-void Renderer::Render(const double time, Scene_impl& scene)
+void Renderer::Render(const double time, Scene_impl& scene, Scene2D_impl& scene2D)
 {
    UpdateState();
    UpdateGlobalUniformBuffers(scene);
-   UpdateFPS(time);
 
    Clear();
    m_gBuffer.Clear();
 
    ShadowPass(scene);
    GeometryPass(scene);
-   LightingPass2();
-   EffectsPass(scene);
+   LightingPass();
+   EffectsPass(scene, scene2D);
 
    Debug::CheckErrors();
 }
@@ -119,6 +115,29 @@ void Renderer::GeometryPass(Scene_impl& scene)
    }
 }
 
+void Renderer::LightingPass()
+{
+   BindDefaultFramebuffer();
+
+   m_lightingRenderer.Render(m_gBuffer, m_shadowMaps);
+}
+
+void Renderer::EffectsPass(Scene_impl& scene, Scene2D_impl& scene2D)
+{
+   BindDefaultFramebuffer();
+
+   if (auto* atmosphere = scene.GetAtmosphereImpl())
+   {
+      m_atmosphereRenderer.Render(*atmosphere, m_gBuffer);
+   }
+
+   //TODO: Improve 2d scene rendering, make more generic.
+   for (int i = 0; i < scene2D.GetTextCount(); i++)
+   {
+      m_textRenderer.Render(scene2D.GetTextByIndex(i));
+   }
+}
+
 void Renderer::RenderEntities(Entity_impl& entity)
 {
    m_entityRenderer.Render(entity);
@@ -128,28 +147,6 @@ void Renderer::RenderEntities(Entity_impl& entity)
    {
       //TODO: make non-recursive, don't store entities in a graph.
       RenderEntities(*child.get());
-   }
-}
-
-void Renderer::LightingPass2()
-{
-   BindDefaultFramebuffer();
-
-   m_lightingPass.Render();
-}
-
-void Renderer::EffectsPass(Scene_impl& scene)
-{
-   BindDefaultFramebuffer();
-
-   if (auto* atmosphere = scene.GetAtmosphereImpl())
-   {
-      m_atmosphereRenderer.Render(*atmosphere, m_gBuffer);
-   }
-
-   if (m_showFPS)
-   {
-      m_textRenderer.Render(m_fpsText);
    }
 }
 
@@ -201,11 +198,6 @@ void Renderer::BindDefaultFramebuffer()
    glViewport(0, 0, m_size.x, m_size.y);
 }
 
-void Renderer::ShowFPS(const bool showFPS)
-{
-   m_showFPS = showFPS;
-}
-
 void Renderer::ShowWireframe(const bool showWireframe)
 {
    m_showWireframe = showWireframe;
@@ -215,22 +207,5 @@ void Renderer::Resize(const ivec2& size)
 {
    m_size = size;
    m_gBuffer.Resize(size);
-}
-
-void Renderer::UpdateFPS(const double time)
-{
-   static const double FPS_INTERVAL = 1000.0;
-
-   m_frameCount++;
-
-   if (time - m_previousTime >= FPS_INTERVAL)
-   {
-      const std::string text = std::to_string(m_frameCount);
-
-      m_fpsText.SetText(text);
-
-      m_frameCount = 0;
-      m_previousTime = time;
-   }
 }
 

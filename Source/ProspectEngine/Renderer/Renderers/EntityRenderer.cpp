@@ -3,7 +3,6 @@
 #include "EntityRenderer.h"
 
 #include "Scene/Scene_impl.h"
-#include "Renderer/VertexData.h"
 #include "Resources/Resources.h"
 #include "Renderer/Pipeline/Shaders/BlinnPhongShader.h"
 #include "Renderer/Pipeline/ShaderLibrary.h"

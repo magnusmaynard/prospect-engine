@@ -173,9 +173,6 @@
     <ClInclude Include="Renderer\Pipeline\Shaders\AtmosphereShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Pipeline\LightingPass.h">
-      <Filter>Renderer\Pipeline</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Lights\LightType.h">
       <Filter>Include\Lights</Filter>
     </ClInclude>
@@ -224,11 +221,17 @@
     <ClInclude Include="Renderer\Renderers\TextRenderer.h">
       <Filter>Renderer\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Text_impl.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Renderers\EntityRenderer.h">
       <Filter>Renderer\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderers\LightingRenderer.h">
+      <Filter>Renderer\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene2D\Text_impl.h">
+      <Filter>Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene2D\Scene2D_impl.h">
+      <Filter>Scene2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -350,9 +353,6 @@
     <ClCompile Include="Renderer\Pipeline\GBuffer.cpp">
       <Filter>Renderer\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Pipeline\LightingPass.cpp">
-      <Filter>Renderer\Pipeline</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\ShadowMap.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
@@ -380,11 +380,17 @@
     <ClCompile Include="Renderer\Renderers\TextRenderer.cpp">
       <Filter>Renderer\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Text_impl.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Renderers\EntityRenderer.cpp">
       <Filter>Renderer\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderers\LightingRenderer.cpp">
+      <Filter>Renderer\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene2D\Text_impl.cpp">
+      <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene2D\Scene2D_impl.cpp">
+      <Filter>Scene2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -459,6 +465,9 @@
     </Filter>
     <Filter Include="Renderer\Renderers">
       <UniqueIdentifier>{a6941df5-9cef-4f6d-8fae-a6c1b95ac9b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene2D">
+      <UniqueIdentifier>{635f9650-2b0d-4217-860c-c19d9b731f42}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

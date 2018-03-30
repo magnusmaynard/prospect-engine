@@ -11,6 +11,7 @@
 
 #include "Renderer/Window.h"
 #include "Renderer/Renderer.h"
+#include "Scene2D/Scene2D_impl.h"
 
 namespace Prospect
 {
@@ -47,10 +48,14 @@ namespace Prospect
       Scene_impl& GetSceneImpl();
 
    private:
+      void UpdateFPS(const double time);
+
       Engine& m_parent;
 
       IApplication& m_application;
       Scene m_scene;
+      Scene2D_impl m_scene2D;
+
       MaterialLibrary m_materialLibrary;
       MeshLibrary m_meshLibrary;
       Window m_window;
@@ -58,5 +63,6 @@ namespace Prospect
 
       bool m_isCameraControlsEnabled;
       double m_lastUpdateTime;
+      bool m_showFPS;
    };
 }
