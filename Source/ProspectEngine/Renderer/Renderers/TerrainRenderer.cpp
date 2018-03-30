@@ -28,7 +28,7 @@ TerrainRenderer::~TerrainRenderer()
 
 void TerrainRenderer::Render(const Terrain_impl& terrain)
 {
-   TerrainRenderable& renderable = GetTerrainRenderable(terrain);
+   TerrainRenderable& renderable = GetRenderable(terrain);
 
    //Update textures if dirty.
    if(terrain.IsDirty())
@@ -62,7 +62,7 @@ void TerrainRenderer::Render(const Terrain_impl& terrain)
    }
 }
 
-TerrainRenderable& TerrainRenderer::GetTerrainRenderable(
+TerrainRenderable& TerrainRenderer::GetRenderable(
    const Terrain_impl& terrain)
 {
    auto itr = m_terrainRenderables.find(terrain.GetId());

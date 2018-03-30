@@ -24,7 +24,9 @@ Renderer::Renderer(const MaterialLibrary_impl& materialLibrary, const ivec2& siz
    m_materialLibrary(materialLibrary),
    m_gBuffer(size),
    m_lightingPass(m_shaderLibrary, m_gBuffer, m_shadowMaps),
-   m_terrainRenderer(m_shaderLibrary)
+   m_terrainRenderer(m_shaderLibrary),
+   m_atmosphereRenderer(m_shaderLibrary),
+   m_sunRenderer(m_shaderLibrary)
 {
    Initialize();
 }
@@ -65,8 +67,6 @@ void Renderer::Render(const double time, Scene_impl& scene)
    UpdateState();
    UpdateGlobalUniformBuffers(scene);
    UpdateRenderableEntity(scene.GetRootEntityImpl());
-   UpdateRenderableAtmosphere(scene);
-   UpdateRenderableSun(scene);
    UpdateFPS(time);
 
    Clear();
@@ -75,7 +75,7 @@ void Renderer::Render(const double time, Scene_impl& scene)
    ShadowPass(scene);
    GeometryPass(scene);
    LightingPass2();
-   EffectsPass();
+   EffectsPass(scene);
 
    Debug::CheckErrors();
 }
@@ -121,9 +121,9 @@ void Renderer::GeometryPass(Scene_impl& scene)
       m_terrainRenderer.Render(*terrain);
    }
 
-   if (m_sun)
+   if (auto* atmosphere = scene.GetAtmosphereImpl())
    {
-      m_sun->Render();
+      m_sunRenderer.Render(*atmosphere);
    }
 }
 
@@ -134,13 +134,13 @@ void Renderer::LightingPass2()
    m_lightingPass.Render();
 }
 
-void Renderer::EffectsPass()
+void Renderer::EffectsPass(Scene_impl& scene)
 {
    BindDefaultFramebuffer();
 
-   if (m_atmosphere)
+   if (auto* atmosphere = scene.GetAtmosphereImpl())
    {
-      m_atmosphere->Render();
+      m_atmosphereRenderer.Render(*atmosphere, m_gBuffer);
    }
 
    if (m_showFPS)
@@ -213,44 +213,6 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
    }
 
    m_globalUniformBuffers.DirectionalLights.Update(DirectionalLightListUniforms(directionalLights));
-}
-
-//void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)
-//{
-//   if(m_terrain == nullptr)
-//   {
-//      const Terrain_impl* terrain = scene.GetTerrainImpl();
-//      if (terrain)
-//      {
-//         m_terrain = std::make_unique<RenderableTerrain>(m_shaderLibrary, *terrain);
-//      }
-//   }
-//}
-
-void Renderer::UpdateRenderableAtmosphere(const Scene_impl& scene)
-{
-   if (m_atmosphere == nullptr)
-   {
-      if (const auto atmosphere = scene.GetAtmosphereImpl())
-      {
-         m_atmosphere = std::make_unique<RenderableAtmosphere>(m_shaderLibrary, m_gBuffer, *atmosphere);
-
-         atmosphere->SetRenderable(m_atmosphere.get());
-      }
-   }
-}
-
-void Renderer::UpdateRenderableSun(const Scene_impl& scene)
-{
-   if (const auto atmosphere = scene.GetAtmosphereImpl())
-   {
-      if (m_sun == nullptr)
-      {
-         m_sun = std::make_unique<RenderableSun>(m_shaderLibrary);
-      }
-
-      m_sun->UpdateUniforms(*atmosphere);
-   }
 }
 
 void Renderer::Clear()

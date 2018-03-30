@@ -28,7 +28,7 @@ namespace Prospect
       void Render(const Terrain_impl& terrain);
 
    private:
-      TerrainRenderable& GetTerrainRenderable(const Terrain_impl& terrain);
+      TerrainRenderable& GetRenderable(const Terrain_impl& terrain);
       void ConstructHeightMapTexture(const Terrain_impl& terrain, TerrainRenderable& renderable);
 
       TerrainShader& m_shader;

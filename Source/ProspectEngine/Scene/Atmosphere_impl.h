@@ -1,12 +1,13 @@
 #pragma once
 #include "Include/Atmosphere.h"
 #include "Include/Lights/DirectionalLight.h"
+#include "Renderer/Renderables/Renderable.h"
 
 namespace Prospect
 {
    class IRenderable;
 
-   class Atmosphere_impl
+   class Atmosphere_impl : public Renderable
    {
    public:
       //Public

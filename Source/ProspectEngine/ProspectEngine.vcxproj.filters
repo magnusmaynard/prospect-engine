@@ -185,12 +185,6 @@
     <ClInclude Include="Renderer\Pipeline\LightingPass.h">
       <Filter>Renderer\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderables\RenderableAtmosphere.h">
-      <Filter>Renderer\Renderables</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Renderables\RenderableSun.h">
-      <Filter>Renderer\Renderables</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Lights\LightType.h">
       <Filter>Include\Lights</Filter>
     </ClInclude>
@@ -226,6 +220,18 @@
     </ClInclude>
     <ClInclude Include="Renderer\Renderables\IRenderable.h">
       <Filter>Renderer\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderers\AtmosphereRenderer.h">
+      <Filter>Renderer\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderers\SunRenderer.h">
+      <Filter>Renderer\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderers\RenderDataLibrary.h">
+      <Filter>Renderer\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderers\RenderData.h">
+      <Filter>Renderer\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -359,12 +365,6 @@
     <ClCompile Include="Renderer\Pipeline\LightingPass.cpp">
       <Filter>Renderer\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Renderables\RenderableAtmosphere.cpp">
-      <Filter>Renderer\Renderables</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Renderables\RenderableSun.cpp">
-      <Filter>Renderer\Renderables</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\ShadowMap.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
@@ -382,6 +382,12 @@
     </ClCompile>
     <ClCompile Include="Renderer\Renderables\Renderable.cpp">
       <Filter>Renderer\Renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderers\AtmosphereRenderer.cpp">
+      <Filter>Renderer\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderers\SunRenderer.cpp">
+      <Filter>Renderer\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
