@@ -12,7 +12,6 @@ namespace Prospect
    class ShaderLibrary;
    struct GlobalUniformBuffers;
    class Scene_impl;
-   class IRenderable;
 
    struct TerrainRenderData : RenderData
    {

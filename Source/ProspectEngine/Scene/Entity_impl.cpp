@@ -4,31 +4,24 @@
 #include "Scene/Material_impl.h"
 
 #include "Engine/EngineDefines.h"
-#include "Renderer/Renderables/IRenderable.h"
 #include "Engine/Extensions.h"
 
 using namespace Prospect;
 using namespace glm;
 
-unsigned long Entity_impl::m_nextEntityID = 0;
-
 Entity_impl::Entity_impl(Mesh& mesh, Material& material)
    :
-   m_id(m_nextEntityID++),
    m_mesh(mesh.m_impl),
    m_material(material.m_impl),
-   m_parent(nullptr),
-   m_renderable(nullptr)
+   m_parent(nullptr)
 {
 }
 
 Entity_impl::Entity_impl()
    :
-   m_id(m_nextEntityID++),
    m_mesh(nullptr),
    m_material(nullptr),
-   m_parent(nullptr),
-   m_renderable(nullptr)
+   m_parent(nullptr)
 {
 }
 
@@ -60,11 +53,6 @@ void Entity_impl::SetMaterial(Material& material)
 std::optional<Material> Entity_impl::GetMaterial()
 {
    return MakeOptionalImpl<Material>(m_material);
-}
-
-unsigned long Entity_impl::GetID() const
-{
-   return m_id;
 }
 
 void Entity_impl::SetTranslation(const vec3& translation)
@@ -105,8 +93,6 @@ const vec3& Entity_impl::GetScale() const
 
 void Entity_impl::MarkParentAsDirty()
 {
-   m_childEntityAdded = true;
-
    if (m_parent)
    {
       m_parent->MarkParentAsDirty();
@@ -192,24 +178,4 @@ Material_impl* Entity_impl::GetMaterialImpl()
 int Entity_impl::GetMaterialID() const
 {
    return m_material->GetID();
-}
-
-IRenderable* Entity_impl::GetRenderable()
-{
-   return m_renderable;
-}
-
-void Entity_impl::SetRenderable(IRenderable* renderable)
-{
-   m_renderable = renderable;
-}
-
-bool Entity_impl::ChildEntityAdded() const
-{
-   return m_childEntityAdded;
-}
-
-void Entity_impl::ResetChildEntityAdded()
-{
-   m_childEntityAdded = false;
 }

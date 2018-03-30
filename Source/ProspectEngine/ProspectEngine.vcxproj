@@ -63,12 +63,11 @@
     <ClInclude Include="Renderer\Pipeline\Shaders\TerrainShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\TextShader.h" />
     <ClInclude Include="Renderer\PolygonMode.h" />
-    <ClInclude Include="Renderer\Renderables\IRenderable.h" />
     <ClInclude Include="Renderer\Renderables\Renderable.h" />
-    <ClInclude Include="Renderer\Renderables\RenderableEntity.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\RendererDefines.h" />
     <ClInclude Include="Renderer\Renderers\AtmosphereRenderer.h" />
+    <ClInclude Include="Renderer\Renderers\EntityRenderer.h" />
     <ClInclude Include="Renderer\Renderers\IRenderer.h" />
     <ClInclude Include="Renderer\Renderers\RenderData.h" />
     <ClInclude Include="Renderer\Renderers\RenderDataLibrary.h" />
@@ -82,7 +81,6 @@
     <ClInclude Include="Renderer\Uniforms\UniformBuffer.h" />
     <ClInclude Include="Renderer\Uniforms\UniformBlocks.h" />
     <ClInclude Include="Renderer\Uniforms\UniformBufferCounter.h" />
-    <ClInclude Include="Renderer\VertexData.h" />
     <ClInclude Include="Renderer\Window.h" />
     <ClInclude Include="Resources\ResourceIO.h" />
     <ClInclude Include="Resources\Resources.h" />
@@ -123,9 +121,9 @@
     <ClCompile Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.cpp" />
     <ClCompile Include="Renderer\Pipeline\Shaders\Shader.cpp" />
     <ClCompile Include="Renderer\Renderables\Renderable.cpp" />
-    <ClCompile Include="Renderer\Renderables\RenderableEntity.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\Renderers\AtmosphereRenderer.cpp" />
+    <ClCompile Include="Renderer\Renderers\EntityRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\SunRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\TerrainRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\TextRenderer.cpp" />
@@ -133,7 +131,6 @@
     <ClCompile Include="Renderer\ShadowMaps.cpp" />
     <ClCompile Include="Renderer\Textures\DepthTexture.cpp" />
     <ClCompile Include="Renderer\Uniforms\UniformBufferCounter.cpp" />
-    <ClCompile Include="Renderer\VertexData.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />
     <ClCompile Include="Resources\ResourceIO.cpp" />
     <ClCompile Include="Scene\Atmosphere.cpp" />

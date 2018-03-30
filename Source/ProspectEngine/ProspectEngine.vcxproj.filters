@@ -64,13 +64,7 @@
     <ClInclude Include="Scene\Material_impl.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderables\RenderableEntity.h">
-      <Filter>Renderer\Renderables</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\RendererDefines.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\VertexData.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="ProspectEngine_pch.h" />
@@ -215,9 +209,6 @@
     <ClInclude Include="Renderer\Renderables\Renderable.h">
       <Filter>Renderer\Renderables</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderables\IRenderable.h">
-      <Filter>Renderer\Renderables</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Renderers\AtmosphereRenderer.h">
       <Filter>Renderer\Renderers</Filter>
     </ClInclude>
@@ -235,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="Scene\Text_impl.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderers\EntityRenderer.h">
+      <Filter>Renderer\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,12 +279,6 @@
     </ClCompile>
     <ClCompile Include="Scene\Material_impl.cpp">
       <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Renderables\RenderableEntity.cpp">
-      <Filter>Renderer\Renderables</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\VertexData.cpp">
-      <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="ProspectEngine_pch.cpp" />
     <ClCompile Include="Containers\Bitmap.cpp">
@@ -394,6 +382,9 @@
     </ClCompile>
     <ClCompile Include="Scene\Text_impl.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderers\EntityRenderer.cpp">
+      <Filter>Renderer\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

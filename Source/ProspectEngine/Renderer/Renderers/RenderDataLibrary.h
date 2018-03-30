@@ -4,6 +4,8 @@
 
 namespace Prospect
 {
+   //This is responsible for store data for renderables.
+   //This data is API specific data, required for rendering.
    template<typename D>
    class RenderDataLibrary
    {
@@ -23,6 +25,8 @@ namespace Prospect
          }
       }
 
+      //Get render data of a given id.
+      //If no render data is found, a new one will be created.
       D& GetRenderData(unsigned id)
       {
          auto itr = m_renderDataMap.find(id);
@@ -39,11 +43,13 @@ namespace Prospect
          return itr->second;
       }
 
+      //The initialise method will be called for every render data added.
       void SetInitialise(std::function<void(D&)> initialise)
       {
          m_initialise = initialise;
       }
 
+      //The dispose method will be called on each render data when it is destroyed.
       void SetDispose(std::function<void(D&)> dispose)
       {
          m_dispose = dispose;

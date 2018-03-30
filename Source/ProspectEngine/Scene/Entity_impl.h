@@ -5,13 +5,13 @@
 #include "Include/Mesh.h"
 #include "Include/Material.h"
 #include "Engine/EngineDefines.h"
+#include "Renderer/Renderables/Renderable.h"
 
 namespace Prospect
 {
    class Mesh_impl;
-   class IRenderable;
 
-   class Entity_impl
+   class Entity_impl : public Renderable
    {
    public:
       //Public
@@ -20,8 +20,6 @@ namespace Prospect
 
       void SetMaterial(Material& material);
       std::optional<Material> GetMaterial();
-
-      unsigned long GetID() const;
 
       void SetTranslation(const glm::vec3& translation);
       const glm::vec3& GetTranslation() const;
@@ -53,18 +51,9 @@ namespace Prospect
 
       int GetMaterialID() const;
 
-      IRenderable* GetRenderable();
-      void SetRenderable(IRenderable* renderable);
-
-      bool ChildEntityAdded() const;
-      void ResetChildEntityAdded();
-
    private:
       void MarkParentAsDirty(); //TODO: Better name.
       void UpdateLocalTransform();
-
-      static unsigned long m_nextEntityID;
-      unsigned long m_id;
 
       std::shared_ptr<Mesh_impl> m_mesh;
       std::shared_ptr<Material_impl> m_material;
@@ -81,7 +70,5 @@ namespace Prospect
       glm::mat4 m_localTransform;
       glm::mat4 m_transform;
       glm::mat3 m_normal;
-
-      IRenderable* m_renderable;
    };
 }

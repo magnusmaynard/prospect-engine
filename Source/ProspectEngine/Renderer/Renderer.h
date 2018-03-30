@@ -1,13 +1,12 @@
 #pragma once
 
 #include "Renderer/Window.h"
-#include "Renderer/Renderables/RenderableEntity.h"
-#include "Renderer/VertexData.h"
 #include "Renderer/Pipeline/ShaderLibrary.h"
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
 #include "Renderer/Pipeline/GBuffer.h"
 #include "Renderer/Pipeline/LightingPass.h"
 #include "Renderer/ShadowMaps.h"
+#include "Renderer/Renderers/EntityRenderer.h"
 #include "Renderer/Renderers/TerrainRenderer.h"
 #include "Renderer/Renderers/AtmosphereRenderer.h"
 #include "Renderer/Renderers/SunRenderer.h"
@@ -33,10 +32,6 @@ namespace Prospect
       void Resize(const glm::ivec2& size);
 
    private:
-      std::deque<std::unique_ptr<IRenderable>> m_renderables;
-      Text_impl m_fpsText;
-
-      std::map<int, VertexData> m_vertexDataMap;
       GlobalUniformBuffers m_globalUniformBuffers;
 
       bool m_showFPS;
@@ -47,25 +42,25 @@ namespace Prospect
       ShaderLibrary m_shaderLibrary;
       const MaterialLibrary_impl& m_materialLibrary;
 
+      EntityRenderer m_entityRenderer;
       TerrainRenderer m_terrainRenderer;
       AtmosphereRenderer m_atmosphereRenderer;
       SunRenderer m_sunRenderer;
       TextRenderer m_textRenderer;
 
-      void Initialize();
+      Text_impl m_fpsText;
+
+      void Initialise();
       
       void GeometryPass(Scene_impl& scene);
       void ShadowPass(Scene_impl& scene);
       void LightingPass2();
       void EffectsPass(Scene_impl& scene);
 
+      void RenderEntities(Entity_impl& entity);
+
       void UpdateState();
-
-      void UpdateRenderableEntity(Entity_impl& entity);
       void UpdateGlobalUniformBuffers(const Scene_impl& scene);
-
-      VertexData& GetVertexData(Mesh_impl& mesh);
-
       void UpdateFPS(double time);
 
       void Clear();

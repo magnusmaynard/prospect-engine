@@ -5,7 +5,6 @@
 #include "Scene/Scene_impl.h"
 #include "Scene/Camera_impl.h"
 #include "Scene/Lights/ILight_impl.h"
-#include "Renderer/Renderables/RenderableEntity.h"
 #include "Renderer/Debugger/Debug.h"
 #include "Libraries/MaterialLibrary_impl.h"
 #include "Renderer/ShadowMap.h"
@@ -23,17 +22,17 @@ Renderer::Renderer(const MaterialLibrary_impl& materialLibrary, const ivec2& siz
    m_materialLibrary(materialLibrary),
    m_gBuffer(size),
    m_lightingPass(m_shaderLibrary, m_gBuffer, m_shadowMaps),
+   m_entityRenderer(m_shaderLibrary),
    m_terrainRenderer(m_shaderLibrary),
    m_atmosphereRenderer(m_shaderLibrary),
    m_sunRenderer(m_shaderLibrary),
    m_textRenderer(m_shaderLibrary),
-
    m_fpsText("", ivec2(4, 0), 12)
 {
-   Initialize();
+   Initialise();
 }
 
-void Renderer::Initialize()
+void Renderer::Initialise()
 {
 #ifdef _DEBUG
    glEnable(GL_DEBUG_OUTPUT);
@@ -67,7 +66,6 @@ void Renderer::Render(const double time, Scene_impl& scene)
 {
    UpdateState();
    UpdateGlobalUniformBuffers(scene);
-   UpdateRenderableEntity(scene.GetRootEntityImpl());
    UpdateFPS(time);
 
    Clear();
@@ -97,11 +95,7 @@ void Renderer::ShadowPass(Scene_impl& scene)
       m_globalUniformBuffers.Camera.Update(camera);
 
       //Render scene.
-      for (auto& renderable : m_renderables)
-      {
-         //TODO: if(renderable->GetCastShadow())
-         renderable->Render();
-      }
+      RenderEntities(scene.GetRootEntityImpl());
    }
 
    //Reset camera back to normal.
@@ -112,10 +106,7 @@ void Renderer::GeometryPass(Scene_impl& scene)
 {
    m_gBuffer.Bind();
 
-   for (auto& renderable : m_renderables)
-   {
-      renderable->Render();
-   }
+   RenderEntities(scene.GetRootEntityImpl());
 
    if(auto* terrain = scene.GetTerrainImpl())
    {
@@ -125,6 +116,18 @@ void Renderer::GeometryPass(Scene_impl& scene)
    if (auto* atmosphere = scene.GetAtmosphereImpl())
    {
       m_sunRenderer.Render(*atmosphere);
+   }
+}
+
+void Renderer::RenderEntities(Entity_impl& entity)
+{
+   m_entityRenderer.Render(entity);
+
+   auto& children = entity.GetChildren();
+   for (auto& child : children)
+   {
+      //TODO: make non-recursive, don't store entities in a graph.
+      RenderEntities(*child.get());
    }
 }
 
@@ -148,42 +151,6 @@ void Renderer::EffectsPass(Scene_impl& scene)
    {
       m_textRenderer.Render(m_fpsText);
    }
-}
-
-void Renderer::UpdateRenderableEntity(Entity_impl& entity)
-{
-   if (entity.ChildEntityAdded())
-   {
-      if (entity.GetRenderable() == nullptr &&
-         entity.GetMeshImpl() != nullptr &&
-         entity.GetMaterialImpl() != nullptr)
-      {
-         VertexData& vertexData = GetVertexData(*entity.GetMeshImpl());
-
-         m_renderables.push_back(std::make_unique<RenderableEntity>(m_shaderLibrary, entity, vertexData));
-
-         entity.SetRenderable(m_renderables.back().get());
-      }
-
-      auto& children = entity.GetChildren();
-      for (auto& child : children)
-      {
-         UpdateRenderableEntity(*child.get());
-      }
-
-      entity.ResetChildEntityAdded();
-   }
-}
-
-VertexData& Renderer::GetVertexData(Mesh_impl& mesh)
-{
-   auto itr = m_vertexDataMap.find(mesh.GetID());
-   if (itr == m_vertexDataMap.end())
-   {
-      return m_vertexDataMap.emplace(mesh.GetID(), VertexData(mesh)).first->second;
-   }
-   
-   return itr->second;
 }
 
 void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)

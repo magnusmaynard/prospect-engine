@@ -52,7 +52,7 @@ namespace Prospect
 
       static TextBounds GetTextBounds(const FT_Face face, const std::string& text);
       static glm::ivec2 NextPowerOf2(const glm::ivec2& value);
-      static int NextPowerOf2(int value);
+      static int NextPowerOf2(const int value);
 
       FT_Library m_library;
       FT_Face m_face;

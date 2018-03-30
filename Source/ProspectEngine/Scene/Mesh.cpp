@@ -63,5 +63,5 @@ std::vector<glm::vec3>& Mesh::GetNormals()
 
 unsigned long Mesh::GetID() const
 {
-   return m_impl->GetID();
+   return m_impl->GetId();
 }

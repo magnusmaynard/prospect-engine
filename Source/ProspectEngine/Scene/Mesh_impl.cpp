@@ -66,7 +66,7 @@ void Mesh_impl::SetIsDirty(bool value) const
    m_isDirty = value;
 }
 
-unsigned long Mesh_impl::GetID() const
+unsigned long Mesh_impl::GetId() const
 {
    return m_id;
 }

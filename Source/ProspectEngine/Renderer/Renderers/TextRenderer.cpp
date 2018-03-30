@@ -6,12 +6,9 @@
 #include FT_FREETYPE_H
 
 #include "Resources/Resources.h"
-#include "Resources/Resources.h"
 #include "Resources/ResourceIO.h"
 
 #include "Renderer/Pipeline/ShaderLibrary.h"
-#include "Engine/EngineDefines.h"
-#include "Renderer/Renderers/RenderData.h"
 #include "Scene/Text_impl.h"
 
 using namespace Prospect;
@@ -123,7 +120,9 @@ void TextRenderer::Initialise(TextRenderData& renderData)
 
 void TextRenderer::Dispose(TextRenderData& renderData)
 {
-   //TODO:
+   glDeleteVertexArrays(1, &renderData.VAO);
+   glDeleteBuffers(renderData.BUFFER_COUNT, renderData.Buffers);
+   glDeleteTextures(1, &renderData.Texture);
 }
 
 void TextRenderer::Render(const Text_impl& text)
@@ -158,7 +157,7 @@ ivec2 TextRenderer::NextPowerOf2(const ivec2& value)
    return ivec2(NextPowerOf2(value.x), NextPowerOf2(value.y));
 }
 
-int TextRenderer::NextPowerOf2(int value)
+int TextRenderer::NextPowerOf2(const int value)
 {
    int rval = 1;
    while (rval < value)
@@ -185,8 +184,8 @@ TextBounds TextRenderer::GetTextBounds(const FT_Face face, const std::string& te
       bounds.max.x += glyph->advance.x >> 6;
 
       //Set height
-      int maxHeight = glyph->bitmap_top;
-      int minHeight = maxHeight - bitmap.rows;
+      const int maxHeight = glyph->bitmap_top;
+      const int minHeight = maxHeight - bitmap.rows;
 
       bounds.max.y = max(maxHeight, bounds.max.y);
       bounds.min.y = min(minHeight, bounds.min.y);

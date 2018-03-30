@@ -31,7 +31,7 @@ namespace Prospect
       bool IsDirty() const;
       void SetIsDirty(bool value) const;
 
-      unsigned long GetID() const;
+      unsigned long GetId() const;
 
    private:
       unsigned long m_id = 0;
