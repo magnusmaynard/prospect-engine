@@ -12,10 +12,11 @@ namespace Prospect
       bool IsDirty() const;
       bool Clean() const;
 
-   private:
-      static unsigned m_nextId;
-
+   protected:
       const unsigned m_id;
       mutable bool m_isDirty;
+
+   private:
+      static unsigned m_nextId;
    };
 }

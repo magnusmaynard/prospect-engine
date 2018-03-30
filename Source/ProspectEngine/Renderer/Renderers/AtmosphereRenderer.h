@@ -2,13 +2,15 @@
 
 #include "Renderer/Uniforms/UniformBlocks.h"
 #include "Renderer/Pipeline/ShaderLibrary.h"
+#include "Renderer/Renderers/RenderDataLibrary.h"
+#include "Renderer/Renderers/RenderData.h"
 
 namespace Prospect
 {
    class Atmosphere_impl;
    class GBuffer;
 
-   struct AtmosphereRenderable
+   struct AtmosphereRenderData : RenderData
    {
    };
 
@@ -21,11 +23,8 @@ namespace Prospect
       void Render(const Atmosphere_impl& atmosphere, const GBuffer& gBuffer);
 
    private:
-      AtmosphereRenderable& GetRenderable(const Atmosphere_impl& atmosphere);
-      void UpdateUniformsIfDirty();
-
       AtmosphereShader& m_shader;
 
-      std::map<unsigned, AtmosphereRenderable> m_atmosphereRenderables;
+      RenderDataLibrary<AtmosphereRenderData> m_renderDataLibrary;
    };
 }

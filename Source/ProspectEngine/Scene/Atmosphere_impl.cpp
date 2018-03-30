@@ -3,14 +3,12 @@
 #include "Atmosphere_impl.h"
 
 #include "Engine/EngineDefines.h"
-#include "Renderer/Renderables/IRenderable.h"
 
 using namespace Prospect;
 using namespace glm;
 
 Atmosphere_impl::Atmosphere_impl()
    :
-   m_renderable(nullptr),
    m_light(DEFAULT_ATMOSPHERE_SUN_DIRECTION),
    m_sunDirection(DEFAULT_ATMOSPHERE_SUN_DIRECTION),
    m_altitude(DEFAULT_ATMOSPHERE_ALTITUDE),
@@ -42,7 +40,7 @@ void Atmosphere_impl::SetSunDirection(const vec3& value)
 
    UpdateLight();
 
-   MakeDirty();
+   m_isDirty = true;
 }
 
 vec3 Atmosphere_impl::GetSunDirection() const
@@ -54,7 +52,7 @@ void Atmosphere_impl::SetInnerRadius(const float value)
 {
    m_innerRadius = value;
 
-   MakeDirty();
+   m_isDirty = true;
 }
 
 float Atmosphere_impl::GetInnerRadius() const
@@ -66,7 +64,7 @@ void Atmosphere_impl::SetOutterRadius(const float value)
 {
    m_outterRadius = value;
 
-   MakeDirty();
+   m_isDirty = true;
 }
 
 float Atmosphere_impl::GetOutterRadius() const
@@ -78,7 +76,7 @@ void Atmosphere_impl::SetAltitude(const float altitude)
 {
    m_altitude = altitude;
 
-   MakeDirty();
+   m_isDirty = true;
 }
 
 float Atmosphere_impl::GetAltitude() const
@@ -90,17 +88,12 @@ void Atmosphere_impl::SetDensityScale(const float value)
 {
    m_densityScale = value;
 
-   MakeDirty();
+   m_isDirty = true;
 }
 
 float Atmosphere_impl::GetDensityScale() const
 {
    return m_densityScale;
-}
-
-void Atmosphere_impl::SetRenderable(IRenderable* value) const
-{
-   m_renderable = value;
 }
 
 void Atmosphere_impl::UpdateLight()
@@ -112,12 +105,4 @@ void Atmosphere_impl::UpdateLight()
 
    const float brightness = max(dot(m_sunDirection + bias, down), 0.f);
    m_light.SetBrightness(brightness);
-}
-
-void Atmosphere_impl::MakeDirty() const
-{
-   if(m_renderable)
-   {
-      m_renderable->MakeDirty();
-   }
 }

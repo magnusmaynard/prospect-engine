@@ -36,9 +36,6 @@ namespace Prospect
       void SetDensityScale(const float value);
       float GetDensityScale() const;
 
-      //Internal
-      void SetRenderable(IRenderable* value) const;
-
    private:
       void UpdateLight();
 
@@ -49,8 +46,5 @@ namespace Prospect
       float m_innerRadius;
       float m_outterRadius;
       float m_densityScale;
-
-      void MakeDirty() const;
-      mutable IRenderable* m_renderable;
    };
 }

@@ -12,7 +12,8 @@ using namespace glm;
 
 AtmosphereRenderer::AtmosphereRenderer(ShaderLibrary& shaderLibrary)
    :
-   m_shader(shaderLibrary.GetAtmosphereShader())
+   m_shader(shaderLibrary.GetAtmosphereShader()),
+   m_renderDataLibrary()
 {
 }
 
@@ -20,24 +21,14 @@ AtmosphereRenderer::~AtmosphereRenderer()
 {
 }
 
-AtmosphereRenderable& AtmosphereRenderer::GetRenderable(const Atmosphere_impl& atmosphere)
-{
-   auto itr = m_atmosphereRenderables.find(atmosphere.GetId());
-   if (itr == m_atmosphereRenderables.end())
-   {
-      AtmosphereRenderable renderable;
-
-      //TODO:
-
-      return m_atmosphereRenderables.emplace(atmosphere.GetId(), renderable).first->second;
-   }
-
-   return itr->second;
-}
-
 void AtmosphereRenderer::Render(const Atmosphere_impl& atmosphere, const GBuffer& gBuffer)
 {
-   AtmosphereRenderable& renderable = GetRenderable(atmosphere);
+   auto& renderData = m_renderDataLibrary.GetRenderData(atmosphere.GetId());
+
+   if(!renderData.Initialised)
+   {
+      renderData.Initialised = true;
+   }
 
    if (atmosphere.IsDirty())
    {

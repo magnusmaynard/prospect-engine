@@ -4,6 +4,8 @@
 #include "Scene/Terrain/Terrain_impl.h"
 #include "Renderer/Uniforms/UniformBuffer.h"
 #include "Renderer/Pipeline/Shaders/TerrainShader.h"
+#include "Renderer/Renderers/RenderDataLibrary.h"
+#include "Renderer/Renderers/RenderData.h"
 
 namespace Prospect
 {
@@ -12,7 +14,7 @@ namespace Prospect
    class Scene_impl;
    class IRenderable;
 
-   struct TerrainRenderable
+   struct TerrainRenderData : RenderData
    {
       GLuint VAO;
       GLuint HeightMapTexture;
@@ -25,14 +27,15 @@ namespace Prospect
       TerrainRenderer(ShaderLibrary& shaderLibrary);
       ~TerrainRenderer();
 
+      static void Initialise(TerrainRenderData& renderData);
+      static void Dispose(TerrainRenderData& renderData);
+
       void Render(const Terrain_impl& terrain);
 
    private:
-      TerrainRenderable& GetRenderable(const Terrain_impl& terrain);
-      void ConstructHeightMapTexture(const Terrain_impl& terrain, TerrainRenderable& renderable);
+      static void ConstructHeightMapTexture(const Terrain_impl& terrain, TerrainRenderData& renderable);
 
       TerrainShader& m_shader;
-
-      std::map<unsigned, TerrainRenderable> m_terrainRenderables;
+      RenderDataLibrary<TerrainRenderData> m_renderDataLibrary;
    };
 }

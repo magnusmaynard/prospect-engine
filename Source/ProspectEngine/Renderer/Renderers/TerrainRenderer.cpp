@@ -15,20 +15,27 @@ TerrainRenderer::TerrainRenderer(ShaderLibrary& shaderLibrary)
    :
    m_shader(shaderLibrary.GetTerrainShader())
 {
+   m_renderDataLibrary.SetInitialise(Initialise);
+   m_renderDataLibrary.SetDispose(Dispose);
 }
 
 TerrainRenderer::~TerrainRenderer()
 {
-   //Dispose.
-   for(auto& renderable : m_terrainRenderables)
-   {
-      glDeleteVertexArrays(1, &renderable.second.VAO);
-   }
+}
+
+void TerrainRenderer::Initialise(TerrainRenderData& renderData)
+{
+   glCreateVertexArrays(1, &renderData.VAO);
+}
+
+void TerrainRenderer::Dispose(TerrainRenderData& renderData)
+{
+   glDeleteVertexArrays(1, &renderData.VAO);
 }
 
 void TerrainRenderer::Render(const Terrain_impl& terrain)
 {
-   TerrainRenderable& renderable = GetRenderable(terrain);
+   TerrainRenderData& renderable = m_renderDataLibrary.GetRenderData(terrain.GetId());
 
    //Update textures if dirty.
    if(terrain.IsDirty())
@@ -62,24 +69,9 @@ void TerrainRenderer::Render(const Terrain_impl& terrain)
    }
 }
 
-TerrainRenderable& TerrainRenderer::GetRenderable(
-   const Terrain_impl& terrain)
-{
-   auto itr = m_terrainRenderables.find(terrain.GetId());
-   if (itr == m_terrainRenderables.end())
-   {
-      TerrainRenderable renderable;
-      glCreateVertexArrays(1, &renderable.VAO);
-
-      return m_terrainRenderables.emplace(terrain.GetId(), renderable).first->second;
-   }
-
-   return itr->second;
-}
-
 void TerrainRenderer::ConstructHeightMapTexture(
    const Terrain_impl& terrain,
-   TerrainRenderable& renderable)
+   TerrainRenderData& renderable)
 {
    auto& terrainMap = terrain.GetTerrainMap();
 

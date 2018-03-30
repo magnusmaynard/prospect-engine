@@ -33,8 +33,8 @@ namespace Prospect
       void Render(const Atmosphere_impl& atmosphere);
 
    private:
-      static void InitialiseSun(SunRenderData& renderable);
-      static void DisposeSun(SunRenderData& renderable);
+      static void Initialise(SunRenderData& renderData);
+      static void Dispose(SunRenderData& renderData);
 
       SunShader& m_shader;
       RenderDataLibrary<SunRenderData> m_renderDataLibrary;

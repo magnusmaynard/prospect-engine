@@ -12,77 +12,86 @@ using namespace glm;
 
 SunRenderer::SunRenderer(ShaderLibrary& shaderLibrary)
    :
-   m_shader(shaderLibrary.GetSunShader()),
-   m_renderDataLibrary(InitialiseSun, DisposeSun)
+   m_shader(shaderLibrary.GetSunShader())
 {
+   m_renderDataLibrary.SetInitialise(Initialise);
+   m_renderDataLibrary.SetDispose(Dispose);
 }
 
 SunRenderer::~SunRenderer()
 {
 }
 
-void SunRenderer::InitialiseSun(SunRenderData& renderable)
+void SunRenderer::Initialise(SunRenderData& renderData)
 {
    //Defaults
-   renderable.Color = vec3(1, 1, 1);
-   renderable.Radius = 100;
-   renderable.Distance = 8000;
+   renderData.Color = vec3(1, 1, 1);
+   renderData.Radius = 100;
+   renderData.Distance = 8000;
 
    //Creates a fan of points around a central vertex.
    const int segments = 24;
    const vec3 origin;
    const float decrement = pi<float>() * 2.f / segments;
 
-   renderable.Points.clear();
-   renderable.Points.reserve(segments + 2);
-   renderable.Points.push_back(origin);
+   renderData.Points.clear();
+   renderData.Points.reserve(segments + 2);
+   renderData.Points.push_back(origin);
 
    float angle = 0;
    for (int i = 0; i <= segments; i++)
    {
-      renderable.Points.push_back(vec3(sin(angle) * renderable.Radius, cos(angle) * renderable.Radius, 0));
+      renderData.Points.push_back(vec3(sin(angle) * renderData.Radius, cos(angle) * renderData.Radius, 0));
       angle -= decrement;
    }
 
-   glCreateVertexArrays(1, &renderable.VAO);
+   glCreateVertexArrays(1, &renderData.VAO);
 
-   glCreateBuffers(1, &renderable.PointsBuffer);
+   glCreateBuffers(1, &renderData.PointsBuffer);
 
    //Create vertex buffer.
    glNamedBufferStorage(
-      renderable.PointsBuffer,
-      renderable.Points.size() * sizeof(vec3),
-      &renderable.Points[0],
+      renderData.PointsBuffer,
+      renderData.Points.size() * sizeof(vec3),
+      &renderData.Points[0],
       0);
 
    glVertexArrayVertexBuffer(
-      renderable.VAO,
+      renderData.VAO,
       0,
-      renderable.PointsBuffer,
+      renderData.PointsBuffer,
       0,
       sizeof(vec3));
 
    glVertexArrayAttribFormat(
-      renderable.VAO,
+      renderData.VAO,
       0,
       3,
       GL_FLOAT,
       GL_FALSE,
       0);
 
-   glVertexArrayAttribBinding(renderable.VAO, 0, 0);
-   glEnableVertexArrayAttrib(renderable.VAO, 0);
+   glVertexArrayAttribBinding(renderData.VAO, 0, 0);
+   glEnableVertexArrayAttrib(renderData.VAO, 0);
+
+   //Set initialisation flag.
+   renderData.Initialised = true;
 }
 
-void SunRenderer::DisposeSun(SunRenderData& renderable)
+void SunRenderer::Dispose(SunRenderData& renderData)
 {
-   glDeleteBuffers(1, &renderable.PointsBuffer);
-   glDeleteVertexArrays(1, &renderable.VAO);
+   glDeleteBuffers(1, &renderData.PointsBuffer);
+   glDeleteVertexArrays(1, &renderData.VAO);
 }
 
 void SunRenderer::Render(const Atmosphere_impl& atmosphere)
 {
    SunRenderData& renderData = m_renderDataLibrary.GetRenderData(atmosphere.GetId());
+
+   if(!renderData.Initialised)
+   {
+      Initialise(renderData);
+   }
 
    //TODO: if dirty
    vec3 toSun = -normalize(atmosphere.GetSunDirection());

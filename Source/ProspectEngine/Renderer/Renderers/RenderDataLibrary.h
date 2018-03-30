@@ -8,10 +8,10 @@ namespace Prospect
    class RenderDataLibrary
    {
    public:
-      RenderDataLibrary(std::function<void(D&)> initialise, std::function<void(D&)> dispose)
+      RenderDataLibrary()
          :
-         m_initialise(initialise),
-         m_dispose(dispose)
+         m_initialise(DefaultInitialise),
+         m_dispose(DefaultDispose)
       {
       }
 
@@ -29,6 +29,7 @@ namespace Prospect
          if (itr == m_renderDataMap.end())
          {
             D renderData;
+            renderData.Initialised = false;
 
             m_initialise(renderData);
 
@@ -36,6 +37,31 @@ namespace Prospect
          }
 
          return itr->second;
+      }
+
+      void SetInitialise(std::function<void(D&)> initialise)
+      {
+         m_initialise = initialise;
+      }
+
+      void SetDispose(std::function<void(D&)> dispose)
+      {
+         m_dispose = dispose;
+      }
+
+      static void DefaultInitialise(D& renderData)
+      {
+         //Do nothing.
+      }
+
+      static void DefaultDispose(D& renderData)
+      {
+         if(renderData.Initialised)
+         {
+            std::cerr << "Warning: Initialised render data is not being disposed";
+         }
+
+         //Do nothing.
       }
 
    private:
