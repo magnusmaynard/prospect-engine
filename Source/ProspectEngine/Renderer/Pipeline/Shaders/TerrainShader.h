@@ -16,11 +16,18 @@ namespace Prospect
             Resources::TERRAIN_TESSCONTROL_SHADER,
             Resources::TERRAIN_TESSEVALUATION_SHADER,
             Resources::TERRAIN_FRAGMENT_SHADER),
+         m_terrainUniforms("TerrainUniforms"),
          m_nodeUniforms("NodeUniforms")
       {
          globalUniforms.Camera.Bind(GetProgram());
          globalUniforms.DirectionalLights.Bind(GetProgram());
+         m_terrainUniforms.Bind(GetProgram());
          m_nodeUniforms.Bind(GetProgram());
+      }
+
+      void Update(const TerrainUniforms& block)
+      {
+         m_terrainUniforms.Update(block);
       }
 
       void Update(const NodeUniforms& block)
@@ -29,6 +36,7 @@ namespace Prospect
       }
 
    private:
+      UniformBuffer<TerrainUniforms> m_terrainUniforms;
       UniformBuffer<NodeUniforms> m_nodeUniforms;
    };
 }

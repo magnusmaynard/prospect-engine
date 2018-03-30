@@ -4,8 +4,6 @@ layout (quads, equal_spacing) in;
 
 layout (binding = 0) uniform sampler2D textureHeight;
 
-uniform float maxHeight;
-
 layout (std140) uniform CameraUniforms
 {
    mat4 PerspectiveProjection;
@@ -15,6 +13,14 @@ layout (std140) uniform CameraUniforms
    vec4 Position;
    vec2 ScreenSize;
 } camera;
+
+layout (std140) uniform TerrainUniforms
+{
+   float MinHeight;
+   float MaxHeight;
+   float TotalSize;
+   float Null;
+} terrain;
 
 in TCS_OUT
 {
@@ -39,7 +45,7 @@ void main()
 
    vec4 p = mix(p2, p1, gl_TessCoord.y);
 
-   p.y += texture(textureHeight, tc).r * maxHeight;
+   p.y += texture(textureHeight, tc).r * terrain.MaxHeight;
 
    //ModelView transforms must be applied after height map offset (i.e. Not in the VertexShader).
    gl_Position = camera.PerspectiveProjection * camera.View * p;

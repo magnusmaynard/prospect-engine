@@ -4,6 +4,7 @@
 #include "Scene/Camera_impl.h"
 #include "Scene/Atmosphere_impl.h"
 #include "Scene/Entity_impl.h"
+#include "Scene/Terrain/Terrain_impl.h"
 #include "Engine/EngineDefines.h"
 #include "Libraries/MaterialLibrary_impl.h"
 #include "Renderer/ShadowMaps.h"
@@ -121,6 +122,27 @@ namespace Prospect
       }
 
       std::array<MaterialUniforms, MAX_MATERIALS> Materials;
+   };
+
+   struct TerrainUniforms
+   {
+      TerrainUniforms()
+      {
+      }
+
+      TerrainUniforms(const Terrain_impl& terrain)
+         :
+         MinHeight(terrain.GetMinHeight()),
+         MaxHeight(terrain.GetMaxHeight()),
+         TotalSize(terrain.GetSize()),
+         Null(0)
+      {
+      }
+
+      float MinHeight;
+      float MaxHeight;
+      float TotalSize;
+      float Null;
    };
 
    struct NodeUniforms

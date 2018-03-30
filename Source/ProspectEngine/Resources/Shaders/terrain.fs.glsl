@@ -2,9 +2,6 @@
 
 layout (binding = 0) uniform sampler2D textureHeight;
 
-uniform float minHeight;
-uniform float maxHeight;
-
 layout (std140) uniform CameraUniforms
 {
    mat4 PerspectiveProjection;
@@ -36,6 +33,14 @@ layout (std140) uniform NodeUniforms
    float Size;
    float Level;
 } node;
+
+layout (std140) uniform TerrainUniforms
+{
+   float MinHeight;
+   float MaxHeight;
+   float TotalSize;
+   float Null;
+} terrain;
 
 in TES_OUT
 {
@@ -75,10 +80,10 @@ float lightBrightness = light.ColorAndBrightness.a;
 
 void main()
 {
-   float xNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2(-1, 0)).x * maxHeight;
-   float xPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 1, 0)).x * maxHeight;
-   float yNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0,-1)).x * maxHeight;
-   float yPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0, 1)).x * maxHeight;
+   float xNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2(-1, 0)).x * terrain.MaxHeight;
+   float xPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 1, 0)).x * terrain.MaxHeight;
+   float yNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0,-1)).x * terrain.MaxHeight;
+   float yPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0, 1)).x * terrain.MaxHeight;
    vec3 va = normalize(vec3(2.0, xPos - xNeg, 0));
    vec3 vb = normalize(vec3(0, yPos - yNeg, 2.0));
 

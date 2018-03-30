@@ -6,7 +6,6 @@
 #include "Scene/Camera_impl.h"
 #include "Scene/Lights/ILight_impl.h"
 #include "Renderer/Renderables/RenderableEntity.h"
-#include "Renderer/Renderables/RenderableTerrain.h"
 #include "Renderer/Renderables/RenderableText.h"
 #include "Renderer/Debugger/Debug.h"
 #include "Libraries/MaterialLibrary_impl.h"
@@ -24,7 +23,8 @@ Renderer::Renderer(const MaterialLibrary_impl& materialLibrary, const ivec2& siz
    m_shaderLibrary(m_globalUniformBuffers),
    m_materialLibrary(materialLibrary),
    m_gBuffer(size),
-   m_lightingPass(m_shaderLibrary, m_gBuffer, m_shadowMaps)
+   m_lightingPass(m_shaderLibrary, m_gBuffer, m_shadowMaps),
+   m_terrainRenderer(m_shaderLibrary)
 {
    Initialize();
 }
@@ -65,7 +65,6 @@ void Renderer::Render(const double time, Scene_impl& scene)
    UpdateState();
    UpdateGlobalUniformBuffers(scene);
    UpdateRenderableEntity(scene.GetRootEntityImpl());
-   UpdateRenderableTerrain(scene);
    UpdateRenderableAtmosphere(scene);
    UpdateRenderableSun(scene);
    UpdateFPS(time);
@@ -74,7 +73,7 @@ void Renderer::Render(const double time, Scene_impl& scene)
    m_gBuffer.Clear();
 
    ShadowPass(scene);
-   GeometryPass();
+   GeometryPass(scene);
    LightingPass2();
    EffectsPass();
 
@@ -108,7 +107,7 @@ void Renderer::ShadowPass(Scene_impl& scene)
    m_globalUniformBuffers.Camera.Update(CameraUniforms(scene.GetCameraImpl()));
 }
 
-void Renderer::GeometryPass()
+void Renderer::GeometryPass(Scene_impl& scene)
 {
    m_gBuffer.Bind();
 
@@ -117,9 +116,9 @@ void Renderer::GeometryPass()
       renderable->Render();
    }
 
-   if (m_terrain)
+   if(auto* terrain = scene.GetTerrainImpl())
    {
-      m_terrain->Render();
+      m_terrainRenderer.Render(*terrain);
    }
 
    if (m_sun)
@@ -216,17 +215,17 @@ void Renderer::UpdateGlobalUniformBuffers(const Scene_impl& scene)
    m_globalUniformBuffers.DirectionalLights.Update(DirectionalLightListUniforms(directionalLights));
 }
 
-void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)
-{
-   if(m_terrain == nullptr)
-   {
-      const Terrain_impl* terrain = scene.GetTerrainImpl();
-      if (terrain)
-      {
-         m_terrain = std::make_unique<RenderableTerrain>(m_shaderLibrary, *terrain);
-      }
-   }
-}
+//void Renderer::UpdateRenderableTerrain(const Scene_impl& scene)
+//{
+//   if(m_terrain == nullptr)
+//   {
+//      const Terrain_impl* terrain = scene.GetTerrainImpl();
+//      if (terrain)
+//      {
+//         m_terrain = std::make_unique<RenderableTerrain>(m_shaderLibrary, *terrain);
+//      }
+//   }
+//}
 
 void Renderer::UpdateRenderableAtmosphere(const Scene_impl& scene)
 {

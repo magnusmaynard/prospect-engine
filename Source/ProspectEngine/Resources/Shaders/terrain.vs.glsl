@@ -20,7 +20,13 @@ layout (std140) uniform NodeUniforms
    float Level;
 } node;
 
-uniform float totalSize;
+layout (std140) uniform TerrainUniforms
+{
+   float MinHeight;
+   float MaxHeight;
+   float TotalSize;
+   float Null;
+} terrain;
 
 out VS_OUT
 {
@@ -39,7 +45,7 @@ void main()
 
    const vec4 vertex = vec4(vertices[gl_VertexID], 1.0);
 
-   vs_out.textureCoord = vertex.xz / totalSize + vec2(0.5);
+   vs_out.textureCoord = vertex.xz / 800 + vec2(0.5);
 
    gl_Position = vertex;
 }

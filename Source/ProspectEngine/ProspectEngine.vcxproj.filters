@@ -95,13 +95,7 @@
     <ClInclude Include="Scene\Terrain\QuadTree.h">
       <Filter>Scene\Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderables\RenderableTerrain.h">
-      <Filter>Renderer\Renderables</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Renderables\RenderableText.h">
-      <Filter>Renderer\Renderables</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Renderables\IRenderable.h">
       <Filter>Renderer\Renderables</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\Uniforms\GlobalUniformBuffers.h">
@@ -221,6 +215,18 @@
     <ClInclude Include="Renderer\ShadowMaps.h">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Renderers\IRenderer.h">
+      <Filter>Renderer\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderers\TerrainRenderer.h">
+      <Filter>Renderer\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\Renderable.h">
+      <Filter>Renderer\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderables\IRenderable.h">
+      <Filter>Renderer\Renderables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Window.cpp">
@@ -289,9 +295,6 @@
     </ClCompile>
     <ClCompile Include="Scene\Terrain\QuadTree.cpp">
       <Filter>Scene\Terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Renderables\RenderableTerrain.cpp">
-      <Filter>Renderer\Renderables</Filter>
     </ClCompile>
     <ClCompile Include="Renderer\Renderables\RenderableText.cpp">
       <Filter>Renderer\Renderables</Filter>
@@ -374,6 +377,12 @@
     <ClCompile Include="Renderer\ShadowMaps.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\Renderers\TerrainRenderer.cpp">
+      <Filter>Renderer\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderables\Renderable.cpp">
+      <Filter>Renderer\Renderables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -444,6 +453,9 @@
     </Filter>
     <Filter Include="Renderer\OpenGL">
       <UniqueIdentifier>{f9fc849b-a8b1-4918-83cd-c99cafbdbe19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Renderers">
+      <UniqueIdentifier>{a6941df5-9cef-4f6d-8fae-a6c1b95ac9b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

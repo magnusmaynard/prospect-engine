@@ -40,8 +40,8 @@ void TestApplication::OnStartup()
 
    const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\noise.bmp");
 
-   //Terrain terrain(vec3(), heightMap, 800, 0, 100);
-   //m_scene.SetTerrain(terrain);
+   Terrain terrain(vec3(), heightMap, 800, 0, 100);
+   m_scene.SetTerrain(terrain);
 
    DirectionalLight sunLight(vec3(0, -1, 1));
    m_scene.AddLight(sunLight);
@@ -54,7 +54,6 @@ void TestApplication::OnStartup()
    atmosphere.SetLight(sunLight);
 
    m_scene.SetAtmosphere(atmosphere);
-
 
    //Light light1(vec3(50, 30, 0), vec3(0, -1, 0), LightType::Point);
    //light1.SetRange(200);

@@ -2,14 +2,16 @@
 
 #include "Include/Bitmap.h"
 #include "Scene/Terrain/QuadTree.h"
+#include "Renderer/Renderables/Renderable.h"
 
 namespace Prospect
 {
    class Scene_impl;
 
-   class Terrain_impl
+   class Terrain_impl : public Renderable
    {
    public:
+      //Public
       Terrain_impl(
          const glm::vec3& origin,
          const Bitmap& heightMap,
@@ -28,6 +30,8 @@ namespace Prospect
       const Bitmap& GetTerrainMap() const;
 
    private:
+      mutable bool m_isDirty;
+
       Bitmap m_terrainMap;
       const float m_maxHeight;
       const float m_minHeight;
