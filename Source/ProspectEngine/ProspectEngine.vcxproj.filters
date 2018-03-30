@@ -95,9 +95,6 @@
     <ClInclude Include="Scene\Terrain\QuadTree.h">
       <Filter>Scene\Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Renderables\RenderableText.h">
-      <Filter>Renderer\Renderables</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Uniforms\GlobalUniformBuffers.h">
       <Filter>Renderer\Uniforms</Filter>
     </ClInclude>
@@ -233,6 +230,12 @@
     <ClInclude Include="Renderer\Renderers\RenderData.h">
       <Filter>Renderer\Renderers</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Renderers\TextRenderer.h">
+      <Filter>Renderer\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Text_impl.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Window.cpp">
@@ -301,9 +304,6 @@
     </ClCompile>
     <ClCompile Include="Scene\Terrain\QuadTree.cpp">
       <Filter>Scene\Terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Renderables\RenderableText.cpp">
-      <Filter>Renderer\Renderables</Filter>
     </ClCompile>
     <ClCompile Include="Resources\ResourceIO.cpp">
       <Filter>Resources</Filter>
@@ -388,6 +388,12 @@
     </ClCompile>
     <ClCompile Include="Renderer\Renderers\SunRenderer.cpp">
       <Filter>Renderer\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderers\TextRenderer.cpp">
+      <Filter>Renderer\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Text_impl.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

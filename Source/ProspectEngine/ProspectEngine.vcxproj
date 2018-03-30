@@ -66,7 +66,6 @@
     <ClInclude Include="Renderer\Renderables\IRenderable.h" />
     <ClInclude Include="Renderer\Renderables\Renderable.h" />
     <ClInclude Include="Renderer\Renderables\RenderableEntity.h" />
-    <ClInclude Include="Renderer\Renderables\RenderableText.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\RendererDefines.h" />
     <ClInclude Include="Renderer\Renderers\AtmosphereRenderer.h" />
@@ -75,6 +74,7 @@
     <ClInclude Include="Renderer\Renderers\RenderDataLibrary.h" />
     <ClInclude Include="Renderer\Renderers\SunRenderer.h" />
     <ClInclude Include="Renderer\Renderers\TerrainRenderer.h" />
+    <ClInclude Include="Renderer\Renderers\TextRenderer.h" />
     <ClInclude Include="Renderer\ShadowMap.h" />
     <ClInclude Include="Renderer\ShadowMaps.h" />
     <ClInclude Include="Renderer\Textures\DepthTexture.h" />
@@ -97,6 +97,7 @@
     <ClInclude Include="Scene\Terrain\Node.h" />
     <ClInclude Include="Scene\Terrain\QuadTree.h" />
     <ClInclude Include="Scene\Terrain\Terrain_impl.h" />
+    <ClInclude Include="Scene\Text_impl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Containers\Bitmap.cpp" />
@@ -123,11 +124,11 @@
     <ClCompile Include="Renderer\Pipeline\Shaders\Shader.cpp" />
     <ClCompile Include="Renderer\Renderables\Renderable.cpp" />
     <ClCompile Include="Renderer\Renderables\RenderableEntity.cpp" />
-    <ClCompile Include="Renderer\Renderables\RenderableText.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\Renderers\AtmosphereRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\SunRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\TerrainRenderer.cpp" />
+    <ClCompile Include="Renderer\Renderers\TextRenderer.cpp" />
     <ClCompile Include="Renderer\ShadowMap.cpp" />
     <ClCompile Include="Renderer\ShadowMaps.cpp" />
     <ClCompile Include="Renderer\Textures\DepthTexture.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="Scene\Terrain\QuadTree.cpp" />
     <ClCompile Include="Scene\Terrain\Terrain.cpp" />
     <ClCompile Include="Scene\Terrain\Terrain_impl.cpp" />
+    <ClCompile Include="Scene\Text_impl.cpp" />
     <ClCompile Include="Utilities\IO.cpp" />
   </ItemGroup>
   <ItemGroup>

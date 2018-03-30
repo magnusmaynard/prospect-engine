@@ -6,7 +6,6 @@
 #include "Scene/Camera_impl.h"
 #include "Scene/Lights/ILight_impl.h"
 #include "Renderer/Renderables/RenderableEntity.h"
-#include "Renderer/Renderables/RenderableText.h"
 #include "Renderer/Debugger/Debug.h"
 #include "Libraries/MaterialLibrary_impl.h"
 #include "Renderer/ShadowMap.h"
@@ -26,7 +25,10 @@ Renderer::Renderer(const MaterialLibrary_impl& materialLibrary, const ivec2& siz
    m_lightingPass(m_shaderLibrary, m_gBuffer, m_shadowMaps),
    m_terrainRenderer(m_shaderLibrary),
    m_atmosphereRenderer(m_shaderLibrary),
-   m_sunRenderer(m_shaderLibrary)
+   m_sunRenderer(m_shaderLibrary),
+   m_textRenderer(m_shaderLibrary),
+
+   m_fpsText("", ivec2(4, 0), 12)
 {
    Initialize();
 }
@@ -45,7 +47,6 @@ void Renderer::Initialize()
    glEnable(GL_CULL_FACE);
    glFrontFace(GL_CCW);
 
-   m_fpsText = std::make_unique<RenderableText>(m_shaderLibrary, "", ivec2(4, 0), 12);
 }
 
 void Renderer::UpdateState()
@@ -145,7 +146,7 @@ void Renderer::EffectsPass(Scene_impl& scene)
 
    if (m_showFPS)
    {
-      m_fpsText->Render();
+      m_textRenderer.Render(m_fpsText);
    }
 }
 
@@ -259,7 +260,7 @@ void Renderer::UpdateFPS(const double time)
    {
       const std::string text = std::to_string(m_frameCount);
 
-      m_fpsText->SetText(text);
+      m_fpsText.SetText(text);
 
       m_frameCount = 0;
       m_previousTime = time;

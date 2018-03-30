@@ -88,11 +88,6 @@ void SunRenderer::Render(const Atmosphere_impl& atmosphere)
 {
    SunRenderData& renderData = m_renderDataLibrary.GetRenderData(atmosphere.GetId());
 
-   if(!renderData.Initialised)
-   {
-      Initialise(renderData);
-   }
-
    //TODO: if dirty
    vec3 toSun = -normalize(atmosphere.GetSunDirection());
    renderData.Translation = translate(toSun * renderData.Distance);

@@ -5,13 +5,14 @@
 #include "Renderer/VertexData.h"
 #include "Renderer/Pipeline/ShaderLibrary.h"
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
-#include "Renderer/Renderables/RenderableText.h"
 #include "Renderer/Pipeline/GBuffer.h"
 #include "Renderer/Pipeline/LightingPass.h"
 #include "Renderer/ShadowMaps.h"
 #include "Renderer/Renderers/TerrainRenderer.h"
 #include "Renderer/Renderers/AtmosphereRenderer.h"
 #include "Renderer/Renderers/SunRenderer.h"
+#include "Renderer/Renderers/TextRenderer.h"
+#include "Scene/Text_impl.h"
 
 namespace Prospect
 {
@@ -33,7 +34,7 @@ namespace Prospect
 
    private:
       std::deque<std::unique_ptr<IRenderable>> m_renderables;
-      std::unique_ptr<RenderableText> m_fpsText;
+      Text_impl m_fpsText;
 
       std::map<int, VertexData> m_vertexDataMap;
       GlobalUniformBuffers m_globalUniformBuffers;
@@ -49,6 +50,7 @@ namespace Prospect
       TerrainRenderer m_terrainRenderer;
       AtmosphereRenderer m_atmosphereRenderer;
       SunRenderer m_sunRenderer;
+      TextRenderer m_textRenderer;
 
       void Initialize();
       
