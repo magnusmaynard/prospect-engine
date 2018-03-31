@@ -18,6 +18,8 @@ namespace Prospect
 
       Terrain(std::shared_ptr<Terrain_impl>& impl);
 
+      void SetGroundTexture(const Bitmap& groundTexture);
+
    private:
       std::shared_ptr<Terrain_impl> m_impl;
 

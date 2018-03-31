@@ -7,4 +7,29 @@
   <ItemGroup>
     <ClInclude Include="TestApplication.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Textures">
+      <UniqueIdentifier>{16b90e46-15e8-49cc-aea1-2668f8fbf16c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\texture_dirt.png">
+      <Filter>Textures</Filter>
+    </Image>
+    <Image Include="Textures\texture_grass.png">
+      <Filter>Textures</Filter>
+    </Image>
+    <Image Include="Textures\texture_noise.bmp">
+      <Filter>Textures</Filter>
+    </Image>
+    <Image Include="Textures\texture_wind.png">
+      <Filter>Textures</Filter>
+    </Image>
+    <Image Include="Textures\bagstone.bmp">
+      <Filter>Textures</Filter>
+    </Image>
+    <Image Include="Textures\bagstone2.bmp">
+      <Filter>Textures</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

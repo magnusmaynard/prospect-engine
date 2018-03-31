@@ -21,6 +21,10 @@ namespace Prospect
 
       ~Terrain_impl();
 
+      void SetGroundTexture(const Bitmap& groundTexture);
+      const Bitmap* GetGroundTexture() const;
+
+      //Internal
       void Update(const Scene_impl& scene);
 
       float GetMinHeight() const;
@@ -32,7 +36,8 @@ namespace Prospect
    private:
       mutable bool m_isDirty;
 
-      Bitmap m_terrainMap;
+      std::unique_ptr<Bitmap> m_groundTexture;
+      Bitmap m_heightMap;
       const float m_maxHeight;
       const float m_minHeight;
       const float m_size;

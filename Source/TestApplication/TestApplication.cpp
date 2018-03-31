@@ -38,9 +38,11 @@ void TestApplication::OnStartup()
 
    m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
 
-   const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "TerrainMaps\\noise.bmp");
+   const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_noise.bmp", true);
+   const Bitmap grassTexture = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_grass.bmp");
 
    Terrain terrain(vec3(), heightMap, 800, 0, 100);
+   terrain.SetGroundTexture(grassTexture);
    m_scene.SetTerrain(terrain);
 
    DirectionalLight sunLight(vec3(0, -1, 1));

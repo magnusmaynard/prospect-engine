@@ -41,6 +41,8 @@ void TerrainRenderer::Render(const Terrain_impl& terrain)
    if(terrain.IsDirty())
    {
       ConstructHeightMapTexture(terrain, renderable);
+      ConstructGroundTexture(terrain, renderable);
+
       terrain.Clean();
    }
 
@@ -52,6 +54,7 @@ void TerrainRenderer::Render(const Terrain_impl& terrain)
 
    //Textures.
    glBindTextureUnit(0, renderable.HeightMapTexture);
+   glBindTextureUnit(1, renderable.GroundTexture);
 
    //Draw.
    auto& endNodes = terrain.GetEndNodes();
@@ -95,4 +98,41 @@ void TerrainRenderer::ConstructHeightMapTexture(
 
    glTextureParameteri(renderable.HeightMapTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
    glTextureParameteri(renderable.HeightMapTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+}
+
+void TerrainRenderer::ConstructGroundTexture(const Terrain_impl& terrain, TerrainRenderData& renderable)
+{
+   if(!terrain.GetGroundTexture())
+   {
+      return;
+   }
+
+   auto& groundTexture = *terrain.GetGroundTexture();
+
+   if(groundTexture.Channels != 3)
+   {
+      std::cout << "Error: Invalid texture" << std::endl;
+      return;
+   }
+
+   glCreateTextures(GL_TEXTURE_2D, 1, &renderable.GroundTexture);
+   glTextureStorage2D(renderable.GroundTexture, 4, GL_RGB32F, groundTexture.Width, groundTexture.Height);
+   glTextureSubImage2D(
+      renderable.GroundTexture,
+      0,
+      0, 0,
+      groundTexture.Width, groundTexture.Height,
+      GL_RGB,
+      GL_FLOAT,
+      &groundTexture.Data[0]);
+
+   glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_BASE_LEVEL, 0);
+   glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_MAX_LEVEL, 4);
+   glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+   glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+   glGenerateTextureMipmap(renderable.GroundTexture);
+
+   glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_WRAP_S, GL_REPEAT);
+   glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }

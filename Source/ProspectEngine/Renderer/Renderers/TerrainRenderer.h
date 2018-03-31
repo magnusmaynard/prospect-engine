@@ -17,6 +17,7 @@ namespace Prospect
    {
       GLuint VAO;
       GLuint HeightMapTexture;
+      GLuint GroundTexture;
       glm::mat4 Transform;
    };
 
@@ -33,6 +34,7 @@ namespace Prospect
 
    private:
       static void ConstructHeightMapTexture(const Terrain_impl& terrain, TerrainRenderData& renderable);
+      static void ConstructGroundTexture(const Terrain_impl& terrain, TerrainRenderData& renderable);
 
       TerrainShader& m_shader;
       RenderDataLibrary<TerrainRenderData> m_renderDataLibrary;

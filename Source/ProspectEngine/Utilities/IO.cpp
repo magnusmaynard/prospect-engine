@@ -17,7 +17,7 @@ std::string IO::GetExecutablePath()
    char buffer[MAX_PATH];
    GetModuleFileNameA(nullptr, buffer, MAX_PATH);
 
-   auto position = std::string(buffer).find_last_of("\\/");
+   const auto position = std::string(buffer).find_last_of("\\/");
    return std::string(buffer).substr(0, position + 1);
 }
 
@@ -37,14 +37,15 @@ std::string IO::ReadText(const std::string& filePath)
    return sourceStream.str();
 }
 
-Bitmap IO::ReadBitmap(const std::string& filePath)
+Bitmap IO::ReadBitmap(const std::string& filePath, const bool monochrome)
 {
+   const int desiredChannels = monochrome ? 1 : 3;
+
    int width = 0;
    int height = 0;
    int channels = 0;
-   float* rawData = stbi_loadf(filePath.c_str(), &width, &height, &channels, 1);
+   float* rawData = stbi_loadf(filePath.c_str(), &width, &height, &channels, desiredChannels);
 
-   const std::vector<float> data(rawData, rawData + width * height);
-
+   const std::vector<float> data(rawData, rawData + width * height * desiredChannels);
    return Bitmap(width, height, channels, data);
 }

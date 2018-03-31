@@ -28,3 +28,8 @@ Terrain::Terrain(std::shared_ptr<Terrain_impl>& impl)
 }
 
 Terrain::~Terrain() = default;
+
+void Terrain::SetGroundTexture(const Bitmap& groundTexture)
+{
+   m_impl->SetGroundTexture(groundTexture);
+}

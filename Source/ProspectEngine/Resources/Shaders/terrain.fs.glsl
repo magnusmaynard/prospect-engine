@@ -1,6 +1,7 @@
 #version 450
 
-layout (binding = 0) uniform sampler2D textureHeight;
+layout (binding = 0) uniform sampler2D heightMapTexture;
+layout (binding = 1) uniform sampler2D groundTexture;
 
 layout (std140) uniform CameraUniforms
 {
@@ -54,15 +55,17 @@ void UpdateBuffers(
 
 void main()
 {
-   float xNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2(-1, 0)).x * terrain.MaxHeight;
-   float xPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 1, 0)).x * terrain.MaxHeight;
-   float yNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0,-1)).x * terrain.MaxHeight;
-   float yPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0, 1)).x * terrain.MaxHeight;
+   float xNeg = textureOffset(heightMapTexture, fs_in.textureCoord, ivec2(-1, 0)).x * terrain.MaxHeight;
+   float xPos = textureOffset(heightMapTexture, fs_in.textureCoord, ivec2( 1, 0)).x * terrain.MaxHeight;
+   float yNeg = textureOffset(heightMapTexture, fs_in.textureCoord, ivec2( 0,-1)).x * terrain.MaxHeight;
+   float yPos = textureOffset(heightMapTexture, fs_in.textureCoord, ivec2( 0, 1)).x * terrain.MaxHeight;
    vec3 va = vec3(2.0, xPos - xNeg, 0);
    vec3 vb = vec3(0, yPos - yNeg, 2.0);
 
    vec3 normal = mat3(camera.View) * normalize(-cross(va, vb));
-   vec3 diffuse = vec3(0.1);//TODO: get color
+
+   float groundTextureScale = 60;
+   vec3 diffuse = texture(groundTexture, fs_in.textureCoord * groundTextureScale).xyz;
 
    vec4 color = vec4(diffuse, 1.0);
 

@@ -4,6 +4,14 @@
 
 using namespace Prospect;
 
+Bitmap::Bitmap()
+   :
+   Width(0),
+   Height(0),
+   Channels(0)
+{
+}
+
 Bitmap::Bitmap(int width, int height, const std::vector<float>& data)
    :
    Width(width),

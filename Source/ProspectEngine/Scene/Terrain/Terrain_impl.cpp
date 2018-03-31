@@ -13,7 +13,7 @@ Terrain_impl::Terrain_impl(
    float minHeight,
    float maxHeight)
    :
-   m_terrainMap(heightMap),
+   m_heightMap(heightMap),
    m_minHeight(minHeight),
    m_maxHeight(maxHeight),
    m_size(size),
@@ -22,6 +22,18 @@ Terrain_impl::Terrain_impl(
 }
 
 Terrain_impl::~Terrain_impl() = default;
+
+void Terrain_impl::SetGroundTexture(const Bitmap& groundTexture)
+{
+   m_groundTexture = std::make_unique<Bitmap>(groundTexture);
+
+   m_isDirty = true;
+}
+
+const Bitmap* Terrain_impl::GetGroundTexture() const
+{
+   return m_groundTexture.get();
+}
 
 void Terrain_impl::Update(const Scene_impl& scene)
 {
@@ -52,5 +64,5 @@ const std::vector<Node*>& Terrain_impl::GetEndNodes() const
 
 const Bitmap& Terrain_impl::GetTerrainMap() const
 {
-   return m_terrainMap;
+   return m_heightMap;
 }

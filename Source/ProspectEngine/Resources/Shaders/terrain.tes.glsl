@@ -2,7 +2,7 @@
 
 layout (quads, equal_spacing) in;
 
-layout (binding = 0) uniform sampler2D textureHeight;
+layout (binding = 0) uniform sampler2D heightMapTexture;
 
 layout (std140) uniform CameraUniforms
 {
@@ -45,7 +45,7 @@ void main()
 
    vec4 p = mix(p2, p1, gl_TessCoord.y);
 
-   p.y += texture(textureHeight, tc).r * terrain.MaxHeight;
+   p.y += texture(heightMapTexture, tc).r * terrain.MaxHeight;
 
    //ModelView transforms must be applied after height map offset (i.e. Not in the VertexShader).
    gl_Position = camera.PerspectiveProjection * camera.View * p;

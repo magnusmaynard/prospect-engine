@@ -30,6 +30,14 @@
       <Project>{987c8fd7-4f5c-45bd-9264-f01a48a484df}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\bagstone.bmp" />
+    <Image Include="Textures\bagstone2.bmp" />
+    <Image Include="Textures\texture_dirt.png" />
+    <Image Include="Textures\texture_grass.png" />
+    <Image Include="Textures\texture_noise.bmp" />
+    <Image Include="Textures\texture_wind.png" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8AC74FFD-A6E8-419E-98C2-69FE6E1C78C7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -160,7 +168,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)TerrainMaps\* $(OutputPath)TerrainMaps\ /sy</Command>
+      <Command>xcopy $(ProjectDir)Textures\* $(OutputPath)Textures\ /sy</Command>
     </PostBuildEvent>
     <ClCompile>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpp17</LanguageStandard>
