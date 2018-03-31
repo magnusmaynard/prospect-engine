@@ -130,7 +130,8 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 position, vec3 V, ve
     shadowCoord.z = layer;
 
     float visibility = texture(shadowTextures, shadowCoord);
-    return color * visibility;
+    vec3 ambient = vec3(0.05);
+    return color * visibility + ambient;
     
 //     vec4 shadowCoord;
 //     shadowCoord.xyw = vec3(fs_in.textureCoords, 0);
@@ -222,7 +223,7 @@ vec3 CalculateLighting(vec3 position)
 //Calculates a position in view space from a depth and a position on the screen.
 vec3 CalculateViewSpacePosition(float depth, vec2 screenPosition)
 {
-    //Scale position from 0.0 to 1.0 to -1.0 to 1.0 range.
+    //Scale position [0.0, 1.0] to [-1.0, 1.0] range.
     vec3 clipSpacePosition = vec3(screenPosition, depth) * 2 - vec3(1);
 
     //Transform the position to view space.

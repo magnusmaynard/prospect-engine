@@ -45,7 +45,7 @@ void main()
 
    const vec4 vertex = vec4(vertices[gl_VertexID], 1.0);
 
-   vs_out.textureCoord = vertex.xz / 800 + vec2(0.5);
+   vs_out.textureCoord = vertex.xz / terrain.TotalSize + vec2(0.5);
 
    gl_Position = vertex;
 }

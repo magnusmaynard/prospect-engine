@@ -21,6 +21,9 @@ ShadowMaps::ShadowMaps()
    glTextureParameteri(m_shadowTextures, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
    glTextureParameteri(m_shadowTextures, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
+   float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+   glTextureParameterfv (m_shadowTextures, GL_TEXTURE_BORDER_COLOR, borderColor);
+
    //Required for shadow sampler.
    glTextureParameteri(m_shadowTextures, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
    glTextureParameteri(m_shadowTextures, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);

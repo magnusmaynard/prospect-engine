@@ -46,8 +46,8 @@ void TestApplication::OnStartup()
    DirectionalLight sunLight(vec3(0, -1, 1));
    m_scene.AddLight(sunLight);
 
-   DirectionalLight otherLight(vec3(1, -1, 0));
-   m_scene.AddLight(otherLight);
+   //DirectionalLight otherLight(vec3(1, -1, 0));
+   //m_scene.AddLight(otherLight);
 
    Atmosphere atmosphere;
    atmosphere.SetAltitude(1505);

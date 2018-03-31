@@ -92,6 +92,11 @@ void Renderer::ShadowPass(Scene_impl& scene)
 
       //Render scene.
       RenderEntities(scene.GetRootEntityImpl());
+
+      if (auto* terrain = scene.GetTerrainImpl())
+      {
+         m_terrainRenderer.Render(*terrain);
+      }
    }
 
    //Reset camera back to normal.

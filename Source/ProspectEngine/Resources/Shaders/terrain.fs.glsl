@@ -12,28 +12,6 @@ layout (std140) uniform CameraUniforms
    vec2 ScreenSize;
 } camera;
 
-struct DirectionalLight
-{
-   vec4 Position;
-   vec4 Direction;
-   vec4 ColorAndBrightness;
-   vec4 ShadowMapIndex;
-};
-
-layout (std140) uniform DirectionalLightListUniforms
-{
-   DirectionalLight Lights[10];
-   vec2 Count;
-} directionalLights;
-
-layout (std140) uniform NodeUniforms
-{
-   vec4 Origin;
-   ivec4 Edges;
-   float Size;
-   float Level;
-} node;
-
 layout (std140) uniform TerrainUniforms
 {
    float MinHeight;
@@ -74,23 +52,17 @@ void UpdateBuffers(
    specularBuffer.a = SSSTranslucency;
 }
 
-DirectionalLight light = directionalLights.Lights[0];
-vec3 lightColor = light.ColorAndBrightness.rgb;
-float lightBrightness = light.ColorAndBrightness.a;
-
 void main()
 {
    float xNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2(-1, 0)).x * terrain.MaxHeight;
    float xPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 1, 0)).x * terrain.MaxHeight;
    float yNeg = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0,-1)).x * terrain.MaxHeight;
    float yPos = textureOffset(textureHeight, fs_in.textureCoord, ivec2( 0, 1)).x * terrain.MaxHeight;
-   vec3 va = normalize(vec3(2.0, xPos - xNeg, 0));
-   vec3 vb = normalize(vec3(0, yPos - yNeg, 2.0));
+   vec3 va = vec3(2.0, xPos - xNeg, 0);
+   vec3 vb = vec3(0, yPos - yNeg, 2.0);
 
-   float height = texture(textureHeight, fs_in.textureCoord).r * 0.2;
-   vec3 normal = mat3(camera.View) * vec3(cross(va, vb));
-
-   vec3 diffuse = vec3(0.1 + height);
+   vec3 normal = mat3(camera.View) * normalize(-cross(va, vb));
+   vec3 diffuse = vec3(0.1);//TODO: get color
 
    vec4 color = vec4(diffuse, 1.0);
 
@@ -99,7 +71,7 @@ void main()
       normal,
       0,
       16.f,
-      0.f,
-      -1,
+      0.5f,
+      10,
       0);
 }
