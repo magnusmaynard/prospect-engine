@@ -98,6 +98,34 @@ vec4 DitherRGBA(vec4 color, float seed)
     return color + GoldNoise4(seed) / 255.0;
 }
 
+float CalculateShadowVisibility(DirectionalLight light, vec3 position)
+{
+    //Slope scale bias.
+    // float cosTheta = clamp(dot(normal, -lightDirection), 0, 1);
+    // float bias = 0.0002 * tan(acos(cosTheta));
+    // bias = clamp(bias, 0.0, 0.005);
+
+    // Apply shadows.
+    int shadowMapIndex = int(light.ShadowMapIndex.x);
+    mat4 shadowMatrix = shadowMaps.ShadowMatrices[shadowMapIndex];
+
+    float bias = 0.001;
+    vec3 shadowPosition = (shadowMatrix * inverse(camera.View) * vec4(position, 1)).xyz - vec3(0, 0, bias); //TODO: remove inverse()
+    float layer = shadowMapIndex;
+
+    vec4 shadowCoord;
+    shadowCoord.xyw = shadowPosition;
+    shadowCoord.z = layer;
+
+    float visibility = texture(shadowTextures, shadowCoord);
+
+    //Prevent over sampling outside the shadow maps depth. 
+    if(shadowCoord.w > 1.0)
+        visibility = 1.0;
+
+    return visibility;
+}
+
 vec3 CalculateDirectionalLight(DirectionalLight light, vec3 position, vec3 V, vec3 N)
 {
     //Calculate color.
@@ -109,35 +137,11 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 position, vec3 V, ve
 
     vec3 diffuse = diffuseAlbedo * max(dot(N, L), 0) * lightBrightness;
     vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * lightBrightness;
+    vec3 ambient = vec3(0.05); //TODO: Make not hardcoded.
 
-    vec3 color = diffuse + specular;
+    float visibility = CalculateShadowVisibility(light, position);
 
-    //Slope scale bias.
-    // float cosTheta = clamp(dot(normal, -lightDirection), 0, 1);
-    // float bias = 0.0002 * tan(acos(cosTheta));
-    // bias = clamp(bias, 0.0, 0.005);
-
-    // Apply shadows.
-    int shadowMapIndex = int(light.ShadowMapIndex.x);
-    mat4 shadowMatrix = shadowMaps.ShadowMatrices[shadowMapIndex];
-
-    float bias = 0.001;
-    vec3 shadowPosition = (shadowMatrix * inverse(camera.View) * vec4(position, 1)).xyz - vec3(0, 0, bias); //TODO remove inverse()
-    float layer = shadowMapIndex;
-
-    vec4 shadowCoord;
-    shadowCoord.xyw = shadowPosition;
-    shadowCoord.z = layer;
-
-    float visibility = texture(shadowTextures, shadowCoord);
-    vec3 ambient = vec3(0.05);
-    return color * visibility + ambient;
-    
-//     vec4 shadowCoord;
-//     shadowCoord.xyw = vec3(fs_in.textureCoords, 0);
-//     shadowCoord.z = 0;
-
-//    return vec3(texture(shadowTextures, shadowCoord));
+    return (diffuse + specular) * visibility + ambient;
 }
 
 // vec3 CalculatePointLight(Light light, vec3 position, vec3 V, vec3 N)
@@ -246,4 +250,16 @@ void main()
 
         color = DitherRGBA(color, 7);
     }
+
+    //---DEBUG SHADOWMAP---
+    // DirectionalLight light = directionalLights.Lights[0];
+    // int shadowMapIndex = int(light.ShadowMapIndex.x);
+    // float layer = shadowMapIndex;
+    // vec4 shadowCoord;
+    // shadowCoord.xyw = vec3(fs_in.textureCoords, 1);
+    // shadowCoord.x = shadowCoord.x * 4.0;
+    // shadowCoord.y = shadowCoord.y * 4.0;
+    // shadowCoord.z = layer;
+    // float visibility = texture(shadowTextures, shadowCoord);
+    // color = vec4(vec3(visibility), 1);
 }

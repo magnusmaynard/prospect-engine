@@ -211,8 +211,8 @@ void TextRenderer::UpdateText(const Text_impl& text, TextRenderData& renderData)
    glCreateTextures(GL_TEXTURE_2D, 1, &renderData.Texture);
    glTextureStorage2D(renderData.Texture, 1, GL_R8, textureSize.x, textureSize.y);
 
-   glTextureParameteri(renderData.Texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-   glTextureParameteri(renderData.Texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+   glTextureParameteri(renderData.Texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+   glTextureParameteri(renderData.Texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
    std::vector<vec2> positions =
    {

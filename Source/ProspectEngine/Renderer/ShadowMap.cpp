@@ -18,7 +18,7 @@ void ShadowMap::Update(const DirectionalLight_impl& light)
       light.GetPosition() + light.GetDirection(),
       POS_Y);
 
-   m_projectionMatrix = ortho(-100.f, 100.f, -100.f, 100.f, -1000.f, 1000.f);
+   m_projectionMatrix = ortho(-100.f, 100.f, -100.f, 100.f, -100.f, 2000.f);
 
    //Move [-1, 1] space to [0, 1] required for sampling textures.
    const mat4 biasMatrix(

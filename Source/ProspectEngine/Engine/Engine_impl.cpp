@@ -34,8 +34,6 @@ void Engine_impl::Start()
 
    m_application.OnStartup();
 
-   unsigned int m_frameCount;
-
    while (m_window.IsOpen())
    {
       const double time = m_window.GetTime();

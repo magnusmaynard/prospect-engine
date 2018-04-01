@@ -291,5 +291,5 @@ void main()
       diffuse = vec4(I, 1.0);
    }
 
-   color = DitherRGBA(diffuse, 7);
+   color = DitherRGBA(diffuse, 7);//TEMP
 }

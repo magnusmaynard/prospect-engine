@@ -54,7 +54,6 @@ void TestApplication::OnStartup()
    Atmosphere atmosphere;
    atmosphere.SetAltitude(1505);
    atmosphere.SetLight(sunLight);
-
    m_scene.SetAtmosphere(atmosphere);
 
    //Light light1(vec3(50, 30, 0), vec3(0, -1, 0), LightType::Point);
@@ -88,8 +87,8 @@ void TestApplication::OnStartup()
    e2.SetTranslation({ 0, 30, 0 });
    m_scene.AddEntity(e2);
 
-   Entity e3(largePlane, gray);
-   m_scene.AddEntity(e3);
+   //Entity e3(largePlane, gray);
+   //m_scene.AddEntity(e3);
 
    ////Lights
    //Entity l1(light, white);
