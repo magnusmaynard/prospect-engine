@@ -31,8 +31,10 @@ namespace Prospect
       void Turn(const glm::vec2 delta);
 
       glm::mat4 GetView() const;
+      glm::mat4 GetInverseView() const;
       glm::mat4 GetProjection() const;
       glm::mat4 GetPerspectiveProjection() const;
+      glm::mat4 GetInversePerspectiveProjection() const;
       glm::mat4 GetOrthographicProjection() const;
 
    private:
@@ -53,9 +55,11 @@ namespace Prospect
 
       mutable bool m_viewIsDirty;
       mutable glm::mat4 m_view;
+      mutable glm::mat4 m_inverseView;
 
       mutable bool m_projectionIsDirty;
       mutable glm::mat4 m_perspectiveProjection;
+      mutable glm::mat4 m_inversePerspectiveProjection;
       mutable glm::mat4 m_orthographicProjection;
    };
 }

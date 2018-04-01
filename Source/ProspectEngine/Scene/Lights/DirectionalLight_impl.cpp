@@ -30,38 +30,6 @@ LightType DirectionalLight_impl::GetType() const
    return m_type;
 }
 
-void DirectionalLight_impl::SetCastShadows(const bool value)
-{
-   MakeDirty();
-   m_castShadows = value;
-}
-
-bool DirectionalLight_impl::GetCastShadows() const
-{
-   return m_castShadows;
-}
-
-void DirectionalLight_impl::SetShadowMapIndex(const int value)
-{
-   MakeDirty();
-   m_shadowMapIndex = value;
-}
-
-int DirectionalLight_impl::GetShadowMapIndex() const
-{
-   return m_shadowMapIndex;
-}
-
-bool DirectionalLight_impl::GetIsDirty() const
-{
-   return m_isDirty;
-}
-
-void DirectionalLight_impl::SetIsDirty(const bool value)
-{
-   m_isDirty = value;
-}
-
 void DirectionalLight_impl::SetPosition(const glm::vec3& value)
 {
    MakeDirty();
@@ -102,6 +70,48 @@ void DirectionalLight_impl::SetBrightness(const float value)
 float DirectionalLight_impl::GetBrightness() const
 {
    return m_brightness;
+}
+
+void DirectionalLight_impl::SetCastShadows(const bool value)
+{
+   MakeDirty();
+   m_castShadows = value;
+}
+
+bool DirectionalLight_impl::GetCastShadows() const
+{
+   return m_castShadows;
+}
+
+void DirectionalLight_impl::SetShadowMapIndex(const int value)
+{
+   MakeDirty();
+   m_shadowMapIndex = value;
+}
+
+int DirectionalLight_impl::GetShadowMapIndex() const
+{
+   return m_shadowMapIndex;
+}
+
+bool DirectionalLight_impl::GetIsDirty() const
+{
+   return m_isDirty;
+}
+
+void DirectionalLight_impl::SetIsDirty(const bool value)
+{
+   m_isDirty = value;
+}
+
+void DirectionalLight_impl::SetShadowCascades(const int value)
+{
+   m_shadowCascades = value;
+}
+
+int DirectionalLight_impl::GetShadowCascades() const
+{
+   return m_shadowCascades;
 }
 
 void DirectionalLight_impl::MakeDirty()

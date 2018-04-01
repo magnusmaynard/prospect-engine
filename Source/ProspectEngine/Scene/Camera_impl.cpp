@@ -113,6 +113,7 @@ void Camera_impl::UpdateView() const
    if (m_viewIsDirty)
    {
       m_view = lookAt(m_position, m_position + m_forward, m_up);
+      m_inverseView = inverse(m_view);
 
       m_viewIsDirty = false;
    }
@@ -132,6 +133,8 @@ void Camera_impl::UpdateProjectionsIfDirty() const
          DEFAULT_CAMERA_NEAR,
          DEFAULT_CAMERA_FAR);
 
+      m_inversePerspectiveProjection = inverse(m_perspectiveProjection);
+
       m_orthographicProjection = ortho(
          m_size.x * -0.5f,
          m_size.x * 0.5f,
@@ -149,6 +152,13 @@ mat4 Camera_impl::GetView() const
    return m_view;
 }
 
+mat4 Camera_impl::GetInverseView() const
+{
+   UpdateView();
+
+   return m_inverseView;
+}
+
 mat4 Camera_impl::GetProjection() const
 {
    if (m_isPespective)
@@ -164,6 +174,13 @@ mat4 Camera_impl::GetPerspectiveProjection() const
    UpdateProjectionsIfDirty();
 
    return m_perspectiveProjection;
+}
+
+mat4 Camera_impl::GetInversePerspectiveProjection() const
+{
+   UpdateProjectionsIfDirty();
+
+   return m_inversePerspectiveProjection;
 }
 
 mat4 Camera_impl::GetOrthographicProjection() const

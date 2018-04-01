@@ -13,6 +13,7 @@ layout (std140) uniform CameraUniforms
    mat4 InversePerspectiveProjection;
    mat4 OrthographicProjection;
    mat4 View;
+   mat4 InverseView;
    vec4 Position;
    vec2 ScreenSize;
 } camera;
@@ -110,7 +111,7 @@ float CalculateShadowVisibility(DirectionalLight light, vec3 position)
     mat4 shadowMatrix = shadowMaps.ShadowMatrices[shadowMapIndex];
 
     float bias = 0.001;
-    vec3 shadowPosition = (shadowMatrix * inverse(camera.View) * vec4(position, 1)).xyz - vec3(0, 0, bias); //TODO: remove inverse()
+    vec3 shadowPosition = (shadowMatrix * camera.InverseView * vec4(position, 1)).xyz - vec3(0, 0, bias);
     float layer = shadowMapIndex;
 
     vec4 shadowCoord;

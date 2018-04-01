@@ -17,6 +17,7 @@ layout (std140) uniform CameraUniforms
    mat4 InversePerspectiveProjection;
    mat4 OrthographicProjection;
    mat4 View;
+   mat4 InverseView;
    vec4 Position;
    vec2 ScreenSize;
 } camera;
@@ -115,8 +116,8 @@ vec3 RayFromCamera(const vec2 point)
 {
    vec2 position = vec2((2.0 * point) / camera.ScreenSize - 1.0); //Normalised
    vec4 rayClip = vec4(position, -1.0, 1.0);
-   vec4 rayEye = vec4((inverse(camera.PerspectiveProjection) * rayClip).xy, -1.0, 0.0);
-   vec3 rayWorld = (inverse(camera.View) * rayEye).xyz;
+   vec4 rayEye = vec4((camera.InversePerspectiveProjection * rayClip).xy, -1.0, 0.0);
+   vec3 rayWorld = (camera.InverseView * rayEye).xyz;
 
    return normalize(rayWorld);
 }
