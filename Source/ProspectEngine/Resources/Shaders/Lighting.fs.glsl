@@ -144,19 +144,27 @@ float CalculateShadowVisibility(DirectionalLight light, vec3 position)
     shadowCoord.xyw = shadowPosition;
     shadowCoord.z = layer;
 
-    float visibility = texture(shadowTextures, shadowCoord);
-
     //Prevent over sampling outside the shadow maps depth. 
     if(shadowCoord.w > 1.0)
-        visibility = 1.0;
+        return 1.0;
+
+    vec2 offset = vec2(1) / 1024.0; //TODO: Shadowmap size.
+    float visibility = 0.0;
+
+    for (int y = -1 ; y <= 1 ; y++) {
+        for (int x = -1 ; x <= 1 ; x++) {
+            vec2 shadowCoordOffset = vec2(x, y) * offset;
+            visibility += texture(shadowTextures, shadowCoord + vec4(shadowCoordOffset, 0, 0));
+        }
+    }
 
     // //DEBUG
     // if(shadowCoord.x > 0 && shadowCoord.x <= 1 && shadowCoord.y > 0 && shadowCoord.y <= 1 && shadowCoord.w < 0 && shadowCoord.w > -1)
     // {
     //     color *= 0.5;
     // }
-
-    return visibility;
+    
+    return visibility / 18.0; //TODO: should be 9?
 }
 
 vec3 CalculateDirectionalLight(DirectionalLight light, vec3 position, vec3 V, vec3 N)
@@ -172,9 +180,10 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 position, vec3 V, ve
     vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * lightBrightness;
     vec3 ambient = vec3(0.05); //TODO: Make not hardcoded.
 
-    float visibility = CalculateShadowVisibility(light, position);
+    float shadowAmbient = 0.05;
+    float visibility = CalculateShadowVisibility(light, position) + shadowAmbient;
 
-    return (diffuse + specular) * visibility + ambient;
+    return (diffuse + specular + ambient) * visibility;
 }
 
 // vec3 CalculatePointLight(Light light, vec3 position, vec3 V, vec3 N)

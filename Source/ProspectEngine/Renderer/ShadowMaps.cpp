@@ -16,13 +16,20 @@ ShadowMaps::ShadowMaps()
    glCreateFramebuffers(1, &m_shadowFBO);
    glBindFramebuffer(GL_FRAMEBUFFER, m_shadowFBO);
 
+   const int mipmapLevels = 1;
    glCreateTextures(GL_TEXTURE_2D_ARRAY, 1, &m_shadowTextures);
-   glTextureStorage3D(m_shadowTextures, 1, GL_DEPTH_COMPONENT32F, TEXTURE_SIZE.x, TEXTURE_SIZE.y, MAX_SHADOW_MAPS);
+   glTextureStorage3D(m_shadowTextures, mipmapLevels, GL_DEPTH_COMPONENT32F, TEXTURE_SIZE.x, TEXTURE_SIZE.y, MAX_SHADOW_MAPS);
 
-   glTextureParameteri(m_shadowTextures, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-   glTextureParameteri(m_shadowTextures, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR); //TODO: mipmaps?
+   //glTextureParameteri(m_shadowTextures, GL_TEXTURE_BASE_LEVEL, 0);
+   //glTextureParameteri(m_shadowTextures, GL_TEXTURE_MAX_LEVEL, mipmapLevels);
+   glTextureParameteri(m_shadowTextures, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+   glTextureParameteri(m_shadowTextures, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
    glTextureParameteri(m_shadowTextures, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
    glTextureParameteri(m_shadowTextures, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+   //GLfloat maxAnistropy;
+   //glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnistropy);
+   //glTextureParameterf(m_shadowTextures, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnistropy);
 
    float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
    glTextureParameterfv (m_shadowTextures, GL_TEXTURE_BORDER_COLOR, borderColor);

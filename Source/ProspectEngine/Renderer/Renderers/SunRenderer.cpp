@@ -101,5 +101,4 @@ void SunRenderer::Render(const Atmosphere_impl& atmosphere)
    glUniform3fv(4, 1, &renderData.Color[0]);
 
    glDrawArrays(GL_TRIANGLE_FAN, 0, renderData.Points.size());
-   Debug::CheckErrors();
 }

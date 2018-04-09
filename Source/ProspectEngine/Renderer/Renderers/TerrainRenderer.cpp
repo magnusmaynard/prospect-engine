@@ -115,8 +115,10 @@ void TerrainRenderer::ConstructGroundTexture(const Terrain_impl& terrain, Terrai
       return;
    }
 
+   const int mipmapLevels = 8;
+
    glCreateTextures(GL_TEXTURE_2D, 1, &renderable.GroundTexture);
-   glTextureStorage2D(renderable.GroundTexture, 4, GL_RGB32F, groundTexture.Width, groundTexture.Height);
+   glTextureStorage2D(renderable.GroundTexture, mipmapLevels, GL_RGB32F, groundTexture.Width, groundTexture.Height);
    glTextureSubImage2D(
       renderable.GroundTexture,
       0,
@@ -127,9 +129,13 @@ void TerrainRenderer::ConstructGroundTexture(const Terrain_impl& terrain, Terrai
       &groundTexture.Data[0]);
 
    glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_BASE_LEVEL, 0);
-   glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_MAX_LEVEL, 4);
+   glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_MAX_LEVEL, mipmapLevels);
    glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
    glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+   GLfloat maxAnisotropy;
+   glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnisotropy);
+   glTextureParameterf(renderable.GroundTexture, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnisotropy);
 
    glGenerateTextureMipmap(renderable.GroundTexture);
 
