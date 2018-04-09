@@ -50,10 +50,12 @@ namespace Prospect
          for (int i = 0; i < shadowMaps.Count(); i++)
          {
             ShadowMatrices[i] = shadowMaps.GetShadowMatrix(i);
+            FarClipDepths[i] = glm::vec4(shadowMaps.GetFarClipDepth(i), 0, 0, 0);
          }
       }
 
       std::array<glm::mat4, MAX_SHADOW_MAPS> ShadowMatrices;
+      std::array<glm::vec4, MAX_SHADOW_MAPS> FarClipDepths;
       glm::vec2 Count;
    };
 
@@ -68,14 +70,14 @@ namespace Prospect
          Position(light.GetPosition(), 0),
          Direction({ normalize(light.GetDirection()), 0 }),
          ColorAndBrightness(light.GetColor().ToRGB(), light.GetBrightness()),
-         ShadowMapIndex(light.GetShadowMapIndex(), 0, 0 ,0)
+         ShadowMapIndexAndCascadeCount(light.GetShadowMapIndex(), light.GetShadowCascadeCount(), 0 , 0)
       {
       }
 
       glm::vec4 Position;
       glm::vec4 Direction;
       glm::vec4 ColorAndBrightness;
-      glm::vec4 ShadowMapIndex;
+      glm::vec4 ShadowMapIndexAndCascadeCount;
    };
 
    struct DirectionalLightListUniforms
@@ -193,6 +195,10 @@ namespace Prospect
 
    struct EntityUniforms
    {
+      EntityUniforms()
+      {
+      }
+
       EntityUniforms(const Entity_impl& entity)
          :
          Model(entity.GetTransformMatrix()),

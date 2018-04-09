@@ -5,16 +5,18 @@
 #include "Engine/EngineDefines.h"
 
 using namespace Prospect;
+using namespace glm;;
 
-DirectionalLight_impl::DirectionalLight_impl(const glm::vec3& direction)
+DirectionalLight_impl::DirectionalLight_impl(const vec3& direction)
    :
    m_type(LightType::Directional),
-   m_position(glm::vec3(0)),
+   m_position(vec3(0)),
    m_direction(direction),
    m_brightness(DEFAULT_LIGHT_BRIGHTNESS),
    m_color(DEFAULT_LIGHT_COLOR),
    m_castShadows(DEFAULT_LIGHT_CAST_SHADOWS),
    m_shadowMapIndex(INVALID_SHADOW_MAP_ID),
+   m_shadowCascadeCount(DEFAULT_LIGHT_SHADOW_CASCADE_COUNT),
    m_isDirty(true)
 {
 }
@@ -30,24 +32,46 @@ LightType DirectionalLight_impl::GetType() const
    return m_type;
 }
 
-void DirectionalLight_impl::SetPosition(const glm::vec3& value)
+void DirectionalLight_impl::SetCastShadows(const bool value)
+{
+   MakeDirty();
+   m_castShadows = value;
+}
+
+bool DirectionalLight_impl::GetCastShadows() const
+{
+   return m_castShadows;
+}
+
+void DirectionalLight_impl::SetShadowCascadeCount(const int value)
+{
+   MakeDirty();
+   m_shadowCascadeCount = value;
+}
+
+int DirectionalLight_impl::GetShadowCascadeCount() const
+{
+   return m_shadowCascadeCount;
+}
+
+void DirectionalLight_impl::SetPosition(const vec3& value)
 {
    MakeDirty();
    m_position = value;
 }
 
-glm::vec3 DirectionalLight_impl::GetPosition() const
+vec3 DirectionalLight_impl::GetPosition() const
 {
    return m_position;
 }
 
-void DirectionalLight_impl::SetDirection(const glm::vec3& value)
+void DirectionalLight_impl::SetDirection(const vec3& value)
 {
    MakeDirty();
    m_direction = value;
 }
 
-glm::vec3 DirectionalLight_impl::GetDirection() const
+vec3 DirectionalLight_impl::GetDirection() const
 {
    return m_direction;
 }
@@ -72,17 +96,6 @@ float DirectionalLight_impl::GetBrightness() const
    return m_brightness;
 }
 
-void DirectionalLight_impl::SetCastShadows(const bool value)
-{
-   MakeDirty();
-   m_castShadows = value;
-}
-
-bool DirectionalLight_impl::GetCastShadows() const
-{
-   return m_castShadows;
-}
-
 void DirectionalLight_impl::SetShadowMapIndex(const int value)
 {
    MakeDirty();
@@ -102,16 +115,6 @@ bool DirectionalLight_impl::GetIsDirty() const
 void DirectionalLight_impl::SetIsDirty(const bool value)
 {
    m_isDirty = value;
-}
-
-void DirectionalLight_impl::SetShadowCascades(const int value)
-{
-   m_shadowCascades = value;
-}
-
-int DirectionalLight_impl::GetShadowCascades() const
-{
-   return m_shadowCascades;
 }
 
 void DirectionalLight_impl::MakeDirty()

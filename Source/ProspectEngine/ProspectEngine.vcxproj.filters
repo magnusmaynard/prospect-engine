@@ -233,6 +233,9 @@
     <ClInclude Include="Scene2D\Scene2D_impl.h">
       <Filter>Scene2D</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\DebugShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Window.cpp">

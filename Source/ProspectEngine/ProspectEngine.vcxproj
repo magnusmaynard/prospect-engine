@@ -53,6 +53,7 @@
     <ClInclude Include="Renderer\Pipeline\ShaderStages\TessControlShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\TessEvaluationShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\DebugShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\LightingShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\AtmosphereShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\ShadowMapShader.h" />

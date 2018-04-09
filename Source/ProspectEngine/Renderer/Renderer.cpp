@@ -43,6 +43,7 @@ void Renderer::Initialise()
    glEnable(GL_CULL_FACE);
    glFrontFace(GL_CCW);
 
+   Debug::Points::Initialise(m_shaderLibrary);
 }
 
 void Renderer::UpdateState()
@@ -118,6 +119,8 @@ void Renderer::GeometryPass(Scene_impl& scene)
    {
       m_sunRenderer.Render(*atmosphere);
    }
+
+   Debug::Points::Render();
 }
 
 void Renderer::LightingPass()

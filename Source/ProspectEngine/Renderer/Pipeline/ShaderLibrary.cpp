@@ -11,7 +11,8 @@ ShaderLibrary::ShaderLibrary(const GlobalUniformBuffers& globalUniforms)
    m_textShader(globalUniforms),
    m_terrainShader(globalUniforms),
    m_sunShader(globalUniforms),
-   m_scatteringShader(globalUniforms)
+   m_scatteringShader(globalUniforms),
+   m_debugShader(globalUniforms)
 {
 }
 
@@ -43,4 +44,9 @@ SunShader& ShaderLibrary::GetSunShader()
 AtmosphereShader& ShaderLibrary::GetAtmosphereShader()
 {
    return m_scatteringShader;
+}
+
+DebugShader& ShaderLibrary::GetDebugShader()
+{
+   return m_debugShader;
 }

@@ -36,7 +36,8 @@ void TestApplication::OnStartup()
    m_engine.SetTitle("Test Application");
    m_engine.ShowFPS(true);
 
-   m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
+   //m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
+   m_scene.GetCamera().LookAt({ 0, 100, 100 }, { 0, 100, 0 });
 
    const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_noise.bmp", true);
    const Bitmap grassTexture = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_grass.bmp");
@@ -46,6 +47,7 @@ void TestApplication::OnStartup()
    m_scene.SetTerrain(terrain);
 
    DirectionalLight sunLight(vec3(0, -1, 1));
+   //sunLight.SetShadowCascades(4);
    m_scene.AddLight(sunLight);
 
    //DirectionalLight otherLight(vec3(1, -1, 0));

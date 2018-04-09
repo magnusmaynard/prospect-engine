@@ -24,7 +24,7 @@ namespace Prospect
 
    static const glm::ivec2 DEFAULT_CAMERA_SIZE(DEFAULT_WIDTH, DEFAULT_HEIGHT);
    static const float DEFAULT_CAMERA_NEAR = 0.01f;
-   static const float DEFAULT_CAMERA_FAR = 10000.f;
+   static const float DEFAULT_CAMERA_FAR = 1000.f;
    static const float DEFAULT_CAMERA_FOV = 45.f;
    static const float DEFAULT_CAMERA_MIN_ANGLE = 10.f;
    static const float DEFAULT_CAMERA_MAX_ANGLE = 170.f;
@@ -35,6 +35,7 @@ namespace Prospect
    static const float DEFAULT_LIGHT_RANGE = 100.f;
    static const float DEFAULT_LIGHT_ANGLE = 45.f;
    static const bool DEFAULT_LIGHT_CAST_SHADOWS = true;
+   static const int DEFAULT_LIGHT_SHADOW_CASCADE_COUNT = 4;// 1;
    static const int INVALID_SHADOW_MAP_ID = -1;
 
    static const float DEFAULT_ATMOSPHERE_INNER_RADIUS = 1500.f;
@@ -42,6 +43,7 @@ namespace Prospect
    static const float DEFAULT_ATMOSPHERE_DENSITY_SCALE = 0.25f;
    static const float DEFAULT_ATMOSPHERE_ALTITUDE = 1500.1f;
    static const glm::vec3 DEFAULT_ATMOSPHERE_SUN_DIRECTION = glm::vec3(0, -1, 1);
+   static const int DEFAULT_ATMOSPHERE_SHADOW_CASCADES = 20; //3;
 
    static const Color DEFAULT_MATERIAL_DIFFUSE(0.15f, 0.53f, 0.86f);
    static const Color DEFAULT_MATERIAL_EMISSIVE(0.f, 0.f, 0.f);

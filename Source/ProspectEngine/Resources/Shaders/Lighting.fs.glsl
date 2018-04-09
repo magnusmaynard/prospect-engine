@@ -23,7 +23,7 @@ struct DirectionalLight
    vec4 Position;
    vec4 Direction;
    vec4 ColorAndBrightness;
-   vec4 ShadowMapIndex;
+   vec4 ShadowMapIndexAndCascadeCount;
 };
 
 layout (std140) uniform DirectionalLightListUniforms
@@ -35,6 +35,7 @@ layout (std140) uniform DirectionalLightListUniforms
 layout (std140) uniform ShadowMapsUniforms
 {
     mat4 ShadowMatrices[10];
+    vec4 FarClipDepth[10]; //For cascaded shadow maps.
     vec2 Count;
 } shadowMaps;
 
@@ -99,6 +100,23 @@ vec4 DitherRGBA(vec4 color, float seed)
     return color + GoldNoise4(seed) / 255.0;
 }
 
+int CalculateShadowMapCascadeLevel(DirectionalLight light, vec3 position)
+{
+    int shadowMapIndex = int(light.ShadowMapIndexAndCascadeCount.x);
+    int cascadeCount = int(light.ShadowMapIndexAndCascadeCount.y);
+    for(int i = 0; i < cascadeCount; i++)
+    {
+        float farClipDepth = shadowMaps.FarClipDepth[shadowMapIndex + i].x;
+        if(-position.z < farClipDepth) //Chose shadowmap.
+        {
+            // color = vec4(i==0, i==1, i==2, 1); //DEBUG
+            return i;
+        }
+    }
+
+    return -1; //No shadow map found.
+}
+
 float CalculateShadowVisibility(DirectionalLight light, vec3 position)
 {
     //Slope scale bias.
@@ -106,13 +124,21 @@ float CalculateShadowVisibility(DirectionalLight light, vec3 position)
     // float bias = 0.0002 * tan(acos(cosTheta));
     // bias = clamp(bias, 0.0, 0.005);
 
-    // Apply shadows.
-    int shadowMapIndex = int(light.ShadowMapIndex.x);
-    mat4 shadowMatrix = shadowMaps.ShadowMatrices[shadowMapIndex];
+    //Get cascade.
+    int shadowMapIndex = int(light.ShadowMapIndexAndCascadeCount.x);
+    int shadowMapCascadeLevel= CalculateShadowMapCascadeLevel(light, position);
+    int shadowMapCascadeIndex = shadowMapIndex + shadowMapCascadeLevel;
 
-    float bias = 0.001;
+    if(shadowMapCascadeIndex == -1)
+    {
+        return 0.0;
+    }
+
+    mat4 shadowMatrix = shadowMaps.ShadowMatrices[shadowMapCascadeIndex];
+
+    float bias = 0.001;// 0.001 * shadowMapCascadeLevel;
     vec3 shadowPosition = (shadowMatrix * camera.InverseView * vec4(position, 1)).xyz - vec3(0, 0, bias);
-    float layer = shadowMapIndex;
+    float layer = shadowMapCascadeIndex;
 
     vec4 shadowCoord;
     shadowCoord.xyw = shadowPosition;
@@ -123,6 +149,12 @@ float CalculateShadowVisibility(DirectionalLight light, vec3 position)
     //Prevent over sampling outside the shadow maps depth. 
     if(shadowCoord.w > 1.0)
         visibility = 1.0;
+
+    // //DEBUG
+    // if(shadowCoord.x > 0 && shadowCoord.x <= 1 && shadowCoord.y > 0 && shadowCoord.y <= 1 && shadowCoord.w < 0 && shadowCoord.w > -1)
+    // {
+    //     color *= 0.5;
+    // }
 
     return visibility;
 }
@@ -248,18 +280,17 @@ void main()
     else
     {
         color = vec4(CalculateLighting(position), 1);
+        // vec4(CalculateLighting(position), 1);
 
         color = DitherRGBA(color, 7);
     }
 
-    //---DEBUG SHADOWMAP---
+    // // ---DEBUG SHADOWMAP---
     // DirectionalLight light = directionalLights.Lights[0];
     // int shadowMapIndex = int(light.ShadowMapIndex.x);
     // float layer = shadowMapIndex;
     // vec4 shadowCoord;
     // shadowCoord.xyw = vec3(fs_in.textureCoords, 1);
-    // shadowCoord.x = shadowCoord.x * 4.0;
-    // shadowCoord.y = shadowCoord.y * 4.0;
     // shadowCoord.z = layer;
     // float visibility = texture(shadowTextures, shadowCoord);
     // color = vec4(vec3(visibility), 1);

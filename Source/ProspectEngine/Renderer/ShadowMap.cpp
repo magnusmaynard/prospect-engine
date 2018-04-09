@@ -11,14 +11,17 @@ ShadowMap::ShadowMap()
 {
 }
 
-void ShadowMap::Update(const DirectionalLight_impl& light)
+void ShadowMap::Update(const Bounds& bounds, const vec3& position, const vec3& direction, const float farClipDepth)
 {
+   m_farClipDepth = farClipDepth;
+
    m_viewMatrix = lookAt(
-      light.GetPosition(),
-      light.GetPosition() + light.GetDirection(),
+      position,
+      position + direction,
       POS_Y);
 
-   m_projectionMatrix = ortho(-100.f, 100.f, -100.f, 100.f, -100.f, 2000.f);
+   //TODO: Remove magic numbers *10.
+   m_projectionMatrix = ortho(bounds.Min.x, bounds.Max.x, bounds.Min.y, bounds.Max.y, bounds.Min.z * 10, bounds.Max.z * 10);
 
    //Move [-1, 1] space to [0, 1] required for sampling textures.
    const mat4 biasMatrix(
@@ -44,4 +47,9 @@ mat4 ShadowMap::GetViewMatrix() const
 mat4 ShadowMap::GetProjectionMatrix() const
 {
    return m_projectionMatrix;
+}
+
+float ShadowMap::GetFarClipDepth() const
+{
+   return m_farClipDepth;
 }

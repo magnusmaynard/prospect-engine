@@ -7,6 +7,7 @@
 #include "Renderer/Pipeline/Shaders/TerrainShader.h"
 #include "Renderer/Pipeline/Shaders/SunShader.h"
 #include "Renderer/Pipeline/Shaders/AtmosphereShader.h"
+#include "Renderer/Pipeline/Shaders/DebugShader.h"
 
 namespace Prospect
 {
@@ -21,6 +22,7 @@ namespace Prospect
       TerrainShader& GetTerrainShader();
       SunShader& GetSunShader();
       AtmosphereShader& GetAtmosphereShader();
+      DebugShader& GetDebugShader();
 
    private:
       LightingShader m_lightingShader;
@@ -29,5 +31,6 @@ namespace Prospect
       TerrainShader m_terrainShader;
       SunShader m_sunShader;
       AtmosphereShader m_scatteringShader;
+      DebugShader m_debugShader;
    };
 }

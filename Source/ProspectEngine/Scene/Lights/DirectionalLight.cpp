@@ -31,6 +31,26 @@ LightType DirectionalLight::GetType() const
    return m_impl->GetType();
 }
 
+void DirectionalLight::SetCastShadows(const bool value)
+{
+   m_impl->SetCastShadows(value);
+}
+
+bool DirectionalLight::GetCastShadows() const
+{
+   return m_impl->GetCastShadows();
+}
+
+void DirectionalLight::SetShadowCascades(const int value)
+{
+   m_impl->SetShadowCascadeCount(value);
+}
+
+int DirectionalLight::GetShadowCascades() const
+{
+   return m_impl->GetShadowCascadeCount();
+}
+
 void DirectionalLight::SetPosition(const glm::vec3& value)
 {
    m_impl->SetPosition(value);

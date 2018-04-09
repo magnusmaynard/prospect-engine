@@ -12,12 +12,17 @@ Camera_impl::Camera_impl(Camera& parent, const ivec2& size)
    m_size(size),
    m_up(POS_Y),
    m_forward(POS_Z),
+   m_near(DEFAULT_CAMERA_NEAR),
+   m_far(DEFAULT_CAMERA_FAR),
+   m_fov(DEFAULT_CAMERA_FOV),
    m_minAngle(DEFAULT_CAMERA_MIN_ANGLE),
    m_maxAngle(DEFAULT_CAMERA_MAX_ANGLE),
+   m_aspectRatio(0),
    m_isPespective(true),
    m_viewIsDirty(true),
    m_projectionIsDirty(true)
 {
+   SetSize(m_size);
 }
 
 void Camera_impl::LookAt(const vec3 eyePosition, const vec3 targetPosition)
@@ -39,6 +44,8 @@ void Camera_impl::SetSize(const ivec2& size)
       m_size = ivec2(1, 1);
    }
 
+   m_aspectRatio = m_size.x / static_cast<float>(m_size.y);
+
    m_projectionIsDirty = true;
 }
 
@@ -49,15 +56,15 @@ ivec2 Camera_impl::GetSize() const
 
 void Camera_impl::Turn(const vec2 delta)
 {
-   float horizontal = delta.x * DEFAULT_CAMERA_SENSITIVITY;
-   float vertical = delta.y * DEFAULT_CAMERA_SENSITIVITY;
+   const float horizontal = delta.x * DEFAULT_CAMERA_SENSITIVITY;
+   const float vertical = delta.y * DEFAULT_CAMERA_SENSITIVITY;
 
    //Horizontal rotation.
    m_forward = rotate(m_forward, radians(horizontal), m_up);
 
    //Vertical rotation.
-   vec3 newForward = rotate(m_forward, -radians(vertical), GetLeft());
-   float newAngle = degrees(glm::angle(m_up, newForward));
+   const vec3 newForward = rotate(m_forward, -radians(vertical), GetLeft());
+   const float newAngle = degrees(glm::angle(m_up, newForward));
 
    if (newAngle > m_minAngle && newAngle < m_maxAngle)
    {
@@ -125,13 +132,11 @@ void Camera_impl::UpdateProjectionsIfDirty() const
    {
       m_projectionIsDirty = false;
 
-      float aspect = m_size.x / static_cast<float>(m_size.y);
-
       m_perspectiveProjection = perspective(
-         radians(DEFAULT_CAMERA_FOV),
-         aspect,
-         DEFAULT_CAMERA_NEAR,
-         DEFAULT_CAMERA_FAR);
+         radians(m_fov),
+         m_aspectRatio,
+         m_near,
+         m_far);
 
       m_inversePerspectiveProjection = inverse(m_perspectiveProjection);
 
@@ -140,8 +145,8 @@ void Camera_impl::UpdateProjectionsIfDirty() const
          m_size.x * 0.5f,
          m_size.y * -0.5f,
          m_size.y * 0.5f,
-         DEFAULT_CAMERA_NEAR,
-         DEFAULT_CAMERA_FAR);
+         m_near,
+         m_far);
    }
 }
 
@@ -188,4 +193,24 @@ mat4 Camera_impl::GetOrthographicProjection() const
    UpdateProjectionsIfDirty();
 
    return m_orthographicProjection;
+}
+
+float Camera_impl::GetNear() const
+{
+   return m_near;
+}
+
+float Camera_impl::GetFar() const
+{
+   return m_far;
+}
+
+float Camera_impl::GetFov() const
+{
+   return m_fov;
+}
+
+float Camera_impl::GetAspectRatio() const
+{
+   return m_aspectRatio;
 }

@@ -16,6 +16,7 @@ Atmosphere_impl::Atmosphere_impl()
    m_outterRadius(DEFAULT_ATMOSPHERE_OUTTER_RADIUS),
    m_densityScale(DEFAULT_ATMOSPHERE_DENSITY_SCALE)
 {
+   //m_light.SetShadowCascades(DEFAULT_ATMOSPHERE_SHADOW_CASCADES);
 }
 
 Atmosphere_impl::~Atmosphere_impl()

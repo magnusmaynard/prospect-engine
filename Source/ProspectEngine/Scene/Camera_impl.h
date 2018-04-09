@@ -36,6 +36,10 @@ namespace Prospect
       glm::mat4 GetPerspectiveProjection() const;
       glm::mat4 GetInversePerspectiveProjection() const;
       glm::mat4 GetOrthographicProjection() const;
+      float GetNear() const;
+      float GetFar() const;
+      float GetFov() const;
+      float GetAspectRatio() const;
 
    private:
       void UpdateView() const;
@@ -47,6 +51,10 @@ namespace Prospect
       glm::vec3 m_up;
       glm::vec3 m_forward;
       glm::ivec2 m_size;
+      float m_near;
+      float m_far;
+      float m_fov; //Vertical.
+      float m_aspectRatio;
 
       float m_minAngle;
       float m_maxAngle;

@@ -14,6 +14,9 @@ namespace Prospect
       virtual void SetType(const LightType& value) = 0;
       virtual LightType GetType() const = 0;
 
+      virtual void SetCastShadows(const bool value) = 0;
+      virtual bool GetCastShadows() const = 0;
+
       virtual void SetPosition(const glm::vec3& value) = 0;
       virtual glm::vec3 GetPosition() const = 0;
 
