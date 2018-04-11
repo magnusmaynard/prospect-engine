@@ -11,8 +11,10 @@ namespace Prospect
    {
    public:
       //Public
-      const std::vector<glm::vec3>& GetVertices() const;
-      std::vector<glm::vec3>& GetVertices();
+      void Clear();
+
+      const std::vector<glm::vec3>& GetPositions() const;
+      std::vector<glm::vec3>& GetPositions();
       const std::vector<unsigned int>& GetIndices() const;
       std::vector<unsigned int>& GetIndices();
       const std::vector<glm::vec3>& GetNormals() const;
@@ -24,7 +26,7 @@ namespace Prospect
 
       Mesh_impl(
          unsigned long id,
-         const std::vector<glm::vec3>& vertices,
+         const std::vector<glm::vec3>& positions,
          const std::vector<unsigned int>& indices,
          const std::vector<glm::vec3>& normals);
 
@@ -36,7 +38,7 @@ namespace Prospect
    private:
       unsigned long m_id = 0;
 
-      std::vector<glm::vec3> m_vertices;
+      std::vector<glm::vec3> m_positions;
       std::vector<unsigned int> m_indices;
       std::vector<glm::vec3> m_normals;
 

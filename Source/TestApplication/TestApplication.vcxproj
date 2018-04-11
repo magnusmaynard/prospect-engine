@@ -168,7 +168,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)Textures\* $(OutputPath)Textures\ /sy</Command>
+      <Command>xcopy $(ProjectDir)Textures\* $(OutputPath)Textures\ /sy
+xcopy $(ProjectDir)Models\* $(OutputPath)Models\ /sy</Command>
     </PostBuildEvent>
     <ClCompile>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpp17</LanguageStandard>

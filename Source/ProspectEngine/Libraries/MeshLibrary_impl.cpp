@@ -14,6 +14,11 @@ MeshLibrary_impl::MeshLibrary_impl(MeshLibrary& parent)
 {
 }
 
+Mesh MeshLibrary_impl::CreateEmpty()
+{
+   return AddMesh({}, {}, {});
+}
+
 Mesh MeshLibrary_impl::CreatePlane(const vec2& size, const ivec2& sections)
 {
    std::vector<vec3> vertices;

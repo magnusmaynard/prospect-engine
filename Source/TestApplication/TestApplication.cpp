@@ -76,18 +76,18 @@ void TestApplication::OnStartup()
    Mesh light = m_meshLib.CreateCube({ 1, 1, 1 });
 
    //Objects
-   Entity e0(plane, blue);
-   e0.SetTranslation({ 0, 20, 0 });
-   m_scene.AddEntity(e0);
+   //Entity e0(plane, blue);
+   //e0.SetTranslation({ 0, 20, 0 });
+   //m_scene.AddEntity(e0);
 
-   Entity e1(plane, red);
-   e1.SetTranslation({ 60, 0, 0 });
-   e1.SetScale({ 0.4, 0.4, 0.4 });
-   e0.AddEntity(e1);
+   //Entity e1(plane, red);
+   //e1.SetTranslation({ 60, 0, 0 });
+   //e1.SetScale({ 0.4, 0.4, 0.4 });
+   //e0.AddEntity(e1);
 
-   Entity e2(cube, red);
-   e2.SetTranslation({ 0, 30, 0 });
-   m_scene.AddEntity(e2);
+   //Entity e2(cube, red);
+   //e2.SetTranslation({ 0, 30, 0 });
+   //m_scene.AddEntity(e2);
 
    //Entity e3(largePlane, gray);
    //m_scene.AddEntity(e3);
@@ -101,6 +101,18 @@ void TestApplication::OnStartup()
    //l2.SetTranslation(light2.GetPosition());
    //m_scene.AddEntity(l2);
 
+   Mesh turbineBaseMesh = m_meshLib.CreateEmpty();
+   IO::ReadObj(turbineBaseMesh, IO::GetExecutablePath() + "Models\\windturbine_base.obj");
+   Entity turbine(turbineBaseMesh, white);
+
+   Mesh turbinePropMesh = m_meshLib.CreateEmpty();
+   IO::ReadObj(turbinePropMesh, IO::GetExecutablePath() + "Models\\windturbine_prop.obj");
+   Entity turbineProp(turbinePropMesh, white);
+
+   turbine.AddEntity(turbineProp);
+   m_scene.AddEntity(turbine);
+   turbine.SetTranslation({ 0, 55, 0 });
+   turbine.SetScale({ 2, 2, 2 });
 }
 
 void TestApplication::OnUpdate(const double timeElapsed)
@@ -156,14 +168,18 @@ void TestApplication::OnUpdate(const double timeElapsed)
       m_playerMomentum *= 1.0 - m_playerFriction;
    }
 
-   auto e0 = m_scene.GetEntity(0);
-   e0.SetRotation({ 0, counter * 20.0, 0 });
-   
-   auto e1 = e0.GetEntity(0);
-   e1.SetRotation({ 0, counter * 10.0, 0 });
+   //auto e0 = m_scene.GetEntity(0);
+   //e0.SetRotation({ 0, counter * 20.0, 0 });
+   //
+   //auto e1 = e0.GetEntity(0);
+   //e1.SetRotation({ 0, counter * 10.0, 0 });
 
-   auto cube = m_scene.GetEntity(1);
-   cube.SetRotation({ counter * 8.0, -counter * 5.0, counter * 3.0 });
+   //auto cube = m_scene.GetEntity(1);
+   //cube.SetRotation({ counter * 8.0, -counter * 5.0, counter * 3.0 });
+
+   auto turbineProp = m_scene.GetEntity(0).GetEntity(0);
+   turbineProp.SetRotation({ 0, 0, counter * 8.0 });
+
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)

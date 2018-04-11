@@ -136,7 +136,7 @@ float CalculateShadowVisibility(DirectionalLight light, vec3 position)
 
     mat4 shadowMatrix = shadowMaps.ShadowMatrices[shadowMapCascadeIndex];
 
-    float bias = 0.001;// 0.001 * shadowMapCascadeLevel;
+    float bias = 0.0008;// 0.001 * shadowMapCascadeLevel;
     vec3 shadowPosition = (shadowMatrix * camera.InverseView * vec4(position, 1)).xyz - vec3(0, 0, bias);
     float layer = shadowMapCascadeIndex;
 

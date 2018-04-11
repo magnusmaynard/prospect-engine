@@ -15,25 +15,32 @@ Mesh_impl::Mesh_impl(unsigned long id)
 
 Mesh_impl::Mesh_impl(
    unsigned long id,
-   const std::vector<vec3>& vertices,
+   const std::vector<vec3>& positions,
    const std::vector<unsigned int>& indices,
    const std::vector<vec3>& normals)
    :
    m_id(id),
-   m_vertices(vertices),
+   m_positions(positions),
    m_indices(indices),
    m_normals(normals)
 {
 }
 
-const std::vector<vec3>& Mesh_impl::GetVertices() const
+void Mesh_impl::Clear()
 {
-   return m_vertices;
+   m_positions.clear();
+   m_indices.clear();
+   m_normals.clear();
 }
 
-std::vector<vec3>& Mesh_impl::GetVertices()
+const std::vector<vec3>& Mesh_impl::GetPositions() const
 {
-   return m_vertices;
+   return m_positions;
+}
+
+std::vector<vec3>& Mesh_impl::GetPositions()
+{
+   return m_positions;
 }
 
 const std::vector<unsigned int>& Mesh_impl::GetIndices() const

@@ -15,6 +15,11 @@ MeshLibrary::MeshLibrary()
 
 MeshLibrary::~MeshLibrary() = default;
 
+Mesh MeshLibrary::CreateEmpty()
+{
+   return m_impl->CreateEmpty();
+}
+
 Mesh MeshLibrary::CreatePlane(const vec2& size, const ivec2& sections)
 {
    return m_impl->CreatePlane(size, sections);

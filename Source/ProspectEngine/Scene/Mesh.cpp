@@ -15,11 +15,11 @@ Mesh::Mesh(unsigned long id)
 
 Mesh::Mesh(
    unsigned long id,
-   const std::vector<vec3>& vertices,
+   const std::vector<vec3>& positions,
    const std::vector<unsigned int>& indices,
    const std::vector<vec3>& normals)
    :
-   m_impl(std::make_unique<Mesh_impl>(id, vertices, indices, normals))
+   m_impl(std::make_unique<Mesh_impl>(id, positions, indices, normals))
 {
 }
 
@@ -29,16 +29,21 @@ Mesh::Mesh(std::shared_ptr<Mesh_impl>& impl)
 {
 }
 
-Mesh::~Mesh() = default;
-
-const std::vector<vec3>& Mesh::GetVertices() const
+void Mesh::Clear()
 {
-   return m_impl->GetVertices();
+   m_impl->Clear();
 }
 
-std::vector<vec3>& Mesh::GetVertices()
+Mesh::~Mesh() = default;
+
+const std::vector<vec3>& Mesh::GetPositions() const
 {
-   return m_impl->GetVertices();
+   return m_impl->GetPositions();
+}
+
+std::vector<vec3>& Mesh::GetPositions()
+{
+   return m_impl->GetPositions();
 }
 
 const std::vector<unsigned int>& Mesh::GetIndices() const

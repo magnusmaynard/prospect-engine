@@ -14,6 +14,8 @@ namespace Prospect
       MeshLibrary();
       ~MeshLibrary();
 
+      Mesh CreateEmpty();
+
       Mesh CreatePlane(
          const glm::vec2& size,
          const glm::ivec2& sections = DEFAULT_PLANE_SECTIONS);

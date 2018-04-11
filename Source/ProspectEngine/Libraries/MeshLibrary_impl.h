@@ -15,6 +15,7 @@ namespace Prospect
    {
    public:
       MeshLibrary_impl(MeshLibrary& parent);
+      Mesh CreateEmpty();
       Mesh CreatePlane(const glm::vec2& size, const glm::ivec2& sections);
       Mesh CreateCube(const glm::vec3& size);
 

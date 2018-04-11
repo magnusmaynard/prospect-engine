@@ -36,7 +36,7 @@ void EntityRenderer::Render(Entity_impl& entity)
 
       m_shader.Update(EntityUniforms(entity));
 
-      if (mesh.GetVertices().size() > 0)
+      if (mesh.GetPositions().size() > 0)
       {
          if (mesh.IsDirty())
          {
@@ -80,7 +80,7 @@ void EntityRenderer::UpdateMesh(MeshRenderData& renderData, const Mesh_impl& mes
    glCreateBuffers(renderData.BUFFER_COUNT, renderData.Buffers);
 
    //Create vertex buffer.
-   auto& vertices = mesh.GetVertices();
+   auto& vertices = mesh.GetPositions();
 
    glNamedBufferStorage(
       renderData.Buffers[renderData.BUFFER_VERTICES],
