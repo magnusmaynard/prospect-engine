@@ -14,8 +14,8 @@ namespace Prospect
       LightingShader(const GlobalUniformBuffers& globalUniforms)
          :
          Shader(
-            Resources::QUAD_VERTEX_SHADER,
-            Resources::LIGHTING_FRAGMENT_SHADER),
+            Resources::Shaders::QUAD_VERTEX,
+            Resources::Shaders::LIGHTING_FRAGMENT),
          m_shadowMapsUniforms("ShadowMapsUniforms")
       {
          globalUniforms.Camera.Bind(GetProgram());

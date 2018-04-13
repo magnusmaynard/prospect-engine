@@ -75,6 +75,8 @@ float depth = depthBuffer.x;
 
 out vec4 color;
 
+vec3 debugColor;
+
 //https://stackoverflow.com/a/28095165/3209889
 float GoldNoise(in vec2 coordinate, in float seed)
 {
@@ -126,7 +128,7 @@ float CalculateShadowVisibility(DirectionalLight light, vec3 position)
 
     //Get cascade.
     int shadowMapIndex = int(light.ShadowMapIndexAndCascadeCount.x);
-    int shadowMapCascadeLevel= CalculateShadowMapCascadeLevel(light, position);
+    int shadowMapCascadeLevel = CalculateShadowMapCascadeLevel(light, position);
     int shadowMapCascadeIndex = shadowMapIndex + shadowMapCascadeLevel;
 
     if(shadowMapCascadeIndex == -1)
@@ -163,6 +165,17 @@ float CalculateShadowVisibility(DirectionalLight light, vec3 position)
     // {
     //     color *= 0.5;
     // }
+
+    //DEBUG
+    const vec3 colors[5] = vec3[]
+    (
+        vec3(1, 0, 0),
+        vec3(0, 1, 0),
+        vec3(0, 0, 1),
+        vec3(1, 1, 0),
+        vec3(1, 0, 1)
+    );
+    debugColor =colors  [shadowMapCascadeLevel];
     
     return visibility / 18.0; //TODO: should be 9?
 }
@@ -292,6 +305,9 @@ void main()
         // vec4(CalculateLighting(position), 1);
 
         color = DitherRGBA(color, 7);
+
+        //DEBUG
+        color += vec4(debugColor, 0) * 0.1;
     }
 
     // // ---DEBUG SHADOWMAP---

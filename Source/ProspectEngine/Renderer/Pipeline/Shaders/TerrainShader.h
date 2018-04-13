@@ -12,10 +12,10 @@ namespace Prospect
       TerrainShader(const GlobalUniformBuffers& globalUniforms)
          :
          Shader(
-            Resources::TERRAIN_VERTEX_SHADER,
-            Resources::TERRAIN_TESSCONTROL_SHADER,
-            Resources::TERRAIN_TESSEVALUATION_SHADER,
-            Resources::TERRAIN_FRAGMENT_SHADER),
+            Resources::Shaders::TERRAIN_VERTEX,
+            Resources::Shaders::TERRAIN_TESSCONTROL,
+            Resources::Shaders::TERRAIN_TESSEVALUATION,
+            Resources::Shaders::TERRAIN_FRAGMENT),
          m_terrainUniforms("TerrainUniforms"),
          m_nodeUniforms("NodeUniforms")
       {

@@ -45,6 +45,7 @@
     <ClInclude Include="Libraries\MeshLibrary_impl.h" />
     <ClInclude Include="ProspectEngine_pch.h" />
     <ClInclude Include="Renderer\Debugger\Debug.h" />
+    <ClInclude Include="Renderer\Frustum.h" />
     <ClInclude Include="Renderer\Pipeline\GBuffer.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderLibrary.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\ShaderStage.h" />
@@ -75,8 +76,9 @@
     <ClInclude Include="Renderer\Renderers\SunRenderer.h" />
     <ClInclude Include="Renderer\Renderers\TerrainRenderer.h" />
     <ClInclude Include="Renderer\Renderers\TextRenderer.h" />
-    <ClInclude Include="Renderer\ShadowMap.h" />
-    <ClInclude Include="Renderer\ShadowMaps.h" />
+    <ClInclude Include="Renderer\Shadows\ShadowCascade.h" />
+    <ClInclude Include="Renderer\Shadows\ShadowMap.h" />
+    <ClInclude Include="Renderer\Shadows\ShadowMaps.h" />
     <ClInclude Include="Renderer\Textures\DepthTexture.h" />
     <ClInclude Include="Renderer\Uniforms\GlobalUniformBuffers.h" />
     <ClInclude Include="Renderer\Uniforms\UniformBuffer.h" />
@@ -112,6 +114,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Renderer\Debugger\Debug.cpp" />
+    <ClCompile Include="Renderer\Frustum.cpp" />
     <ClCompile Include="Renderer\Pipeline\GBuffer.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderLibrary.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderStages\ShaderStage.cpp" />
@@ -129,8 +132,9 @@
     <ClCompile Include="Renderer\Renderers\SunRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\TerrainRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\TextRenderer.cpp" />
-    <ClCompile Include="Renderer\ShadowMap.cpp" />
-    <ClCompile Include="Renderer\ShadowMaps.cpp" />
+    <ClCompile Include="Renderer\Shadows\ShadowCascade.cpp" />
+    <ClCompile Include="Renderer\Shadows\ShadowMap.cpp" />
+    <ClCompile Include="Renderer\Shadows\ShadowMaps.cpp" />
     <ClCompile Include="Renderer\Textures\DepthTexture.cpp" />
     <ClCompile Include="Renderer\Uniforms\UniformBufferCounter.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />

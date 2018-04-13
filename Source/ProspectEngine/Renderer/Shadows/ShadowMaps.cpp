@@ -5,8 +5,8 @@
 #include "Scene/Lights/DirectionalLight_impl.h"
 #include "Scene/Scene_impl.h"
 #include "Scene/Camera_impl.h"
-#include <limits>
-#include "Debugger/Debug.h"
+#include "Renderer/Frustum.h"
+#include "Renderer/Shadows/ShadowCascade.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -20,6 +20,7 @@ ShadowMaps::ShadowMaps()
    glCreateTextures(GL_TEXTURE_2D_ARRAY, 1, &m_shadowTextures);
    glTextureStorage3D(m_shadowTextures, mipmapLevels, GL_DEPTH_COMPONENT32F, TEXTURE_SIZE.x, TEXTURE_SIZE.y, MAX_SHADOW_MAPS);
 
+   //TODO: use mipmaps
    //glTextureParameteri(m_shadowTextures, GL_TEXTURE_BASE_LEVEL, 0);
    //glTextureParameteri(m_shadowTextures, GL_TEXTURE_MAX_LEVEL, mipmapLevels);
    glTextureParameteri(m_shadowTextures, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -70,7 +71,7 @@ void ShadowMaps::Update(Scene_impl& scene)
       {
          DirectionalLight_impl& directionalLight = *static_cast<DirectionalLight_impl*>(light);
 
-         //if (directionalLight.GetShadowCascades() > 1)
+         //if (directionalLight.GetShadowCascadeCount() > 1)
          //{
             UpdateShadowMapCascades(directionalLight, scene.GetCameraImpl());
          //}
@@ -125,82 +126,50 @@ GLuint ShadowMaps::GetTexture() const
    return m_shadowTextures;
 }
 
-FrustrumCorners ShadowMaps::CalculateFrustrum(
-   const float near, const float far, const float fovY, const float aspect)
-{
-   FrustrumCorners corners;
-   const float halfFovRadsY = radians(fovY * 0.5f);
-   const float halfFovRadsX = atan(aspect * tan(halfFovRadsY));
-
-   const vec3 nearMax = { tan(halfFovRadsX) * near, tan(halfFovRadsY) * near, near };
-   corners.Corners[0] = { +nearMax.x, +nearMax.y, -nearMax.z };
-   corners.Corners[1] = { -nearMax.x, +nearMax.y, -nearMax.z };
-   corners.Corners[2] = { +nearMax.x, -nearMax.y, -nearMax.z };
-   corners.Corners[3] = { -nearMax.x, -nearMax.y, -nearMax.z };
-
-   const vec3 farMax = { tan(halfFovRadsX) * far, tan(halfFovRadsY) * far, far };
-   corners.Corners[4] = { +farMax.x, +farMax.y, -farMax.z };
-   corners.Corners[5] = { -farMax.x, +farMax.y, -farMax.z };
-   corners.Corners[6] = { +farMax.x, -farMax.y, -farMax.z };
-   corners.Corners[7] = { -farMax.x, -farMax.y, -farMax.z };
-
-   return corners;
-}
-
 void ShadowMaps::UpdateShadowMapCascades(DirectionalLight_impl& light, const Camera_impl& camera)
 {
    const mat4 cameraInverseView = camera.GetInverseView();
    const mat4 cameraView = camera.GetView();
 
-   const float fovY = camera.GetFov();
-   const float aspect = camera.GetAspectRatio();
-   const float near = camera.GetNear();
-   const float far = camera.GetFar();
    const int cascadeCount = light.GetShadowCascadeCount();
-
-   const float cascadeLength = (far - near) / cascadeCount;
 
    for (int i = 0; i < cascadeCount; ++i)
    {
-      const float cascadeNear = near + cascadeLength * i;
-      auto corners = CalculateFrustrum(cascadeNear, cascadeNear + cascadeLength, fovY, aspect);
+      const ShadowCascade cascade(i, cascadeCount, true, camera);
+      const Frustum frustum(cascade.Near, cascade.Far, camera.GetFov(), camera.GetAspectRatio());
 
-      //Get centre of frustrum in world space.
-      Bounds worldFrustrumBounds;
-      for (auto& c : corners.Corners)
+      //Get centre of frustum in world space.
+      Bounds worldFrustumBounds;
+      for (auto& c : frustum.Corners)
       {
          //Transform to world space.
          const vec3 corner = cameraInverseView * vec4(c, 1);
 
          //Calculate bounding box.
-         worldFrustrumBounds.Min = min(worldFrustrumBounds.Min, corner);
-         worldFrustrumBounds.Max = max(worldFrustrumBounds.Max, corner);
+         worldFrustumBounds.Min = min(worldFrustumBounds.Min, corner);
+         worldFrustumBounds.Max = max(worldFrustumBounds.Max, corner);
       }
-      auto cascadeCentre = worldFrustrumBounds.GetCentre();
-
-      auto cascadeNearCentre = cameraInverseView * vec4((corners.Corners[0] + corners.Corners[1] + corners.Corners[2] + corners.Corners[3]) / 4.0f, 1);
+      const auto cascadeCentre = worldFrustumBounds.GetCentre();
 
       const mat4 lightView = lookAt(
          cascadeCentre,
          cascadeCentre + light.GetDirection(),
          POS_Y);
 
-      Bounds bounds;
-      for (auto& c : corners.Corners)
+      Bounds lightFrustumBounds;
+      for (auto& c : frustum.Corners)
       {
          //Transform from view to world to light space.
          const vec3 corner = lightView * cameraInverseView * vec4(c, 1);
 
          //Calculate bounding box.
-         bounds.Min = min(bounds.Min, corner);
-         bounds.Max = max(bounds.Max, corner);
+         lightFrustumBounds.Min = min(lightFrustumBounds.Min, corner);
+         lightFrustumBounds.Max = max(lightFrustumBounds.Max, corner);
       }
 
       ShadowMap& shadowMap = GetShadowMap(light, i);
 
-      float farClipDepth = cascadeNear + cascadeLength;
-
-      shadowMap.Update(bounds, cascadeCentre, light.GetDirection(), farClipDepth);
+      shadowMap.Update(lightFrustumBounds, cascadeCentre, light.GetDirection(), cascade.Far);
    }
 }
 

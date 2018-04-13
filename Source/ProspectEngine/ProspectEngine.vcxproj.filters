@@ -176,9 +176,6 @@
     <ClInclude Include="Include\Lights\LightType.h">
       <Filter>Include\Lights</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\ShadowMap.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Pipeline\Shaders\ShadowMapShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
     </ClInclude>
@@ -193,9 +190,6 @@
     </ClInclude>
     <ClInclude Include="Include\Lights\DirectionalLight.h">
       <Filter>Include\Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\ShadowMaps.h">
-      <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\Renderers\IRenderer.h">
       <Filter>Renderer\Renderers</Filter>
@@ -235,6 +229,18 @@
     </ClInclude>
     <ClInclude Include="Renderer\Pipeline\Shaders\DebugShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shadows\ShadowMap.h">
+      <Filter>Renderer\Shadows</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shadows\ShadowMaps.h">
+      <Filter>Renderer\Shadows</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Frustum.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shadows\ShadowCascade.h">
+      <Filter>Renderer\Shadows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -356,17 +362,11 @@
     <ClCompile Include="Renderer\Pipeline\GBuffer.cpp">
       <Filter>Renderer\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\ShadowMap.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Lights\DirectionalLight_impl.cpp">
       <Filter>Scene\Lights</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Lights\DirectionalLight.cpp">
       <Filter>Scene\Lights</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\ShadowMaps.cpp">
-      <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Renderer\Renderers\TerrainRenderer.cpp">
       <Filter>Renderer\Renderers</Filter>
@@ -394,6 +394,18 @@
     </ClCompile>
     <ClCompile Include="Scene2D\Scene2D_impl.cpp">
       <Filter>Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shadows\ShadowMap.cpp">
+      <Filter>Renderer\Shadows</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shadows\ShadowMaps.cpp">
+      <Filter>Renderer\Shadows</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Frustum.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shadows\ShadowCascade.cpp">
+      <Filter>Renderer\Shadows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,14 +475,14 @@
     <Filter Include="Renderer\Pipeline\ShaderStages">
       <UniqueIdentifier>{08ca62fc-214d-4b22-ab15-433cb347dc7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer\OpenGL">
-      <UniqueIdentifier>{f9fc849b-a8b1-4918-83cd-c99cafbdbe19}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Renderer\Renderers">
       <UniqueIdentifier>{a6941df5-9cef-4f6d-8fae-a6c1b95ac9b0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scene2D">
       <UniqueIdentifier>{635f9650-2b0d-4217-860c-c19d9b731f42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Shadows">
+      <UniqueIdentifier>{819cc5f7-3e8c-44da-a3ab-4afa54b475ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -34,7 +34,7 @@ void TextRenderer::InitialiseFont(const int size)
       throw std::exception("Error initializing FreeType m_library.");
    }
 
-   std::string fontFile = ResourceIO::GetResourcePath() + Resources::ARIAL_FONT;
+   std::string fontFile = ResourceIO::GetResourcePath() + Resources::Fonts::ARIAL_FONT;
 
    error = FT_New_Face(
       m_library,

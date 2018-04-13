@@ -7,7 +7,7 @@
 #include "Scene/Terrain/Terrain_impl.h"
 #include "Engine/EngineDefines.h"
 #include "Libraries/MaterialLibrary_impl.h"
-#include "Renderer/ShadowMaps.h"
+#include "Renderer/Shadows/ShadowMaps.h"
 
 namespace Prospect
 {

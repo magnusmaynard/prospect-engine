@@ -12,8 +12,8 @@ namespace Prospect
       BlinnPhongShader(const GlobalUniformBuffers& globalUniforms)
          :
          Shader(
-            Resources::BLINNPHONG_VERTEX_SHADER,
-            Resources::BLINNPHONG_FRAGMENT_SHADER),
+            Resources::Shaders::BLINNPHONG_VERTEX,
+            Resources::Shaders::BLINNPHONG_FRAGMENT),
          m_entityUniforms("EntityUniforms")
       {
          globalUniforms.Camera.Bind(GetProgram());

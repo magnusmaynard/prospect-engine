@@ -12,8 +12,8 @@ namespace Prospect
       SunShader(const GlobalUniformBuffers& globalUniforms)
          :
          Shader(
-            Resources::SUN_VERTEX_SHADER,
-            Resources::SUN_FRAGMENT_SHADER),
+            Resources::Shaders::SUN_VERTEX,
+            Resources::Shaders::SUN_FRAGMENT),
          m_sunUniforms("SunUniforms")
       {
          globalUniforms.Camera.Bind(GetProgram());

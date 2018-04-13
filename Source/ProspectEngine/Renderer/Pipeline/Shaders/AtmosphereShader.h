@@ -12,8 +12,8 @@ namespace Prospect
       AtmosphereShader(const GlobalUniformBuffers& globalUniforms)
          :
          Shader(
-            Resources::QUAD_VERTEX_SHADER,
-            Resources::ATMOSPHERE_FRAGMENT_SHADER),
+            Resources::Shaders::QUAD_VERTEX,
+            Resources::Shaders::ATMOSPHERE_FRAGMENT),
          m_atmosphereUniforms("AtmosphereUniforms")
       {
          globalUniforms.Camera.Bind(GetProgram());

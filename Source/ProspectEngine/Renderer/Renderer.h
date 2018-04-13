@@ -4,7 +4,7 @@
 #include "Renderer/Pipeline/ShaderLibrary.h"
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
 #include "Renderer/Pipeline/GBuffer.h"
-#include "Renderer/ShadowMaps.h"
+#include "Renderer/Shadows/ShadowMaps.h"
 #include "Renderer/Renderers/EntityRenderer.h"
 #include "Renderer/Renderers/TerrainRenderer.h"
 #include "Renderer/Renderers/AtmosphereRenderer.h"

@@ -7,7 +7,7 @@
 #include "Scene/Lights/ILight_impl.h"
 #include "Renderer/Debugger/Debug.h"
 #include "Libraries/MaterialLibrary_impl.h"
-#include "Renderer/ShadowMap.h"
+#include "Renderer/Shadows/ShadowMap.h"
 #include "Scene2D/Scene2D_impl.h"
 
 using namespace Prospect;

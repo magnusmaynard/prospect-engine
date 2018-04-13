@@ -10,8 +10,8 @@ namespace Prospect
       TextShader(const GlobalUniformBuffers& globalUniforms)
          :
          Shader(
-            Resources::TEXT_VERTEX_SHADER,
-            Resources::TEXT_FRAGMENT_SHADER)
+            Resources::Shaders::TEXT_VERTEX,
+            Resources::Shaders::TEXT_FRAGMENT)
       {
          globalUniforms.Camera.Bind(GetProgram());
       }

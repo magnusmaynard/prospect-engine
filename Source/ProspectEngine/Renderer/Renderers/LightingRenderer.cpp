@@ -4,7 +4,7 @@
 
 #include "Renderer/Pipeline/ShaderLibrary.h"
 #include "Renderer/Pipeline/GBuffer.h"
-#include "Renderer/ShadowMaps.h"
+#include "Renderer/Shadows/ShadowMaps.h"
 
 using namespace Prospect;
 using namespace glm;

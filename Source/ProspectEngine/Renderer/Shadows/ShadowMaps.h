@@ -1,29 +1,11 @@
 #pragma once
-#include "Renderer/ShadowMap.h"
+#include "Renderer/Shadows/ShadowMap.h"
 
 namespace Prospect
 {
    class Camera_impl;
    class ILight_impl;
    class Scene_impl;
-
-   struct FrustrumCorners
-   {
-      enum CORNERS
-      {
-         FAR_POSX_POSY,
-         FAR_NEGX_POSY,
-         FAR_POSX_NEGY,
-         FAR_NEGX_NEGY,
-         NEAR_POSX_POSY,
-         NEAR_NEGX_POSY,
-         NEAR_POSX_NEGY,
-         NEAR_NEGX_NEGY,
-         CORNER_COUNT,
-      };
-
-      std::array<glm::vec3, CORNER_COUNT> Corners;
-   };
 
    struct Bounds
    {
@@ -63,11 +45,11 @@ namespace Prospect
 
    private:
       void UpdateShadowMap(DirectionalLight_impl& light);
+
       void UpdateShadowMapCascades(DirectionalLight_impl& light, const Camera_impl& camera);
       void BindShadowMap(const int index) const;
 
       ShadowMap& GetShadowMap(DirectionalLight_impl& light, const int cascadeIndex);
-      static FrustrumCorners CalculateFrustrum(const float near, const float far, const float fovY, const float aspect);
 
       GLuint m_shadowFBO;
       GLuint m_shadowTextures;

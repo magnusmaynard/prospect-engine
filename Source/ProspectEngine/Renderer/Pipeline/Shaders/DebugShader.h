@@ -12,8 +12,9 @@ namespace Prospect
       DebugShader(const GlobalUniformBuffers& globalUniforms)
          :
          Shader(
-            Resources::DEBUG_VERTEX_SHADER,
-            Resources::DEBUG_FRAGMENT_SHADER)
+            
+            Resources::Shaders::DEBUG_VERTEX,
+            Resources::Shaders::DEBUG_FRAGMENT)
       {
          globalUniforms.Camera.Bind(GetProgram());
       }

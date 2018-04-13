@@ -3,33 +3,34 @@
 
 namespace Resources
 {
-   //namespace Shaders //TODO: add namespace, make files capitalised
-   //{
-      static const std::string QUAD_VERTEX_SHADER = "Shaders/Quad.vs.glsl";
-      static const std::string LIGHTING_FRAGMENT_SHADER = "Shaders/Lighting.fs.glsl";
-      static const std::string ATMOSPHERE_FRAGMENT_SHADER = "Shaders/Atmosphere.fs.glsl";
+   namespace Shaders
+   {
+      static const std::string QUAD_VERTEX = "Shaders/Quad.vs.glsl";
+      static const std::string LIGHTING_FRAGMENT = "Shaders/Lighting.fs.glsl";
+      static const std::string ATMOSPHERE_FRAGMENT = "Shaders/Atmosphere.fs.glsl";
 
-      static const std::string SHADOWMAP_VERTEX_SHADER = "Shaders/ShadowMap.vs.glsl";
-      static const std::string SHADOWMAP_FRAGMENT_SHADER = "Shaders/ShadowMap.fs.glsl";
+      static const std::string SHADOWMAP_VERTEX = "Shaders/ShadowMap.vs.glsl";
+      static const std::string SHADOWMAP_FRAGMENT = "Shaders/ShadowMap.fs.glsl";
 
-      static const std::string SIMPLE_VERTEX_SHADER = "Shaders/simple.vs.glsl";
-      static const std::string SIMPLE_FRAGMENT_SHADER = "Shaders/simple.fs.glsl";
-      static const std::string BLINNPHONG_VERTEX_SHADER = "Shaders/blinnphong.vs.glsl";
-      static const std::string BLINNPHONG_FRAGMENT_SHADER = "Shaders/blinnphong.fs.glsl";
-      static const std::string TEXT_VERTEX_SHADER = "Shaders/text.vs.glsl";
-      static const std::string TEXT_FRAGMENT_SHADER = "Shaders/text.fs.glsl";
-      static const std::string TERRAIN_VERTEX_SHADER = "Shaders/terrain.vs.glsl";
-      static const std::string TERRAIN_TESSCONTROL_SHADER = "Shaders/terrain.tcs.glsl";
-      static const std::string TERRAIN_TESSEVALUATION_SHADER = "Shaders/terrain.tes.glsl";
-      static const std::string TERRAIN_FRAGMENT_SHADER = "Shaders/terrain.fs.glsl";
-      static const std::string SUN_VERTEX_SHADER = "Shaders/sun.vs.glsl";
-      static const std::string SUN_FRAGMENT_SHADER = "Shaders/sun.fs.glsl";
+      static const std::string SIMPLE_VERTEX = "Shaders/Simple.vs.glsl";
+      static const std::string SIMPLE_FRAGMENT = "Shaders/Simple.fs.glsl";
+      static const std::string BLINNPHONG_VERTEX = "Shaders/BlinnPhong.vs.glsl";
+      static const std::string BLINNPHONG_FRAGMENT = "Shaders/BlinnPhong.fs.glsl";
+      static const std::string TEXT_VERTEX = "Shaders/Text.vs.glsl";
+      static const std::string TEXT_FRAGMENT = "Shaders/Text.fs.glsl";
+      static const std::string TERRAIN_VERTEX = "Shaders/Terrain.vs.glsl";
+      static const std::string TERRAIN_TESSCONTROL = "Shaders/Terrain.tcs.glsl";
+      static const std::string TERRAIN_TESSEVALUATION = "Shaders/Terrain.tes.glsl";
+      static const std::string TERRAIN_FRAGMENT = "Shaders/Terrain.fs.glsl";
+      static const std::string SUN_VERTEX = "Shaders/Sun.vs.glsl";
+      static const std::string SUN_FRAGMENT = "Shaders/Sun.fs.glsl";
 
-      static const std::string DEBUG_VERTEX_SHADER = "Shaders/Debug.vs.glsl";
-      static const std::string DEBUG_FRAGMENT_SHADER = "Shaders/Debug.fs.glsl";
-   //}
+      static const std::string DEBUG_VERTEX = "Shaders/Debug.vs.glsl";
+      static const std::string DEBUG_FRAGMENT = "Shaders/Debug.fs.glsl";
+   }
 
-   static const std::string TERRAIN_MAP_BITMAP = "Textures/terrain1.bmp";
-
-   static const std::string ARIAL_FONT = "Fonts/arial.ttf";
+   namespace Fonts
+   {
+      static const std::string ARIAL_FONT = "Fonts/arial.ttf";
+   }
 }
