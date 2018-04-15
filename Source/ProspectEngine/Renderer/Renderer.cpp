@@ -43,6 +43,19 @@ void Renderer::Initialise()
    glEnable(GL_CULL_FACE);
    glFrontFace(GL_CCW);
 
+   glClearColor(0, 0, 0, 0);
+
+   //glCreateFramebuffers(1, &m_screenshotFBO);
+   //glBindFramebuffer(GL_FRAMEBUFFER, m_screenshotFBO);
+
+   //glNamedFramebufferDrawBuffer(m_screenshotFBO, GL_BACK);
+   //glNamedFramebufferReadBuffer(m_screenshotFBO, GL_BACK);
+   //const GLenum error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+   //if (error != GL_FRAMEBUFFER_COMPLETE)
+   //{
+   //   std::cerr << "Error: Failed to create framebuffer: " << std::hex << error << std::endl;
+   //}
+
    Debug::Points::Initialise(m_shaderLibrary);
 }
 
@@ -68,10 +81,10 @@ void Renderer::Render(const double time, Scene_impl& scene, Scene2D_impl& scene2
    Clear();
    m_gBuffer.Clear();
 
-   ShadowPass(scene);
+   //ShadowPass(scene);
    GeometryPass(scene);
-   LightingPass();
-   EffectsPass(scene, scene2D);
+   //LightingPass();
+   //EffectsPass(scene, scene2D);
 
    Debug::CheckErrors();
 }
@@ -106,21 +119,22 @@ void Renderer::ShadowPass(Scene_impl& scene)
 
 void Renderer::GeometryPass(Scene_impl& scene)
 {
-   m_gBuffer.Bind();
+   BindDefaultFramebuffer();
+   //m_gBuffer.Bind();
 
    RenderEntities(scene.GetRootEntityImpl());
 
-   if(auto* terrain = scene.GetTerrainImpl())
-   {
-      m_terrainRenderer.Render(*terrain);
-   }
+   //if(auto* terrain = scene.GetTerrainImpl())
+   //{
+   //   m_terrainRenderer.Render(*terrain);
+   //}
 
-   if (auto* atmosphere = scene.GetAtmosphereImpl())
-   {
-      m_sunRenderer.Render(*atmosphere);
-   }
+   //if (auto* atmosphere = scene.GetAtmosphereImpl())
+   //{
+   //   m_sunRenderer.Render(*atmosphere);
+   //}
 
-   Debug::Points::Render();
+   //Debug::Points::Render();
 }
 
 void Renderer::LightingPass()
@@ -217,3 +231,60 @@ void Renderer::Resize(const ivec2& size)
    m_gBuffer.Resize(size);
 }
 
+const Image Renderer::Screenshot(Scene_impl& scene)
+{
+   //glBindFramebuffer(GL_FRAMEBUFFER, m_screenshotFBO);
+   glViewport(0, 0, m_size.x, m_size.y);
+   glClearColor(0, 0, 0, 0);
+   Clear();
+
+   //Render scene.
+   RenderEntities(scene.GetRootEntityImpl());
+
+   std::vector<unsigned char> data;
+   data.resize(m_size.x * m_size.y * 4);
+   glReadPixels(0, 0, m_size.x, m_size.y, GL_RGBA, GL_UNSIGNED_BYTE, &data[0]);
+
+
+   std::vector<unsigned char> processedData;
+   processedData.resize(m_size.x * m_size.y * 4);
+   for (int y = 0; y < m_size.y; y++)
+   {
+      const int currentRow = y * m_size.x * 4;
+      const int oppositeRow = (m_size.y - 1) * m_size.x * 4 - currentRow;
+
+      for (int x = 0; x < m_size.x * 4; x+=4)
+      {
+         const int oppositeColumn = oppositeRow + x;
+         const int currentColumn = currentRow + x;
+
+         float r = static_cast<float>(data[currentColumn + 0]) / 255.f;
+         float g = static_cast<float>(data[currentColumn + 1]) / 255.f;
+         float b = static_cast<float>(data[currentColumn + 2]) / 255.f;
+         float a = static_cast<float>(data[currentColumn + 3]) / 255.f;
+
+         r /= a;
+         g /= a;
+         b /= a;
+         
+         processedData[oppositeColumn + 0] = static_cast<unsigned char>(r * 255.f);
+         processedData[oppositeColumn + 1] = static_cast<unsigned char>(g * 255.f);
+         processedData[oppositeColumn + 2] = static_cast<unsigned char>(b * 255.f);
+         processedData[oppositeColumn + 3] = static_cast<unsigned char>(a * 255.f);
+      }
+   }
+
+   //flippedData[oppositeColumn + 0] = data[currentRow + 0];
+   //flippedData[oppositeColumn + 1] = data[currentRow + 1];
+   //flippedData[oppositeColumn + 2] = data[currentRow + 2];
+   //flippedData[oppositeColumn + 3] = data[currentRow + 3];
+
+   Image image(m_size.x, m_size.y, 4, processedData);
+
+   Debug::CheckErrors();
+
+
+   glClearColor(0, 0, 0, 0);//Restore clear color.
+
+   return image;
+}

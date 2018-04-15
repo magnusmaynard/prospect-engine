@@ -4,6 +4,7 @@
 
 namespace Prospect
 {
+   struct Image;
    class IApplication;
    enum class PolygonMode;
    class Scene;
@@ -31,6 +32,8 @@ namespace Prospect
       Scene& GetScene();
       MeshLibrary& GetMeshLibrary();
       MaterialLibrary& GetMaterialLibrary();
+
+      const Image Screenshot();
 
    private:
       //Using opaque pointer to impls to avoid having to include internal headers outside of dll.

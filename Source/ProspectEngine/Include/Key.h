@@ -22,6 +22,7 @@ namespace Prospect
       C,
       Space,
       Escape,
+      PrintScreen
    };
 
    enum class KeyModifier

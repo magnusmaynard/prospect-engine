@@ -10,7 +10,7 @@
 
 namespace Prospect
 {
-   struct Bitmap;
+   struct Image;
    class Camera_impl;
 
    class Scene_impl

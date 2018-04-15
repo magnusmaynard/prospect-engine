@@ -107,6 +107,11 @@ MaterialLibrary& Engine_impl::GetMaterialLibrary()
    return m_materialLibrary;
 }
 
+const Image Engine_impl::Screenshot()
+{
+   return m_renderer.Screenshot(GetSceneImpl());
+}
+
 Scene_impl& Engine_impl::GetSceneImpl()
 {
    return *m_scene.m_impl;

@@ -13,7 +13,7 @@ namespace Prospect
    class Material;
    class Entity;
    class Camera;
-   struct Bitmap;
+   struct Image;
    class Atmosphere;
 
    class Scene

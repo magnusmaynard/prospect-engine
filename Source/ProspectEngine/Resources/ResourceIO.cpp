@@ -22,7 +22,7 @@ std::string ResourceIO::ReadText(const std::string& resourceName)
    return IO::ReadText(GetResourcePath() + resourceName);
 }
 
-Bitmap ResourceIO::ReadBitmap(const std::string& resourceName)
+Image ResourceIO::ReadBitmap(const std::string& resourceName)
 {
    return IO::ReadBitmap(GetResourcePath() + resourceName);
 }

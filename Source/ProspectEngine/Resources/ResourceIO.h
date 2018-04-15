@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Include/Bitmap.h"
+#include "Include/Image.h"
 
 namespace Prospect
 {
@@ -10,7 +10,7 @@ namespace Prospect
       static std::string GetResourcePath();
 
       static std::string ReadText(const std::string& filename);
-      static Bitmap ReadBitmap(const std::string& filename);
+      static Image ReadBitmap(const std::string& filename);
 
    private:
       static std::string m_resourcePath;

@@ -36,12 +36,12 @@ namespace Prospect
       }
 #pragma endregion
 
-      Color(const float r, const float g, const float b)
+      Color(const float r, const float g, const float b, const float a = 1.0)
          :
          R(r),
          G(g),
          B(b),
-         A(1.0)
+         A(a)
       {
       }
 

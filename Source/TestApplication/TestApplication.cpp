@@ -8,7 +8,7 @@
 #include "MeshLibrary.h"
 #include "MaterialLibrary.h"
 #include "Camera.h"
-#include "Bitmap.h"
+#include "Image.h"
 #include "Utilities/IO.h"
 #include "Atmosphere.h"
 #include "Lights/ILight.h"
@@ -35,12 +35,14 @@ void TestApplication::OnStartup()
 {
    m_engine.SetTitle("Test Application");
    m_engine.ShowFPS(true);
+   m_engine.EnableCameraControls(false);
 
    //m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
-   m_scene.GetCamera().LookAt({ 0, 100, 100 }, { 0, 100, 0 });
+   //m_scene.GetCamera().LookAt({ 0, 100, 100 }, { 0, 50, 0 });
+   m_scene.GetCamera().LookAt({ 0, 60, 8 }, { 0, 45, 0 });
 
-   const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_noise.bmp", true);
-   const Bitmap grassTexture = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_grass.bmp");
+   const Image heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_noise.bmp", true);
+   const Image grassTexture = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_grass.bmp");
 
    Terrain terrain(vec3(), heightMap, 800, 0, 100);
    terrain.SetGroundTexture(grassTexture);
@@ -53,10 +55,10 @@ void TestApplication::OnStartup()
    //DirectionalLight otherLight(vec3(1, -1, 0));
    //m_scene.AddLight(otherLight);
 
-   Atmosphere atmosphere;
-   atmosphere.SetAltitude(1505);
-   atmosphere.SetLight(sunLight);
-   m_scene.SetAtmosphere(atmosphere);
+   //Atmosphere atmosphere;
+   //atmosphere.SetAltitude(1505);
+   //atmosphere.SetLight(sunLight);
+   //m_scene.SetAtmosphere(atmosphere);
 
    //Light light1(vec3(50, 30, 0), vec3(0, -1, 0), LightType::Point);
    //light1.SetRange(200);
@@ -64,7 +66,7 @@ void TestApplication::OnStartup()
 
    //Light light2(vec3(-50, 30, 0), vec3(1, 0, 0), LightType::Point);
    //m_scene.AddLight(light2);
-
+   Color whiteAlpha = { 255, 255, 255, 128 };
    Material white = m_materialLib.CreateMaterial(Color::White(), Color::White(), Color::White(), 128);
    Material blue = m_materialLib.CreateMaterial({0.1f, 0.8f, 0.1f}, {0.1f, 0.1f, 0.1f}, { 1, 1, 1}, 100);
    Material red = m_materialLib.CreateMaterial(Color::Red());
@@ -177,8 +179,8 @@ void TestApplication::OnUpdate(const double timeElapsed)
    //auto cube = m_scene.GetEntity(1);
    //cube.SetRotation({ counter * 8.0, -counter * 5.0, counter * 3.0 });
 
-   auto turbineProp = m_scene.GetEntity(0).GetEntity(0);
-   turbineProp.SetRotation({ 0, 0, counter * 8.0 });
+   //auto turbineProp = m_scene.GetEntity(0).GetEntity(0);
+   //turbineProp.SetRotation({ 0, 0, counter * 8.0 });
 
 }
 
@@ -245,6 +247,13 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
       case Key::Space:
       {
          m_playerUp = true;
+         break;
+      }
+      case Key::PrintScreen:
+      {
+         const Image image = m_engine.Screenshot();
+
+         IO::WritePNG("M:\\Users\\Magnus\\Desktop\\test_image.png", image);
          break;
       }
       default:

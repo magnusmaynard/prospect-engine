@@ -13,7 +13,7 @@ namespace Prospect
          :
          Shader(
             Resources::Shaders::BLINNPHONG_VERTEX,
-            Resources::Shaders::BLINNPHONG_FRAGMENT),
+            Resources::Shaders::BLINNPHONG_FORWARD_FRAGMENT),
          m_entityUniforms("EntityUniforms")
       {
          globalUniforms.Camera.Bind(GetProgram());

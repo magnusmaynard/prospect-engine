@@ -74,9 +74,6 @@
     <ClInclude Include="Resources\ResourceIO.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Bitmap.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Utilities\IO.h">
       <Filter>Include\Utilities</Filter>
     </ClInclude>
@@ -242,6 +239,9 @@
     <ClInclude Include="Renderer\Shadows\ShadowCascade.h">
       <Filter>Renderer\Shadows</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Image.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Window.cpp">
@@ -293,9 +293,6 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="ProspectEngine_pch.cpp" />
-    <ClCompile Include="Containers\Bitmap.cpp">
-      <Filter>Containers</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities\IO.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
@@ -406,6 +403,9 @@
     </ClCompile>
     <ClCompile Include="Renderer\Shadows\ShadowCascade.cpp">
       <Filter>Renderer\Shadows</Filter>
+    </ClCompile>
+    <ClCompile Include="Containers\Image.cpp">
+      <Filter>Containers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

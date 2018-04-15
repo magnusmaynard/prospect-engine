@@ -34,6 +34,8 @@ namespace Prospect
       MeshLibrary& GetMeshLibrary();
       MaterialLibrary& GetMaterialLibrary();
 
+      const Image Screenshot();
+
       //Internal
       Engine_impl(
          Engine& parent,

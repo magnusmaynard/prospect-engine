@@ -28,6 +28,7 @@ namespace Prospect
       void Render(double time, Scene_impl& scene, Scene2D_impl& scene2D);
       void ShowWireframe(bool showWireframe);
       void Resize(const glm::ivec2& size);
+      const Image Screenshot(Scene_impl& scene);
 
    private:
       GlobalUniformBuffers m_globalUniformBuffers;
@@ -63,5 +64,8 @@ namespace Prospect
       ShadowMaps m_shadowMaps;
       GBuffer m_gBuffer;
       glm::ivec2 m_size;
+
+      GLuint m_screenshotFBO;
+
    };
 }

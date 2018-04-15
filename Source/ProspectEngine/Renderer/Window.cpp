@@ -238,6 +238,8 @@ Key Window::ConvertGLFWKey(int glfwKey)
          return Key::Space;
       case(GLFW_KEY_ESCAPE):
          return Key::Escape;
+      case (GLFW_KEY_PRINT_SCREEN):
+         return Key::PrintScreen;
       default:
       {
          std::cout << "Key not supported: " << glfwKey << std::endl;

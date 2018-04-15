@@ -20,7 +20,7 @@ ShadowCascade::ShadowCascade(
       //Calculates the near and far at logarithmic intervals.
       //[Logb(d) = c] => [b = d ^(1/c)].
       //b = base, d = distance, c = cascade count.
-      const float logBase = pow(distance, 1.0 / cascadeCount);
+      const float logBase = pow(distance, 1.0f / cascadeCount);
 
       Near = camera.GetNear() + pow(logBase, cascadeIndex);
       Far = Near + pow(logBase, cascadeIndex + 1);

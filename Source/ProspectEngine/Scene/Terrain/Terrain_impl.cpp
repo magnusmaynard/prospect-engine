@@ -8,7 +8,7 @@ using namespace Prospect;
 
 Terrain_impl::Terrain_impl(
    const glm::vec3& origin,
-   const Bitmap& heightMap,
+   const Image& heightMap,
    float size,
    float minHeight,
    float maxHeight)
@@ -23,14 +23,14 @@ Terrain_impl::Terrain_impl(
 
 Terrain_impl::~Terrain_impl() = default;
 
-void Terrain_impl::SetGroundTexture(const Bitmap& groundTexture)
+void Terrain_impl::SetGroundTexture(const Image& groundTexture)
 {
-   m_groundTexture = std::make_unique<Bitmap>(groundTexture);
+   m_groundTexture = std::make_unique<Image>(groundTexture);
 
    m_isDirty = true;
 }
 
-const Bitmap* Terrain_impl::GetGroundTexture() const
+const Image* Terrain_impl::GetGroundTexture() const
 {
    return m_groundTexture.get();
 }
@@ -62,7 +62,7 @@ const std::vector<Node*>& Terrain_impl::GetEndNodes() const
    return m_quadTree.GetEndNodes();
 }
 
-const Bitmap& Terrain_impl::GetTerrainMap() const
+const Image& Terrain_impl::GetTerrainMap() const
 {
    return m_heightMap;
 }

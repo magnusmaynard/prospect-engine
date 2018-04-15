@@ -65,6 +65,11 @@ MaterialLibrary& Engine::GetMaterialLibrary()
    return m_impl->GetMaterialLibrary();
 }
 
+const Image Engine::Screenshot()
+{
+   return m_impl->Screenshot();
+}
+
 //Using a unique_ptr means the Engine must have a default destructor. See:
 //"Effect Modern C++ - Item 22: When using the Pimpl Idiom, define special member functions in the implementation file."
 Engine::~Engine() = default;

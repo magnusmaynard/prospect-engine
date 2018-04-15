@@ -30,7 +30,9 @@ void EntityRenderer::Render(Entity_impl& entity)
       Mesh_impl& mesh = *entity.GetMeshImpl();
       MeshRenderData renderData = m_meshRenderDataLibrary.GetRenderData(mesh.GetId());
 
-      glBlendFunc(GL_ONE, GL_ZERO);
+      //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+      glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA); //For premultiplied alpha.
+
 
       m_shader.Bind();
 

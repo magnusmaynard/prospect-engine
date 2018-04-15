@@ -7,7 +7,7 @@ using namespace Prospect;
 
 Terrain::Terrain(
    const glm::vec3& origin,
-   const Bitmap& heightMap,
+   const Image& heightMap,
    float size,
    float minHeight,
    float maxHeight)
@@ -29,7 +29,7 @@ Terrain::Terrain(std::shared_ptr<Terrain_impl>& impl)
 
 Terrain::~Terrain() = default;
 
-void Terrain::SetGroundTexture(const Bitmap& groundTexture)
+void Terrain::SetGroundTexture(const Image& groundTexture)
 {
    m_impl->SetGroundTexture(groundTexture);
 }

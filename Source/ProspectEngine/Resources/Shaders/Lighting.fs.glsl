@@ -194,7 +194,7 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 position, vec3 V, ve
     vec3 ambient = vec3(0.05); //TODO: Make not hardcoded.
 
     float shadowAmbient = 0.05;
-    float visibility = CalculateShadowVisibility(light, position) + shadowAmbient;
+    float visibility = 1.0;//TODO: CalculateShadowVisibility(light, position) + shadowAmbient;
 
     return (diffuse + specular + ambient) * visibility;
 }
@@ -306,8 +306,8 @@ void main()
 
         color = DitherRGBA(color, 7);
 
-        //DEBUG
-        color += vec4(debugColor, 0) * 0.1;
+        ////DEBUG
+        //color += vec4(debugColor, 0) * 0.1;
     }
 
     // // ---DEBUG SHADOWMAP---

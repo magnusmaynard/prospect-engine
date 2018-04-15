@@ -1,7 +1,7 @@
 #include "ProspectEngine_pch.h"
 
 #include "Include/Utilities/IO.h"
-#include "Include/Bitmap.h"
+#include "Include/Image.h"
 #include "Include/Mesh.h"
 
 #include <windows.h>
@@ -10,6 +10,9 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -39,7 +42,7 @@ std::string IO::ReadText(const std::string& filePath)
    return sourceStream.str();
 }
 
-Bitmap IO::ReadBitmap(const std::string& filePath, const bool monochrome)
+Image IO::ReadBitmap(const std::string& filePath, const bool monochrome)
 {
    const int desiredChannels = monochrome ? 1 : 3;
 
@@ -49,7 +52,7 @@ Bitmap IO::ReadBitmap(const std::string& filePath, const bool monochrome)
    float* rawData = stbi_loadf(filePath.c_str(), &width, &height, &channels, desiredChannels);
 
    const std::vector<float> data(rawData, rawData + width * height * desiredChannels);
-   return Bitmap(width, height, channels, data);
+   return Image(width, height, channels, data);
 }
 
 struct VertexIndices
@@ -184,11 +187,19 @@ bool IO::ReadObj(Mesh& mesh, const std::string& filename)
    if (flatIndexed)
    {
       AddNormalsPerFace(mesh, obj);
-   }
+   }  
    else
    {
       //Do nothing.
    }
 
    return false;
+}
+
+void IO::WritePNG(const std::string& filename, const Image& image)
+{
+   //TODO: File must exist first, so create it.
+
+   const int stride = image.Width * 4;
+   stbi_write_png(filename.c_str(), image.Width, image.Height, image.Channels, &image.DataB[0], stride);
 }
