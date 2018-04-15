@@ -39,7 +39,7 @@ void TestApplication::OnStartup()
 
    //m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
    //m_scene.GetCamera().LookAt({ 0, 100, 100 }, { 0, 50, 0 });
-   m_scene.GetCamera().LookAt({ 0, 60, 8 }, { 0, 45, 0 });
+   m_scene.GetCamera().LookAt({ 0, 58, 5 }, { 0, 49, -1 });
 
    const Image heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_noise.bmp", true);
    const Image grassTexture = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_grass.bmp");

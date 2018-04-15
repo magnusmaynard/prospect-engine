@@ -43,7 +43,7 @@ void Renderer::Initialise()
    glEnable(GL_CULL_FACE);
    glFrontFace(GL_CCW);
 
-   glClearColor(0, 0, 0, 0);
+   glClearColor(1, 1, 1, 1);
 
    //glCreateFramebuffers(1, &m_screenshotFBO);
    //glBindFramebuffer(GL_FRAMEBUFFER, m_screenshotFBO);
@@ -284,7 +284,7 @@ const Image Renderer::Screenshot(Scene_impl& scene)
    Debug::CheckErrors();
 
 
-   glClearColor(0, 0, 0, 0);//Restore clear color.
+   glClearColor(1, 1, 1, 1);//Restore clear color.
 
    return image;
 }
