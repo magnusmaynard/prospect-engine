@@ -107,17 +107,17 @@ void Renderer::ShadowPass(Scene_impl& scene)
 void Renderer::GeometryPass(Scene_impl& scene)
 {
    m_gBuffer.Bind();
-
-   RenderEntities(scene.GetRootEntityImpl());
-
-   if(auto* terrain = scene.GetTerrainImpl())
-   {
-      m_terrainRenderer.Render(*terrain);
-   }
-
    if (auto* atmosphere = scene.GetAtmosphereImpl())
    {
       m_sunRenderer.Render(*atmosphere);
+   }
+
+   RenderEntities(scene.GetRootEntityImpl());
+
+
+   if (auto* terrain = scene.GetTerrainImpl())
+   {
+      m_terrainRenderer.Render(*terrain);
    }
 
    Debug::Points::Render();

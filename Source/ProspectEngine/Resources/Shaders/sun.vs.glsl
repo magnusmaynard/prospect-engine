@@ -20,9 +20,19 @@ layout (location = 0) in vec3 point;
 
 void main()
 {
+   //Remove translation from view.
+   mat4 viewNoTranslation = camera.View;
+   viewNoTranslation[3][0] = 0;
+   viewNoTranslation[3][1] = 0;
+   viewNoTranslation[3][2] = 0;
+   viewNoTranslation[0][3] = 0;
+   viewNoTranslation[1][3] = 0;
+   viewNoTranslation[2][3] = 0;
+   viewNoTranslation[3][3] = 1;
+
    //Remove all rotational components from the view model,
    //to make object always face the same direction.
-   mat4 modelView2D = camera.View * sun.Model;
+   mat4 modelView2D = viewNoTranslation * sun.Model;
    modelView2D[0][0] = 1;
    modelView2D[0][1] = 0;
    modelView2D[0][2] = 0;

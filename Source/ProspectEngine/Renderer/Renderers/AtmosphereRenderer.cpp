@@ -36,14 +36,13 @@ void AtmosphereRenderer::Render(const Atmosphere_impl& atmosphere, const GBuffer
       atmosphere.Clean();
    }
 
-   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-   glDisable(GL_DEPTH_TEST);
-
-   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
-
    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+   glPolygonMode(GL_FRONT, GL_FILL);
+   glDisable(GL_DEPTH_TEST);
+   glDepthMask(GL_FALSE);
+   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
    glDrawBuffer(GL_BACK);
+
    glBindTextureUnit(3, gBuffer.GetDepthTexture());
 
    m_shader.Bind();

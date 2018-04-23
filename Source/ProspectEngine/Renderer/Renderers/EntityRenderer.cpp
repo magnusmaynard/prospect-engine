@@ -30,6 +30,8 @@ void EntityRenderer::Render(Entity_impl& entity)
       Mesh_impl& mesh = *entity.GetMeshImpl();
       MeshRenderData renderData = m_meshRenderDataLibrary.GetRenderData(mesh.GetId());
 
+      glDepthMask(GL_TRUE);
+      glEnable(GL_DEPTH_TEST);
       glBlendFunc(GL_ONE, GL_ZERO);
 
       m_shader.Bind();

@@ -26,8 +26,8 @@ void SunRenderer::Initialise(SunRenderData& renderData)
 {
    //Defaults
    renderData.Color = vec3(1, 1, 1);
-   renderData.Radius = 100;
-   renderData.Distance = 8000;
+   renderData.Radius = 10;
+   renderData.Distance = 800;
 
    //Creates a fan of points around a central vertex.
    const int segments = 24;
@@ -88,12 +88,15 @@ void SunRenderer::Render(const Atmosphere_impl& atmosphere)
 {
    SunRenderData& renderData = m_renderDataLibrary.GetRenderData(atmosphere.GetId());
 
+   //Update state.
+   glDepthMask(GL_TRUE);
+   glDisable(GL_DEPTH_TEST);
+   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
    //TODO: if dirty
-   vec3 toSun = -normalize(atmosphere.GetSunDirection());
+   const vec3 toSun = -normalize(atmosphere.GetSunDirection());
    renderData.Translation = translate(toSun * renderData.Distance);
    m_shader.Update({ renderData.Translation });
-
-   glEnable(GL_DEPTH_TEST);
 
    m_shader.Bind();
 

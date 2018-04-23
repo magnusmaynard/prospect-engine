@@ -31,12 +31,12 @@ void UpdateBuffers(
 
 void main()
 {
-   UpdateBuffers(
-      vec4(diffuse, 1),
-      vec3(0),
-      0,
-      0,
-      0,
-      -1,
-      0);
+      UpdateBuffers(
+            vec4(diffuse, 1),
+            vec3(0),
+            0,
+            0,
+            0,
+            -1,
+            0);
 }

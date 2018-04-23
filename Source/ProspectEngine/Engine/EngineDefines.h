@@ -35,7 +35,7 @@ namespace Prospect
    static const float DEFAULT_LIGHT_RANGE = 100.f;
    static const float DEFAULT_LIGHT_ANGLE = 45.f;
    static const bool DEFAULT_LIGHT_CAST_SHADOWS = true;
-   static const int DEFAULT_LIGHT_SHADOW_CASCADE_COUNT = 4; //TODO: 1.
+   static const int DEFAULT_LIGHT_SHADOW_CASCADE_COUNT = 6; //TODO: 1.
    static const int INVALID_SHADOW_MAP_ID = -1;
 
    static const float DEFAULT_ATMOSPHERE_INNER_RADIUS = 1500.f;

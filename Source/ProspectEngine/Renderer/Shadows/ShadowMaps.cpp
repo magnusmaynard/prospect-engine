@@ -135,7 +135,7 @@ void ShadowMaps::UpdateShadowMapCascades(DirectionalLight_impl& light, const Cam
 
    for (int i = 0; i < cascadeCount; ++i)
    {
-      const ShadowCascade cascade(i, cascadeCount, true, camera);
+      const ShadowCascade cascade(i, cascadeCount, false, camera);
       const Frustum frustum(cascade.Near, cascade.Far, camera.GetFov(), camera.GetAspectRatio());
 
       //Get centre of frustum in world space.
@@ -181,7 +181,6 @@ ShadowMap& ShadowMaps::GetShadowMap(DirectionalLight_impl& light, const int casc
    {
       shadowMapIndex = m_shadowMaps.size();
 
-      //TEMP - Add shadowmaps for cascades.
       for (int i = 0; i < light.GetShadowCascadeCount(); ++i)
       {
          m_shadowMaps.push_back(ShadowMap());

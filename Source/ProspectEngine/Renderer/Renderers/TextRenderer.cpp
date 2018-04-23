@@ -138,10 +138,11 @@ void TextRenderer::Render(const Text_impl& text)
       text.Clean();
    }
 
+   glBindFramebuffer(GL_FRAMEBUFFER, 0);
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-   glDepthMask(false);
+   glPolygonMode(GL_FRONT, GL_FILL);
+   glDepthMask(GL_FALSE);
+   glDisable(GL_DEPTH_TEST);
 
    m_shader.Bind();
    glBindVertexArray(renderData.VAO);
@@ -151,7 +152,7 @@ void TextRenderer::Render(const Text_impl& text)
 
    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-   glDepthMask(true);
+   glDepthMask(GL_TRUE);
 }
 
 ivec2 TextRenderer::NextPowerOf2(const ivec2& value)

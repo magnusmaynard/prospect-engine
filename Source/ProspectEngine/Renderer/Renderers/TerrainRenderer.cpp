@@ -37,6 +37,11 @@ void TerrainRenderer::Render(const Terrain_impl& terrain)
 {
    TerrainRenderData& renderable = m_renderDataLibrary.GetRenderData(terrain.GetId());
 
+   //Update state.
+   glDepthMask(GL_TRUE);
+   glEnable(GL_DEPTH_TEST);
+   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
    //Update textures if dirty.
    if(terrain.IsDirty())
    {

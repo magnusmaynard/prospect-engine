@@ -17,11 +17,12 @@ LightingRenderer::LightingRenderer(ShaderLibrary& shaderLibrary)
 
 void LightingRenderer::Render(const GBuffer& gbuffer, const ShadowMaps& shadowMaps)
 {
-   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
    glDisable(GL_DEPTH_TEST);
+   glDepthMask(GL_TRUE);
    glBlendFunc(GL_ONE, GL_ZERO);
-
+   glPolygonMode(GL_FRONT, GL_FILL);
    glDrawBuffer(GL_BACK);
+
    glBindTextureUnit(0, gbuffer.GetAlbedoTexture());
    glBindTextureUnit(1, gbuffer.GetNormalTexture());
    glBindTextureUnit(2, gbuffer.GetSpecularTexture());

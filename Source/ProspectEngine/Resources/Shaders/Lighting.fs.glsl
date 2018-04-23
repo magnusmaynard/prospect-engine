@@ -302,7 +302,6 @@ void main()
     else
     {
         color = vec4(CalculateLighting(position), 1);
-        // vec4(CalculateLighting(position), 1);
 
         color = DitherRGBA(color, 7);
 
