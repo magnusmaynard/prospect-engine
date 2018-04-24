@@ -41,14 +41,14 @@ bool DirectionalLight::GetCastShadows() const
    return m_impl->GetCastShadows();
 }
 
-void DirectionalLight::SetShadowCascades(const int value)
+void DirectionalLight::SetShadowCascades(const std::vector<float>& value)
 {
-   m_impl->SetShadowCascadeCount(value);
+   m_impl->SetShadowCascades(value);
 }
 
-int DirectionalLight::GetShadowCascades() const
+const std::vector<float>& DirectionalLight::GetShadowCascades() const
 {
-   return m_impl->GetShadowCascadeCount();
+   return m_impl->GetShadowCascades();
 }
 
 void DirectionalLight::SetPosition(const glm::vec3& value)

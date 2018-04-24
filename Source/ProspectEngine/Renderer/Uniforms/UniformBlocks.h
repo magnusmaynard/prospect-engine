@@ -70,7 +70,7 @@ namespace Prospect
          Position(light.GetPosition(), 0),
          Direction({ normalize(light.GetDirection()), 0 }),
          ColorAndBrightness(light.GetColor().ToRGB(), light.GetBrightness()),
-         ShadowMapIndexAndCascadeCount(light.GetShadowMapIndex(), light.GetShadowCascadeCount(), 0 , 0)
+         ShadowMapIndexAndCascadeCount(light.GetShadowMapIndex(), light.GetShadowCascades().size(), 0 , 0)
       {
       }
 

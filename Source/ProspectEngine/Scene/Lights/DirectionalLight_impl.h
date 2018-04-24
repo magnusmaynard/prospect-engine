@@ -17,8 +17,8 @@ namespace Prospect
       void SetCastShadows(const bool value) override;
       bool GetCastShadows() const override;
 
-      void SetShadowCascadeCount(const int value);
-      int GetShadowCascadeCount() const;
+      void SetShadowCascades(const std::vector<float>& value);
+      const std::vector<float>& GetShadowCascades() const;
 
       void SetPosition(const glm::vec3& value) override;
       glm::vec3 GetPosition() const override;
@@ -46,7 +46,7 @@ namespace Prospect
       bool m_castShadows;
       int m_shadowMapIndex;
       bool m_isDirty;
-      int m_shadowCascadeCount;
+      std::vector<float> m_shadowCascades; //Far range of each shadowmaps [0,1].
 
       glm::vec3 m_position;
       glm::vec3 m_direction;

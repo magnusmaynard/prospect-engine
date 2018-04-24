@@ -16,7 +16,7 @@ DirectionalLight_impl::DirectionalLight_impl(const vec3& direction)
    m_color(DEFAULT_LIGHT_COLOR),
    m_castShadows(DEFAULT_LIGHT_CAST_SHADOWS),
    m_shadowMapIndex(INVALID_SHADOW_MAP_ID),
-   m_shadowCascadeCount(DEFAULT_LIGHT_SHADOW_CASCADE_COUNT),
+   m_shadowCascades(DEFAULT_LIGHT_SHADOW_CASCADES),
    m_isDirty(true)
 {
 }
@@ -43,15 +43,15 @@ bool DirectionalLight_impl::GetCastShadows() const
    return m_castShadows;
 }
 
-void DirectionalLight_impl::SetShadowCascadeCount(const int value)
+void DirectionalLight_impl::SetShadowCascades(const std::vector<float>& value)
 {
-   MakeDirty();
-   m_shadowCascadeCount = value;
+      MakeDirty();
+      m_shadowCascades = value;
 }
 
-int DirectionalLight_impl::GetShadowCascadeCount() const
+const std::vector<float>& DirectionalLight_impl::GetShadowCascades() const
 {
-   return m_shadowCascadeCount;
+   return m_shadowCascades;
 }
 
 void DirectionalLight_impl::SetPosition(const vec3& value)

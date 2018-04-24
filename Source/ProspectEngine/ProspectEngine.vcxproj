@@ -76,7 +76,6 @@
     <ClInclude Include="Renderer\Renderers\SunRenderer.h" />
     <ClInclude Include="Renderer\Renderers\TerrainRenderer.h" />
     <ClInclude Include="Renderer\Renderers\TextRenderer.h" />
-    <ClInclude Include="Renderer\Shadows\ShadowCascade.h" />
     <ClInclude Include="Renderer\Shadows\ShadowMap.h" />
     <ClInclude Include="Renderer\Shadows\ShadowMaps.h" />
     <ClInclude Include="Renderer\Textures\DepthTexture.h" />
@@ -132,7 +131,6 @@
     <ClCompile Include="Renderer\Renderers\SunRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\TerrainRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\TextRenderer.cpp" />
-    <ClCompile Include="Renderer\Shadows\ShadowCascade.cpp" />
     <ClCompile Include="Renderer\Shadows\ShadowMap.cpp" />
     <ClCompile Include="Renderer\Shadows\ShadowMaps.cpp" />
     <ClCompile Include="Renderer\Textures\DepthTexture.cpp" />

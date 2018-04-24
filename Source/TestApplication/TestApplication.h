@@ -4,10 +4,11 @@
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 
+#include <vector>
+
 #include "IApplication.h"
 #include "Engine.h"
 #include "Scene.h"
-#include <vector>
 #include "MeshLibrary.h"
 #include "MaterialLibrary.h"
 

@@ -114,7 +114,6 @@ void Renderer::GeometryPass(Scene_impl& scene)
 
    RenderEntities(scene.GetRootEntityImpl());
 
-
    if (auto* terrain = scene.GetTerrainImpl())
    {
       m_terrainRenderer.Render(*terrain);

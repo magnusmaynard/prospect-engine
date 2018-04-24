@@ -6,7 +6,6 @@
 #include "Scene/Scene_impl.h"
 #include "Scene/Camera_impl.h"
 #include "Renderer/Frustum.h"
-#include "Renderer/Shadows/ShadowCascade.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -130,13 +129,19 @@ void ShadowMaps::UpdateShadowMapCascades(DirectionalLight_impl& light, const Cam
 {
    const mat4 cameraInverseView = camera.GetInverseView();
    const mat4 cameraView = camera.GetView();
+   const float cameraNear = camera.GetNear();
+   const float cameraFar = camera.GetFar();
+   const float cameraDistance = cameraFar - cameraNear;
 
-   const int cascadeCount = light.GetShadowCascadeCount();
+   const auto& cascades = light.GetShadowCascades();
 
-   for (int i = 0; i < cascadeCount; ++i)
+   float near = cameraNear;
+
+   for (int i = 0; i < cascades.size(); ++i)
    {
-      const ShadowCascade cascade(i, cascadeCount, false, camera);
-      const Frustum frustum(cascade.Near, cascade.Far, camera.GetFov(), camera.GetAspectRatio());
+      const float far = near + cascades[i] * cameraDistance;
+
+      const Frustum frustum(near, far, camera.GetFov(), camera.GetAspectRatio());
 
       //Get centre of frustum in world space.
       Bounds worldFrustumBounds;
@@ -169,7 +174,10 @@ void ShadowMaps::UpdateShadowMapCascades(DirectionalLight_impl& light, const Cam
 
       ShadowMap& shadowMap = GetShadowMap(light, i);
 
-      shadowMap.Update(lightFrustumBounds, cascadeCentre, light.GetDirection(), cascade.Far);
+      shadowMap.Update(lightFrustumBounds, cascadeCentre, light.GetDirection(), far);
+
+      //Update near cascade.
+      near += far;
    }
 }
 
@@ -181,7 +189,7 @@ ShadowMap& ShadowMaps::GetShadowMap(DirectionalLight_impl& light, const int casc
    {
       shadowMapIndex = m_shadowMaps.size();
 
-      for (int i = 0; i < light.GetShadowCascadeCount(); ++i)
+      for (int i = 0; i < light.GetShadowCascades().size(); ++i)
       {
          m_shadowMaps.push_back(ShadowMap());
       }

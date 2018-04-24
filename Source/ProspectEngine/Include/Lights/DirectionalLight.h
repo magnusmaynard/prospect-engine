@@ -19,8 +19,8 @@ namespace Prospect
       void SetCastShadows(const bool value) override;
       bool GetCastShadows() const override;
 
-      void SetShadowCascades(const int value);
-      int GetShadowCascades() const;
+      void SetShadowCascades(const std::vector<float>& value);
+      const std::vector<float>& GetShadowCascades() const;
 
       void SetPosition(const glm::vec3& value) override;
       glm::vec3 GetPosition() const override;
