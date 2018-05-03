@@ -239,6 +239,12 @@
     <ClInclude Include="Renderer\Frustum.h">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Renderers\GrassRenderer.h">
+      <Filter>Renderer\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\GrassShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Window.cpp">
@@ -400,6 +406,9 @@
     </ClCompile>
     <ClCompile Include="Renderer\Frustum.cpp">
       <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderers\GrassRenderer.cpp">
+      <Filter>Renderer\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

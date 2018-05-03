@@ -3,6 +3,7 @@
 #include "Debug.h"
 #include "Renderer/Pipeline/Shaders/Shader.h"
 #include "Renderer/Pipeline/ShaderLibrary.h"
+#include "Renderer/Frustum.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -50,11 +51,11 @@ void Debug::Points::Set2(std::vector<vec3>& points)
 
 void Debug::Points::Render()
 {
-   Render(m_points1);
-   Render(m_points2);
+   Render(m_points1, Color::Red());
+   Render(m_points2, Color::Blue());
 }
 
-void Debug::Points::Render(std::vector<vec3>& points)
+void Debug::Points::Render(std::vector<vec3>& points, const Color& color)
 {
 #ifdef _DEBUG
    if (!m_shader || points.size() == 0)
@@ -94,7 +95,98 @@ void Debug::Points::Render(std::vector<vec3>& points)
    //Draw
    m_shader->Bind();
    glBindVertexArray(m_vao);
+
+   glUniform3f(0, color.R, color.G, color.B);
    glPointSize(10);
-   glDrawArrays(GL_POINTS, 0, points.size());
+   glLineWidth(10);
+   glDrawArrays(GL_LINES, 0, points.size());
+   glPointSize(1);
+   glLineWidth(1);
+#endif
+}
+
+void Debug::Points::AddFrustumToPoints(std::vector<vec3>& points, const Frustum& frustum, const mat4& transform)
+{
+#ifdef _DEBUG
+   const vec3 n0 = transform * vec4(frustum.Corners[0], 1);
+   const vec3 n1 = transform * vec4(frustum.Corners[1], 1);
+   const vec3 n2 = transform * vec4(frustum.Corners[3], 1);
+   const vec3 n3 = transform * vec4(frustum.Corners[2], 1);
+
+   const vec3 f0 = transform * vec4(frustum.Corners[4], 1);
+   const vec3 f1 = transform * vec4(frustum.Corners[5], 1);
+   const vec3 f2 = transform * vec4(frustum.Corners[7], 1);
+   const vec3 f3 = transform * vec4(frustum.Corners[6], 1);
+
+   points.push_back(n0);
+   points.push_back(n1);
+   points.push_back(n1);
+   points.push_back(n2);
+   points.push_back(n2);
+   points.push_back(n3);
+   points.push_back(n3);
+   points.push_back(n0);
+
+   points.push_back(f0);
+   points.push_back(f1);
+   points.push_back(f1);
+   points.push_back(f2);
+   points.push_back(f2);
+   points.push_back(f3);
+   points.push_back(f3);
+   points.push_back(f0);
+
+   points.push_back(n0);
+   points.push_back(f0);
+   points.push_back(n1);
+   points.push_back(f1);
+   points.push_back(n2);
+   points.push_back(f2);
+   points.push_back(n3);
+   points.push_back(f3);
+#endif
+}
+
+void Debug::Points::AddBoundsToPoints(std::vector<vec3>& points, const Bounds& bounds, const glm::mat4& transform)
+{
+#ifdef _DEBUG
+   const vec3 n0 = transform * vec4(bounds.Max.x, bounds.Max.y, bounds.Min.z, 1);
+   const vec3 n1 = transform * vec4(bounds.Min.x, bounds.Max.y, bounds.Min.z, 1);
+   const vec3 n2 = transform * vec4(bounds.Min.x, bounds.Min.y, bounds.Min.z, 1);
+   const vec3 n3 = transform * vec4(bounds.Max.x, bounds.Min.y, bounds.Min.z, 1);
+
+   const vec3 f0 = transform * vec4(bounds.Max.x, bounds.Max.y, bounds.Max.z, 1);
+   const vec3 f1 = transform * vec4(bounds.Min.x, bounds.Max.y, bounds.Max.z, 1);
+   const vec3 f2 = transform * vec4(bounds.Min.x, bounds.Min.y, bounds.Max.z, 1);
+   const vec3 f3 = transform * vec4(bounds.Max.x, bounds.Min.y, bounds.Max.z, 1);
+
+   points.push_back(n0);
+   points.push_back(n1);
+   points.push_back(n1);
+   points.push_back(n2);
+   points.push_back(n2);
+   points.push_back(n3);
+   points.push_back(n3);
+   points.push_back(n0);
+
+   points.push_back(f0);
+   points.push_back(f1);
+   points.push_back(f1);
+   points.push_back(f2);
+   points.push_back(f2);
+   points.push_back(f3);
+   points.push_back(f3);
+   points.push_back(f0);
+
+   points.push_back(n0);
+   points.push_back(f0);
+   points.push_back(n1);
+   points.push_back(f1);
+   points.push_back(n2);
+   points.push_back(f2);
+   points.push_back(n3);
+   points.push_back(f3);
+
+
 #endif
 }

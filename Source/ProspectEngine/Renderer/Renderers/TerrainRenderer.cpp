@@ -13,7 +13,8 @@ using namespace glm;
 
 TerrainRenderer::TerrainRenderer(ShaderLibrary& shaderLibrary)
    :
-   m_shader(shaderLibrary.GetTerrainShader())
+   m_shader(shaderLibrary.GetTerrainShader()),
+   m_grassRenderer(shaderLibrary)
 {
    m_renderDataLibrary.SetInitialise(Initialise);
    m_renderDataLibrary.SetDispose(Dispose);
@@ -35,31 +36,32 @@ void TerrainRenderer::Dispose(TerrainRenderData& renderData)
 
 void TerrainRenderer::Render(const Terrain_impl& terrain)
 {
-   TerrainRenderData& renderable = m_renderDataLibrary.GetRenderData(terrain.GetId());
+   TerrainRenderData& renderData = m_renderDataLibrary.GetRenderData(terrain.GetId());
 
    //Update state.
    glDepthMask(GL_TRUE);
    glEnable(GL_DEPTH_TEST);
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+   glEnable(GL_CULL_FACE);
 
    //Update textures if dirty.
    if(terrain.IsDirty())
    {
-      ConstructHeightMapTexture(terrain, renderable);
-      ConstructGroundTexture(terrain, renderable);
+      ConstructHeightMapTexture(terrain, renderData);
+      ConstructGroundTexture(terrain, renderData);
 
       terrain.Clean();
    }
 
    //Bind.
    m_shader.Bind();
-   glBindVertexArray(renderable.VAO);
+   glBindVertexArray(renderData.VAO);
 
    m_shader.Update(TerrainUniforms(terrain));
 
    //Textures.
-   glBindTextureUnit(0, renderable.HeightMapTexture);
-   glBindTextureUnit(1, renderable.GroundTexture);
+   glBindTextureUnit(0, renderData.HeightMapTexture);
+   glBindTextureUnit(1, renderData.GroundTexture);
 
    //Draw.
    auto& endNodes = terrain.GetEndNodes();
@@ -75,6 +77,9 @@ void TerrainRenderer::Render(const Terrain_impl& terrain)
       glPatchParameteri(GL_PATCH_VERTICES, 4);
       glDrawArrays(GL_PATCHES, 0, 4);
    }
+
+   //Draw grass.
+   m_grassRenderer.Render(terrain, renderData);
 }
 
 void TerrainRenderer::ConstructHeightMapTexture(

@@ -175,7 +175,7 @@ float CalculateShadowVisibility(DirectionalLight light, vec3 position)
         vec3(1, 1, 0),
         vec3(1, 0, 1)
     );
-    debugColor =colors  [shadowMapCascadeLevel];
+    debugColor = colors[shadowMapCascadeLevel];
     
     return visibility / 18.0; //TODO: should be 9?
 }
@@ -306,7 +306,7 @@ void main()
         color = DitherRGBA(color, 7);
 
         //DEBUG
-        color += vec4(debugColor, 0) * 0.1;
+        // color += vec4(debugColor, 0) * 0.1;
     }
 
     // // ---DEBUG SHADOWMAP---

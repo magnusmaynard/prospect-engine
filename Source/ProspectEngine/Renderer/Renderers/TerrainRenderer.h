@@ -6,6 +6,7 @@
 #include "Renderer/Pipeline/Shaders/TerrainShader.h"
 #include "Renderer/Renderers/RenderDataLibrary.h"
 #include "Renderer/Renderers/RenderData.h"
+#include "Renderer/Renderers/GrassRenderer.h"
 
 namespace Prospect
 {
@@ -38,5 +39,7 @@ namespace Prospect
 
       TerrainShader& m_shader;
       RenderDataLibrary<TerrainRenderData> m_renderDataLibrary;
+
+      GrassRenderer m_grassRenderer;
    };
 }

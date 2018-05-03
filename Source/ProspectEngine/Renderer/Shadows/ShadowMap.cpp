@@ -20,8 +20,16 @@ void ShadowMap::Update(const Bounds& bounds, const vec3& position, const vec3& d
       position + direction,
       POS_Y);
 
-   //TODO: Remove magic numbers * 5.
-   m_projectionMatrix = ortho(bounds.Min.x, bounds.Max.x, bounds.Min.y, bounds.Max.y, bounds.Min.z, bounds.Max.z);
+   //Move near plane backwards, so more objects fit in the projection.
+   const float projectionNearMultiplier = 10.f;
+
+   m_projectionMatrix = ortho(
+      bounds.Min.x,
+      bounds.Max.x,
+      bounds.Min.y,
+      bounds.Max.y,
+      bounds.Min.z * projectionNearMultiplier,
+      bounds.Max.z);
 
    //Move [-1, 1] space to [0, 1] required for sampling textures.
    const mat4 biasMatrix(

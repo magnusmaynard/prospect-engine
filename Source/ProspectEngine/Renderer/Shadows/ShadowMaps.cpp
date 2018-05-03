@@ -6,6 +6,7 @@
 #include "Scene/Scene_impl.h"
 #include "Scene/Camera_impl.h"
 #include "Renderer/Frustum.h"
+#include "Renderer/Debugger/Debug.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -139,7 +140,8 @@ void ShadowMaps::UpdateShadowMapCascades(DirectionalLight_impl& light, const Cam
 
    for (int i = 0; i < cascades.size(); ++i)
    {
-      const float far = near + cascades[i] * cameraDistance;
+      const float cascadeSize = cascades[i] * cameraDistance;
+      const float far = near + cascadeSize;
 
       const Frustum frustum(near, far, camera.GetFov(), camera.GetAspectRatio());
 
@@ -154,6 +156,7 @@ void ShadowMaps::UpdateShadowMapCascades(DirectionalLight_impl& light, const Cam
          worldFrustumBounds.Min = min(worldFrustumBounds.Min, corner);
          worldFrustumBounds.Max = max(worldFrustumBounds.Max, corner);
       }
+
       const auto cascadeCentre = worldFrustumBounds.GetCentre();
 
       const mat4 lightView = lookAt(
@@ -177,7 +180,7 @@ void ShadowMaps::UpdateShadowMapCascades(DirectionalLight_impl& light, const Cam
       shadowMap.Update(lightFrustumBounds, cascadeCentre, light.GetDirection(), far);
 
       //Update near cascade.
-      near += far;
+      near = far;
    }
 }
 

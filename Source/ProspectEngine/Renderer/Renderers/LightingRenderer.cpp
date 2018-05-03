@@ -22,6 +22,7 @@ void LightingRenderer::Render(const GBuffer& gbuffer, const ShadowMaps& shadowMa
    glBlendFunc(GL_ONE, GL_ZERO);
    glPolygonMode(GL_FRONT, GL_FILL);
    glDrawBuffer(GL_BACK);
+   glEnable(GL_CULL_FACE);
 
    glBindTextureUnit(0, gbuffer.GetAlbedoTexture());
    glBindTextureUnit(1, gbuffer.GetNormalTexture());

@@ -13,6 +13,11 @@ namespace Prospect
 
       Shader(
          const std::string& vertexShader,
+         const std::string& geometryShader,
+         const std::string& fragmentShader);
+
+      Shader(
+         const std::string& vertexShader,
          const std::string& tessControlShader,
          const std::string& tessEvaluationShader,
          const std::string& fragmentShader);

@@ -33,6 +33,7 @@ void EntityRenderer::Render(Entity_impl& entity)
       glDepthMask(GL_TRUE);
       glEnable(GL_DEPTH_TEST);
       glBlendFunc(GL_ONE, GL_ZERO);
+      glEnable(GL_CULL_FACE);
 
       m_shader.Bind();
 
@@ -49,7 +50,7 @@ void EntityRenderer::Render(Entity_impl& entity)
 
          glBindVertexArray(renderData.VAO);
 
-         glDrawElements(GL_TRIANGLES, mesh.GetIndices().size(), GL_UNSIGNED_INT, 0);
+         glDrawElements(GL_TRIANGLES, mesh.GetIndices().size(), GL_UNSIGNED_INT, 0); //TODO: This breaks RenderDoc, use glDrawArrays.
       }
    }
 }

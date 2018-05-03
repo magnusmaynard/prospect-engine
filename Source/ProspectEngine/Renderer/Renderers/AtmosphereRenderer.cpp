@@ -42,6 +42,7 @@ void AtmosphereRenderer::Render(const Atmosphere_impl& atmosphere, const GBuffer
    glDepthMask(GL_FALSE);
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
    glDrawBuffer(GL_BACK);
+   glEnable(GL_CULL_FACE);
 
    glBindTextureUnit(3, gBuffer.GetDepthTexture());
 

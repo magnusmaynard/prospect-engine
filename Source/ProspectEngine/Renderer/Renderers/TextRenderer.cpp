@@ -143,6 +143,7 @@ void TextRenderer::Render(const Text_impl& text)
    glPolygonMode(GL_FRONT, GL_FILL);
    glDepthMask(GL_FALSE);
    glDisable(GL_DEPTH_TEST);
+   glEnable(GL_CULL_FACE);
 
    m_shader.Bind();
    glBindVertexArray(renderData.VAO);

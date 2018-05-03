@@ -26,7 +26,7 @@ namespace Prospect
 
       void Bind(const GLuint shaderProgram) const
       {
-         GLuint blockIndex = glGetUniformBlockIndex(shaderProgram, m_name.c_str());
+         const GLuint blockIndex = glGetUniformBlockIndex(shaderProgram, m_name.c_str());
 
          if (blockIndex == GL_INVALID_INDEX)
          {

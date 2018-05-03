@@ -1,6 +1,9 @@
 #version 450
 
-layout (location = 0) uniform vec3 color;
+in GS_OUT
+{
+   vec3 Normal;
+} fs_in;
 
 layout (location = 0) out vec4 albedoBuffer;
 layout (location = 1) out vec4 normalBuffer;
@@ -31,9 +34,11 @@ void UpdateBuffers(
 
 void main()
 {
+   vec4 diffuse = vec4(0.15, 0.34, 0.07, 1);
+
    UpdateBuffers(
-      vec4(color, 1),
-      vec3(0, 1, 0),
+      diffuse,
+      fs_in.Normal,
       0,
       0,
       0,

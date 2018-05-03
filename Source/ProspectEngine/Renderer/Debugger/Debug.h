@@ -5,6 +5,7 @@
 
 namespace Prospect
 {
+   struct Frustum;
    class ShaderLibrary;
 
    class Debug
@@ -49,8 +50,11 @@ namespace Prospect
          //Call during geometry pass.
          static void Render();
 
+         static void AddFrustumToPoints(std::vector<glm::vec3>& points, const Frustum& frustum, const glm::mat4& transform);
+         static void AddBoundsToPoints(std::vector<glm::vec3>& points, const Bounds& bounds, const glm::mat4& transform);
+
       private:
-         static void Render(std::vector<glm::vec3>& points);
+         static void Render(std::vector<glm::vec3>& points, const Color& color);
       };
    };
 }

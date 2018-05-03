@@ -36,8 +36,8 @@ void TestApplication::OnStartup()
    m_engine.SetTitle("Test Application");
    m_engine.ShowFPS(true);
 
-   //m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
-   m_scene.GetCamera().LookAt({ 0, 100, 100 }, { 0, 100, 0 });
+   m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
+   //m_scene.GetCamera().LookAt({ 0, 100, 100 }, { 0, 100, 0 });
 
    const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_noise.bmp", true);
    const Bitmap grassTexture = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_grass.bmp");
@@ -52,12 +52,11 @@ void TestApplication::OnStartup()
 
    //DirectionalLight otherLight(vec3(1, -1, 0));
    //m_scene.AddLight(otherLight);
-
+   
    Atmosphere atmosphere;
    atmosphere.SetAltitude(1505);
    atmosphere.SetLight(sunLight);
    m_scene.SetAtmosphere(atmosphere);
-
    //Light light1(vec3(50, 30, 0), vec3(0, -1, 0), LightType::Point);
    //light1.SetRange(200);
    //m_scene.AddLight(light1);
@@ -75,7 +74,6 @@ void TestApplication::OnStartup()
    Mesh cube = m_meshLib.CreateCube({ 10, 10, 10 });
    Mesh light = m_meshLib.CreateCube({ 1, 1, 1 });
 
-   //Objects
    //Entity e0(plane, blue);
    //e0.SetTranslation({ 0, 20, 0 });
    //m_scene.AddEntity(e0);
@@ -108,6 +106,7 @@ void TestApplication::OnStartup()
    Mesh turbinePropMesh = m_meshLib.CreateEmpty();
    IO::ReadObj(turbinePropMesh, IO::GetExecutablePath() + "Models\\windturbine_prop.obj");
    Entity turbineProp(turbinePropMesh, white);
+
 
    turbine.AddEntity(turbineProp);
    m_scene.AddEntity(turbine);
@@ -179,7 +178,6 @@ void TestApplication::OnUpdate(const double timeElapsed)
 
    auto turbineProp = m_scene.GetEntity(0).GetEntity(0);
    turbineProp.SetRotation({ 0, 0, counter * 8.0 });
-
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)

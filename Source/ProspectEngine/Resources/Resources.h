@@ -24,6 +24,9 @@ namespace Resources
       static const std::string TERRAIN_FRAGMENT = "Shaders/Terrain.fs.glsl";
       static const std::string SUN_VERTEX = "Shaders/Sun.vs.glsl";
       static const std::string SUN_FRAGMENT = "Shaders/Sun.fs.glsl";
+      static const std::string GRASS_VERTEX = "Shaders/Grass.vs.glsl";
+      static const std::string GRASS_GEOMETRY = "Shaders/Grass.gs.glsl";
+      static const std::string GRASS_FRAGMENT = "Shaders/Grass.fs.glsl";
 
       static const std::string DEBUG_VERTEX = "Shaders/Debug.vs.glsl";
       static const std::string DEBUG_FRAGMENT = "Shaders/Debug.fs.glsl";

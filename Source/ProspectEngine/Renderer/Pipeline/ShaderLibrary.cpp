@@ -10,6 +10,7 @@ ShaderLibrary::ShaderLibrary(const GlobalUniformBuffers& globalUniforms)
    m_blinnShader(globalUniforms),
    m_textShader(globalUniforms),
    m_terrainShader(globalUniforms),
+   m_grassShader(globalUniforms, m_terrainShader),
    m_sunShader(globalUniforms),
    m_scatteringShader(globalUniforms),
    m_debugShader(globalUniforms)
@@ -34,6 +35,11 @@ TextShader& ShaderLibrary::GetTextShader()
 TerrainShader& ShaderLibrary::GetTerrainShader()
 {
    return m_terrainShader;
+}
+
+GrassShader& ShaderLibrary::GetGrassShader()
+{
+   return m_grassShader;
 }
 
 SunShader& ShaderLibrary::GetSunShader()

@@ -34,6 +34,12 @@ namespace Prospect
          m_nodeUniforms.Update(block);
       }
 
+      //TODO: Come up with a better solution to shader uniforms between shaders, e.g. UniformBufferLibrary.
+      UniformBuffer<TerrainUniforms>& GetTerrainUniforms()
+      {
+         return m_terrainUniforms;
+      }
+
    private:
       UniformBuffer<TerrainUniforms> m_terrainUniforms;
       UniformBuffer<NodeUniforms> m_nodeUniforms;

@@ -8,6 +8,7 @@
 #include "Renderer/Pipeline/Shaders/SunShader.h"
 #include "Renderer/Pipeline/Shaders/AtmosphereShader.h"
 #include "Renderer/Pipeline/Shaders/DebugShader.h"
+#include "Renderer/Pipeline/Shaders/GrassShader.h"
 
 namespace Prospect
 {
@@ -20,6 +21,7 @@ namespace Prospect
       BlinnPhongShader& GetBlinnPhongShader();
       TextShader& GetTextShader();
       TerrainShader& GetTerrainShader();
+      GrassShader& GetGrassShader();
       SunShader& GetSunShader();
       AtmosphereShader& GetAtmosphereShader();
       DebugShader& GetDebugShader();
@@ -29,6 +31,7 @@ namespace Prospect
       BlinnPhongShader m_blinnShader;
       TextShader m_textShader;
       TerrainShader m_terrainShader;
+      GrassShader m_grassShader;
       SunShader m_sunShader;
       AtmosphereShader m_scatteringShader;
       DebugShader m_debugShader;

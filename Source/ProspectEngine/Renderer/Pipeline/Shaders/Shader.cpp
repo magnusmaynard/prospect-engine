@@ -25,6 +25,20 @@ Shader::Shader(
 
 Shader::Shader(
    const std::string& vertexShader,
+   const std::string& geometryShader,
+   const std::string& fragmentShader)
+   :
+   m_program(GL_NULL)
+{
+   AddVertexShader(vertexShader);
+   AddGeometryShader(geometryShader);
+   AddFragmentShader(fragmentShader);
+
+   Compile();
+}
+
+Shader::Shader(
+   const std::string& vertexShader,
    const std::string& tessControlShader,
    const std::string& tessEvaluationShader,
    const std::string& fragmentShader)

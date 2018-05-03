@@ -128,6 +128,11 @@ namespace Prospect
       std::array<MaterialUniforms, MAX_MATERIALS> Materials;
    };
 
+   struct GrassUniforms
+   {
+      
+   };
+
    struct TerrainUniforms
    {
       TerrainUniforms()

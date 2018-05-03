@@ -92,6 +92,7 @@ void SunRenderer::Render(const Atmosphere_impl& atmosphere)
    glDepthMask(GL_TRUE);
    glDisable(GL_DEPTH_TEST);
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+   glEnable(GL_CULL_FACE);
 
    //TODO: if dirty
    const vec3 toSun = -normalize(atmosphere.GetSunDirection());
