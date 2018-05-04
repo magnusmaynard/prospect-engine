@@ -9,12 +9,12 @@ using namespace glm;
 
 Atmosphere_impl::Atmosphere_impl()
    :
-   m_light(DEFAULT_ATMOSPHERE_SUN_DIRECTION),
-   m_sunDirection(DEFAULT_ATMOSPHERE_SUN_DIRECTION),
-   m_altitude(DEFAULT_ATMOSPHERE_ALTITUDE),
-   m_innerRadius(DEFAULT_ATMOSPHERE_INNER_RADIUS),
-   m_outterRadius(DEFAULT_ATMOSPHERE_OUTTER_RADIUS),
-   m_densityScale(DEFAULT_ATMOSPHERE_DENSITY_SCALE)
+   m_light(Defaults::ATMOSPHERE_SUN_DIRECTION),
+   m_sunDirection(Defaults::ATMOSPHERE_SUN_DIRECTION),
+   m_altitude(Defaults::ATMOSPHERE_ALTITUDE),
+   m_innerRadius(Defaults::ATMOSPHERE_INNER_RADIUS),
+   m_outterRadius(Defaults::ATMOSPHERE_OUTTER_RADIUS),
+   m_densityScale(Defaults::ATMOSPHERE_DENSITY_SCALE)
 {
 }
 

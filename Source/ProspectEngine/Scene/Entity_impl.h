@@ -61,9 +61,9 @@ namespace Prospect
       Entity_impl* m_parent;
       std::vector<std::shared_ptr<Entity_impl>> m_children;
 
-      glm::vec3 m_translation = DEFAULT_TRANSLATION;
-      glm::vec3 m_rotation = DEFAULT_ROTATION;
-      glm::vec3 m_scale = DEFAULT_SCALE;
+      glm::vec3 m_translation = Defaults::TRANSLATION;
+      glm::vec3 m_rotation = Defaults::ROTATION;
+      glm::vec3 m_scale = Defaults::SCALE;
 
       mutable bool m_childEntityAdded = true;
       mutable bool m_isTransformDirty = true;

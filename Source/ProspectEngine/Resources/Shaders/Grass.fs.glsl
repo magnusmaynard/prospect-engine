@@ -40,8 +40,8 @@ void main()
       diffuse,
       fs_in.Normal,
       0,
-      0,
-      0,
+      2,
+      0.5f,
       0,
       0);
 }

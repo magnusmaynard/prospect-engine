@@ -91,7 +91,7 @@ void SunRenderer::Render(const Atmosphere_impl& atmosphere)
    //Update state.
    glDepthMask(GL_TRUE);
    glDisable(GL_DEPTH_TEST);
-   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+   glBlendFunc(GL_ONE, GL_ZERO);
    glEnable(GL_CULL_FACE);
 
    //TODO: if dirty

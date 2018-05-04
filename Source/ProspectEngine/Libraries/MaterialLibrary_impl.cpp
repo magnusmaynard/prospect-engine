@@ -18,19 +18,19 @@ MaterialLibrary_impl::MaterialLibrary_impl(MaterialLibrary& parent)
 Material MaterialLibrary_impl::CreateMaterial()
 {
    return CreateMaterial(
-      DEFAULT_MATERIAL_DIFFUSE,
-      DEFAULT_MATERIAL_EMISSIVE,
-      DEFAULT_MATERIAL_SPECULAR,
-      DEFAULT_MATERIAL_SPECULAR_POWER);
+      Defaults::MATERIAL_DIFFUSE,
+      Defaults::MATERIAL_EMISSIVE,
+      Defaults::MATERIAL_SPECULAR,
+      Defaults::MATERIAL_SPECULAR_POWER);
 }
 
 Material MaterialLibrary_impl::CreateMaterial(const Color& diffuse)
 {
    return CreateMaterial(
       diffuse,
-      DEFAULT_MATERIAL_EMISSIVE,
-      DEFAULT_MATERIAL_SPECULAR,
-      DEFAULT_MATERIAL_SPECULAR_POWER);
+      Defaults::MATERIAL_EMISSIVE,
+      Defaults::MATERIAL_SPECULAR,
+      Defaults::MATERIAL_SPECULAR_POWER);
 }
 
 Material MaterialLibrary_impl::CreateMaterial(

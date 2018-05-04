@@ -12,11 +12,11 @@ DirectionalLight_impl::DirectionalLight_impl(const vec3& direction)
    m_type(LightType::Directional),
    m_position(vec3(0)),
    m_direction(direction),
-   m_brightness(DEFAULT_LIGHT_BRIGHTNESS),
-   m_color(DEFAULT_LIGHT_COLOR),
-   m_castShadows(DEFAULT_LIGHT_CAST_SHADOWS),
-   m_shadowMapIndex(INVALID_SHADOW_MAP_ID),
-   m_shadowCascades(DEFAULT_LIGHT_SHADOW_CASCADES),
+   m_brightness(Defaults::LIGHT_BRIGHTNESS),
+   m_color(Defaults::LIGHT_COLOR),
+   m_castShadows(Defaults::LIGHT_CAST_SHADOWS),
+   m_shadowMapIndex(Defines::INVALID_SHADOW_MAP_ID),
+   m_shadowCascades(Defaults::LIGHT_SHADOW_CASCADES),
    m_isDirty(true)
 {
 }

@@ -54,8 +54,8 @@ namespace Prospect
          }
       }
 
-      std::array<glm::mat4, MAX_SHADOW_MAPS> ShadowMatrices;
-      std::array<glm::vec4, MAX_SHADOW_MAPS> FarClipDepths;
+      std::array<glm::mat4, Defines::MAX_SHADOW_MAPS> ShadowMatrices;
+      std::array<glm::vec4, Defines::MAX_SHADOW_MAPS> FarClipDepths;
       glm::vec2 Count;
    };
 
@@ -92,7 +92,7 @@ namespace Prospect
          }
       }
 
-      std::array<DirectionalLightUniforms, MAX_DIRECTIONAL_LIGHTS> Lights;
+      std::array<DirectionalLightUniforms, Defines::MAX_DIRECTIONAL_LIGHTS> Lights;
       glm::vec2 Count;
    };
 
@@ -125,7 +125,7 @@ namespace Prospect
          }
       }
 
-      std::array<MaterialUniforms, MAX_MATERIALS> Materials;
+      std::array<MaterialUniforms, Defines::MAX_MATERIALS> Materials;
    };
 
    struct GrassUniforms

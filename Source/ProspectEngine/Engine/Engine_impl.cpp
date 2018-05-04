@@ -41,7 +41,7 @@ void Engine_impl::Start()
 
       m_window.PollEvents();
 
-      if (elapsed >= TIME_PER_UPDATE)
+      if (elapsed >= Defines::TIME_PER_UPDATE)
       {
          m_lastUpdateTime = time;
 

@@ -3,5 +3,8 @@
 
 namespace Prospect
 {
-   static const glm::ivec2 DEFAULT_PLANE_SECTIONS = glm::ivec2(1, 1);
+   namespace Defaults
+   {
+      static const glm::ivec2 PLANE_SECTIONS = glm::ivec2(1, 1);
+   }
 }

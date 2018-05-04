@@ -18,7 +18,7 @@ void ShadowMap::Update(const Bounds& bounds, const vec3& position, const vec3& d
    m_viewMatrix = lookAt(
       position,
       position + direction,
-      POS_Y);
+      Defines::POS_Y);
 
    //Move near plane backwards, so more objects fit in the projection.
    const float projectionNearMultiplier = 10.f;

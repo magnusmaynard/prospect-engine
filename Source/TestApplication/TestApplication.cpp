@@ -83,10 +83,6 @@ void TestApplication::OnStartup()
    //e1.SetScale({ 0.4, 0.4, 0.4 });
    //e0.AddEntity(e1);
 
-   //Entity e2(cube, red);
-   //e2.SetTranslation({ 0, 30, 0 });
-   //m_scene.AddEntity(e2);
-
    //Entity e3(largePlane, gray);
    //m_scene.AddEntity(e3);
 
@@ -112,6 +108,12 @@ void TestApplication::OnStartup()
    m_scene.AddEntity(turbine);
    turbine.SetTranslation({ 0, 55, 0 });
    turbine.SetScale({ 2, 2, 2 });
+
+
+   //Cube   
+   Entity e2(cube, red);
+   e2.SetTranslation({ 0, 30, -100 });
+   m_scene.AddEntity(e2);
 }
 
 void TestApplication::OnUpdate(const double timeElapsed)

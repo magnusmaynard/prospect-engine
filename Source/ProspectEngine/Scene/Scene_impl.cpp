@@ -14,7 +14,7 @@ using namespace glm;
 Scene_impl::Scene_impl(Scene& parent)
    :
    m_parent(parent),
-   m_camera(DEFAULT_CAMERA_SIZE)
+   m_camera(Defaults::CAMERA_SIZE)
 {
 }
 

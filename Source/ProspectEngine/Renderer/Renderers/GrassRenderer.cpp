@@ -42,7 +42,7 @@ void GrassRenderer::Initialise(GrassRenderData& renderData)
    renderData.PatchSize = 80.f;
    renderData.PatchGrassRows = 100;
 
-   const float halfRows= renderData.PatchGrassRows / 2.0f;
+   const int halfRows= static_cast<int>(renderData.PatchGrassRows * 0.5);
    const float grassSpacing = renderData.PatchSize / renderData.PatchGrassRows;
 
    //Create grid of points.

@@ -41,7 +41,7 @@ void TerrainRenderer::Render(const Terrain_impl& terrain)
    //Update state.
    glDepthMask(GL_TRUE);
    glEnable(GL_DEPTH_TEST);
-   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+   glBlendFunc(GL_ONE, GL_ZERO);
    glEnable(GL_CULL_FACE);
 
    //Update textures if dirty.

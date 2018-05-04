@@ -18,7 +18,7 @@ ShadowMaps::ShadowMaps()
 
    const int mipmapLevels = 1;
    glCreateTextures(GL_TEXTURE_2D_ARRAY, 1, &m_shadowTextures);
-   glTextureStorage3D(m_shadowTextures, mipmapLevels, GL_DEPTH_COMPONENT32F, TEXTURE_SIZE.x, TEXTURE_SIZE.y, MAX_SHADOW_MAPS);
+   glTextureStorage3D(m_shadowTextures, mipmapLevels, GL_DEPTH_COMPONENT32F, TEXTURE_SIZE.x, TEXTURE_SIZE.y, Defines::MAX_SHADOW_MAPS);
 
    //TODO: use mipmaps
    //glTextureParameteri(m_shadowTextures, GL_TEXTURE_BASE_LEVEL, 0);
@@ -135,10 +135,11 @@ void ShadowMaps::UpdateShadowMapCascades(DirectionalLight_impl& light, const Cam
    const float cameraDistance = cameraFar - cameraNear;
 
    const auto& cascades = light.GetShadowCascades();
+   const int cascadeCount = static_cast<int>(cascades.size());
 
    float near = cameraNear;
 
-   for (int i = 0; i < cascades.size(); ++i)
+   for (int i = 0; i < cascadeCount; ++i)
    {
       const float cascadeSize = cascades[i] * cameraDistance;
       const float far = near + cascadeSize;
@@ -162,7 +163,7 @@ void ShadowMaps::UpdateShadowMapCascades(DirectionalLight_impl& light, const Cam
       const mat4 lightView = lookAt(
          cascadeCentre,
          cascadeCentre + light.GetDirection(),
-         POS_Y);
+         Defines::POS_Y);
 
       Bounds lightFrustumBounds;
       for (auto& c : frustum.Corners)
@@ -188,11 +189,11 @@ ShadowMap& ShadowMaps::GetShadowMap(DirectionalLight_impl& light, const int casc
 {
    int shadowMapIndex = light.GetShadowMapIndex();
 
-   if (shadowMapIndex == INVALID_SHADOW_MAP_ID)
+   if (shadowMapIndex == Defines::INVALID_SHADOW_MAP_ID)
    {
       shadowMapIndex = m_shadowMaps.size();
 
-      for (int i = 0; i < light.GetShadowCascades().size(); ++i)
+      for (size_t i = 0; i < light.GetShadowCascades().size(); ++i)
       {
          m_shadowMaps.push_back(ShadowMap());
       }

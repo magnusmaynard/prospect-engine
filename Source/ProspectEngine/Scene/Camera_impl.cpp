@@ -10,13 +10,13 @@ Camera_impl::Camera_impl(Camera& parent, const ivec2& size)
    :
    m_parent(parent),
    m_size(size),
-   m_up(POS_Y),
-   m_forward(POS_Z),
-   m_near(DEFAULT_CAMERA_NEAR),
-   m_far(DEFAULT_CAMERA_FAR),
-   m_fov(DEFAULT_CAMERA_FOV),
-   m_minAngle(DEFAULT_CAMERA_MIN_ANGLE),
-   m_maxAngle(DEFAULT_CAMERA_MAX_ANGLE),
+   m_up(Defines::POS_Y),
+   m_forward(Defines::POS_Z),
+   m_near(Defaults::CAMERA_NEAR),
+   m_far(Defaults::CAMERA_FAR),
+   m_fov(Defaults::CAMERA_FOV),
+   m_minAngle(Defaults::CAMERA_MIN_ANGLE),
+   m_maxAngle(Defaults::CAMERA_MAX_ANGLE),
    m_aspectRatio(0),
    m_isPespective(true),
    m_viewIsDirty(true),
@@ -56,8 +56,8 @@ ivec2 Camera_impl::GetSize() const
 
 void Camera_impl::Turn(const vec2 delta)
 {
-   const float horizontal = delta.x * DEFAULT_CAMERA_SENSITIVITY;
-   const float vertical = delta.y * DEFAULT_CAMERA_SENSITIVITY;
+   const float horizontal = delta.x * Defaults::CAMERA_SENSITIVITY;
+   const float vertical = delta.y * Defaults::CAMERA_SENSITIVITY;
 
    //Horizontal rotation.
    m_forward = rotate(m_forward, radians(horizontal), m_up);

@@ -31,7 +31,9 @@ layout (std140) uniform TerrainUniforms
 
 in VS_OUT
 {
-   vec3 position;
+   int Lod;
+   int MaxLevels;
+   float BladeCountMultiplier;
 } gs_in[];
 
 out GS_OUT
@@ -70,28 +72,36 @@ float RandomRange(float min, float max, float seed)
 
 void main()
 {
+   // if(gs_in[0].Lod > 3) //TODO:
+   // {
+   //    return;
+   // }
+
     //Constants
-    float minLength = 0.5;
-    float maxLength = 2.0;
-    float minWidth = 0.02;
-    float maxWidth = 0.05;
+    float minLength = 2.0;//0.5;
+    float maxLength = 2.0;//2.0;
+    float minWidth = 0.2;//0.02;
+    float maxWidth = 0.2;//0.05;
     float minAngle = 0.00;
     float maxAngle = 0.1;
-   float taperFactor = 0.9;
+   float taperFactor = 1.0;//0.9;
    float sectionSpacing = 0.3;
-   int bladeCount = 6;
-   float bladeRadius = 0.3;
+   int maxBladeCount = 1;//6;
+   float bladeRadius = 0.0;//0.3;
+
+   int bladeCount = int(maxBladeCount * gs_in[0].BladeCountMultiplier);
 
    for(int b = 0; b < bladeCount; b++)
    {
       float length = RandomRange(minLength, maxLength, b);
       float width = RandomRange(minWidth, maxWidth, b);
-      vec3 direction = RandomDirection(b);   
-      float angle = RandomRange(minAngle, maxAngle, b);
+      vec3 direction = vec3(0, 0, 1);// RandomDirection(b);
+      float angle = 0;// RandomRange(minAngle, maxAngle, b);
 
       int sectionCount = int(length / sectionSpacing);
       vec3 up = vec3(0, 1, 0);
-      vec3 side = cross(direction, up) * width;
+      vec3 sideDirection = cross(direction, up);
+      vec3 side = sideDirection * width;
 
       vec3 basePosition = gl_in[0].gl_Position.xyz + direction * bladeRadius;
 
@@ -104,18 +114,19 @@ void main()
 
       for(int i = 0; i < sectionCount; i++)
       {
-         vec3 sectionPosition = mix(up, direction, angle) * sectionSpacing;
+         vec3 sectionPosition = previousPosition + mix(up, direction, angle) * sectionSpacing;
 
-         angle += 0.1;
+
+        gs_out.Normal = normalize(cross(sectionPosition - previousPosition, sideDirection));
+
+         angle += 0.0;//0.1;//TODO:
 
          taper = taper * taperFactor;
          vec3 taperedSide = side * taper;
-         OutputVertex(previousPosition + sectionPosition + taperedSide);
-         OutputVertex(previousPosition + sectionPosition - taperedSide);
+         OutputVertex(sectionPosition + taperedSide);
+         OutputVertex(sectionPosition - taperedSide);
 
-         gs_out.Normal = cross(direction, taperedSide); //TODO:
-
-         previousPosition += sectionPosition;
+         previousPosition = sectionPosition;
       }
 
       vec3 endPosition = mix(up, direction, angle) * sectionSpacing;

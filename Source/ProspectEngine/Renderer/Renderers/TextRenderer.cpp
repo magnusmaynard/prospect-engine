@@ -21,9 +21,7 @@ TextRenderer::TextRenderer(ShaderLibrary& shaderLibrary)
    m_renderDataLibrary.SetInitialise(Initialise);
    m_renderDataLibrary.SetDispose(Dispose);
 
-   const int DEFAULT_FONT_SIZE = 12; //TODO: expose this.
-
-   InitialiseFont(DEFAULT_FONT_SIZE);
+   InitialiseFont(Defaults::FONT_SIZE);
 }
 
 void TextRenderer::InitialiseFont(const int size)

@@ -143,9 +143,9 @@ void Entity_impl::UpdateLocalTransform()
 {
    m_localTransform = translate(mat4(), m_translation);
 
-   m_localTransform = rotate(m_localTransform, radians(m_rotation.x), POS_X);
-   m_localTransform = rotate(m_localTransform, radians(m_rotation.y), POS_Y);
-   m_localTransform = rotate(m_localTransform, radians(m_rotation.z), POS_Z);
+   m_localTransform = rotate(m_localTransform, radians(m_rotation.x), Defines::POS_X);
+   m_localTransform = rotate(m_localTransform, radians(m_rotation.y), Defines::POS_Y);
+   m_localTransform = rotate(m_localTransform, radians(m_rotation.z), Defines::POS_Z);
 
    m_localTransform = scale(m_localTransform, m_scale);
 }
