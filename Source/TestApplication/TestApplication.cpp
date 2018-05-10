@@ -69,14 +69,10 @@ void TestApplication::OnStartup()
    Material red = m_materialLib.CreateMaterial(Color::Red());
    Material gray = m_materialLib.CreateMaterial(Color::Black());
 
-   Mesh plane = m_meshLib.CreatePlane({ 20, 20 }, { 10, 10 });
+   Mesh plane = m_meshLib.CreatePlane({ 200, 200 }, { 10, 10 });
    Mesh largePlane = m_meshLib.CreatePlane({ 200, 200 }, { 10, 10 });
    Mesh cube = m_meshLib.CreateCube({ 10, 10, 10 });
    Mesh light = m_meshLib.CreateCube({ 1, 1, 1 });
-
-   //Entity e0(plane, blue);
-   //e0.SetTranslation({ 0, 20, 0 });
-   //m_scene.AddEntity(e0);
 
    //Entity e1(plane, red);
    //e1.SetTranslation({ 60, 0, 0 });
@@ -114,6 +110,10 @@ void TestApplication::OnStartup()
    Entity e2(cube, red);
    e2.SetTranslation({ 0, 30, -100 });
    m_scene.AddEntity(e2);
+
+   //Plane
+   Entity e0(plane, blue);
+   m_scene.AddEntity(e0);
 }
 
 void TestApplication::OnUpdate(const double timeElapsed)
@@ -123,51 +123,9 @@ void TestApplication::OnUpdate(const double timeElapsed)
 
    Camera& camera = m_scene.GetCamera();
 
-   //Update direction.
-   vec3 playerDirection;
-   if (m_playerForward)
-   {
-      playerDirection += camera.GetForward();
-   }
-   if (m_playerBackward)
-   {
-      playerDirection -= camera.GetForward();
-   }
-   if (m_playerLeft)
-   {
-      playerDirection += camera.GetLeft();
-   }
-   if (m_playerRight)
-   {
-      playerDirection -= camera.GetLeft();
-   }
-   if (m_playerUp)
-   {
-      playerDirection += cross(camera.GetForward(), camera.GetLeft());
-   }
-   if (m_playerDown)
-   {
-      playerDirection -= cross(camera.GetForward(), camera.GetLeft());
-   }
+   m_player.Update(timeElapsed, camera);
 
-   if (length(playerDirection) > m_playerThreshold)
-   {
-      playerDirection = normalize(playerDirection);
-   }
-   else
-   {
-      playerDirection = vec3();
-   }
-
-   //Apply direction.
-   m_playerMomentum += playerDirection * m_playerSpeed * static_cast<float>(timeElapsed);
-
-   //Apply friction.
-   if (length(m_playerMomentum) > m_playerThreshold)
-   {
-      camera.SetPosition(camera.GetPosition() + m_playerMomentum);
-      m_playerMomentum *= 1.0 - m_playerFriction;
-   }
+   camera.SetPosition(m_player.GetPosition());
 
    //auto e0 = m_scene.GetEntity(0);
    //e0.SetRotation({ 0, counter * 20.0, 0 });
@@ -219,38 +177,52 @@ void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)
       }
       case Key::W:
       {
-         m_playerForward = true;
+         m_player.Move(Direction::Forward);
          break;
       }
       case Key::S:
       {
-         m_playerBackward = true;
+         m_player.Move(Direction::Backward);
          break;
       }
       case Key::A:
       {
-         m_playerLeft = true;
+         m_player.Move(Direction::Left);
          break;
       }
       case Key::D:
       {
-         m_playerRight = true;
+         m_player.Move(Direction::Right);
          break;
       }
       case Key::C:
       {
-         m_playerDown = true;
+         m_player.Move(Direction::Down);
          break;
       }
       case Key::Space:
       {
-         m_playerUp = true;
+         m_player.Move(Direction::Up);
          break;
       }
       default:
       {
          break;
       }
+   }
+
+   //Update walk mode.
+   if(modifier == KeyModifier::Shift)
+   {
+      m_player.SetWalkMode(WalkMode::Run);
+   }
+   else if(modifier == KeyModifier::Control)
+   {
+      m_player.SetWalkMode(WalkMode::Crawl);
+   }
+   else
+   {
+      m_player.SetWalkMode(WalkMode::Walk);
    }
 }
 
@@ -260,38 +232,51 @@ void TestApplication::OnKeyUp(const Key& key, const KeyModifier& modifier)
    {
       case Key::W:
       {
-         m_playerForward = false;
+         m_player.Stop(Direction::Forward);
          break;
       }
       case Key::S:
       {
-         m_playerBackward = false;
+         m_player.Stop(Direction::Backward);
          break;
       }
       case Key::A:
       {
-         m_playerLeft = false;
+         m_player.Stop(Direction::Left);
          break;
       }
       case Key::D:
       {
-         m_playerRight = false;
+         m_player.Stop(Direction::Right);
          break;
       }
       case Key::C:
       {
-         m_playerDown = false;
+         m_player.Stop(Direction::Down);
          break;
       }
       case Key::Space:
       {
-         m_playerUp = false;
+         m_player.Stop(Direction::Up);
          break;
       }
       default:
       {
          break;
       }
+   }
+   //Update walk mode.
+   if (modifier == KeyModifier::Shift)
+   {
+      m_player.SetWalkMode(WalkMode::Run);
+   }
+   else if (modifier == KeyModifier::Control)
+   {
+      m_player.SetWalkMode(WalkMode::Crawl);
+   }
+   else
+   {
+      m_player.SetWalkMode(WalkMode::Walk);
    }
 }
 
