@@ -1,6 +1,7 @@
 #include "ProspectEngine_pch.h"
 
 #include "QuadTree.h"
+#include "Renderer/Debugger/Debug.h"
 
 using namespace Prospect;
 
@@ -24,6 +25,8 @@ void QuadTree::ForceUpdate(const glm::vec3& position)
    {
       node->UpdateEdgeScaling();
    }
+
+   UpdateClosestEndNode(position);
 }
 
 int QuadTree::FindClosestEndNodeIndex(const glm::vec3& position) const
@@ -45,7 +48,7 @@ int QuadTree::FindClosestEndNodeIndex(const glm::vec3& position) const
    return closestEndNodeIndex;
 }
 
-bool QuadTree::NewClosestEndNode(const glm::vec3& position)
+bool QuadTree::UpdateClosestEndNode(const glm::vec3& position)
 {
    const int closestEndNodeIndex = FindClosestEndNodeIndex(position);
    if (m_closestEndNodeIndex != closestEndNodeIndex)
@@ -57,18 +60,14 @@ bool QuadTree::NewClosestEndNode(const glm::vec3& position)
    return false;
 }
 
-void QuadTree::Update(const glm::vec3& position)
-{
-   Node* endNode = m_endNodes[m_closestEndNodeIndex];
-
-   if(endNode->IsLODInvalid(position) ||
-      NewClosestEndNode(position))
-   {
-      ForceUpdate(position);
-   }
-}
-
 const std::vector<Node*>& QuadTree::GetEndNodes() const
 {
    return m_endNodes;
+}
+
+bool QuadTree::RequiresUpdate(const glm::vec3& position)
+{
+   Node* closestyEndNode = m_endNodes[m_closestEndNodeIndex];
+
+   return  closestyEndNode->IsLODInvalid(position) || UpdateClosestEndNode(position);
 }

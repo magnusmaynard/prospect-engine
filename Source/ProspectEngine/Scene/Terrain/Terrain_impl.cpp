@@ -9,15 +9,15 @@ using namespace Prospect;
 Terrain_impl::Terrain_impl(
    const glm::vec3& origin,
    const Bitmap& heightMap,
-   float size,
-   float minHeight,
-   float maxHeight)
+   const float size,
+   const float minHeight,
+   const float maxHeight)
    :
    m_heightMap(heightMap),
    m_minHeight(minHeight),
    m_maxHeight(maxHeight),
    m_size(size),
-   m_quadTree(glm::vec3(), m_size)
+   m_quadTree(std::make_unique<QuadTree>(glm::vec3(), m_size))
 {
 }
 
@@ -39,7 +39,25 @@ void Terrain_impl::Update(const Scene_impl& scene)
 {
    auto& camera = scene.GetCameraImpl();
 
-   m_quadTree.Update(camera.GetPosition());
+   if (m_quadTreeThread._Is_ready())
+   {
+      //Use newly constructed QuadTree.
+      m_quadTree = m_quadTreeThread.get();
+
+      //Release the mutex.
+      m_constructingQuadTreeMutex.unlock();
+   }
+
+   if (m_constructingQuadTreeMutex.try_lock())
+   {
+      //No QuadTree is being constructed, so lock the mutex.
+      if (m_quadTree->RequiresUpdate(camera.GetPosition()))
+      {
+         //Async begin constructing QuadTree.
+         m_quadTreeThread = std::future<std::unique_ptr<QuadTree>>(async(
+            ConstructQuadTree, camera.GetPosition(), m_size));
+      }
+   }
 }
 
 float Terrain_impl::GetMinHeight() const
@@ -59,10 +77,20 @@ float Terrain_impl::GetSize() const
 
 const std::vector<Node*>& Terrain_impl::GetEndNodes() const
 {
-   return m_quadTree.GetEndNodes();
+   return m_quadTree->GetEndNodes();
 }
 
 const Bitmap& Terrain_impl::GetTerrainMap() const
 {
    return m_heightMap;
+}
+
+std::unique_ptr<QuadTree> Terrain_impl::ConstructQuadTree(
+   const glm::vec3 cameraPosition,
+   const float nodeSize)
+{
+   auto quadTree = std::make_unique<QuadTree>(glm::vec3(), nodeSize);
+   quadTree->ForceUpdate(cameraPosition);
+
+   return quadTree;
 }

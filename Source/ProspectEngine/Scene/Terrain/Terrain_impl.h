@@ -34,6 +34,7 @@ namespace Prospect
       const Bitmap& GetTerrainMap() const;
 
    private:
+      static std::unique_ptr<QuadTree> ConstructQuadTree(const glm::vec3 cameraPosition, const float nodeSize);
       mutable bool m_isDirty;
 
       std::unique_ptr<Bitmap> m_groundTexture;
@@ -42,6 +43,10 @@ namespace Prospect
       const float m_minHeight;
       const float m_size;
 
-      QuadTree m_quadTree;
+      std::unique_ptr<QuadTree> m_quadTree;
+
+      //Threading
+      std::future<std::unique_ptr<QuadTree>> m_quadTreeThread;
+      std::mutex m_constructingQuadTreeMutex;
    };
 }

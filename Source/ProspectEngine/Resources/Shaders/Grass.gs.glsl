@@ -70,6 +70,9 @@ float RandomRange(float min, float max, float seed)
     return mix(min, max, GoldNoise(gl_in[0].gl_Position.xz, 45 + seed));
 }
 
+//#define DEBUG
+
+
 void main()
 {
    // if(gs_in[0].Lod > 3) //TODO:
@@ -77,6 +80,7 @@ void main()
    //    return;
    // }
 
+#ifdef DEBUG
     //Constants
     float minLength = 2.0;//0.5;
     float maxLength = 2.0;//2.0;
@@ -88,6 +92,21 @@ void main()
    float sectionSpacing = 0.3;
    int maxBladeCount = 1;//6;
    float bladeRadius = 0.0;//0.3;
+#endif
+#ifndef DEBUG
+    //Constants
+    float minLength = 0.5;
+    float maxLength = 2.0;
+    float minWidth = 0.02;
+    float maxWidth = 0.05;
+    float minAngle = 0.00;
+    float maxAngle = 0.1;
+   float taperFactor = 0.9;
+   float sectionSpacing = 0.3;
+   int maxBladeCount = 6;
+   float bladeRadius = 0.3;
+#endif
+
 
    int bladeCount = int(maxBladeCount * gs_in[0].BladeCountMultiplier);
 
@@ -95,8 +114,8 @@ void main()
    {
       float length = RandomRange(minLength, maxLength, b);
       float width = RandomRange(minWidth, maxWidth, b);
-      vec3 direction = vec3(0, 0, 1);// RandomDirection(b);
-      float angle = 0;// RandomRange(minAngle, maxAngle, b);
+      vec3 direction = RandomDirection(b);
+      float angle = RandomRange(minAngle, maxAngle, b);
 
       int sectionCount = int(length / sectionSpacing);
       vec3 up = vec3(0, 1, 0);
@@ -106,7 +125,7 @@ void main()
       vec3 basePosition = gl_in[0].gl_Position.xyz + direction * bladeRadius;
 
       vec2 textureCoord = basePosition.xz / terrain.TotalSize + vec2(0.5);
-      float height = texture(heightMapTexture, textureCoord).x * terrain.MaxHeight;
+      float height = 0.0;// texture(heightMapTexture, textureCoord).x * terrain.MaxHeight;
       basePosition.y = height;
 
       vec3 previousPosition = basePosition;
@@ -119,7 +138,7 @@ void main()
 
         gs_out.Normal = normalize(cross(sectionPosition - previousPosition, sideDirection));
 
-         angle += 0.0;//0.1;//TODO:
+         angle += 0.1;//TODO:
 
          taper = taper * taperFactor;
          vec3 taperedSide = side * taper;

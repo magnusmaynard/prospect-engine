@@ -17,23 +17,11 @@ namespace Prospect
 
       //Outputs a value.
       template <typename T>
-      static void Write(const T& value)
-      {
-#ifdef _DEBUG
-         //Uses std::to_string or glm::to_string.
-         std::cout << to_string(value);
-#endif
-      }
+      static void Write(const T& value);
 
       //Outputs a value as a new line.
       template <typename T>
-      static void WriteLine(const T& value)
-      {
-#ifdef _DEBUG
-         Write(value);
-         std::cout << std::endl;
-#endif
-      }
+      static void WriteLine(const T& value);
 
       //Allows for drawing a list of points.
       //To be used for debugging only.
@@ -56,5 +44,37 @@ namespace Prospect
       private:
          static void Render(std::vector<glm::vec3>& points, const Color& color);
       };
+
+   private:
+      template <typename T>
+      static std::string ConvertToString(const T& string);
+
+      static std::string ConvertToString(const std::string& string) { return string; }
+
+      static std::string ConvertToString(const char* chars) { return chars; }
    };
+
+   template <typename T>
+   void Debug::Write(const T& value)
+   {
+#ifdef _DEBUG
+      //Uses std::to_string or glm::to_string.
+      std::cout << ConvertToString(value);
+#endif
+   }
+
+   template <typename T>
+   void Debug::WriteLine(const T& value)
+   {
+#ifdef _DEBUG
+      Write(value);
+      std::cout << std::endl;
+#endif
+   }
+
+   template <typename T>
+   std::string Debug::ConvertToString(const T& string)
+   {
+      return to_string(string);
+   }
 }

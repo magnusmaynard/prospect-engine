@@ -26,7 +26,7 @@ void Debug::CheckErrors()
 #endif
 }
 
-void  Debug::Points::Initialise(ShaderLibrary& shaderLibrary)
+void Debug::Points::Initialise(ShaderLibrary& shaderLibrary)
 {
 #ifdef _DEBUG
    m_shader = &shaderLibrary.GetDebugShader();

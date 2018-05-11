@@ -23,8 +23,6 @@ Node::Node(
 
 void Node::Update(const glm::vec3& cameraPosition, std::vector<Node*>& endNodes)
 {
-   glm::vec3 normal = glm::vec3(0, 1, 0);
-
    if (RequiresDivide(cameraPosition))
    {
       Divide();
