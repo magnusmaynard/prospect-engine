@@ -128,11 +128,6 @@ namespace Prospect
       std::array<MaterialUniforms, Defines::MAX_MATERIALS> Materials;
    };
 
-   struct GrassUniforms
-   {
-      
-   };
-
    struct TerrainUniforms
    {
       TerrainUniforms()
@@ -177,6 +172,11 @@ namespace Prospect
       glm::ivec4 Edges;
       float Size = 0;
       float Level = 0;
+   };
+
+   struct GrassUniforms
+   {
+      bool FrontFacing;
    };
 
    struct AtmosphereUniforms

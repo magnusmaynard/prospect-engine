@@ -21,7 +21,10 @@ Terrain_impl::Terrain_impl(
 {
 }
 
-Terrain_impl::~Terrain_impl() = default;
+Terrain_impl::~Terrain_impl()
+{
+   m_constructingQuadTreeMutex.unlock();
+}
 
 void Terrain_impl::SetGroundTexture(const Bitmap& groundTexture)
 {

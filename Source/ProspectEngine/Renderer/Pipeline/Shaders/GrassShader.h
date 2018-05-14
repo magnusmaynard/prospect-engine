@@ -21,8 +21,13 @@ namespace Prospect
          m_grassUniforms("GrassUniforms")
       {
          globalUniforms.Camera.Bind(GetProgram());
-         //m_grassUniforms.Bind(GetProgram());
+         m_grassUniforms.Bind(GetProgram());
          terrainShader.GetTerrainUniforms().Bind(GetProgram());
+      }
+
+      void Update(const GrassUniforms& uniforms)
+      {
+         m_grassUniforms.Update(uniforms);
       }
 
    private:

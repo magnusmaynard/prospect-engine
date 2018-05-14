@@ -36,8 +36,8 @@ void TestApplication::OnStartup()
    m_engine.SetTitle("Test Application");
    m_engine.ShowFPS(true);
 
-   m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
-   //m_scene.GetCamera().LookAt({ 0, 100, 100 }, { 0, 100, 0 });
+   //m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
+   m_scene.GetCamera().LookAt({ 0, 200, 300 }, { 0, 100, 0 });
 
    const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_noise.bmp", true);
    const Bitmap grassTexture = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_grass.bmp");
@@ -111,9 +111,9 @@ void TestApplication::OnStartup()
    e2.SetTranslation({ 0, 30, -100 });
    m_scene.AddEntity(e2);
 
-   //Plane
-   Entity e0(plane, blue);
-   m_scene.AddEntity(e0);
+   ////Plane
+   //Entity e0(plane, blue);
+   //m_scene.AddEntity(e0);
 }
 
 void TestApplication::OnUpdate(const double timeElapsed)

@@ -16,8 +16,8 @@ layout (location = 0) in vec3 point;
 out VS_OUT
 {
    int Lod;
-   int MaxLevels;
-   float BladeCountMultiplier;
+   int LodMax;
+   float LodMultiplier;
 } vs_out;
 
 void main()
@@ -27,12 +27,12 @@ void main()
    float depth = (camera.PerspectiveProjection * camera.View * gl_Position).z;
 
    float maxDepth = 100;
-   int maxLevels = 3;
-   float lodDepth = maxDepth / maxLevels;
+   int lodMax = 3;
+   float lodDepth = maxDepth / lodMax;
 
    int lod = int(depth / lodDepth);
 
    vs_out.Lod = lod;
-   vs_out.MaxLevels = maxLevels;
-   vs_out.BladeCountMultiplier = 1 - lod / maxLevels;
+   vs_out.LodMax = lodMax;
+   vs_out.LodMultiplier = float(lod) / lodMax;
 }

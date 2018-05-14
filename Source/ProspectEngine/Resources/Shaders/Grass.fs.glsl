@@ -34,7 +34,10 @@ void UpdateBuffers(
 
 void main()
 {
-   vec4 diffuse = vec4(0.15, 0.34, 0.07, 1);
+   // vec4 diffuse = vec4(0.52, 0.65, 0.21, 1);
+   // vec4 diffuse = vec4(0.43, 0.52, 0.21, 1);
+   // vec4 diffuse = vec4(0.43, 0.56, 0.11, 1);
+   vec4 diffuse = vec4(0.40, 0.53, 0.10, 1);
 
    UpdateBuffers(
       diffuse,

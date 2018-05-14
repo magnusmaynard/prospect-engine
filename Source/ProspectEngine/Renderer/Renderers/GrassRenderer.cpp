@@ -25,22 +25,27 @@ void GrassRenderer::Render(
 {
    GrassRenderData& renderData = m_renderDataLibrary.GetRenderData(terrain.GetId());
 
-   glDisable(GL_CULL_FACE);
-
    m_shader.Bind();
    glBindTextureUnit(0, terrainRenderData.HeightMapTexture);
-
    glBindVertexArray(renderData.VAO);
 
-   glPointSize(10);
+   GrassUniforms uniforms;
 
+   uniforms.FrontFacing = false;
+   m_shader.Update(uniforms);
+   glFrontFace(GL_CW);
+   glDrawArrays(GL_POINTS, 0, renderData.Points.size());
+
+   uniforms.FrontFacing = true;
+   m_shader.Update(uniforms);
+   glFrontFace(GL_CCW);
    glDrawArrays(GL_POINTS, 0, renderData.Points.size());
 }
 
 void GrassRenderer::Initialise(GrassRenderData& renderData)
 {
-   renderData.PatchSize = 80.f;
-   renderData.PatchGrassRows = 100;
+   renderData.PatchSize = 150.f;
+   renderData.PatchGrassRows = 250;
 
    const int halfRows= static_cast<int>(renderData.PatchGrassRows * 0.5);
    const float grassSpacing = renderData.PatchSize / renderData.PatchGrassRows;
