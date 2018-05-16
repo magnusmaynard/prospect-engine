@@ -3,6 +3,7 @@
 in GS_OUT
 {
    vec3 Normal;
+   vec3 InverseNormal;
 } fs_in;
 
 layout (location = 0) out vec4 albedoBuffer;
@@ -39,9 +40,19 @@ void main()
    // vec4 diffuse = vec4(0.43, 0.56, 0.11, 1);
    vec4 diffuse = vec4(0.40, 0.53, 0.10, 1);
 
+   vec3 normal;
+   if(gl_FrontFacing)
+   {
+      normal = fs_in.Normal;
+   }
+   else
+   {
+      normal = fs_in.InverseNormal;
+   }
+
    UpdateBuffers(
       diffuse,
-      fs_in.Normal,
+      normal,
       0,
       2,
       0.5f,

@@ -37,7 +37,7 @@ void TestApplication::OnStartup()
    m_engine.ShowFPS(true);
 
    //m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
-   m_scene.GetCamera().LookAt({ 0, 200, 300 }, { 0, 100, 0 });
+   m_scene.GetCamera().LookAt({ 0, 800, 300 }, { 0, 800, 0 }); //TODO: camera position doesn't work
 
    const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_noise.bmp", true);
    const Bitmap grassTexture = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_grass.bmp");

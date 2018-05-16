@@ -203,8 +203,8 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 position, vec3 V, ve
    vec3 specular = specularAlbedo * pow(max(dot(N, H), 0.0), specularPower) * lightBrightness;
    vec3 ambient = vec3(0.05); // TODO: Make not hardcoded.
 
-   float shadowAmbient = 0.05;
-   float visibility = CalculateShadowVisibility(light, position) + shadowAmbient;
+   float shadowAmbient = 0.1;
+   float visibility = 1.0;// CalculateShadowVisibility(light, position) + shadowAmbient;
 
    return (diffuse + specular + ambient) * visibility;
 }

@@ -35,13 +35,13 @@ in VS_OUT
 {
    int Lod;
    int LodMax;
-   float LodMultiplier;
 }
 gs_in[];
 
 out GS_OUT
 {
    vec3 Normal;
+   vec3 InverseNormal;
 }
 gs_out;
 
@@ -55,20 +55,9 @@ float GoldNoise(in vec2 coordinate, in float seed)
    return fract(sin(dot(coordinate * (seed + PHI), vec2(PHI, PI))) * SQ2);
 }
 
-void OutputVertex(vec3 vertex)
+float RandomRange(float min, float max, float seed)
 {
-   gl_Position = camera.PerspectiveProjection * camera.View * vec4(vertex, 1);
-   EmitVertex();
-}
-
-void OutputNormal(vec3 normal)
-{
-   if(!grass.FrontFacing)
-   {
-      normal *= -1;
-   }
-
-   gs_out.Normal =  mat3(camera.View) * normal;
+   return mix(min, max, GoldNoise(gl_in[0].gl_Position.xz, 45 + seed));
 }
 
 vec3 RandomDirection(float seed)
@@ -78,29 +67,44 @@ vec3 RandomDirection(float seed)
                     vec3(0.5, 0, 0.5));
 }
 
-float RandomRange(float min, float max, float seed)
+void OutputVertex(vec3 vertex)
 {
-   return mix(min, max, GoldNoise(gl_in[0].gl_Position.xz, 45 + seed));
+   gl_Position = camera.PerspectiveProjection * camera.View * vec4(vertex, 1);
+   EmitVertex();
+}
+
+void OutputNormal(vec3 normal)
+{
+   gs_out.Normal =  mat3(camera.View) * normal;
+   gs_out.InverseNormal =  mat3(camera.View) * -normal;
 }
 
 void main()
 {
-   if(gs_in[0].Lod > gs_in[0].LodMax)
+   int lod = gs_in[0].Lod;
+
+   if(lod > gs_in[0].LodMax || lod < 0)
    {
       return;
    }
 
-   // Constants
+   // Constants varying with lods.
+   const float maxLengthLods[] = float[]( 2.0, 1.8, 1.2, 0.6 );
+   const float minWidthLods[] = float[]( 0.02, 0.03, 0.04, 0.06 );
+   const float maxWidthLods[] = float[]( 0.05, 0.06, 0.10, 0.14 );
+   const int bladeCountLods[] = int[]( 6, 4, 3, 2 );
+
+    // Constants
    float minLength = 0.5;
-   float maxLength = 2.0 * (1 - gs_in[0].LodMultiplier); //Further = shorter.
-   float minWidth = 0.02 * (1 + gs_in[0].LodMultiplier * 2.0); //Further = wider.
-   float maxWidth = 0.05 * (1 + gs_in[0].LodMultiplier * 2.0); //Further = wider.
+   float maxLength = maxLengthLods[lod];
+   float minWidth = minWidthLods[lod];
+   float maxWidth = maxWidthLods[lod];
    float minAngle = 0.00;
    float maxAngle = 0.1;
    float taperFactor = 0.9;
-   float sectionSpacing = 0.3;
+   float sectionSpacing = 0.4;
    float bladeRadius = 0.3;
-   int bladeCount = int(6 * (1 -gs_in[0].LodMultiplier)); //Further = less blades.
+   int bladeCount = bladeCountLods[lod];
 
    for (int b = 0; b < bladeCount; b++)
    {

@@ -29,22 +29,13 @@ void GrassRenderer::Render(
    glBindTextureUnit(0, terrainRenderData.HeightMapTexture);
    glBindVertexArray(renderData.VAO);
 
-   GrassUniforms uniforms;
-
-   uniforms.FrontFacing = false;
-   m_shader.Update(uniforms);
-   glFrontFace(GL_CW);
-   glDrawArrays(GL_POINTS, 0, renderData.Points.size());
-
-   uniforms.FrontFacing = true;
-   m_shader.Update(uniforms);
-   glFrontFace(GL_CCW);
+   glDisable(GL_CULL_FACE);
    glDrawArrays(GL_POINTS, 0, renderData.Points.size());
 }
 
 void GrassRenderer::Initialise(GrassRenderData& renderData)
 {
-   renderData.PatchSize = 150.f;
+   renderData.PatchSize = 120.f;
    renderData.PatchGrassRows = 250;
 
    const int halfRows= static_cast<int>(renderData.PatchGrassRows * 0.5);
