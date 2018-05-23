@@ -1,7 +1,7 @@
 #version 450
 
 layout(points) in;
-layout(triangle_strip, max_vertices = 64) out;
+layout(triangle_strip, max_vertices = 21) out;
 
 layout(binding = 0) uniform sampler2D heightMapTexture;
 
@@ -25,11 +25,6 @@ layout(std140) uniform TerrainUniforms
    float Null;
 }
 terrain;
-
-layout (std140) uniform GrassUniforms
-{
-   bool FrontFacing;
-} grass;
 
 in VS_OUT
 {
@@ -89,22 +84,22 @@ void main()
    }
 
    // Constants varying with lods.
-   const float maxLengthLods[] = float[]( 2.0, 1.8, 1.2, 0.6 );
-   const float minWidthLods[] = float[]( 0.02, 0.03, 0.04, 0.06 );
-   const float maxWidthLods[] = float[]( 0.05, 0.06, 0.10, 0.14 );
-   const int bladeCountLods[] = int[]( 6, 4, 3, 2 );
+   const float maxLengthLods[] = float[]( 1.6, 1.2, 0.6 );
+   const float minWidthLods[] = float[]( 0.02, 0.04, 0.06 );
+   const float maxWidthLods[] = float[]( 0.05, 0.06, 0.10 );
+   const int bladeCountLods[] = int[]( 5, 3, 1 );
 
     // Constants
-   float minLength = 0.5;
+   float minLength = 0.1;
    float maxLength = maxLengthLods[lod];
    float minWidth = minWidthLods[lod];
    float maxWidth = maxWidthLods[lod];
    float minAngle = 0.00;
-   float maxAngle = 0.1;
+   float maxAngle = 0.2;
    float taperFactor = 0.9;
    float sectionSpacing = 0.4;
-   float bladeRadius = 0.3;
    int bladeCount = bladeCountLods[lod];
+   float maxOffset = 1.0;
 
    for (int b = 0; b < bladeCount; b++)
    {
@@ -113,13 +108,14 @@ void main()
       float width = RandomRange(minWidth, maxWidth, b);
       vec3 direction = RandomDirection(b);
       float angleIncrement = RandomRange(minAngle, maxAngle, b);
+      vec3 offset = vec3(RandomRange(0, maxOffset, b), 0, RandomRange(0, maxOffset, b+7));
 
       //Calculate base properties.
       int sectionCount = int(length / sectionSpacing);
       vec3 up = vec3(0, 1, 0);
       vec3 sideDirection = cross(direction, up);
       vec3 sideBase = sideDirection * width;
-      vec3 basePosition = gl_in[0].gl_Position.xyz + direction * bladeRadius;
+      vec3 basePosition = gl_in[0].gl_Position.xyz + offset;
 
       //Update position to terrain height.
       vec2 textureCoord = basePosition.xz / terrain.TotalSize + vec2(0.5);

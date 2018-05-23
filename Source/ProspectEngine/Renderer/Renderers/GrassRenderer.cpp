@@ -19,9 +19,7 @@ GrassRenderer::~GrassRenderer()
 {
 }
 
-void GrassRenderer::Render(
-   const Terrain_impl& terrain,
-   const TerrainRenderData& terrainRenderData)
+void GrassRenderer::Render(const Terrain_impl& terrain, const TerrainRenderData& terrainRenderData)
 {
    GrassRenderData& renderData = m_renderDataLibrary.GetRenderData(terrain.GetId());
 
@@ -30,7 +28,20 @@ void GrassRenderer::Render(
    glBindVertexArray(renderData.VAO);
 
    glDisable(GL_CULL_FACE);
-   glDrawArrays(GL_POINTS, 0, renderData.Points.size());
+
+
+   const glm::vec3 pos = terrain.GetLodPosition();
+
+   for (int y = -1; y < 2; ++y)
+   {
+      for (int x = -1; x < 2; ++x)
+      {
+
+         const glm::vec2 patchOffset(x * renderData.PatchSize, y * renderData.PatchSize);
+         m_shader.Update({ patchOffset });
+         glDrawArrays(GL_POINTS, 0, renderData.Points.size());
+      }
+   }
 }
 
 void GrassRenderer::Initialise(GrassRenderData& renderData)
@@ -38,11 +49,11 @@ void GrassRenderer::Initialise(GrassRenderData& renderData)
    renderData.PatchSize = 120.f;
    renderData.PatchGrassRows = 250;
 
-   const int halfRows= static_cast<int>(renderData.PatchGrassRows * 0.5);
+   const int halfRows = static_cast<int>(renderData.PatchGrassRows * 0.5);
    const float grassSpacing = renderData.PatchSize / renderData.PatchGrassRows;
 
    //Create grid of points.
-   renderData.Points.reserve(static_cast<int>(renderData.PatchSize * renderData.PatchSize));
+   renderData.Points.reserve(static_cast<int>(renderData.PatchGrassRows * renderData.PatchGrassRows));
 
    for (int z = -halfRows; z < halfRows; ++z)
    {

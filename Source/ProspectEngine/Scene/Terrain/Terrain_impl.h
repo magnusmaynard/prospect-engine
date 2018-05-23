@@ -32,6 +32,7 @@ namespace Prospect
       float GetSize() const;
       const std::vector<Node*>& GetEndNodes() const;
       const Bitmap& GetTerrainMap() const;
+      const glm::vec3 GetLodPosition() const;
 
    private:
       static std::unique_ptr<QuadTree> ConstructQuadTree(const glm::vec3 cameraPosition, const float nodeSize);
@@ -42,6 +43,7 @@ namespace Prospect
       const float m_maxHeight;
       const float m_minHeight;
       const float m_size;
+      glm::vec3 m_lodPosition;
 
       std::unique_ptr<QuadTree> m_quadTree;
 

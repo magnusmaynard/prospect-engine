@@ -26,7 +26,8 @@ TestApplication::TestApplication()
    m_engine(*this, { 1280, 720 }),
    m_scene(m_engine.GetScene()),
    m_meshLib(m_engine.GetMeshLibrary()),
-   m_materialLib(m_engine.GetMaterialLibrary())
+   m_materialLib(m_engine.GetMaterialLibrary()),
+   m_player(m_scene.GetCamera())
 {
    m_engine.Start();
 }
@@ -36,8 +37,7 @@ void TestApplication::OnStartup()
    m_engine.SetTitle("Test Application");
    m_engine.ShowFPS(true);
 
-   //m_scene.GetCamera().LookAt({ 0, 40, 80 }, { 0, 10, 0 });
-   m_scene.GetCamera().LookAt({ 0, 800, 300 }, { 0, 800, 0 }); //TODO: camera position doesn't work
+   m_player.SetPosition({ 0, 30, -40 });
 
    const Bitmap heightMap = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_noise.bmp", true);
    const Bitmap grassTexture = IO::ReadBitmap(IO::GetExecutablePath() + "Textures\\texture_grass.bmp");
@@ -121,11 +121,7 @@ void TestApplication::OnUpdate(const double timeElapsed)
    static float counter = 0;
    counter += 0.1f;
 
-   Camera& camera = m_scene.GetCamera();
-
-   m_player.Update(timeElapsed, camera);
-
-   camera.SetPosition(m_player.GetPosition());
+   m_player.Update(timeElapsed);
 
    //auto e0 = m_scene.GetEntity(0);
    //e0.SetRotation({ 0, counter * 20.0, 0 });

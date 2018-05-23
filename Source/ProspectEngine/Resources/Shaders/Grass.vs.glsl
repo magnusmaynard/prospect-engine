@@ -11,6 +11,11 @@ layout (std140) uniform CameraUniforms
    vec2 ScreenSize;
 } camera;
 
+layout (std140) uniform GrassUniforms
+{
+   vec2 PatchOffset;
+} grass;
+
 layout (location = 0) in vec3 point;
 
 out VS_OUT
@@ -36,16 +41,16 @@ float RandomRange(float min, float max, float seed)
 
 void main()
 {
-   gl_Position = vec4(point, 1);
+   gl_Position = vec4(point, 1) + vec4(grass.PatchOffset.x, 0, grass.PatchOffset.y, 0);
 
-   float dither = RandomRange(-10, 10, 7);
+   float dither = RandomRange(-1, 1, 7);
    float depth = (camera.PerspectiveProjection * camera.View * gl_Position).z + dither;
 
-   float maxDepth = 80;
-   int lodMax = 3;
+   float maxDepth = 40;
+   int lodMax = 2;
    float depthPerLod = maxDepth / lodMax;
 
-   //3 = most detailed, 0 = least detailed.
+   //3 = least detailed, 0 = most detailed.
    int lod = int(depth / depthPerLod);
 
    vs_out.Lod = lod;

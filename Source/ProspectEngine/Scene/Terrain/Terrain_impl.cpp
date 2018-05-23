@@ -23,7 +23,10 @@ Terrain_impl::Terrain_impl(
 
 Terrain_impl::~Terrain_impl()
 {
-   m_constructingQuadTreeMutex.unlock();
+   if (m_constructingQuadTreeMutex.try_lock())
+   {
+      m_constructingQuadTreeMutex.unlock();
+   }
 }
 
 void Terrain_impl::SetGroundTexture(const Bitmap& groundTexture)
@@ -41,6 +44,8 @@ const Bitmap* Terrain_impl::GetGroundTexture() const
 void Terrain_impl::Update(const Scene_impl& scene)
 {
    auto& camera = scene.GetCameraImpl();
+
+   m_lodPosition = camera.GetPosition();
 
    if (m_quadTreeThread._Is_ready())
    {
@@ -60,7 +65,21 @@ void Terrain_impl::Update(const Scene_impl& scene)
          m_quadTreeThread = std::future<std::unique_ptr<QuadTree>>(async(
             ConstructQuadTree, camera.GetPosition(), m_size));
       }
+      else
+      {
+         m_constructingQuadTreeMutex.unlock();
+      }
    }
+}
+
+std::unique_ptr<QuadTree> Terrain_impl::ConstructQuadTree(
+   const glm::vec3 cameraPosition,
+   const float nodeSize)
+{
+   auto quadTree = std::make_unique<QuadTree>(glm::vec3(), nodeSize);
+   quadTree->ForceUpdate(cameraPosition);
+
+   return quadTree;
 }
 
 float Terrain_impl::GetMinHeight() const
@@ -88,12 +107,7 @@ const Bitmap& Terrain_impl::GetTerrainMap() const
    return m_heightMap;
 }
 
-std::unique_ptr<QuadTree> Terrain_impl::ConstructQuadTree(
-   const glm::vec3 cameraPosition,
-   const float nodeSize)
+const glm::vec3 Terrain_impl::GetLodPosition() const
 {
-   auto quadTree = std::make_unique<QuadTree>(glm::vec3(), nodeSize);
-   quadTree->ForceUpdate(cameraPosition);
-
-   return quadTree;
+   return m_lodPosition;
 }

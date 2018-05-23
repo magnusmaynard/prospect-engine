@@ -176,7 +176,7 @@ namespace Prospect
 
    struct GrassUniforms
    {
-      bool FrontFacing;
+      glm::vec2 PatchOffset;
    };
 
    struct AtmosphereUniforms

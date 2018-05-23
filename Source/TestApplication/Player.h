@@ -26,13 +26,19 @@ enum class Direction : int
 class Player
 {
 public:
-   void Update(const double timeElapsed, const Prospect::Camera& camera);
+   Player(Prospect::Camera& camera);
+
+   //TODO: Move camera controls inside player class.
+   //TODO: Move player class in ProsectEngine.
+
+   void Update(const double timeElapsed);
 
    void Move(const Direction& direction);
 
    void Stop(const Direction& direction);
 
    glm::vec3 GetPosition() const;
+   void SetPosition(const glm::vec3& position);
 
    void SetWalkMode(const WalkMode& walkMode);
 
@@ -48,4 +54,6 @@ private:
    int m_directionFlags = 0;
    glm::vec3 m_playerMomentum;
    glm::vec3 m_position;
+
+   Prospect::Camera& m_camera;
 };

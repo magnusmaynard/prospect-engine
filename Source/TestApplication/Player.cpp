@@ -1,32 +1,40 @@
 #include "Player.h"
 
-void Player::Update(const double timeElapsed, const Prospect::Camera& camera)
+using namespace Prospect;
+
+Player::Player(Camera& camera)
+   :
+   m_camera(camera)
+{
+}
+
+void Player::Update(const double timeElapsed)
 {
    //Update direction.
    glm::vec3 playerDirection;
    if (m_directionFlags & static_cast<int>(Direction::Forward))
    {
-      playerDirection += camera.GetForward();
+      playerDirection += m_camera.GetForward();
    }
    if (m_directionFlags & static_cast<int>(Direction::Backward))
    {
-      playerDirection -= camera.GetForward();
+      playerDirection -= m_camera.GetForward();
    }
    if (m_directionFlags & static_cast<int>(Direction::Left))
    {
-      playerDirection += camera.GetLeft();
+      playerDirection += m_camera.GetLeft();
    }
    if (m_directionFlags & static_cast<int>(Direction::Right))
    {
-      playerDirection -= camera.GetLeft();
+      playerDirection -= m_camera.GetLeft();
    }
    if (m_directionFlags & static_cast<int>(Direction::Up))
    {
-      playerDirection += cross(camera.GetForward(), camera.GetLeft());
+      playerDirection += cross(m_camera.GetForward(), m_camera.GetLeft());
    }
    if (m_directionFlags & static_cast<int>(Direction::Down))
    {
-      playerDirection -= cross(camera.GetForward(), camera.GetLeft());
+      playerDirection -= cross(m_camera.GetForward(), m_camera.GetLeft());
    }
 
    if (length(playerDirection) > m_playerThreshold)
@@ -39,8 +47,7 @@ void Player::Update(const double timeElapsed, const Prospect::Camera& camera)
    }
 
    //Apply direction.
-   m_playerMomentum += playerDirection * m_playerCurrentSpeed * static_cast<
-      float>(timeElapsed);
+   m_playerMomentum += playerDirection * m_playerCurrentSpeed * static_cast<float>(timeElapsed);
 
    //Apply friction.
    if (length(m_playerMomentum) > m_playerThreshold)
@@ -48,6 +55,9 @@ void Player::Update(const double timeElapsed, const Prospect::Camera& camera)
       m_position += m_playerMomentum;
       m_playerMomentum *= 1.0 - m_playerFriction;
    }
+
+   //Update camera position.
+   m_camera.SetPosition(m_position);
 }
 
 void Player::Move(const Direction& direction)
@@ -63,6 +73,11 @@ void Player::Stop(const Direction& direction)
 glm::vec3 Player::GetPosition() const
 {
    return m_position;
+}
+
+void Player::SetPosition(const glm::vec3& position)
+{
+   m_position = position;
 }
 
 void Player::SetWalkMode(const WalkMode& walkMode)

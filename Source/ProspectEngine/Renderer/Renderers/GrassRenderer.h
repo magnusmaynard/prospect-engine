@@ -25,9 +25,7 @@ namespace Prospect
       GrassRenderer(ShaderLibrary& shaderLibrary);
       ~GrassRenderer();
 
-      void Render(
-         const Terrain_impl& terrain,
-         const TerrainRenderData& terrainRenderData);
+      void Render(const Terrain_impl& terrain, const TerrainRenderData& terrainRenderData);
 
    private:
       static void Initialise(GrassRenderData& renderData);
