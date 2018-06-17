@@ -310,7 +310,7 @@ void main()
 
    if (materialID < 0)
    {
-      color = vec4(diffuseAlbedo, 1);
+    //   color = vec4(diffuseAlbedo, 1);
    }
    else
    {
@@ -318,10 +318,10 @@ void main()
 
       color = DitherRGBA(color, 7);
 
+        // color = vec4(1, 0, 0, 0.5);
       // DEBUG
       // color += vec4(debugColor, 0) * 0.1;
    }
-
    // // ---DEBUG SHADOWMAP---
    // DirectionalLight light = directionalLights.Lights[0];
    // int shadowMapIndex = int(light.ShadowMapIndex.x);

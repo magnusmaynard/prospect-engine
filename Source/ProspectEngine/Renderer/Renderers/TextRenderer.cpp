@@ -136,7 +136,6 @@ void TextRenderer::Render(const Text_impl& text)
       text.Clean();
    }
 
-   glBindFramebuffer(GL_FRAMEBUFFER, 0);
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
    glPolygonMode(GL_FRONT, GL_FILL);
    glDepthMask(GL_FALSE);

@@ -164,9 +164,6 @@
     <ClInclude Include="Renderer\Pipeline\Shaders\BlinnPhongShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\Pipeline\GBuffer.h">
-      <Filter>Renderer\Pipeline</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Pipeline\Shaders\LightingShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
     </ClInclude>
@@ -244,6 +241,24 @@
     </ClInclude>
     <ClInclude Include="Renderer\Pipeline\Shaders\GrassShader.h">
       <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderers\GodRaysRenderer.h">
+      <Filter>Renderer\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\Shaders\GodRaysShader.h">
+      <Filter>Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\FrameBuffers\GBuffer.h">
+      <Filter>Renderer\Pipeline\Framebuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\FrameBuffers\Framebuffer.h">
+      <Filter>Renderer\Pipeline\Framebuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\FrameBuffers\DisplayBuffer.h">
+      <Filter>Renderer\Pipeline\Framebuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Pipeline\FrameBuffers\EffectsBuffer.h">
+      <Filter>Renderer\Pipeline\Framebuffers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -362,9 +377,6 @@
     <ClCompile Include="Renderer\Pipeline\ShaderLibrary.cpp">
       <Filter>Renderer\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Pipeline\GBuffer.cpp">
-      <Filter>Renderer\Pipeline</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Lights\DirectionalLight_impl.cpp">
       <Filter>Scene\Lights</Filter>
     </ClCompile>
@@ -409,6 +421,21 @@
     </ClCompile>
     <ClCompile Include="Renderer\Renderers\GrassRenderer.cpp">
       <Filter>Renderer\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderers\GodRaysRenderer.cpp">
+      <Filter>Renderer\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\FrameBuffers\GBuffer.cpp">
+      <Filter>Renderer\Pipeline\Framebuffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\FrameBuffers\Framebuffer.cpp">
+      <Filter>Renderer\Pipeline\Framebuffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\FrameBuffers\DisplayBuffer.cpp">
+      <Filter>Renderer\Pipeline\Framebuffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline\FrameBuffers\EffectsBuffer.cpp">
+      <Filter>Renderer\Pipeline\Framebuffers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -486,6 +513,9 @@
     </Filter>
     <Filter Include="Renderer\Shadows">
       <UniqueIdentifier>{819cc5f7-3e8c-44da-a3ab-4afa54b475ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Pipeline\Framebuffers">
+      <UniqueIdentifier>{7afcf858-ea36-4e67-a4ab-9c1739387c0e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

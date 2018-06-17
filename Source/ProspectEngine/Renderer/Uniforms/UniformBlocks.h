@@ -226,4 +226,9 @@ namespace Prospect
    {
       glm::mat4 Model;
    };
+
+   struct GodRaysUniforms
+   {
+      glm::vec4 SunPosition;
+   };
 }

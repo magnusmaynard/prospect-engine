@@ -19,12 +19,15 @@ Renderer::Renderer(const MaterialLibrary_impl& materialLibrary, const ivec2& siz
    m_shaderLibrary(m_globalUniformBuffers),
    m_materialLibrary(materialLibrary),
    m_gBuffer(size),
+   m_displayBuffer(size),
+   m_effectsBuffer(size),
    m_entityRenderer(m_shaderLibrary),
    m_terrainRenderer(m_shaderLibrary),
-   m_atmosphereRenderer(m_shaderLibrary),
    m_sunRenderer(m_shaderLibrary),
    m_textRenderer(m_shaderLibrary),
-   m_lightingRenderer(m_shaderLibrary)
+   m_lightingRenderer(m_shaderLibrary),
+   m_atmosphereRenderer(m_shaderLibrary),
+   m_godRaysRenderer(m_shaderLibrary)
 {
    Initialise();
 }
@@ -67,10 +70,12 @@ void Renderer::Render(const double time, Scene_impl& scene, Scene2D_impl& scene2
 
    Clear();
    m_gBuffer.Clear();
+   m_displayBuffer.Clear();
+   m_effectsBuffer.Clear();
 
    ShadowPass(scene);
    GeometryPass(scene);
-   LightingPass();
+   LightingPass(scene);
    EffectsPass(scene, scene2D);
 
    Debug::CheckErrors();
@@ -107,6 +112,7 @@ void Renderer::ShadowPass(Scene_impl& scene)
 void Renderer::GeometryPass(Scene_impl& scene)
 {
    m_gBuffer.Bind();
+
    if (auto* atmosphere = scene.GetAtmosphereImpl())
    {
       m_sunRenderer.Render(*atmosphere);
@@ -118,31 +124,37 @@ void Renderer::GeometryPass(Scene_impl& scene)
    {
       m_terrainRenderer.Render(*terrain);
    }
-
-   Debug::Points::Render();
 }
 
-void Renderer::LightingPass()
+void Renderer::LightingPass(Scene_impl& scene)
 {
-   BindDefaultFramebuffer();
+   m_displayBuffer.Bind();
 
    m_lightingRenderer.Render(m_gBuffer, m_shadowMaps);
-}
-
-void Renderer::EffectsPass(Scene_impl& scene, Scene2D_impl& scene2D)
-{
-   BindDefaultFramebuffer();
 
    if (auto* atmosphere = scene.GetAtmosphereImpl())
    {
       m_atmosphereRenderer.Render(*atmosphere, m_gBuffer);
    }
+}
+
+void Renderer::EffectsPass(Scene_impl& scene, Scene2D_impl& scene2D)
+{
+   m_displayBuffer.CopyTo(m_effectsBuffer.GetFramebufferName());
+
+   m_effectsBuffer.Bind();
+
+   const vec3 sunPosition = scene.GetAtmosphereImpl()->GetSunDirection() * -1000.f;
+
+   m_godRaysRenderer.Render(m_gBuffer, m_displayBuffer, sunPosition);
 
    //TODO: Improve 2d scene rendering, make more generic.
    for (int i = 0; i < scene2D.GetTextCount(); i++)
    {
       m_textRenderer.Render(scene2D.GetTextByIndex(i));
    }
+
+   m_effectsBuffer.CopyTo(DEFAULT_FRAMEBUFFER);
 }
 
 void Renderer::RenderEntities(Entity_impl& entity)
@@ -201,7 +213,7 @@ void Renderer::ClearDepthBuffer()
 
 void Renderer::BindDefaultFramebuffer()
 {
-   glBindFramebuffer(GL_FRAMEBUFFER, 0);
+   glBindFramebuffer(GL_FRAMEBUFFER, DEFAULT_FRAMEBUFFER);
    glViewport(0, 0, m_size.x, m_size.y);
 }
 
@@ -214,5 +226,7 @@ void Renderer::Resize(const ivec2& size)
 {
    m_size = size;
    m_gBuffer.Resize(size);
+   m_displayBuffer.Resize(size);
+   m_effectsBuffer.Resize(size);
 }
 

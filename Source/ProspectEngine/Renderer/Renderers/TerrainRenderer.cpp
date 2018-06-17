@@ -79,7 +79,7 @@ void TerrainRenderer::Render(const Terrain_impl& terrain)
    }
 
    //Draw grass.
-   m_grassRenderer.Render(terrain, renderData);
+   //m_grassRenderer.Render(terrain, renderData);
 }
 
 void TerrainRenderer::ConstructHeightMapTexture(

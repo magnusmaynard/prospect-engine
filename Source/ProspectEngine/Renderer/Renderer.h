@@ -3,7 +3,9 @@
 #include "Renderer/Window.h"
 #include "Renderer/Pipeline/ShaderLibrary.h"
 #include "Renderer/Uniforms/GlobalUniformBuffers.h"
-#include "Renderer/Pipeline/GBuffer.h"
+#include "Renderer/Pipeline/Framebuffers/GBuffer.h"
+#include "Renderer/Pipeline/FrameBuffers/DisplayBuffer.h"
+#include "Renderer/Pipeline/FrameBuffers/EffectsBuffer.h"
 #include "Renderer/Shadows/ShadowMaps.h"
 #include "Renderer/Renderers/EntityRenderer.h"
 #include "Renderer/Renderers/TerrainRenderer.h"
@@ -11,6 +13,7 @@
 #include "Renderer/Renderers/SunRenderer.h"
 #include "Renderer/Renderers/TextRenderer.h"
 #include "Renderer/Renderers/LightingRenderer.h"
+#include "Renderer/Renderers/GodRaysRenderer.h"
 
 namespace Prospect
 {
@@ -37,16 +40,17 @@ namespace Prospect
 
       EntityRenderer m_entityRenderer;
       TerrainRenderer m_terrainRenderer;
-      AtmosphereRenderer m_atmosphereRenderer;
       SunRenderer m_sunRenderer;
       TextRenderer m_textRenderer;
       LightingRenderer m_lightingRenderer;
+      AtmosphereRenderer m_atmosphereRenderer;
+      GodRaysRenderer m_godRaysRenderer;
 
       void Initialise();
       
       void GeometryPass(Scene_impl& scene);
       void ShadowPass(Scene_impl& scene);
-      void LightingPass();
+      void LightingPass(Scene_impl& scene);
       void EffectsPass(Scene_impl& scene, Scene2D_impl& scene2D);
 
       void RenderEntities(Entity_impl& entity);
@@ -62,6 +66,10 @@ namespace Prospect
 
       ShadowMaps m_shadowMaps;
       GBuffer m_gBuffer;
+      DisplayBuffer m_displayBuffer;
+      EffectsBuffer m_effectsBuffer;
       glm::ivec2 m_size;
+
+      const GLuint DEFAULT_FRAMEBUFFER = 0;
    };
 }

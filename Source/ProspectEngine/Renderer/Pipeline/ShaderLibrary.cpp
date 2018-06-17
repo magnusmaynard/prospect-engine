@@ -12,7 +12,8 @@ ShaderLibrary::ShaderLibrary(const GlobalUniformBuffers& globalUniforms)
    m_terrainShader(globalUniforms),
    m_grassShader(globalUniforms, m_terrainShader),
    m_sunShader(globalUniforms),
-   m_scatteringShader(globalUniforms),
+   m_atmosphereShader(globalUniforms),
+   m_godRaysShader(globalUniforms),
    m_debugShader(globalUniforms)
 {
 }
@@ -49,7 +50,12 @@ SunShader& ShaderLibrary::GetSunShader()
 
 AtmosphereShader& ShaderLibrary::GetAtmosphereShader()
 {
-   return m_scatteringShader;
+   return m_atmosphereShader;
+}
+
+GodRaysShader& ShaderLibrary::GetGodRaysShader()
+{
+   return m_godRaysShader;
 }
 
 DebugShader& ShaderLibrary::GetDebugShader()

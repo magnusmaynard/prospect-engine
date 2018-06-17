@@ -5,7 +5,7 @@
 #include "Scene/Atmosphere_impl.h"
 #include "Resources/Resources.h"
 #include "Renderer/Textures/DepthTexture.h"
-#include "Renderer/Pipeline/GBuffer.h"
+#include "Renderer/Pipeline/Framebuffers/GBuffer.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -36,17 +36,17 @@ void AtmosphereRenderer::Render(const Atmosphere_impl& atmosphere, const GBuffer
       atmosphere.Clean();
    }
 
-   glBindFramebuffer(GL_FRAMEBUFFER, 0);
    glPolygonMode(GL_FRONT, GL_FILL);
    glDisable(GL_DEPTH_TEST);
-   glDepthMask(GL_FALSE);
+   glDepthMask(GL_TRUE);
    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
-   glDrawBuffer(GL_BACK);
    glEnable(GL_CULL_FACE);
+   glEnable(GL_BLEND);
 
-   glBindTextureUnit(3, gBuffer.GetDepthTexture());
 
    m_shader.Bind();
+
+   glBindTextureUnit(3, gBuffer.GetDepthTexture());
 
    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }

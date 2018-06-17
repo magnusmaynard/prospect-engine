@@ -1,5 +1,6 @@
 #pragma once
 #include "Renderer/Pipeline/Shaders/LightingShader.h"
+#include "Renderer/Pipeline/Framebuffers/Framebuffer.h"
 
 namespace Prospect
 {
@@ -9,13 +10,8 @@ namespace Prospect
       GBuffer(const glm::ivec2& size);
       ~GBuffer();
 
-      //Update sizes of framebuffers.
       void Resize(const glm::ivec2& size);
-
-      //Clear all framebuffers.
       void Clear();
-
-      //Bind framebuffers ready for geometry pass
       void Bind();
 
       GLuint GetAlbedoTexture() const;
@@ -36,8 +32,8 @@ namespace Prospect
          G_TEXTURE_COUNT,
       };
 
-      GLuint m_FBO;
       GLuint m_textures[G_TEXTURE_COUNT];
-      glm::ivec2 m_size;
+
+      Framebuffer m_framebuffer;
    };
 }

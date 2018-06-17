@@ -8,6 +8,7 @@ namespace Resources
       static const std::string QUAD_VERTEX = "Shaders/Quad.vs.glsl";
       static const std::string LIGHTING_FRAGMENT = "Shaders/Lighting.fs.glsl";
       static const std::string ATMOSPHERE_FRAGMENT = "Shaders/Atmosphere.fs.glsl";
+      static const std::string GODRAYS_FRAGMENT = "Shaders/GodRays.fs.glsl";
 
       static const std::string SHADOWMAP_VERTEX = "Shaders/ShadowMap.vs.glsl";
       static const std::string SHADOWMAP_FRAGMENT = "Shaders/ShadowMap.fs.glsl";

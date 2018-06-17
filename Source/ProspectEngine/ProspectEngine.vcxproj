@@ -46,7 +46,10 @@
     <ClInclude Include="ProspectEngine_pch.h" />
     <ClInclude Include="Renderer\Debugger\Debug.h" />
     <ClInclude Include="Renderer\Frustum.h" />
-    <ClInclude Include="Renderer\Pipeline\GBuffer.h" />
+    <ClInclude Include="Renderer\Pipeline\FrameBuffers\DisplayBuffer.h" />
+    <ClInclude Include="Renderer\Pipeline\FrameBuffers\EffectsBuffer.h" />
+    <ClInclude Include="Renderer\Pipeline\FrameBuffers\GBuffer.h" />
+    <ClInclude Include="Renderer\Pipeline\FrameBuffers\Framebuffer.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderLibrary.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\ShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.h" />
@@ -55,6 +58,7 @@
     <ClInclude Include="Renderer\Pipeline\ShaderStages\TessEvaluationShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\ShaderStages\VertexShaderStage.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\DebugShader.h" />
+    <ClInclude Include="Renderer\Pipeline\Shaders\GodRaysShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\GrassShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\LightingShader.h" />
     <ClInclude Include="Renderer\Pipeline\Shaders\AtmosphereShader.h" />
@@ -70,6 +74,7 @@
     <ClInclude Include="Renderer\RendererDefines.h" />
     <ClInclude Include="Renderer\Renderers\AtmosphereRenderer.h" />
     <ClInclude Include="Renderer\Renderers\EntityRenderer.h" />
+    <ClInclude Include="Renderer\Renderers\GodRaysRenderer.h" />
     <ClInclude Include="Renderer\Renderers\GrassRenderer.h" />
     <ClInclude Include="Renderer\Renderers\IRenderer.h" />
     <ClInclude Include="Renderer\Renderers\LightingRenderer.h" />
@@ -116,7 +121,10 @@
     </ClCompile>
     <ClCompile Include="Renderer\Debugger\Debug.cpp" />
     <ClCompile Include="Renderer\Frustum.cpp" />
-    <ClCompile Include="Renderer\Pipeline\GBuffer.cpp" />
+    <ClCompile Include="Renderer\Pipeline\FrameBuffers\DisplayBuffer.cpp" />
+    <ClCompile Include="Renderer\Pipeline\FrameBuffers\EffectsBuffer.cpp" />
+    <ClCompile Include="Renderer\Pipeline\FrameBuffers\GBuffer.cpp" />
+    <ClCompile Include="Renderer\Pipeline\FrameBuffers\Framebuffer.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderLibrary.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderStages\ShaderStage.cpp" />
     <ClCompile Include="Renderer\Pipeline\ShaderStages\FragmentShaderStage.cpp" />
@@ -129,6 +137,7 @@
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\Renderers\AtmosphereRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\EntityRenderer.cpp" />
+    <ClCompile Include="Renderer\Renderers\GodRaysRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\GrassRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\LightingRenderer.cpp" />
     <ClCompile Include="Renderer\Renderers\SunRenderer.cpp" />
