@@ -26,7 +26,7 @@ namespace Prospect
    class Renderer
    {
    public:
-      Renderer(const MaterialLibrary_impl& materialLibrary, const glm::ivec2& size);
+      Renderer(MaterialLibrary_impl& materialLibrary, const glm::ivec2& size);
 
       void Render(double time, Scene_impl& scene, Scene2D_impl& scene2D);
       void ShowWireframe(bool showWireframe);
@@ -36,7 +36,7 @@ namespace Prospect
       GlobalUniformBuffers m_globalUniformBuffers;
 
       ShaderLibrary m_shaderLibrary;
-      const MaterialLibrary_impl& m_materialLibrary;
+      MaterialLibrary_impl& m_materialLibrary;
 
       EntityRenderer m_entityRenderer;
       TerrainRenderer m_terrainRenderer;

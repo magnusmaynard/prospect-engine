@@ -13,7 +13,7 @@
 using namespace Prospect;
 using namespace glm;
 
-Renderer::Renderer(const MaterialLibrary_impl& materialLibrary, const ivec2& size)
+Renderer::Renderer(MaterialLibrary_impl& materialLibrary, const ivec2& size)
    :
    m_showWireframe(false),
    m_shaderLibrary(m_globalUniformBuffers),
@@ -22,8 +22,8 @@ Renderer::Renderer(const MaterialLibrary_impl& materialLibrary, const ivec2& siz
    m_displayBuffer(size),
    m_effectsBuffer(size),
    m_entityRenderer(m_shaderLibrary),
-   m_terrainRenderer(m_shaderLibrary),
-   m_sunRenderer(m_shaderLibrary),
+   m_terrainRenderer(m_shaderLibrary, materialLibrary),
+   m_sunRenderer(m_shaderLibrary, materialLibrary),
    m_textRenderer(m_shaderLibrary),
    m_lightingRenderer(m_shaderLibrary),
    m_atmosphereRenderer(m_shaderLibrary),
@@ -144,9 +144,12 @@ void Renderer::EffectsPass(Scene_impl& scene, Scene2D_impl& scene2D)
 
    m_effectsBuffer.Bind();
 
-   const vec3 sunPosition = scene.GetAtmosphereImpl()->GetSunDirection() * -1000.f;
+   if (scene.GetAtmosphereImpl() != nullptr)
+   {
+      const vec3 sunPosition = scene.GetAtmosphereImpl()->GetSunDirection() * -1000.f;
 
-   m_godRaysRenderer.Render(m_gBuffer, m_displayBuffer, sunPosition);
+      m_godRaysRenderer.Render(m_gBuffer, m_displayBuffer, sunPosition);
+   }
 
    //TODO: Improve 2d scene rendering, make more generic.
    for (int i = 0; i < scene2D.GetTextCount(); i++)

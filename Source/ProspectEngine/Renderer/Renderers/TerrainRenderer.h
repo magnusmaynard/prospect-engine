@@ -25,7 +25,7 @@ namespace Prospect
    class TerrainRenderer
    {
    public:
-      TerrainRenderer(ShaderLibrary& shaderLibrary);
+      TerrainRenderer(ShaderLibrary& shaderLibrary, MaterialLibrary_impl& materialLibrary);
       ~TerrainRenderer();
 
       static void Initialise(TerrainRenderData& renderData);
@@ -39,6 +39,8 @@ namespace Prospect
 
       TerrainShader& m_shader;
       RenderDataLibrary<TerrainRenderData> m_renderDataLibrary;
+
+      Material m_material;
 
       GrassRenderer m_grassRenderer;
    };

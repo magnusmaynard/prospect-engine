@@ -23,10 +23,10 @@ layout (std140) uniform NodeUniforms
 
 layout (std140) uniform TerrainUniforms
 {
+   uint MaterialID;
    float MinHeight;
    float MaxHeight;
    float TotalSize;
-   float Null;
 } terrain;
 
 out VS_OUT

@@ -10,9 +10,10 @@
 using namespace Prospect;
 using namespace glm;
 
-SunRenderer::SunRenderer(ShaderLibrary& shaderLibrary)
+SunRenderer::SunRenderer(ShaderLibrary& shaderLibrary, MaterialLibrary_impl& materialLibrary)
    :
-   m_shader(shaderLibrary.GetSunShader())
+   m_shader(shaderLibrary.GetSunShader()),
+   m_material(materialLibrary.CreateUnlitMaterial(Color(1, 1, 1)))
 {
    m_renderDataLibrary.SetInitialise(Initialise);
    m_renderDataLibrary.SetDispose(Dispose);
@@ -25,7 +26,6 @@ SunRenderer::~SunRenderer()
 void SunRenderer::Initialise(SunRenderData& renderData)
 {
    //Defaults
-   renderData.Color = vec3(1, 1, 1);
    renderData.Radius = 10;
    renderData.Distance = 800;
 
@@ -97,12 +97,11 @@ void SunRenderer::Render(const Atmosphere_impl& atmosphere)
    //TODO: if dirty
    const vec3 toSun = -normalize(atmosphere.GetSunDirection());
    renderData.Translation = translate(toSun * renderData.Distance);
-   m_shader.Update({ renderData.Translation });
+   m_shader.Update({ renderData.Translation, m_material.GetID() });
 
    m_shader.Bind();
 
    glBindVertexArray(renderData.VAO);
-   glUniform3fv(4, 1, &renderData.Color[0]);
 
    glDrawArrays(GL_TRIANGLE_FAN, 0, renderData.Points.size());
 }

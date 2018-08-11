@@ -12,7 +12,7 @@ namespace Prospect
       Material(std::shared_ptr<Material_impl>& impl);
 
       const Color& GetDiffuse() const;
-      unsigned long GetID() const;
+      unsigned GetID() const;
 
    private:
       std::shared_ptr<Material_impl> m_impl;

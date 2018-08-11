@@ -9,7 +9,7 @@ namespace Prospect
    {
    public:
       //Public
-      unsigned long GetID() const;
+      unsigned GetID() const;
 
       void SetDiffuse(const Color& value);
       const Color& GetDiffuse() const;
@@ -23,20 +23,26 @@ namespace Prospect
       void SetSpecularPower(int value);
       int GetSpecularPower() const;
 
+      void SetIsLit(bool value);
+      bool GetIsLit() const;
+
       //Internal
       Material_impl(
-         unsigned long id,
+         unsigned id,
          const Color& diffuse,
          const Color& ambient,
          const Color& specular,
-         int specularPower);
+         int specularPower,
+         bool isLit);
 
    private:
-      unsigned long m_id;
+      unsigned m_id;
 
       Color m_diffuse;
       Color m_emissive;
       Color m_specular;
       int m_specularPower;
+
+      bool m_isLit;
    };
 }

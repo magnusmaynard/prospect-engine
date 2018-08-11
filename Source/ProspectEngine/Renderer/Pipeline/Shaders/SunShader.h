@@ -17,6 +17,7 @@ namespace Prospect
          m_sunUniforms("SunUniforms")
       {
          globalUniforms.Camera.Bind(GetProgram());
+         globalUniforms.MaterialLibrary.Bind(GetProgram());
          m_sunUniforms.Bind(GetProgram());
       }
 

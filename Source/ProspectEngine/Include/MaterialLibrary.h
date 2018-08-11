@@ -26,7 +26,10 @@ namespace Prospect
          const Color& specular,
          int specularPower);
 
-      Material GetMaterial(int index);
+      Material CreateUnlitMaterial(
+         const Color& diffuse);
+
+      Material GetMaterial(unsigned index);
       int GetMaterialCount() const;
 
    private:

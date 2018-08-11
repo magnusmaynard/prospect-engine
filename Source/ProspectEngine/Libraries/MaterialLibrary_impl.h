@@ -4,7 +4,6 @@
 #include "Include/MaterialLibrary.h"
 
 #include <deque>
-#include "Engine/EngineDefines.h"
 
 namespace Prospect
 {
@@ -19,24 +18,35 @@ namespace Prospect
 
       Material CreateMaterial();
 
-      Material CreateMaterial(const Color& color);
+      Material CreateMaterial(
+         const Color& color);
 
       Material CreateMaterial(
          const Color& diffuse,
-         const Color& ambient,
+         const Color& emissive,
          const Color& specular,
          int specularPower);
 
-      Material GetMaterial(int index);
+      Material CreateUnlitMaterial(
+         const Color& color);
+
+      Material GetMaterial(unsigned index);
       int GetMaterialCount() const;
 
       //Internal
-      const Material_impl& GetMaterialImpl(int index) const;
+      const Material_impl& GetMaterialImpl(unsigned index) const;
 
    private:
+      Material AddMaterial(
+         const Color& diffuse,
+         const Color& emissive,
+         const Color& specular,
+         int specularPower,
+         bool isLit);
+
       MaterialLibrary& m_parent;
 
-      unsigned long m_nextMaterialID;
+      unsigned m_nextMaterialID;
       std::deque<std::shared_ptr<Material_impl>> m_materials;
    };
 }

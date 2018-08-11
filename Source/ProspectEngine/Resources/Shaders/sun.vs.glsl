@@ -14,9 +14,15 @@ layout (std140) uniform CameraUniforms
 layout (std140) uniform SunUniforms
 {
    mat4 Model;
+   uvec4 MaterialID;
 } sun;
 
 layout (location = 0) in vec3 point;
+
+out VS_OUT
+{
+   vec3 Normal;
+} vs_out;
 
 void main()
 {
@@ -43,5 +49,7 @@ void main()
    modelView2D[2][1] = 0;
    modelView2D[2][2] = 1;
    
+   vs_out.Normal = vec3(0, 0, 1);//Normal doesn't matter as it is unlit.
+
    gl_Position = camera.PerspectiveProjection * modelView2D * vec4(point, 1.0);
 }

@@ -18,7 +18,7 @@ const Color& Material::GetDiffuse() const
    return m_impl->GetDiffuse();
 }
 
-unsigned long Material::GetID() const
+unsigned Material::GetID() const
 {
    return m_impl->GetID();
 }

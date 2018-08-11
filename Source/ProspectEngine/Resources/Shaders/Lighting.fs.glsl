@@ -7,6 +7,20 @@ layout(binding = 3) uniform sampler2D depthTexture;
 
 layout(binding = 4) uniform sampler2DArrayShadow shadowTextures;
 
+struct Material
+{
+   vec4 Diffuse;
+   vec4 Ambient;
+   vec4 SpecularAndPower;
+   ivec4 IsLit;
+};
+
+layout(std140) uniform MaterialLibraryUniforms
+{
+   Material Materials[10];
+}
+materialLibrary;
+
 layout(std140) uniform CameraUniforms
 {
    mat4 PerspectiveProjection;
@@ -41,19 +55,6 @@ layout(std140) uniform ShadowMapsUniforms
    vec2 Count;
 }
 shadowMaps;
-
-struct Material
-{
-   vec4 Diffuse;
-   vec4 Ambient;
-   vec4 SpecularAndPower;
-};
-
-layout(std140) uniform MaterialLibraryUniforms
-{
-   Material Materials[10];
-}
-materialLibrary;
 
 in VS_OUT
 {
@@ -306,22 +307,25 @@ vec3 CalculateViewSpacePosition(float depth, vec2 screenPosition)
 
 void main()
 {
-   vec3 position = CalculateViewSpacePosition(depth, fs_in.textureCoords);
-
-   if (materialID < 0)
+   // Check for valid material id.
+   if (materialID > 0)
    {
-    //   color = vec4(diffuseAlbedo, 1);
-   }
-   else
-   {
-      color = vec4(CalculateLighting(position), 1);
+      Material material = materialLibrary.Materials[materialID];
 
-      color = DitherRGBA(color, 7);
+    //   TODO: Move into seperate shader to reduce branching.
+      if (material.IsLit.x == 1)
+      {
+         vec3 position = CalculateViewSpacePosition(depth, fs_in.textureCoords);
+         color = vec4(CalculateLighting(position), 1);
+      }
+      else
+      {
+         color = vec4(diffuseAlbedo, 1);
+      }
 
-        // color = vec4(1, 0, 0, 0.5);
-      // DEBUG
-      // color += vec4(debugColor, 0) * 0.1;
+        color = DitherRGBA(color, 7);
    }
+
    // // ---DEBUG SHADOWMAP---
    // DirectionalLight light = directionalLights.Lights[0];
    // int shadowMapIndex = int(light.ShadowMapIndex.x);

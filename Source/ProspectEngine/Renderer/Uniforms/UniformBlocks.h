@@ -70,7 +70,7 @@ namespace Prospect
          Position(light.GetPosition(), 0),
          Direction({ normalize(light.GetDirection()), 0 }),
          ColorAndBrightness(light.GetColor().ToRGB(), light.GetBrightness()),
-         ShadowMapIndexAndCascadeCount(light.GetShadowMapIndex(), light.GetShadowCascades().size(), 0 , 0)
+         ShadowMapIndexAndCascadeCount(light.GetShadowMapIndex(), light.GetShadowCascades().size(), 0, 0)
       {
       }
 
@@ -96,30 +96,32 @@ namespace Prospect
       glm::vec2 Count;
    };
 
+   struct MaterialUniforms
+   {
+      MaterialUniforms()
+      {
+      }
+
+      MaterialUniforms(const Material_impl& material)
+         :
+         Diffuse(material.GetDiffuse().ToRGBA()),
+         Ambient(material.GetEmissive().ToRGBA()),
+         SpecularAndPower(material.GetSpecular().ToRGB(), material.GetSpecularPower()),
+         IsLit({ material.GetIsLit(), 0 , 0, 0 })
+      {
+      }
+
+      glm::vec4 Diffuse;
+      glm::vec4 Ambient;
+      glm::vec4 SpecularAndPower;
+      glm::ivec4 IsLit;
+   };
+
    struct MaterialLibraryUniforms
    {
-      struct MaterialUniforms
-      {
-         MaterialUniforms()
-         {
-         }
-
-         MaterialUniforms(const Material_impl& material)
-            :
-            Diffuse(material.GetDiffuse().ToRGBA()),
-            Ambient(material.GetEmissive().ToRGBA()),
-            SpecularAndPower(material.GetSpecular().ToRGB(), material.GetSpecularPower())
-         {
-         }
-
-         glm::vec4 Diffuse;
-         glm::vec4 Ambient;
-         glm::vec4 SpecularAndPower;
-      };
-
       MaterialLibraryUniforms(const MaterialLibrary_impl& materials)
       {
-         for(int i = 0; i < materials.GetMaterialCount(); i++)
+         for (int i = 0; i < materials.GetMaterialCount(); i++)
          {
             Materials[i] = MaterialUniforms(materials.GetMaterialImpl(i));
          }
@@ -134,19 +136,19 @@ namespace Prospect
       {
       }
 
-      TerrainUniforms(const Terrain_impl& terrain)
+      TerrainUniforms(const Terrain_impl& terrain, const unsigned MaterialID)
          :
+         MaterialID(MaterialID),
          MinHeight(terrain.GetMinHeight()),
          MaxHeight(terrain.GetMaxHeight()),
-         TotalSize(terrain.GetSize()),
-         Null(0)
+         TotalSize(terrain.GetSize())
       {
       }
 
+      unsigned MaterialID;
       float MinHeight;
       float MaxHeight;
       float TotalSize;
-      float Null;
    };
 
    struct NodeUniforms
@@ -214,12 +216,24 @@ namespace Prospect
 
       glm::mat4 Model;
       glm::mat4 Normal;
-      glm::ivec4 MaterialID;
+      glm::uvec4 MaterialID;
    };
 
    struct SunUniforms
    {
+      SunUniforms()
+      {
+      }
+
+      SunUniforms(const glm::mat4& model, const unsigned materialID)
+         :
+         Model(model),
+         MaterialID(materialID, 0, 0, 0)
+      {
+      }
+
       glm::mat4 Model;
+      glm::uvec4 MaterialID;
    };
 
    struct TextUniforms

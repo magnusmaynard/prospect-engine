@@ -11,9 +11,10 @@ using namespace Prospect;
 using namespace noise;
 using namespace glm;
 
-TerrainRenderer::TerrainRenderer(ShaderLibrary& shaderLibrary)
+TerrainRenderer::TerrainRenderer(ShaderLibrary& shaderLibrary, MaterialLibrary_impl& materialLibrary)
    :
    m_shader(shaderLibrary.GetTerrainShader()),
+   m_material(materialLibrary.CreateMaterial(Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), 16)),
    m_grassRenderer(shaderLibrary)
 {
    m_renderDataLibrary.SetInitialise(Initialise);
@@ -57,7 +58,7 @@ void TerrainRenderer::Render(const Terrain_impl& terrain)
    m_shader.Bind();
    glBindVertexArray(renderData.VAO);
 
-   m_shader.Update(TerrainUniforms(terrain));
+   m_shader.Update(TerrainUniforms(terrain, m_material.GetID()));
 
    //Textures.
    glBindTextureUnit(0, renderData.HeightMapTexture);

@@ -3,6 +3,19 @@
 layout (binding = 0) uniform sampler2D heightMapTexture;
 layout (binding = 1) uniform sampler2D groundTexture;
 
+struct Material
+{
+   vec4 Diffuse;
+   vec4 Ambient;
+   vec4 SpecularAndPower;
+   ivec4 IsLit;
+};
+
+layout (std140) uniform MaterialLibraryUniforms
+{
+   Material Materials[10];
+} materialLibrary;
+
 layout (std140) uniform CameraUniforms
 {
    mat4 PerspectiveProjection;
@@ -16,10 +29,10 @@ layout (std140) uniform CameraUniforms
 
 layout (std140) uniform TerrainUniforms
 {
+   uint MaterialID;
    float MinHeight;
    float MaxHeight;
    float TotalSize;
-   float Null;
 } terrain;
 
 in TES_OUT
@@ -56,6 +69,9 @@ void UpdateBuffers(
 
 void main()
 {
+   uint materialID = terrain.MaterialID;
+   Material material = materialLibrary.Materials[materialID];
+
    float xNeg = textureOffset(heightMapTexture, fs_in.textureCoord, ivec2(-1, 0)).x * terrain.MaxHeight;
    float xPos = textureOffset(heightMapTexture, fs_in.textureCoord, ivec2( 1, 0)).x * terrain.MaxHeight;
    float yNeg = textureOffset(heightMapTexture, fs_in.textureCoord, ivec2( 0,-1)).x * terrain.MaxHeight;
@@ -74,8 +90,8 @@ void main()
       color,
       normal,
       0,
-      16.f,
+      material.SpecularAndPower.a,
       0.5f,
-      10,
+      materialID,
       0);
 }

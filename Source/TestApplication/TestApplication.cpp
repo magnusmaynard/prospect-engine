@@ -57,63 +57,41 @@ void TestApplication::OnStartup()
    atmosphere.SetAltitude(1505);
    atmosphere.SetLight(sunLight);
    m_scene.SetAtmosphere(atmosphere);
+
+   Material red = m_materialLib.CreateMaterial(Color::Red());
+   Material white = m_materialLib.CreateMaterial(Color::White(), Color::White(), Color::White(), 128);
+
    //Light light1(vec3(50, 30, 0), vec3(0, -1, 0), LightType::Point);
    //light1.SetRange(200);
    //m_scene.AddLight(light1);
 
-   //Light light2(vec3(-50, 30, 0), vec3(1, 0, 0), LightType::Point);
-   //m_scene.AddLight(light2);
+   //Mesh turbineBaseMesh = m_meshLib.CreateEmpty();
+   //IO::ReadObj(turbineBaseMesh, IO::GetExecutablePath() + "Models\\windturbine_base.obj");
+   //Entity turbine(turbineBaseMesh, white);
 
-   Material white = m_materialLib.CreateMaterial(Color::White(), Color::White(), Color::White(), 128);
-   Material blue = m_materialLib.CreateMaterial({0.1f, 0.8f, 0.1f}, {0.1f, 0.1f, 0.1f}, { 1, 1, 1}, 100);
-   Material red = m_materialLib.CreateMaterial(Color::Red());
-   Material gray = m_materialLib.CreateMaterial(Color::Black());
+   //Mesh turbinePropMesh = m_meshLib.CreateEmpty();
+   //IO::ReadObj(turbinePropMesh, IO::GetExecutablePath() + "Models\\windturbine_prop.obj");
+   //Entity turbineProp(turbinePropMesh, white);
 
-   Mesh plane = m_meshLib.CreatePlane({ 200, 200 }, { 10, 10 });
-   Mesh largePlane = m_meshLib.CreatePlane({ 200, 200 }, { 10, 10 });
+   //turbine.AddEntity(turbineProp);
+   //m_scene.AddEntity(turbine);
+   //turbine.SetTranslation({ 0, 55, 0 });
+   //turbine.SetScale({ 2, 2, 2 });
+
+   //Cube
+   Mesh plane = m_meshLib.CreatePlane({ 10, 10 });
+
+   Entity e1(plane, white);
+   e1.SetTranslation({ 0, -30, 50 });
+   m_scene.AddEntity(e1);
+
+
+   //Cube
    Mesh cube = m_meshLib.CreateCube({ 10, 10, 10 });
-   Mesh light = m_meshLib.CreateCube({ 1, 1, 1 });
 
-   //Entity e1(plane, red);
-   //e1.SetTranslation({ 60, 0, 0 });
-   //e1.SetScale({ 0.4, 0.4, 0.4 });
-   //e0.AddEntity(e1);
-
-   //Entity e3(largePlane, gray);
-   //m_scene.AddEntity(e3);
-
-   ////Lights
-   //Entity l1(light, white);
-   //l1.SetTranslation(light1.GetPosition());
-   //m_scene.AddEntity(l1);
-
-   //Entity l2(light, white);
-   //l2.SetTranslation(light2.GetPosition());
-   //m_scene.AddEntity(l2);
-
-   Mesh turbineBaseMesh = m_meshLib.CreateEmpty();
-   IO::ReadObj(turbineBaseMesh, IO::GetExecutablePath() + "Models\\windturbine_base.obj");
-   Entity turbine(turbineBaseMesh, white);
-
-   Mesh turbinePropMesh = m_meshLib.CreateEmpty();
-   IO::ReadObj(turbinePropMesh, IO::GetExecutablePath() + "Models\\windturbine_prop.obj");
-   Entity turbineProp(turbinePropMesh, white);
-
-
-   turbine.AddEntity(turbineProp);
-   m_scene.AddEntity(turbine);
-   turbine.SetTranslation({ 0, 55, 0 });
-   turbine.SetScale({ 2, 2, 2 });
-
-
-   //Cube   
    Entity e2(cube, red);
    e2.SetTranslation({ 0, 30, -100 });
    m_scene.AddEntity(e2);
-
-   ////Plane
-   //Entity e0(plane, blue);
-   //m_scene.AddEntity(e0);
 }
 
 void TestApplication::OnUpdate(const double timeElapsed)
@@ -123,17 +101,8 @@ void TestApplication::OnUpdate(const double timeElapsed)
 
    m_player.Update(timeElapsed);
 
-   //auto e0 = m_scene.GetEntity(0);
-   //e0.SetRotation({ 0, counter * 20.0, 0 });
-   //
-   //auto e1 = e0.GetEntity(0);
-   //e1.SetRotation({ 0, counter * 10.0, 0 });
-
-   //auto cube = m_scene.GetEntity(1);
-   //cube.SetRotation({ counter * 8.0, -counter * 5.0, counter * 3.0 });
-
-   auto turbineProp = m_scene.GetEntity(0).GetEntity(0);
-   turbineProp.SetRotation({ 0, 0, counter * 8.0 });
+   //auto turbineProp = m_scene.GetEntity(0).GetEntity(0);
+   //turbineProp.SetRotation({ 0, 0, counter * 8.0 });
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)

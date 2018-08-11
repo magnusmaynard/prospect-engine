@@ -19,7 +19,6 @@ namespace Prospect
       GLuint VAO;
       glm::mat4 Translation;
       std::vector<glm::vec3> Points;
-      glm::vec3 Color;
       float Radius;
       float Distance;
    };
@@ -27,7 +26,7 @@ namespace Prospect
    class SunRenderer
    {
    public:
-      SunRenderer(ShaderLibrary& shaderLibrary);
+      SunRenderer(ShaderLibrary& shaderLibrary, MaterialLibrary_impl& materialLibrary);
       ~SunRenderer();
 
       void Render(const Atmosphere_impl& atmosphere);
@@ -35,6 +34,8 @@ namespace Prospect
    private:
       static void Initialise(SunRenderData& renderData);
       static void Dispose(SunRenderData& renderData);
+
+      Material m_material;
 
       SunShader& m_shader;
       RenderDataLibrary<SunRenderData> m_renderDataLibrary;

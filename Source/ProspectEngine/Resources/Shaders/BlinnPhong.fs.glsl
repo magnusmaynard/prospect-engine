@@ -5,6 +5,7 @@ struct Material
    vec4 Diffuse;
    vec4 Ambient;
    vec4 SpecularAndPower;
+   uvec4 IsLit;
 };
 
 layout (std140) uniform MaterialLibraryUniforms
@@ -16,7 +17,7 @@ layout (std140) uniform EntityUniforms
 {
    mat4 Model;
    mat4 Normal;
-   ivec4 MaterialID;
+   uvec4 MaterialID;
 } entity;
 
 in VS_OUT
@@ -53,7 +54,7 @@ void UpdateBuffers(
 
 void main()
 {
-   int materialID = entity.MaterialID.x;
+   uint materialID = entity.MaterialID.x;
    Material material = materialLibrary.Materials[materialID];
 
    UpdateBuffers(

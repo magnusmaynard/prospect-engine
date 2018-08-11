@@ -1,6 +1,28 @@
 ﻿#version 450
 
-layout (location = 4) uniform vec3 diffuse;
+struct Material
+{
+   vec4 Diffuse;
+   vec4 Ambient;
+   vec4 SpecularAndPower;
+   ivec4 IsLit;
+};
+
+layout (std140) uniform MaterialLibraryUniforms
+{
+   Material Materials[10];
+} materialLibrary;
+
+layout (std140) uniform SunUniforms
+{
+   mat4 Model;
+   uvec4 MaterialID;
+} sun;
+
+in VS_OUT
+{
+   vec3 Normal;
+} fs_in;
 
 layout (location = 0) out vec4 albedoBuffer;
 layout (location = 1) out vec4 normalBuffer;
@@ -31,12 +53,15 @@ void UpdateBuffers(
 
 void main()
 {
-      UpdateBuffers(
-            vec4(diffuse, 1),
-            vec3(0),
-            0,
-            0,
-            0,
-            -1,
-            0);
+   uint materialID = sun.MaterialID.x;
+   Material material = materialLibrary.Materials[materialID];
+
+   UpdateBuffers(
+      material.Diffuse,
+      fs_in.Normal,
+      0,
+      material.SpecularAndPower.a,
+      10.f,
+      materialID,
+      0);
 }

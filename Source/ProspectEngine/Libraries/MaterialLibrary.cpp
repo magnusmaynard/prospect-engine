@@ -33,7 +33,12 @@ Material MaterialLibrary::CreateMaterial(
    return m_impl->CreateMaterial(diffuse, emissive, specular, specularPower);
 }
 
-Material MaterialLibrary::GetMaterial(const int index)
+Material MaterialLibrary::CreateUnlitMaterial(const Color& diffuse)
+{
+   return m_impl->CreateUnlitMaterial(diffuse);
+}
+
+Material MaterialLibrary::GetMaterial(const unsigned index)
 {
    return m_impl->GetMaterial(index);
 }

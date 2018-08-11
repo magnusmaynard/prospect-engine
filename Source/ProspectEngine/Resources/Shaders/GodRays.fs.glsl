@@ -52,7 +52,7 @@ void main()
    float decay = 0.995;
    float density = 0.84f;
    float weight = 1.65f;
-   const int NUM_SAMPLES = 100;
+   const int NUM_SAMPLES = 150;
 
    vec4 clipSunPosition =
        camera.PerspectiveProjection * camera.View * vec4(godRays.SunPosition.xyz, 1);

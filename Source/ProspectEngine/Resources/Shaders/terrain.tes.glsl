@@ -17,10 +17,10 @@ layout (std140) uniform CameraUniforms
 
 layout (std140) uniform TerrainUniforms
 {
+   uint MaterialID;
    float MinHeight;
    float MaxHeight;
    float TotalSize;
-   float Null;
 } terrain;
 
 in TCS_OUT
