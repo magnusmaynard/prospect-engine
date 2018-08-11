@@ -21,8 +21,8 @@ ShadowMaps::ShadowMaps()
    glTextureStorage3D(m_shadowTextures, mipmapLevels, GL_DEPTH_COMPONENT32F, TEXTURE_SIZE.x, TEXTURE_SIZE.y, Defines::MAX_SHADOW_MAPS);
 
    //TODO: use mipmaps
-   //glTextureParameteri(m_shadowTextures, GL_TEXTURE_BASE_LEVEL, 0);
-   //glTextureParameteri(m_shadowTextures, GL_TEXTURE_MAX_LEVEL, mipmapLevels);
+   glTextureParameteri(m_shadowTextures, GL_TEXTURE_BASE_LEVEL, 0);
+   glTextureParameteri(m_shadowTextures, GL_TEXTURE_MAX_LEVEL, mipmapLevels);
    glTextureParameteri(m_shadowTextures, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
    glTextureParameteri(m_shadowTextures, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
    glTextureParameteri(m_shadowTextures, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);

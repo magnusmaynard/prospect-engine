@@ -178,7 +178,18 @@ namespace Prospect
 
    struct GrassUniforms
    {
+      GrassUniforms()
+      {
+      }
+
+      GrassUniforms(const glm::vec2& patchOffset, const unsigned& materialID)
+         :
+         PatchOffset(patchOffset),
+         MaterialID({ materialID, 0 })
+      {
+      }
       glm::vec2 PatchOffset;
+      glm::uvec2 MaterialID;
    };
 
    struct AtmosphereUniforms

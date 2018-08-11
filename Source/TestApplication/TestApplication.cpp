@@ -65,18 +65,18 @@ void TestApplication::OnStartup()
    //light1.SetRange(200);
    //m_scene.AddLight(light1);
 
-   //Mesh turbineBaseMesh = m_meshLib.CreateEmpty();
-   //IO::ReadObj(turbineBaseMesh, IO::GetExecutablePath() + "Models\\windturbine_base.obj");
-   //Entity turbine(turbineBaseMesh, white);
+   Mesh turbineBaseMesh = m_meshLib.CreateEmpty();
+   IO::ReadObj(turbineBaseMesh, IO::GetExecutablePath() + "Models\\windturbine_smooth_base.obj");
+   Entity turbine(turbineBaseMesh, white);
 
-   //Mesh turbinePropMesh = m_meshLib.CreateEmpty();
-   //IO::ReadObj(turbinePropMesh, IO::GetExecutablePath() + "Models\\windturbine_prop.obj");
-   //Entity turbineProp(turbinePropMesh, white);
+   Mesh turbinePropMesh = m_meshLib.CreateEmpty();
+   IO::ReadObj(turbinePropMesh, IO::GetExecutablePath() + "Models\\windturbine_smooth_prop.obj");
+   Entity turbineProp(turbinePropMesh, white);
 
-   //turbine.AddEntity(turbineProp);
-   //m_scene.AddEntity(turbine);
-   //turbine.SetTranslation({ 0, 55, 0 });
-   //turbine.SetScale({ 2, 2, 2 });
+   turbine.AddEntity(turbineProp);
+   m_scene.AddEntity(turbine);
+   turbine.SetTranslation({ 0, 55, 0 });
+   turbine.SetScale({ 2, 2, 2 });
 
    //Cube
    Mesh plane = m_meshLib.CreatePlane({ 10, 10 });
@@ -101,8 +101,8 @@ void TestApplication::OnUpdate(const double timeElapsed)
 
    m_player.Update(timeElapsed);
 
-   //auto turbineProp = m_scene.GetEntity(0).GetEntity(0);
-   //turbineProp.SetRotation({ 0, 0, counter * 8.0 });
+   auto turbineProp = m_scene.GetEntity(0).GetEntity(0);
+   turbineProp.SetRotation({ 0, 0, counter * 8.0 });
 }
 
 void TestApplication::OnKeyDown(const Key& key, const KeyModifier& modifier)

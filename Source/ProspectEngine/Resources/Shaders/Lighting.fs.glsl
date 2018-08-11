@@ -115,9 +115,8 @@ int CalculateShadowMapCascadeLevel(DirectionalLight light, vec3 position)
    for (int i = 0; i < cascadeCount; i++)
    {
       float farClipDepth = shadowMaps.FarClipDepth[shadowMapIndex + i].x;
-      if (-position.z < farClipDepth) // Chose shadowmap.
+      if (-position.z < farClipDepth) // Choose shadowmap.
       {
-         // color = vec4(i==0, i==1, i==2, 1); //DEBUG
          return i;
       }
    }
@@ -125,12 +124,27 @@ int CalculateShadowMapCascadeLevel(DirectionalLight light, vec3 position)
    return -1; // No shadow map found.
 }
 
+//Simple box filter.
+float GetFilteredTexel(vec4 shadowCoord)
+{
+    vec2 offset = vec2(1) / 1024.0; //TODO: Shadowmap size.
+    float visibility = 0.0;
+
+   for (int y = -1 ; y <= 1 ; y++)
+   {
+        for (int x = -1 ; x <= 1 ; x++)
+        {
+            vec4 shadowCoordOffset = vec4(vec2(x, y) * offset, 0, 0);
+
+            visibility += texture(shadowTextures, shadowCoord + shadowCoordOffset);
+        }
+    }
+
+   return visibility / 9.0;
+}
+
 float CalculateShadowVisibility(DirectionalLight light, vec3 position)
 {
-   // Slope scale bias.
-   // float cosTheta = clamp(dot(normal, -lightDirection), 0, 1);
-   // float bias = 0.0002 * tan(acos(cosTheta));
-   // bias = clamp(bias, 0.0, 0.005);
 
    // Get cascade.
    int shadowMapIndex = int(light.ShadowMapIndexAndCascadeCount.x);
@@ -139,12 +153,21 @@ float CalculateShadowVisibility(DirectionalLight light, vec3 position)
 
    if (shadowMapCascadeIndex == -1)
    {
-      return 0.0;
+      //No shadow maps found.
+      return 1.0;
    }
 
    mat4 shadowMatrix = shadowMaps.ShadowMatrices[shadowMapCascadeIndex];
 
-   float bias = 0.0008; // 0.001 * shadowMapCascadeLevel;
+   float bias = 0.0006; // 0.001 * shadowMapCascadeLevel;
+
+
+   // // Slope scale bias.
+   // float cosTheta = clamp(dot(normal, -light.Direction.xyz), 0, 1);
+   // float bias = 0.0002 * tan(acos(cosTheta));
+   // bias = clamp(bias, 0.0, 0.005);
+
+
    vec3 shadowPosition =
        (shadowMatrix * camera.InverseView * vec4(position, 1)).xyz - vec3(0, 0, bias);
    float layer = shadowMapCascadeIndex;
@@ -155,9 +178,11 @@ float CalculateShadowVisibility(DirectionalLight light, vec3 position)
 
    // Prevent over sampling outside the shadow maps depth.
    if (shadowCoord.w > 1.0)
+   {
       return 1.0;
+   }
 
-   float visibility = texture(shadowTextures, shadowCoord);
+   // float visibility = texture(shadowTextures, shadowCoord);
 
    //  vec2 offset = vec2(1) / 1024.0; //TODO: Shadowmap size.
    //  float visibility = 0.0;
@@ -170,23 +195,7 @@ float CalculateShadowVisibility(DirectionalLight light, vec3 position)
    //      }
    //  }
 
-   // //DEBUG
-   // if(shadowCoord.x > 0 && shadowCoord.x <= 1 && shadowCoord.y > 0 &&
-   // shadowCoord.y <= 1 && shadowCoord.w < 0 && shadowCoord.w > -1)
-   // {
-   //     color *= 0.5;
-   // }
-
-   // DEBUG
-   //  const vec3 colors[5] = vec3[]
-   //  (
-   //      vec3(1, 0, 0),
-   //      vec3(0, 1, 0),
-   //      vec3(0, 0, 1),
-   //      vec3(1, 1, 0),
-   //      vec3(1, 0, 1)
-   //  );
-   //  debugColor = colors[shadowMapCascadeLevel];
+   float visibility = GetFilteredTexel(shadowCoord);
 
    return visibility; // / 18.0; //TODO: should be 9?
 }
@@ -231,11 +240,6 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 position, vec3 V, ve
 //     * lightBrightness;
 
 //     return (diffuse + specular) * attenuation;
-// }
-
-// vec3 CalculateSpotLight()
-// {
-//    return vec3(0);
 // }
 
 vec3 CalculateLighting(vec3 position)
@@ -323,16 +327,6 @@ void main()
          color = vec4(diffuseAlbedo, 1);
       }
 
-        color = DitherRGBA(color, 7);
+    color = DitherRGBA(color, 7);
    }
-
-   // // ---DEBUG SHADOWMAP---
-   // DirectionalLight light = directionalLights.Lights[0];
-   // int shadowMapIndex = int(light.ShadowMapIndex.x);
-   // float layer = shadowMapIndex;
-   // vec4 shadowCoord;
-   // shadowCoord.xyw = vec3(fs_in.textureCoords, 1);
-   // shadowCoord.z = layer;
-   // float visibility = texture(shadowTextures, shadowCoord);
-   // color = vec4(vec3(visibility), 1);
 }

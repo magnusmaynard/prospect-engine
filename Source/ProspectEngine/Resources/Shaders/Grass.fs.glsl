@@ -1,14 +1,35 @@
 #version 450
 
+layout (location = 0) out vec4 albedoBuffer;
+layout (location = 1) out vec4 normalBuffer;
+layout (location = 2) out vec4 specularBuffer;
+
+layout(binding = 1) uniform sampler2D noiseTexture;
+
+struct Material
+{
+   vec4 Diffuse;
+   vec4 Ambient;
+   vec4 SpecularAndPower;
+   ivec4 IsLit;
+};
+
+layout (std140) uniform MaterialLibraryUniforms
+{
+   Material Materials[10];
+} materialLibrary;
+
+layout (std140) uniform GrassUniforms
+{
+   vec2 PatchOffset;
+   uvec2 MaterialID;
+} grass;
+
 in GS_OUT
 {
    vec3 Normal;
    vec3 InverseNormal;
 } fs_in;
-
-layout (location = 0) out vec4 albedoBuffer;
-layout (location = 1) out vec4 normalBuffer;
-layout (location = 2) out vec4 specularBuffer;
 
 void UpdateBuffers(
    vec4 albedo,
@@ -35,11 +56,10 @@ void UpdateBuffers(
 
 void main()
 {
-   // vec4 diffuse = vec4(0.52, 0.65, 0.21, 1);
-   // vec4 diffuse = vec4(0.43, 0.52, 0.21, 1);
-   // vec4 diffuse = vec4(0.43, 0.56, 0.11, 1);
-//    vec4 diffuse = vec4(0.40, 0.53, 0.10, 1);
-   vec4 diffuse = vec4(0.28, 0.35, 0.07, 1);
+   uint materialID = grass.MaterialID.x;
+   Material material = materialLibrary.Materials[materialID];
+
+   vec4 diffuseTexel = vec4(texture(noiseTexture, vec2(100, 0)).rgb, 1);
 
    vec3 normal;
    if(gl_FrontFacing)
@@ -52,11 +72,11 @@ void main()
    }
 
    UpdateBuffers(
-      diffuse,
+      diffuseTexel,//material.Diffuse,
       normal,
       0,
       2,
       0.5f,
-      0,
+      materialID,
       0);
 }

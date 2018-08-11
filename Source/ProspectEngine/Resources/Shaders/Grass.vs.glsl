@@ -14,6 +14,7 @@ layout (std140) uniform CameraUniforms
 layout (std140) uniform GrassUniforms
 {
    vec2 PatchOffset;
+   uvec2 MaterialID;
 } grass;
 
 layout (location = 0) in vec3 point;

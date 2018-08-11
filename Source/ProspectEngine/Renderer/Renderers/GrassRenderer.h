@@ -14,6 +14,7 @@ namespace Prospect
       std::vector<glm::vec3> Points;
       float PatchSize;
       int PatchGrassRows;
+      GLuint NoiseTexture;
    };
 
    struct TerrainRenderData;
@@ -22,7 +23,7 @@ namespace Prospect
    class GrassRenderer
    {
    public:
-      GrassRenderer(ShaderLibrary& shaderLibrary);
+      GrassRenderer(ShaderLibrary& shaderLibrary, MaterialLibrary_impl& materialLibrary);
       ~GrassRenderer();
 
       void Render(const Terrain_impl& terrain, const TerrainRenderData& terrainRenderData);
@@ -31,7 +32,11 @@ namespace Prospect
       static void Initialise(GrassRenderData& renderData);
       static void Dispose(GrassRenderData& renderData);
 
+      static void CreateNoiseTexture(GrassRenderData& renderData);
+
       GrassShader& m_shader;
       RenderDataLibrary<GrassRenderData> m_renderDataLibrary;
+
+      Material m_material;
    };
 }

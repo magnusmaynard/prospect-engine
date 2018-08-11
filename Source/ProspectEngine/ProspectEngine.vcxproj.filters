@@ -576,4 +576,12 @@
       <Filter>Resources\Fonts</Filter>
     </Font>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Textures\white_noise.png">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\white_noise2.jpg">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

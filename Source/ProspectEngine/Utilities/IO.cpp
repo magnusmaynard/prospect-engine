@@ -85,7 +85,7 @@ std::vector<std::string> Split(const std::string &line, const char delimiter)
    return tokens;
 }
 
-glm::vec3 ParseVec3(const std::string& line)
+vec3 ParseVec3(const std::string& line)
 {
    auto tokens = Split(line, ' ');
    return { stof(tokens[1]), stof(tokens[2]), stof(tokens[3]) };
@@ -102,7 +102,7 @@ struct Obj
    std::vector<vec3> Positions;
    std::vector<vec3> Normals;
    std::vector<Face> Faces;
-   bool Smoothing = false;
+   bool SmoothingEnabled = false;
    std::string Name;
 };
 
@@ -120,6 +120,22 @@ Face ParseFace(const std::string& line)
    }
 
    return face;
+}
+
+bool ParseSmoothingEnabled(const std::string& line)
+{
+   auto tokens = Split(line, ' ');
+
+   auto value = tokens[1];
+
+   if(value == "1")
+   {
+      //Smoothed normals.
+      return true;
+   }
+
+   //Flat normals.
+   return false;
 }
 
 Obj ParseObj(const std::string& filename)
@@ -147,13 +163,31 @@ Obj ParseObj(const std::string& filename)
       }
       else if (prefix == "s ") //Smoothing mode.
       {
-         //Not implemented.
-         obj.Smoothing = false;
+         obj.SmoothingEnabled = ParseSmoothingEnabled(line);
       }
    }
 
    return obj;
 }
+
+//void AddNormalsPerVertex(Mesh& mesh, const Obj& obj)
+//{
+//   auto& positions = mesh.GetPositions();
+//   auto& normals = mesh.GetNormals();
+//   auto& indices = mesh.GetIndices();
+//
+//   for (auto& face : obj.Faces)
+//   {
+//      const int faceIndex = positions.size();
+//
+//      for (int i = 0; i < 3; ++i)
+//      {
+//         positions.push_back(obj.Positions[face.PositionIndices[i]]);
+//         normals.push_back(obj.Normals[face.NormalIndices[i]]);
+//         indices.push_back(faceIndex + i);
+//      }
+//   }
+//}
 
 void AddNormalsPerFace(Mesh& mesh, const Obj& obj)
 {
@@ -179,16 +213,7 @@ bool IO::ReadObj(Mesh& mesh, const std::string& filename)
    mesh.Clear();
    const Obj obj = ParseObj(filename);
 
-   const bool flatIndexed = true;
-
-   if (flatIndexed)
-   {
-      AddNormalsPerFace(mesh, obj);
-   }
-   else
-   {
-      //Do nothing.
-   }
+   AddNormalsPerFace(mesh, obj);
 
    return false;
 }

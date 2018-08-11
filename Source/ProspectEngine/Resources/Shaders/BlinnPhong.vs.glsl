@@ -15,7 +15,7 @@ layout (std140) uniform EntityUniforms
 {
    mat4 Model;
    mat4 Normal;
-   ivec4 MaterialID;
+   uvec4 MaterialID;
 } entity;
 
 layout (location = 0) in vec3 point;

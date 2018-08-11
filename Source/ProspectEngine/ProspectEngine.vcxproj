@@ -248,6 +248,10 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
     </Font>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Textures\white_noise.png" />
+    <Image Include="Resources\Textures\white_noise2.jpg" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{987C8FD7-4F5C-45BD-9264-F01A48A484DF}</ProjectGuid>
     <RootNamespace>Prospect</RootNamespace>

@@ -4,6 +4,7 @@ layout(points) in;
 layout(triangle_strip, max_vertices = 21) out;
 
 layout(binding = 0) uniform sampler2D heightMapTexture;
+layout(binding = 1) uniform sampler2D noiseTexture;
 
 layout(std140) uniform CameraUniforms
 {
@@ -19,10 +20,10 @@ camera;
 
 layout(std140) uniform TerrainUniforms
 {
+   uint MaterialID;
    float MinHeight;
    float MaxHeight;
    float TotalSize;
-   float Null;
 }
 terrain;
 
@@ -43,6 +44,7 @@ gs_out;
 // https://stackoverflow.com/a/28095165/3209889
 float GoldNoise(in vec2 coordinate, in float seed)
 {
+    //TODO: this is really slow.
    const float PHI = 1.61803398874989484820459 * 00000.1; // Golden Ratio
    const float PI = 3.14159265358979323846264 * 00000.1;  // PI
    const float SQ2 = 1.41421356237309504880169 * 10000.0; // Square Root of Two

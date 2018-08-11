@@ -15,7 +15,7 @@ TerrainRenderer::TerrainRenderer(ShaderLibrary& shaderLibrary, MaterialLibrary_i
    :
    m_shader(shaderLibrary.GetTerrainShader()),
    m_material(materialLibrary.CreateMaterial(Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), 16)),
-   m_grassRenderer(shaderLibrary)
+   m_grassRenderer(shaderLibrary, materialLibrary)
 {
    m_renderDataLibrary.SetInitialise(Initialise);
    m_renderDataLibrary.SetDispose(Dispose);
@@ -80,7 +80,7 @@ void TerrainRenderer::Render(const Terrain_impl& terrain)
    }
 
    //Draw grass.
-   //m_grassRenderer.Render(terrain, renderData);
+   //m_grassRenderer.Render(terrain, renderData); //TODO: Improve performance.
 }
 
 void TerrainRenderer::ConstructHeightMapTexture(
