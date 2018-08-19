@@ -9,8 +9,12 @@
 *.trace
 *.vs
 *.ipch
+*.dll
+*.lib
+*.exe
+
+#Note: dlls and libs should be added to git via LFS, see .gitattributes.
 
 #Dependencies
-Dependencies/glew*
-Dependencies/glfw*
+#Dependencies/glfw*
 Dependencies/freetype*

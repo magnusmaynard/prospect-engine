@@ -437,6 +437,7 @@
     <ClCompile Include="Renderer\Pipeline\FrameBuffers\EffectsBuffer.cpp">
       <Filter>Renderer\Pipeline\Framebuffers</Filter>
     </ClCompile>
+    <ClCompile Include="glad.c" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">

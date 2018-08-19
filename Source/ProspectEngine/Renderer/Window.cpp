@@ -45,11 +45,14 @@ void Window::Open()
 
    glfwMakeContextCurrent(m_window);
 
-   if (glewInit())
+   if (!gladLoadGL())
    {
+      printf("Glad failed to load!\n");
       glfwTerminate();
       exit(EXIT_FAILURE);
    }
+
+   printf("OpenGL %d.%d\n", GLVersion.major, GLVersion.minor);
 
    //Set user pointer so static function can access member variable.
    glfwSetWindowUserPointer(m_window, this);

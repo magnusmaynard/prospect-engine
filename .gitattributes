@@ -1,0 +1,2 @@
+Dependencies/**/*.lib filter=lfs diff=lfs merge=lfs -text
+Dependencies/**/*.dll filter=lfs diff=lfs merge=lfs -text

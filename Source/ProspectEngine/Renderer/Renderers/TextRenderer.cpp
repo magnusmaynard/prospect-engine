@@ -2,8 +2,8 @@
 
 #include "TextRenderer.h"
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
+//#include <ft2build.h>
+//#include FT_FREETYPE_H
 
 #include "Resources/Resources.h"
 #include "Resources/ResourceIO.h"
@@ -26,6 +26,7 @@ TextRenderer::TextRenderer(ShaderLibrary& shaderLibrary)
 
 void TextRenderer::InitialiseFont(const int size)
 {
+   /*
    auto error = FT_Init_FreeType(&m_library);
    if (error)
    {
@@ -49,7 +50,7 @@ void TextRenderer::InitialiseFont(const int size)
       throw std::exception("Error: Font file could not be opened");
    }
 
-   FT_Set_Pixel_Sizes(m_face, 0, size);
+   FT_Set_Pixel_Sizes(m_face, 0, size);*/
 }
 
 void TextRenderer::Initialise(TextRenderData& renderData)
@@ -152,7 +153,7 @@ void TextRenderer::Render(const Text_impl& text)
 
    glDepthMask(GL_TRUE);
 }
-
+/*
 ivec2 TextRenderer::NextPowerOf2(const ivec2& value)
 {
    return ivec2(NextPowerOf2(value.x), NextPowerOf2(value.y));
@@ -167,7 +168,6 @@ int TextRenderer::NextPowerOf2(const int value)
    }
 
    return rval;
-}
 
 TextBounds TextRenderer::GetTextBounds(const FT_Face face, const std::string& text)
 {
@@ -199,8 +199,10 @@ TextBounds TextRenderer::GetTextBounds(const FT_Face face, const std::string& te
    return bounds;
 }
 
+*/
 void TextRenderer::UpdateText(const Text_impl& text, TextRenderData& renderData)
 {
+   /*
    const std::string textString = text.GetText();
    const FT_GlyphSlot glyph = m_face->glyph;
    const TextBounds bounds = GetTextBounds(m_face, textString);
@@ -260,5 +262,5 @@ void TextRenderer::UpdateText(const Text_impl& text, TextRenderData& renderData)
          &newBuffer[0]);
 
       originX += glyph->advance.x >> 6;
-   }
+   }*/
 }

@@ -137,14 +137,14 @@ void ShadowMaps::UpdateShadowMapCascades(DirectionalLight_impl& light, const Cam
    const auto& cascades = light.GetShadowCascades();
    const int cascadeCount = static_cast<int>(cascades.size());
 
-   float near = cameraNear;
+   float cascadeNear = cameraNear;
 
    for (int i = 0; i < cascadeCount; ++i)
    {
       const float cascadeSize = cascades[i] * cameraDistance;
-      const float far = near + cascadeSize;
+      const float cascadeFar = cascadeNear + cascadeSize;
 
-      const Frustum frustum(near, far, camera.GetFov(), camera.GetAspectRatio());
+      const Frustum frustum(cascadeNear, cascadeFar, camera.GetFov(), camera.GetAspectRatio());
 
       //Get centre of frustum in world space.
       Bounds worldFrustumBounds;
@@ -178,10 +178,10 @@ void ShadowMaps::UpdateShadowMapCascades(DirectionalLight_impl& light, const Cam
 
       ShadowMap& shadowMap = GetShadowMap(light, i);
 
-      shadowMap.Update(lightFrustumBounds, cascadeCentre, light.GetDirection(), far);
+      shadowMap.Update(lightFrustumBounds, cascadeCentre, light.GetDirection(), cascadeFar);
 
       //Update near cascade.
-      near = far;
+      cascadeNear = cascadeFar;
    }
 }
 

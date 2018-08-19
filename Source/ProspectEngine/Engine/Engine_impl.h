@@ -1,8 +1,5 @@
 #pragma once
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-
 #include "Include/Engine.h"
 #include "Include/IApplication.h"
 #include "Include/Scene.h"

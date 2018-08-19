@@ -10,8 +10,10 @@
 #include <iostream>
 #include <optional>
 
-#define GLEW_STATIC
-#include <GL/glew.h>
+//#ifdef _WIN32
+//#define APIENTRY __stdcall //https://github.com/Dav1dde/glad#glad-includes-windowsh-which-breaks-my-code-42
+//#endif
+#include <glad/glad.h>
 
 #include <glm/glm.hpp>
 #include <glm/mat4x4.hpp>

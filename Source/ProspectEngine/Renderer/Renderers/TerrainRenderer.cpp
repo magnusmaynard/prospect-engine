@@ -1,14 +1,12 @@
 #include "ProspectEngine_pch.h"
 
 #include "Renderer/Renderers/TerrainRenderer.h"
-#include <noise/noise.h>
 
 #include "Renderer/Pipeline/ShaderLibrary.h"
 #include "Renderer/Pipeline/Shaders/Shader.h"
 #include "Renderer/Renderables/Renderable.h"
 
 using namespace Prospect;
-using namespace noise;
 using namespace glm;
 
 TerrainRenderer::TerrainRenderer(ShaderLibrary& shaderLibrary, MaterialLibrary_impl& materialLibrary)
@@ -144,9 +142,10 @@ void TerrainRenderer::ConstructGroundTexture(const Terrain_impl& terrain, Terrai
    glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
    glTextureParameteri(renderable.GroundTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-   GLfloat maxAnisotropy;
-   glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnisotropy);
-   glTextureParameterf(renderable.GroundTexture, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnisotropy);
+   //TODO: use glad.
+   //GLfloat maxAnisotropy;
+   //glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnisotropy);
+   //glTextureParameterf(renderable.GroundTexture, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnisotropy);
 
    glGenerateTextureMipmap(renderable.GroundTexture);
 

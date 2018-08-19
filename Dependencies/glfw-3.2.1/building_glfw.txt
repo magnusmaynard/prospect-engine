@@ -1,0 +1,10 @@
+Instructions on building glfw:
+download glfw
+cd <glfw-root-dir>
+cmake -G "Visual Studio 15 2017 Win64" //just do cmake . to build in 32bit.
+mkdir build
+cd build
+cmake ..
+open in visual studio
+compile all
+libs are located in <glfw-root-dir>\src\Debug

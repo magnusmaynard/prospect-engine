@@ -6,7 +6,13 @@
         {
             "label": "ProspectCopyShaders",
             "type": "shell",
-            "command": "xcopy .\\*.glsl ..\\..\\..\\..\\Binaries\\Debug\\Win32\\Resources\\Shaders\\ /y",
+            "command": "xcopy .\\*.glsl ..\\..\\..\\..\\Binaries\\Debug\\x64\\Resources\\Shaders\\ /y",
+            "problemMatcher": []
+        },
+        {
+            "label": "ProspectCopyShadersRelease",
+            "type": "shell",
+            "command": "xcopy .\\*.glsl ..\\..\\..\\..\\Binaries\\Release\\Win32\\Resources\\Shaders\\ /y",
             "problemMatcher": []
         }
     ]
