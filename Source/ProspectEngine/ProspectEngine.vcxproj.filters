@@ -437,7 +437,9 @@
     <ClCompile Include="Renderer\Pipeline\FrameBuffers\EffectsBuffer.cpp">
       <Filter>Renderer\Pipeline\Framebuffers</Filter>
     </ClCompile>
-    <ClCompile Include="glad.c" />
+    <ClCompile Include="Renderer\Glad\glad.c">
+      <Filter>Renderer\Glad</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -517,6 +519,9 @@
     </Filter>
     <Filter Include="Renderer\Pipeline\Framebuffers">
       <UniqueIdentifier>{7afcf858-ea36-4e67-a4ab-9c1739387c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Glad">
+      <UniqueIdentifier>{1bf8d7f6-8e33-4116-80f4-2a62857f827b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

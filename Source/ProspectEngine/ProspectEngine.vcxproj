@@ -103,7 +103,6 @@
     <ClCompile Include="Containers\Bitmap.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Engine_impl.cpp" />
-    <ClCompile Include="glad.c" />
     <ClCompile Include="Libraries\MaterialLibrary.cpp" />
     <ClCompile Include="Libraries\MaterialLibrary_impl.cpp" />
     <ClCompile Include="Libraries\MeshLibrary.cpp" />
@@ -111,6 +110,7 @@
     <ClCompile Include="ProspectEngine_pch.cpp" />
     <ClCompile Include="Renderer\Debugger\Debug.cpp" />
     <ClCompile Include="Renderer\Frustum.cpp" />
+    <ClCompile Include="Renderer\Glad\glad.c" />
     <ClCompile Include="Renderer\Pipeline\FrameBuffers\DisplayBuffer.cpp" />
     <ClCompile Include="Renderer\Pipeline\FrameBuffers\EffectsBuffer.cpp" />
     <ClCompile Include="Renderer\Pipeline\FrameBuffers\GBuffer.cpp" />
