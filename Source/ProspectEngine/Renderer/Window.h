@@ -37,6 +37,8 @@ namespace Prospect
       static KeyModifier ConvertGLFWModifier(int glfwModifer);
       static void EnableVSync(bool enableVSync);
 
+      static void GLADPostDebugCallback(const char* name, void* funcPtr, int argsCount, ...);
+
       static void GLFWErrorCallback(int error, const char* description);
       static void GLFWKeyCallback(GLFWwindow* glfwWindow, int glfwKey, int glfwScancode, int glfwAction, int glfwModifer);
       static void GLFWWindowSizeCallback(GLFWwindow* glfwWindow, int width, int height);

@@ -2,7 +2,6 @@
 
 #include "Include/Utilities/IO.h"
 #include "Include/Bitmap.h"
-#include "Include/Mesh.h"
 
 #include <windows.h>
 #include <fstream> 
@@ -10,6 +9,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include "ObjReader.h"
 
 using namespace Prospect;
 using namespace glm;
@@ -52,168 +52,7 @@ Bitmap IO::ReadBitmap(const std::string& filePath, const bool monochrome)
    return Bitmap(width, height, channels, data);
 }
 
-struct VertexIndices
-{
-   int PositionIndex;
-   int NormalIndex;
-};
-
-struct FaceIndices
-{
-   VertexIndices A;
-   VertexIndices B;
-   VertexIndices C;
-};
-
-template<typename T>
-void Split(const std::string &line, const char delimiter, T result)
-{
-   std::stringstream stream(line);
-   std::string token;
-
-   while (getline(stream, token, delimiter))
-   {
-      *(result++) = token;
-   }
-}
-
-std::vector<std::string> Split(const std::string &line, const char delimiter)
-{
-   std::vector<std::string> tokens;
-   Split(line, delimiter, back_inserter(tokens));
-
-   return tokens;
-}
-
-vec3 ParseVec3(const std::string& line)
-{
-   auto tokens = Split(line, ' ');
-   return { stof(tokens[1]), stof(tokens[2]), stof(tokens[3]) };
-}
-
-struct Face
-{
-   std::vector<int> PositionIndices;
-   std::vector<int> NormalIndices;
-};
-
-struct Obj
-{
-   std::vector<vec3> Positions;
-   std::vector<vec3> Normals;
-   std::vector<Face> Faces;
-   bool SmoothingEnabled = false;
-   std::string Name;
-};
-
-
-Face ParseFace(const std::string& line)
-{
-   Face face;
-   auto tokens = Split(line, ' ');
-
-   for (int i = 1; i < 4; ++i)
-   {
-      const auto token = Split(tokens[i], '//');
-      face.PositionIndices.push_back(stof(token[0]) - 1);
-      face.NormalIndices.push_back(stof(token[2]) - 1);
-   }
-
-   return face;
-}
-
-bool ParseSmoothingEnabled(const std::string& line)
-{
-   auto tokens = Split(line, ' ');
-
-   auto value = tokens[1];
-
-   if(value == "1")
-   {
-      //Smoothed normals.
-      return true;
-   }
-
-   //Flat normals.
-   return false;
-}
-
-Obj ParseObj(const std::string& filename)
-{
-   auto file = std::fstream(filename, std::fstream::in);
-   std::string line;
-
-   Obj obj;
-
-   while (getline(file, line))
-   {
-      const std::string prefix = line.substr(0, 2);
-
-      if (prefix == "v ") //Vertex positions.
-      {
-         obj.Positions.push_back(ParseVec3(line));
-      }
-      else if (prefix == "vn") //Vertex normals.
-      {
-         obj.Normals.push_back(ParseVec3(line));
-      }
-      else if (prefix == "f ") //Face indices.
-      {
-         obj.Faces.push_back(ParseFace(line));
-      }
-      else if (prefix == "s ") //Smoothing mode.
-      {
-         obj.SmoothingEnabled = ParseSmoothingEnabled(line);
-      }
-   }
-
-   return obj;
-}
-
-//void AddNormalsPerVertex(Mesh& mesh, const Obj& obj)
-//{
-//   auto& positions = mesh.GetPositions();
-//   auto& normals = mesh.GetNormals();
-//   auto& indices = mesh.GetIndices();
-//
-//   for (auto& face : obj.Faces)
-//   {
-//      const int faceIndex = positions.size();
-//
-//      for (int i = 0; i < 3; ++i)
-//      {
-//         positions.push_back(obj.Positions[face.PositionIndices[i]]);
-//         normals.push_back(obj.Normals[face.NormalIndices[i]]);
-//         indices.push_back(faceIndex + i);
-//      }
-//   }
-//}
-
-void AddNormalsPerFace(Mesh& mesh, const Obj& obj)
-{
-   auto& positions = mesh.GetPositions();
-   auto& normals = mesh.GetNormals();
-   auto& indices = mesh.GetIndices();
-
-   for (auto& face : obj.Faces)
-   {
-      const int faceIndex = positions.size();
-
-      for (int i = 0; i < 3; ++i)
-      {
-         positions.push_back(obj.Positions[face.PositionIndices[i]]);
-         normals.push_back(obj.Normals[face.NormalIndices[i]]);
-         indices.push_back(faceIndex + i);
-      }
-   }
-}
-
 bool IO::ReadObj(Mesh& mesh, const std::string& filename)
 {
-   mesh.Clear();
-   const Obj obj = ParseObj(filename);
-
-   AddNormalsPerFace(mesh, obj);
-
-   return false;
+   return ObjReader::Read(mesh, filename);
 }

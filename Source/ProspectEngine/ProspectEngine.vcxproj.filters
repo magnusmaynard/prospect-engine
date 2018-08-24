@@ -260,6 +260,9 @@
     <ClInclude Include="Renderer\Pipeline\FrameBuffers\EffectsBuffer.h">
       <Filter>Renderer\Pipeline\Framebuffers</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\ObjReader.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer\Window.cpp">
@@ -439,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="Renderer\Glad\glad.c">
       <Filter>Renderer\Glad</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\ObjReader.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

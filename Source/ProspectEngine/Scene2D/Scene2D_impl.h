@@ -13,7 +13,7 @@ namespace Prospect
 
       int GetTextCount() const
       {
-         return m_texts.size();
+         return static_cast<int>(m_texts.size());
       }
 
       Text_impl& GetTextByIndex(const int index)

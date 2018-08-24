@@ -99,7 +99,7 @@ void Debug::Points::Render(std::vector<vec3>& points, const Color& color)
    glUniform3f(0, color.R, color.G, color.B);
    glPointSize(10);
    glLineWidth(10);
-   glDrawArrays(GL_LINES, 0, points.size());
+   glDrawArrays(GL_LINES, 0, static_cast<int>(points.size()));
    glPointSize(1);
    glLineWidth(1);
 #endif

@@ -98,6 +98,7 @@
     <ClInclude Include="Scene\Terrain\Node.h" />
     <ClInclude Include="Scene\Terrain\QuadTree.h" />
     <ClInclude Include="Scene\Terrain\Terrain_impl.h" />
+    <ClInclude Include="Utilities\ObjReader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Containers\Bitmap.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Scene\Terrain\Terrain.cpp" />
     <ClCompile Include="Scene\Terrain\Terrain_impl.cpp" />
     <ClCompile Include="Utilities\IO.cpp" />
+    <ClCompile Include="Utilities\ObjReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Atmosphere.fs.glsl" />
@@ -280,8 +282,8 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>copy $(SolutionDir)\..\Dependencies\glfw-3.2.1\bin\Release\x64\*.lib $(OutputPath)\ /Y
-xcopy $(SolutionDir)\ProspectEngine\Resources\Shaders\*.glsl $(OutputPath)\Resources\Shaders\ /Y</Command>
+      <Command>xcopy $(SolutionDir)..\Dependencies\glfw-3.2.1\bin\Release\x64\*.lib $(OutputPath) /Y
+xcopy $(SolutionDir)ProspectEngine\Resources\Shaders\*.glsl $(OutputPath)Resources\Shaders\ /Y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -307,8 +309,8 @@ xcopy $(SolutionDir)\ProspectEngine\Resources\Shaders\*.glsl $(OutputPath)\Resou
       <AdditionalLibraryDirectories>$(OutputPath);</AdditionalLibraryDirectories>
     </Lib>
     <PreBuildEvent>
-      <Command>copy $(SolutionDir)\..\Dependencies\glfw-3.2.1\bin\Release\x64\*.lib $(OutputPath)\ /Y
-xcopy $(SolutionDir)\ProspectEngine\Resources\Shaders\*.glsl $(OutputPath)\Resources\Shaders\ /Y</Command>
+      <Command>xcopy $(SolutionDir)..\Dependencies\glfw-3.2.1\bin\Release\x64\*.lib $(OutputPath) /Y
+xcopy $(SolutionDir)ProspectEngine\Resources\Shaders\*.glsl $(OutputPath)Resources\Shaders\ /Y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

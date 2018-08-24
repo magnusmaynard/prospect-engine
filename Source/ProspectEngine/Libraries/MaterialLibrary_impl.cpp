@@ -105,5 +105,5 @@ Material MaterialLibrary_impl::AddMaterial(
 
 int MaterialLibrary_impl::GetMaterialCount() const
 {
-   return m_materials.size();
+   return static_cast<int>(m_materials.size());
 }

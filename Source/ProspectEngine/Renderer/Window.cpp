@@ -47,12 +47,18 @@ void Window::Open()
 
    if (!gladLoadGL())
    {
-      printf("Glad failed to load!\n");
+      std::cerr << "Error: Failed to load OpenGL " << GLVersion.major << "." << GLVersion.minor << std::endl;
+
       glfwTerminate();
       exit(EXIT_FAILURE);
    }
 
-   printf("OpenGL %d.%d\n", GLVersion.major, GLVersion.minor);
+   std::cout << "Loaded OpenGL " << GLVersion.major << "." << GLVersion.minor << std::endl;
+
+#if _DEBUG
+   //Set callback to trigger after every opengl call when in debug.
+   glad_set_post_callback(GLADPostDebugCallback);
+#endif
 
    //Set user pointer so static function can access member variable.
    glfwSetWindowUserPointer(m_window, this);
@@ -117,11 +123,6 @@ void Window::EnableVSync(bool enableVSync)
    glfwSwapInterval(enableVSync ? 1 : 0);
 }
 
-void Window::GLFWErrorCallback(int error, const char* description)
-{
-   std::cerr << "Error: " << description << std::endl;
-}
-
 Window& Window::GetWindow(GLFWwindow* glfwWindow)
 {
    //Get user pointer so non-static variable can be accessed in static callback.
@@ -135,7 +136,27 @@ Window& Window::GetWindow(GLFWwindow* glfwWindow)
    return *window;
 }
 
-void Window::GLFWKeyCallback(GLFWwindow* glfwWindow, int glfwKey, int glfwScancode, int glfwAction, int glfwModifer)
+void Window::GLADPostDebugCallback(const char* name, void* funcPtr, int argsCount, ...)
+{
+   GLenum error = glad_glGetError();
+
+   if (error != GL_NO_ERROR)
+   {
+      std::cerr << "Error: 0x" << std::hex << error << std::dec << " " << name << std::endl;
+   }
+}
+
+void Window::GLFWErrorCallback(int error, const char* description)
+{
+   std::cerr << "Error: " << description << std::endl;
+}
+
+void Window::GLFWKeyCallback(
+   GLFWwindow* glfwWindow,
+   const int glfwKey,
+   const int glfwScancode,
+   const int glfwAction,
+   const int glfwModifer)
 {
    Engine_impl& engine = GetWindow(glfwWindow).m_engine;
 

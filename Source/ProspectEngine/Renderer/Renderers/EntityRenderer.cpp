@@ -50,7 +50,7 @@ void EntityRenderer::Render(Entity_impl& entity)
 
          glBindVertexArray(renderData.VAO);
 
-         glDrawElements(GL_TRIANGLES, mesh.GetIndices().size(), GL_UNSIGNED_INT, 0); //TODO: This breaks RenderDoc, use glDrawArrays.
+         glDrawElements(GL_TRIANGLES, static_cast<int>(mesh.GetIndices().size()), GL_UNSIGNED_INT, 0); //TODO: This breaks RenderDoc, use glDrawArrays.
       }
    }
 }

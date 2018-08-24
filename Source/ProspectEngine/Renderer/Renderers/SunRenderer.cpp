@@ -103,5 +103,5 @@ void SunRenderer::Render(const Atmosphere_impl& atmosphere)
 
    glBindVertexArray(renderData.VAO);
 
-   glDrawArrays(GL_TRIANGLE_FAN, 0, renderData.Points.size());
+   glDrawArrays(GL_TRIANGLE_FAN, 0, static_cast<int>(renderData.Points.size()));
 }

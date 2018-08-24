@@ -80,7 +80,7 @@ int Scene_impl::GetEntityCount() const
 
 int Scene_impl::GetLightCount() const
 {
-   return m_lights.size();
+   return static_cast<int>(m_lights.size());
 }
 
 void Scene_impl::AddLight(DirectionalLight& light)

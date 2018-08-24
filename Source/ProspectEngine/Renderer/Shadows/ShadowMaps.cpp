@@ -89,7 +89,7 @@ void ShadowMaps::Update(Scene_impl& scene)
 
 int ShadowMaps::Count() const
 {
-   return m_shadowMaps.size();
+   return static_cast<int>(m_shadowMaps.size());
 }
 
 void ShadowMaps::Bind(const int index)
@@ -191,7 +191,7 @@ ShadowMap& ShadowMaps::GetShadowMap(DirectionalLight_impl& light, const int casc
 
    if (shadowMapIndex == Defines::INVALID_SHADOW_MAP_ID)
    {
-      shadowMapIndex = m_shadowMaps.size();
+      shadowMapIndex = static_cast<int>(m_shadowMaps.size());
 
       for (size_t i = 0; i < light.GetShadowCascades().size(); ++i)
       {

@@ -162,7 +162,7 @@ Entity Entity_impl::GetEntity(const unsigned int index)
 
 int Entity_impl::GetEntityCount() const
 {
-   return m_children.size();
+   return static_cast<int>(m_children.size());
 }
 
 Mesh_impl* Entity_impl::GetMeshImpl()

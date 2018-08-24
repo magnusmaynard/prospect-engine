@@ -45,7 +45,7 @@ void GrassRenderer::Render(const Terrain_impl& terrain, const TerrainRenderData&
    
          const glm::vec2 patchOffset(0, 0);
          m_shader.Update({ patchOffset, m_material.GetID() });
-         glDrawArrays(GL_POINTS, 0, renderData.Points.size());
+         glDrawArrays(GL_POINTS, 0, static_cast<int>(renderData.Points.size()));
       //}
    //}
 }

@@ -171,7 +171,7 @@ Mesh MeshLibrary_impl::GetMeshAtIndex(const int index)
 
 int MeshLibrary_impl::GetMeshCount() const
 {
-   return m_meshes.size();
+   return static_cast<int>(m_meshes.size());
 }
 
 Mesh MeshLibrary_impl::AddMesh(
