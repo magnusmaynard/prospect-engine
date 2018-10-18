@@ -46,9 +46,6 @@ namespace Prospect
       glm::vec3 m_lodPosition;
 
       std::unique_ptr<QuadTree> m_quadTree;
-
-      //Threading
-      std::future<std::unique_ptr<QuadTree>> m_quadTreeThread;
-      std::mutex m_constructingQuadTreeMutex;
+      std::future<std::unique_ptr<QuadTree>> m_future;
    };
 }

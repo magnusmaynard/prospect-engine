@@ -23,10 +23,6 @@ Terrain_impl::Terrain_impl(
 
 Terrain_impl::~Terrain_impl()
 {
-   if (m_constructingQuadTreeMutex.try_lock())
-   {
-      m_constructingQuadTreeMutex.unlock();
-   }
 }
 
 void Terrain_impl::SetGroundTexture(const Bitmap& groundTexture)
@@ -43,32 +39,20 @@ const Bitmap* Terrain_impl::GetGroundTexture() const
 
 void Terrain_impl::Update(const Scene_impl& scene)
 {
-   auto& camera = scene.GetCameraImpl();
+   m_lodPosition = scene.GetCameraImpl().GetPosition();
 
-   m_lodPosition = camera.GetPosition();
-
-   if (m_quadTreeThread._Is_ready())
+   if (m_future.valid())
    {
-      //Use newly constructed QuadTree.
-      m_quadTree = m_quadTreeThread.get();
-
-      //Release the mutex.
-      m_constructingQuadTreeMutex.unlock();
+      if (m_future.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
+      {
+         //Work completed.
+         m_quadTree = m_future.get();
+      }
    }
-
-   if (m_constructingQuadTreeMutex.try_lock())
+   else if(m_quadTree->RequiresUpdate(m_lodPosition))
    {
-      //No QuadTree is being constructed, so lock the mutex.
-      if (m_quadTree->RequiresUpdate(camera.GetPosition()))
-      {
-         //Async begin constructing QuadTree.
-         m_quadTreeThread = std::future<std::unique_ptr<QuadTree>>(async(
-            ConstructQuadTree, camera.GetPosition(), m_size));
-      }
-      else
-      {
-         m_constructingQuadTreeMutex.unlock();
-      }
+      //Work starting.
+      m_future = async(ConstructQuadTree, m_lodPosition, m_size);
    }
 }
 
